@@ -1,11 +1,11 @@
-# Emurgis
-The most efficient way to get things done, ever.
+# Cardano Update
+One single place to get ALL the news about Cardano, up to the current minute.
 
 ## The problem
-Emurgo doesn't currently have a way to concisely track problems that need to be solved. This produces confusion, inefficiencies, duplicated work, etc.
+People keep asking for updates from IOHK, Emurgo, and the Cardano Foundation but there's nowhere to get a comprehensive idea of what we're all doing. There's also nowhere to see what people in the community are doing.
 
 ## The solution
-A variant of the Collective Code Contstruction Contract is used to decide whether or not a problem is worth solving, and what the simplest possible solution is. This is a robust process which delivers results in the form of emergent properties. A side-effect of the process is that all aspects of the organization which use it become parallelized as it completely removes the neccessity for blocking processes such as meetings. All work within the organization can then be done asynchronously.
+A website that anyone can contribute to and update with news.
 
 <details>
   <summary>How to run Emurgis locally</summary>
