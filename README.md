@@ -8,7 +8,7 @@ People keep asking for updates from IOHK, Emurgo, and the Cardano Foundation but
 A website that anyone can contribute to and update with news.
 
 <details>
-  <summary>How to run Emurgis locally</summary>
+  <summary>How to run Cardanoupdate locally</summary>
 <p>
 
 #### Install Meteor   
@@ -18,10 +18,10 @@ curl https://install.meteor.com/ | sh
 
 #### Clone repository    
 ```
-git clone https://github.com/EmurgoHK/emurgis.git
+git clone https://github.com/EmurgoHK/cardanoupdate.git
 ```
 
-Note: if you want to edit things and send a pull request you should _fork_ this project on Github first and clone _your_ fork instead of https://github.com/EmurgoHK/emurgis.git.
+Note: if you want to edit things and send a pull request you should _fork_ this project on Github first and clone _your_ fork instead of https://github.com/EmurgoHK/cardanoupdate.git.
 
 #### Install Dependencies   
 ```
@@ -52,7 +52,8 @@ If you do a `git pull` and Meteor doesn't start, the first thing to do is run `m
 </p>
 </details>    
 
-###Authentication
+
+### Authentication
 To enable Authentication either configure OAuth or copy the following code in the browser console to create a test user: 
 <code>
     Accounts.createUser({
@@ -67,8 +68,8 @@ To enable Authentication either configure OAuth or copy the following code in th
 Now you will be logged in as a Test user.
 
 
-## Contributing to Emurgis    
-A cardinal sin that many open source developers make is to place themselves above others. "I founded this project thus my intellect is superior to that of others". It's immodest and rude, and usually inaccurate. The contribution policy we use at Emurgis applies equally to everyone, without distinction.    
+## Contributing to Cardanoupdate    
+A cardinal sin that many open source developers make is to place themselves above others. "I founded this project thus my intellect is superior to that of others". It's immodest and rude, and usually inaccurate. The contribution policy we use at Cardanoupdate applies equally to everyone, without distinction.    
 
 The contribution policy we follow is the [Collective Code Construction Contract (C4)](/CONTRIBUTING.MD)    
 
@@ -94,26 +95,26 @@ The project style guide is [here](/STYLES.md).
 
 If at some point you want to abandon the issue and let someone else have a go, comment: @emurgobot abandon.
 
-4. Add the Emurgis repository as an upstream source and pull any changes:    
+4. Add the Cardanoupdate repository as an upstream source and pull any changes:    
 ```
-@: git remote add upstream git://github.com/EmurgoHK/emurgis //only needs to be done once
+@: git remote add upstream git://github.com/EmurgoHK/cardanoupdate //only needs to be done once
 @: git checkout master //just to make sure you're on the correct branch
 @: git pull upstream master //this grabs any code that has changed, you want to be working on the latest 'version'
 @: git push //update your remote fork with the changes you just pulled from upstream master
 ```
 5. Create a local branch on your machine `git checkout -b branch_name` (it's usually a good idea to call the branch something that describes the problem you are solving). _Never_ develop on the `master` branch, as the `master` branch is exclusively used to accept incoming changes from `upstream:master` and you'll run into problems if you try to use it for anything else.
 6. Solve the problem in the absolute most simple and fastest possible way with the smallest number of changes humanly possible. Tell other people what you're doing by putting _very clear and descriptive comments in your code every 2-3 lines_.    
-Add your name to the AUTHORS file so that you become a part owner of Emurgis.    
+Add your name to the AUTHORS file so that you become a part owner of Cardanoupdate.    
 7. Commit your changes to your own fork:
-Before you commit changes, you should check if you are working on the latest version (again). Go to the github website and open _your_ fork of Emurigs, it should say _This branch is even with Emurgis:master._    
-If **not**, you need to pull the latest changes from the upstream Emurgis repository and replay your changes on top of the latest version:
+Before you commit changes, you should check if you are working on the latest version (again). Go to the github website and open _your_ fork of Emurigs, it should say _This branch is even with cardanoupdate:master._    
+If **not**, you need to pull the latest changes from the upstream Cardanoupdate repository and replay your changes on top of the latest version:
 ```
 @: git stash //save your work locally
 @: git checkout master
 @: git pull upstream master
 @: git push
 @: git checkout -b branch_name_stash
-@: git stash pop //_replay_ your work on the new branch which is now fully up to date with the Emurgis repository
+@: git stash pop //_replay_ your work on the new branch which is now fully up to date with the Cardanoupdate repository
 ```
 
 Note: after running `git stash pop` you should run Meteor and look over your code again and check that everything still works as sometimes a file you worked on was changed in the meantime.
@@ -130,7 +131,7 @@ And then commit your changes:
 >solution: short description of how you solved the problem.' //Now you can close the ''. Be sure to mention the issue number if there is one (e.g. #6)    
 @: git push //this will send your changes to _your_ fork on Github
 ```    
-8. Go to your fork on Github and select the branch you just worked on. Click "pull request" to send a pull request back to the Emurgis repository.
+8. Go to your fork on Github and select the branch you just worked on. Click "pull request" to send a pull request back to the Cardanoupdate repository.
 9. Send the pull request, be sure to mention the issue number with a # symbol at the front (e.g. #1014).  
 10. Go back to the issue, and make a comment: `@emurgobot label "done"`. This will label this issue as complete, and everyone can test your solution and close the issue if it solves the problem.
 
@@ -152,7 +153,7 @@ You should generally write a test for anything you don't want to break later, ot
 </details>    
 
 <details>
-  <summary>Can I be paid to contribute to Emurgis?</summary>
+  <summary>Can I be paid to contribute to Cardanoupdate?</summary>
 <p>
 
 Yes, this is sometimes possible.
@@ -163,7 +164,7 @@ If your code is amazing and brilliant but you don't understand the contribution 
 
 Make sure you follow the project on Github so you get updates.
 
-Contact the Emurgis BDFL (Benevolent Dictator For Life): gareth AT emurgo.io if you've been contributing code to Emurgis and want to keep doing it but you are hungry.
+Contact the Cardanoupdate BDFL (Benevolent Dictator For Life): gareth AT emurgo.io if you've been contributing code to Cardanoupdate and want to keep doing it but you are hungry.
 
 </p>
 </details>
@@ -181,7 +182,7 @@ Contact the Emurgis BDFL (Benevolent Dictator For Life): gareth AT emurgo.io if 
 
 3. Your pull requests should be a glowing example to others of how to work with the C4. Each one should be a model that others can refer to.
 
-4. In an ideal world, you would be able to work on any issue you want and there would be no need to assign tasks so that our budget is kept under control. This would be possible because you would always work on the the problems that are _really_ worth solving _right now_ to get to some form of MVP. We can't predict the future, there are no plans or roadmaps (these are not compatible with the C4). Emurgis grows through evolution not intelligent design or central planning. So if something isn't an in-your-face problem right now, it may never be, we could end up going down a totally different road before we get to it. While we want to avoid technical debt, we also don't want to be working on things that will someday maybe become a problem if Emurgis becomes a thing. Demonstrate that we can trust _your_ own judgement on what you should be working on and what's worth spending time on.
+4. In an ideal world, you would be able to work on any issue you want and there would be no need to assign tasks so that our budget is kept under control. This would be possible because you would always work on the the problems that are _really_ worth solving _right now_ to get to some form of MVP. We can't predict the future, there are no plans or roadmaps (these are not compatible with the C4). Cardanoupdate grows through evolution not intelligent design or central planning. So if something isn't an in-your-face problem right now, it may never be, we could end up going down a totally different road before we get to it. While we want to avoid technical debt, we also don't want to be working on things that will someday maybe become a problem if Cardanoupdate becomes a thing. Demonstrate that we can trust _your_ own judgement on what you should be working on and what's worth spending time on.
 </p>
 </details>
 
@@ -189,8 +190,8 @@ Contact the Emurgis BDFL (Benevolent Dictator For Life): gareth AT emurgo.io if 
 The license and contribution policy are two halves of the same puzzle. This project is licensed under the [MPL v2.0 license](LICENSE). The code is owned (and Copyright) by _all_ contributors. Contributors are listed in the [AUTHORS](/AUTHORS.md) file. Please add your name to the end of this file in your first pull request so that you also become an owner.
 
 This license ensures that:
-1. Contributors to Emurgis cannot have their code stolen and used by closed-source projects without their permission. It's very common for corporate software merchants to steal code from open source projects and use it in their closed source or even patented products and services in direct competition with the original project. For example, anyone who contributes code to a project released under a BSD/MIT style license effectively has no rights to their own code or any improvements made upon it.
-2. Anyone using any code from Emurgis must also share their work under a _share-alike_ license so that anyone else can use their improvements.
-3. No one can change the above, without explicit written permission from _all_ contributors, which is essentially impossible to get. That means even the founder of this project cannot ever relicense and sell Emurgis and its code. It belongs to everyone who contributed to it (and it always will).
+1. Contributors to Cardanoupdate cannot have their code stolen and used by closed-source projects without their permission. It's very common for corporate software merchants to steal code from open source projects and use it in their closed source or even patented products and services in direct competition with the original project. For example, anyone who contributes code to a project released under a BSD/MIT style license effectively has no rights to their own code or any improvements made upon it.
+2. Anyone using any code from Cardanoupdate must also share their work under a _share-alike_ license so that anyone else can use their improvements.
+3. No one can change the above, without explicit written permission from _all_ contributors, which is essentially impossible to get. That means even the founder of this project cannot ever relicense and sell Cardanoupdate and its code. It belongs to everyone who contributed to it (and it always will).
 
 It is not permissible to use _any_ code from this codebase in _anything_ that isn't using a _share-alike_ license. Violations of the license will absolutely not be tolerated, and the terms of this license will be _brutally_ enforced through a variety of _very_ creative methods.
