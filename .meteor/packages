@@ -31,3 +31,4 @@ accounts-ui@1.3.0
 accounts-password@1.5.1
 arillo:flow-router-helpers
 blockrazor:subscache-c4
+todda00:friendly-slugs
