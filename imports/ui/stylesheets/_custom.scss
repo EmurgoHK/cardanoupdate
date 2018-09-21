@@ -1,0 +1,158 @@
+//This file is to add custom styles for the form to improve UI
+
+header {
+    &.app-header {
+        border-bottom: 1px solid #23282c;
+    }
+    &.bg-dark {
+        background-color:  #23282c !important;
+    }
+
+    .navbar-nav {
+        li.nav-item {
+            a.nav-link {
+                &:hover, &:focus {
+                    color: #fff;
+                }
+            }
+        }
+    }
+
+    button.navbar-toggler {
+        color: #73818f; 
+
+        &:hover {
+            color: #fff;
+            outline: 0; 
+        }
+
+        &:focus {
+            outline: 0; 
+        }
+    }
+
+    a.navbar-brand {
+        color: #fff;
+    }
+}
+
+.main {
+    .container-fluid {
+        padding-top: 30px;
+    }
+}
+
+.help-block, {
+    color: #a94442;
+}
+
+button {
+    &.autoform-add-item, &.autoform-remove-item {
+        border: none;
+        background-color: transparent;
+        text-align: center;
+        padding: 0;
+
+        &:hover, &:focus, &:active {
+            border: none;
+            background-color: transparent;
+            text-align: center;
+        }
+
+        .glyphicon-plus {
+            color: #20a8d8;
+            font-size: 20px;
+
+            &:before {
+                content: "+";
+            }
+        }
+
+        .glyphicon-minus {
+            color: #f86c6b;
+            font-size: 20px;
+
+            &:before {
+                content: "x";
+            }
+        }
+    }
+}
+
+#projectQuestionsForm {
+    h3.panel-title {
+        display: none;
+    }
+
+    .autoform-array-item {
+        .panel-heading {
+            display: none;
+        }
+
+        .panel-body {
+            display: inline-flex;
+            justify-content: space-evenly;
+
+            .form-group {
+                width: 100%;
+                margin-right: 1rem;
+            }
+        }
+    }
+}
+
+.wizard {
+    .steps {
+        margin: 25px auto;
+
+        ol {
+            @extend .nav; 
+            @extend .nav-tabs;
+            @extend .nav-justified;
+
+            li {
+                @extend .nav-item;
+
+                a {
+                    @extend .text-success;
+                    text-decoration: none;
+                    font-weight: bold;
+
+                    &:active, &:hover, &:focus {
+                        @extend .text-success;
+                        text-decoration: none;
+                        font-weight: bold;
+                    }
+                }
+
+                &:after {
+                    content: " ";
+                    opacity: 0;
+                    margin: 0 auto;
+                    bottom: 0px;
+                    border: 5px solid transparent;
+                    border-bottom-color: #5bc0de;
+                    vertical-align: middle;
+                    display: table;
+                    transition: 0.1s ease-in-out;
+                }
+
+                &.active {
+                    color: #5bc0de;
+                    font-weight: bold;
+
+                    &:after {
+                        content: " ";
+                        opacity: 1;
+                        margin: 0 auto;
+                        bottom: 0px;
+                        border: 10px solid transparent;
+                        border-bottom-color: #5bc0de;
+                        vertical-align: middle;
+                        display: table;
+                    }
+                }
+            }
+        }
+    }
+}

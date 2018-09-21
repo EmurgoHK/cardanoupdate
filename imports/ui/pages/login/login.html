@@ -1,0 +1,42 @@
+<template name="login">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <div class="card-group">
+                <div class="card p-3">
+                    <div class="card-body">
+                        <h1>Login</h1>
+                        <p class="text-muted">Sign In to your account</p>
+
+                        <form>
+                            <div class="input-group mb-4">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"> @ </span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Email" id="email">
+                            </div>
+                        
+                            <div class="input-group mb-4">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"> <i class="icon-lock"></i> </span>
+                                </div>
+                                
+                                <input type="password" class="form-control" placeholder="Password" id="password">
+                            </div>
+                        
+                            <div class="row">
+                                <div class="col-6">
+                                    <button type="submit" class="btn btn-primary px-4">Login</button>
+                                </div>
+                                
+                                <div class="col-6 text-right">
+                                    <button type="button" class="btn btn-link px-0" id="goToSignup">Don't have an account?</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
