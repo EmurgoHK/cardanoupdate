@@ -1,0 +1,32 @@
+{
+  "name": "test",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "meteor run",
+    "test": "meteor test --once --driver-package meteortesting:mocha"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.0.0-beta.55",
+    "@coreui/coreui": "2.0.0",
+    "@coreui/coreui-plugin-chartjs-custom-tooltips": "1.2.0",
+    "@coreui/icons": "^0.1.1",
+    "assert": "^1.4.1",
+    "bcrypt": "^3.0.0",
+    "bootstrap": "^4.1.1",
+    "fibers": "^1.0.15",
+    "flag-icon-css": "3.0.0",
+    "jquery": "3.3.1",
+    "meteor-node-stubs": "^0.3.2",
+    "noty": "^3.1.4",
+    "popper.js": "1.14.3",
+    "simpl-schema": "^1.4.3",
+    "sweetalert": "^2.1.0"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "chalk": "^2.4.1",
+    "wdio-mocha-framework": "^0.5.13",
+    "webdriverio": "^4.13.0"
+  }
+}

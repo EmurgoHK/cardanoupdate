@@ -1,0 +1,25 @@
+<template name="sidebar">
+    <div class="sidebar">
+        <nav class="sidebar-nav">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">
+                        <i class="nav-icon icon-home"></i> Home
+                    </a>
+                </li>
+                {{#if isModerator}}
+                <li class="nav-item nav-dropdown open">
+                    <a class="nav-link nav-dropdown-toggle" href="#">
+                        <i class="nav-icon icon-energy"></i> Moderator
+                    </a>
+                    <ul class="nav-dropdown-items">
+                        
+                    </ul>
+                </li>
+                {{/if}}
+            </ul>
+        </nav>
+        
+        <button class="sidebar-minimizer brand-minimizer" type="button"></button>
+    </div>
+</template>
