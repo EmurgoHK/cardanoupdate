@@ -17,11 +17,14 @@
     "fibers": "^1.0.15",
     "flag-icon-css": "3.0.0",
     "jquery": "3.3.1",
+    "marked": "^0.5.0",
     "meteor-node-stubs": "^0.3.2",
+    "moment": "^2.22.2",
     "noty": "^3.1.4",
     "popper.js": "1.14.3",
     "simpl-schema": "^1.4.3",
-    "sweetalert": "^2.1.0"
+    "sweetalert": "^2.1.0",
+    "sweetalert2": "^7.26.29"
   },
   "devDependencies": {
     "chai": "^4.1.2",

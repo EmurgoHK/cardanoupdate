@@ -1,0 +1,25 @@
+<template name="viewNews">
+    <div class="news-show">
+        <div class="card">
+            <div class="card-body">
+            {{#if SubsCacheReady}}
+                {{#with news}}
+                <h3>{{headline}}</h3>
+                <br/>
+                <h5 class="card-subtitle">Summary</h5>
+                <p class="card-text font-weight-normal">{{{md summary}}}</p>
+                <br/>
+                <h5 class="card-subtitle">Body</h5>
+                <p class="card-text font-weight-normal">{{{md body}}}</p>
+                <hr>
+                <p class="text-muted float-left" style="margin:0">
+                    <strong>{{author}}</strong> created this {{showTimeAgoTimestamp createdAt}}<br/>
+                </p>
+                {{/with}}
+            {{else}}
+                {{> loader}}
+            {{/if}}
+            </div>
+        </div>
+    </div>
+</template>
