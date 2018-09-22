@@ -18,6 +18,7 @@
                                     <th>Headline</th>
                                     <th>Author</th>
                                     <th></th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -27,6 +28,7 @@
                                         <a href="/news/{{slug}}">{{headline}}</a> 
                                     </td>
                                     <td>{{author}}</td>
+                                    <td><span class="badge badge-pill badge-primary">✉ {{comments}}</span></td>
                                     <td>
                                         {{#if canEdit}}
                                         <a class="btn btn-sm btn-secondary" id="js-edit" href="/edit/{{_id}}" role="button" title="Edit">

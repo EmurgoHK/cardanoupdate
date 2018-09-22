@@ -1,8 +1,8 @@
 <template name="viewNews">
     <div class="news-show">
+        {{#if SubsCacheReady}}
         <div class="card">
             <div class="card-body">
-            {{#if SubsCacheReady}}
                 {{#with news}}
                 <h3>{{headline}}</h3>
                 <br/>
@@ -16,10 +16,49 @@
                     <strong>{{author}}</strong> created this {{showTimeAgoTimestamp createdAt}}<br/>
                 </p>
                 {{/with}}
-            {{else}}
-                {{> loader}}
-            {{/if}}
             </div>
         </div>
+        <div class="news-comments my-2">
+            {{#each comments}}
+            <div class="card">
+                <div class="card-body">
+                    {{#if editMode}}
+                    <textarea class="form-control" id="js-comment">{{{text}}}</textarea>
+                    <br />
+                    <a class="btn btn-sm btn-primary edit-comment" role="button">Save</a>
+                    <a class="btn btn-sm btn-danger cancel-edit" role="button">Cancel</a>
+                    {{else}}
+                    <span>{{{md text}}}</span>
+                    {{/if}}
+                    <hr>
+                    <div>
+                        <strong>{{author}}</strong> commented {{showTimeAgoTimestamp createdAt}}
+                        {{#if canEditComment}}
+                        <span style="float: right">
+                            <a class="btn btn-secondary edit-mode" href="#"><i class="icon-pencil"></i></a>
+                            <a class="btn btn-danger delete-comment" href="#"><i class="icon-ban"></i></a>
+                        </span>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group">
+                    <textarea class="form-control" id="comments" name="comment" rows="3" required></textarea>
+                </div>
+                <p class="text-danger">{{commentInvalidMessage}}</p>
+                <div class="btn-group" role="group">
+                    <div class="btn-group mr-2" role="group">
+                        <button type="submit" class="btn btn-primary mb-2 new-comment">Comment</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{else}}
+        {{> loader}}
+    {{/if}}
     </div>
 </template>

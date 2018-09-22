@@ -94,7 +94,9 @@ export const editNews = new ValidatedMethod({
                 type: String,
                 optional: false
             }
-        }).validator(),
+        }).validator({
+            clean: true
+        }),
     run({ newsId, headline, summary, body }) {
         let news = News.findOne({
             _id: newsId
@@ -109,7 +111,7 @@ export const editNews = new ValidatedMethod({
         }
 
         if (news.createdBy !== Meteor.userId()) {
-            throw new Meteor.Error('Error.', 'You can\'t remove news that you haven\'t posted.')
+            throw new Meteor.Error('Error.', 'You can\'t edit news that you haven\'t posted.')
         }
 
         return News.update({
