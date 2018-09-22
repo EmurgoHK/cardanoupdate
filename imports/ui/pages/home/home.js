@@ -4,6 +4,7 @@ import { Template } from 'meteor/templating'
 import { FlowRouter } from 'meteor/kadira:flow-router'
 
 import { News } from '/imports/api/news/news'
+import { Comments } from '/imports/api/comments/comments'
 import { notify } from '/imports/modules/notifier'
 
 import { removeNews } from '/imports/api/news/methods'
@@ -14,6 +15,8 @@ Template.home.onCreated(function() {
     this.autorun(() => {
         this.subscribe('news')
         this.subscribe('users')
+
+        this.subscribe('comments')
     })
 })
 
@@ -23,6 +26,11 @@ Template.home.helpers({
         return (Meteor.users.findOne({
             _id: this.createdBy
         }) || {}).username || ''
+    },
+    comments: function() {
+        return Comments.find({
+            parentId: this._id
+        }).count()
     },
     canEdit: function() {
         return this.createdBy === Meteor.userId()

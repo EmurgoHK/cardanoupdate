@@ -67,6 +67,39 @@ describe('News page', function () {
         assert(browser.execute(() => $($('.card-text').get(1)).text().trim() === 'Body test').value, true)
     })
 
+    it('user can comment', () => {
+        browser.setValue('#comments', 'Test comment')
+        browser.pause(1000)
+
+        browser.click('.new-comment')
+        browser.pause(3000)
+
+        assert(browser.execute(() => $($('.news-comments').find('.card-body span').get(0)).text().trim() === 'Test comment').value, true)
+    })
+
+    it('user can edit a comment', () => {
+        browser.click('.edit-mode')
+        browser.pause(2000)
+
+        browser.setValue('#js-comment', 'Test comment 2')
+        browser.pause(1000)
+
+        browser.click('.edit-comment')
+        browser.pause(3000)
+
+        assert(browser.execute(() => $($('.news-comments').find('.card-body span').get(0)).text().trim() === 'Test comment 2').value, true)
+    })
+
+    it('user can remove a comment', () => {
+        browser.click('.delete-comment')
+        browser.pause(2000)
+
+        browser.click('.swal2-confirm')
+        browser.pause(2000)
+
+        assert(browser.execute(() => $('.news-comments').find('.card').length === 0).value, true)
+    })
+
     it('user can remove news he/she created', () => {
         browser.url(`${baseUrl}/`)
         browser.pause(5000)
