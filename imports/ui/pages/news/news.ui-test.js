@@ -55,7 +55,7 @@ describe('News page', function () {
 
         assert(browser.execute(() => FlowRouter.current().route.name === 'home').value, true)
 
-        assert(browser.execute(() => $($('.news-item').find('td').get(0)).text().trim() === 'Headline test 2').value, true)
+        assert(browser.execute(() => $($('.news-item').find('.card-title').get(0)).text().trim() === 'Headline test 2').value, true)
     })
 
     it('user can read the news', () => {

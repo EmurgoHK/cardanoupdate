@@ -1,58 +1,48 @@
 <template name="home">
-    <div class="container-fluid">
+  <div class="news-list container-fluid">
+    <div class="row">
+      <div class="col-sm-12">
         <div class="row">
-            <div class="col-sm-12">
-                <div class="row">
-                    <div>
-                        <button type="button" class="btn btn-primary float-right mb-4" id="js-new">
-                            Add news
-                        </button>
-                    </div>
-                </div>
-                <div class="card">
-                    {{#if SubsCacheReady}}
-                    	{{#if news.count}}
-                        <table class="table table-responsive-sm table-hover table-outline mb-0">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th>Headline</th>
-                                    <th>Author</th>
-                                    <th></th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {{#each news}}
-                                <tr class="news-item">
-                                    <td scope="row">
-                                        <a href="/news/{{slug}}">{{headline}}</a> 
-                                    </td>
-                                    <td>{{author}}</td>
-                                    <td><span class="badge badge-pill badge-primary">✉ {{comments}}</span></td>
-                                    <td>
-                                        {{#if canEdit}}
-                                        <a class="btn btn-sm btn-secondary" id="js-edit" href="/edit/{{_id}}" role="button" title="Edit">
-                                            <i class="icon-pencil"></i>
-                                        </a>
-                                        <a class="btn btn-sm btn-danger" id="js-remove" href="#" role="button" title="Remove">
-                                            <i class="icon-ban"></i>
-                                        </a>
-                                        {{/if}}
-                                    </td>
-                                </tr>
-                                {{/each}}
-                            </tbody>
-                        </table>
-                        {{else}}
-                        <div class="mt-3">
-                            <h3>No news found!</h3>
-                        </div>
-                        {{/if}}
-                    {{else}}
-                        {{> loader}}
-                    {{/if}}
-                </div>
-            </div>
+          <div>
+            <button type="button" class="btn btn-primary float-right mb-4" id="js-new">
+              Add news
+            </button>
+          </div>
         </div>
+        <div class="news-container">
+          {{#if SubsCacheReady}}
+          {{#if newsCount}}
+          <div class="row">
+            {{#each news}}
+            <div class="col-sm-12 card news-item">
+              <div class="card-body">
+                {{#if canEdit}}
+                  <div class="actions">
+                    <a class="btn btn-sm btn-secondary" id="js-edit" href="/edit/{{newsId}}" role="button" title="Edit">
+                      <i class="icon-pencil"></i>
+                    </a>
+                    <a class="btn btn-sm btn-danger" id="js-remove" href="#" role="button" title="Remove">
+                      <i class="icon-ban"></i>
+                    </a>
+                  </div>
+                {{/if}}
+                <a class="card-title" href="/news/{{slug}}">{{headline}}</a>
+                <h6 class="card-subtitle mb-2 text-muted">Added by : {{author}} on {{date}} <span class="badge badge-pill badge-primary">✉ {{comments}}</span></h6>
+                <p class="card-text">{{summary}}</p>
+              </div>
+            </div>
+            {{/each}}
+          </div>
+          {{else}}
+          <div class="mt-3">
+            <h3>No news found!</h3>
+          </div>
+          {{/if}}
+          {{else}}
+          {{> loader}}
+          {{/if}}
+        </div>
+      </div>
     </div>
+  </div>
 </template>
