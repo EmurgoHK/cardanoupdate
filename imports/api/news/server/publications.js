@@ -27,3 +27,15 @@ Meteor.publish('news.my', () => News.find({
 		createdAt: -1
 	}
 }))
+
+Meteor.publish('news.flagged', () => {
+	return News.find({
+		'flags.0': {
+			$exists: true
+		}
+	}, {
+		sort: {
+			createdAt: -1
+		}
+	})
+})

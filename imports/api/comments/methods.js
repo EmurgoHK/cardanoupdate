@@ -4,6 +4,8 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method'
 
 import { Comments } from './comments'
 
+import { isModerator } from '/imports/api/user/methods'
+
 export const newComment = new ValidatedMethod({
     name: 'newComment',
     validate:
@@ -107,5 +109,92 @@ export const editComment = new ValidatedMethod({
                 editedAt: new Date().getTime()
             }
         })
+    }
+})
+
+export const flagComment = new ValidatedMethod({
+    name: 'flagComment',
+    validate:
+        new SimpleSchema({
+            commentId: {
+                type: String,
+                optional: false
+            },
+            reason: {
+                type: String,
+                max: 1000,
+                optional: false
+            }
+        }).validator({
+            clean: true
+        }),
+    run({ commentId, reason }) {
+        let comment = Comments.findOne({
+            _id: commentId
+        })
+
+        if (!comment) {
+            throw new Meteor.Error('Error.', 'Comment doesn\'t exist.')
+        }
+
+        if (!Meteor.userId()) {
+            throw new Meteor.Error('Error.', 'You have to be logged in.')
+        }
+
+        if ((comment.flags || []).some(i => i.flaggedBy === Meteor.userId())) {
+            throw new Meteor.Error('Error.', 'You have already flagged this item.')
+        }
+
+        return Comments.update({
+            _id: commentId
+        }, {
+            $push: {
+                flags: {
+                    reason: reason,
+                    flaggedBy: Meteor.userId(),
+                    flaggedAt: new Date().getTime()
+                }
+            }
+        })
+    }
+})
+
+export const resolveCommentFlags = new ValidatedMethod({
+    name: 'resolveCommentFlags',
+    validate:
+        new SimpleSchema({
+            commentId: {
+                type: String,
+                optional: false
+            },
+            decision: {
+                type: String,
+                optional: false
+            }
+        }).validator({
+            clean: true
+        }),
+    run({ commentId, decision }) {
+        if (!Meteor.userId()) {
+            throw new Meteor.Error('Error.', 'You have to be logged in.')
+        }
+
+        if (!isModerator(Meteor.userId())) {
+            throw new Meteor.Error('Error.', 'You have to be a moderator.')
+        }
+
+        if (decision === 'ignore') {
+            return Comments.update({
+                _id: commentId
+            }, {
+                $set: {
+                    flags: []
+                }
+            })
+        } else {
+            return Comments.remove({
+                _id: commentId
+            })
+        }
     }
 })

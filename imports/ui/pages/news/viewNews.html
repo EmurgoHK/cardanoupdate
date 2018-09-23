@@ -15,6 +15,9 @@
                 <p class="text-muted float-left" style="margin:0">
                     <strong>{{author}}</strong> created this {{showTimeAgoTimestamp createdAt}}<br/>
                 </p>
+                <span style="float: right">
+                    <a class="btn btn-secondary flag-news" href="#"><i class="icon-flag"></i></a>
+                </span>
                 {{/with}}
             </div>
         </div>
@@ -33,12 +36,13 @@
                     <hr>
                     <div>
                         <strong>{{author}}</strong> commented {{showTimeAgoTimestamp createdAt}}
-                        {{#if canEditComment}}
                         <span style="float: right">
+                            <a class="btn btn-secondary flag-comment" href="#"><i class="icon-flag"></i></a>
+                            {{#if canEditComment}}
                             <a class="btn btn-secondary edit-mode" href="#"><i class="icon-pencil"></i></a>
                             <a class="btn btn-danger delete-comment" href="#"><i class="icon-ban"></i></a>
+                            {{/if}}
                         </span>
-                        {{/if}}
                     </div>
                 </div>
             </div>

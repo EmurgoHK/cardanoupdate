@@ -10,6 +10,8 @@ import '/imports/ui/pages/not-found/not-found'
 import '/imports/ui/pages/news/newsForm'
 import '/imports/ui/pages/news/viewNews'
 
+import '/imports/ui/pages/moderator/flagged/flaggedItems'
+
 const userLoginFilter = (context, redirect, _stop) => {
 	let oldRoute = '/'
 	let authRoutes = ['/login', '/signup']
@@ -101,6 +103,17 @@ FlowRouter.route('/signup', {
 	  	BlazeLayout.render('auth', {
 		  	main: 'signup'
 	  	})
+	}
+})
+
+modRoutes.route('/flagged', {
+	name: 'flaggedItems',
+	action: () => {
+		BlazeLayout.render('main', {
+			header: 'header',
+			sidebar: 'sidebar',
+    		main: 'flaggedItems'
+    	})
 	}
 })
 

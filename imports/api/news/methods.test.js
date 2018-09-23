@@ -7,8 +7,8 @@ import { callWithPromise } from '/imports/api/utilities'
 import './methods'
 
 Meteor.userId = () => 'test-user' // override the meteor userId, so we can test methods that require a user
-Meteor.users.findOne = () => ({ profile: { name: 'Test User'} }) // stub user data as well
-Meteor.user = () => ({ profile: { name: 'Test User'} })
+Meteor.users.findOne = () => ({ profile: { name: 'Test User'}, moderator: true }) // stub user data as well
+Meteor.user = () => ({ profile: { name: 'Test User'}, moderator: true })
 
 describe('news methods', () => {
     it('user can add a new news item', () => {
@@ -110,6 +110,53 @@ describe('news methods', () => {
             newsId: news._id
         }).then(data => {}).catch(error => {
             assert.ok(error)
+        })
+    })
+
+    it('user can flag a news item', () => {
+        let news = News.insert({
+            headline: 'a',
+            summary: 'b',
+            body: 'c',
+            createdBy: 'not-me',
+            createdAt: new Date().getTime()
+        })
+
+        assert.ok(news)
+
+        return callWithPromise('flagNews', {
+            newsId: news,
+            reason: 'Test reason'
+        }, (err, data) => {
+            let n2 = News.findOne({
+                _id: news
+            })
+
+            assert.ok(n2)
+
+            assert.ok(n2.flags.length > 0)
+            assert.ok(n2.flags[0].reason === 'Test reason')
+        })
+    })
+
+    it('moderator can remove a flagged news item', () => {
+        let news = News.findOne({
+            flags: {
+                $exists: true
+            }
+        })
+
+        assert.ok(news)
+
+        return callWithPromise('resolveNewsFlags', {
+            newsId: news._id,
+            decision: 'remove'
+        }, (err, data) => {
+            let n2 = News.findOne({
+                _id: news._id
+            })
+
+            assert.notOk(n2)
         })
     })
 

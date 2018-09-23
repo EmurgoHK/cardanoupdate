@@ -8,8 +8,8 @@ import { callWithPromise } from '/imports/api/utilities'
 import './methods'
 
 Meteor.userId = () => 'test-user' // override the meteor userId, so we can test methods that require a user
-Meteor.users.findOne = () => ({ profile: { name: 'Test User'} }) // stub user data as well
-Meteor.user = () => ({ profile: { name: 'Test User'} })
+Meteor.users.findOne = () => ({ profile: { name: 'Test User'}, moderator: true }) // stub user data as well
+Meteor.user = () => ({ profile: { name: 'Test User'}, moderator: true })
 
 describe('comments methods', () => {
     it('user can add a new comment', () => {
@@ -80,6 +80,51 @@ describe('comments methods', () => {
             text: 'Text test 2'
         }).then(data => {}).catch(error => {
             assert.ok(error)
+        })
+    })
+
+    it('user can flag a comment', () => {
+        let comment = Comments.insert({
+            text: 'abc',
+            createdBy: 'not-me',
+            createdAt: new Date().getTime()
+        })
+
+        assert.ok(comment)
+
+        return callWithPromise('flagComment', {
+            commentId: comment,
+            reason: 'Test reason'
+        }, (err, data) => {
+            let c2 = Comments.findOne({
+                _id: comment
+            })
+
+            assert.ok(c2)
+
+            assert.ok(c2.flags.length > 0)
+            assert.ok(c2.flags[0].reason === 'Test reason')
+        })
+    })
+
+    it('moderator can remove a flagged comment', () => {
+        let comment = Comments.findOne({
+            flags: {
+                $exists: true
+            }
+        })
+
+        assert.ok(comment)
+
+        return callWithPromise('resolveCommentFlags', {
+            commentId: comment._id,
+            decision: 'remove'
+        }, (err, data) => {
+            let c2 = Comments.findOne({
+                _id: comment._id
+            })
+
+            assert.notOk(c2)
         })
     })
 
