@@ -17,22 +17,23 @@
             
             <ul class="nav navbar-nav d-md-down-none">
                 <li class="nav-item px-3">
-                    <a class="nav-link" href="#">Dashboard</a>
+                    <a class="nav-link" href="#">Home</a>
                 </li>
             </ul>
             
             <ul class="nav navbar-nav ml-auto mr-4">
                 <li class="nav-item d-md-down-none">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="/notifications">
                         <i class="icon-bell"></i>
+                        {{#if notificationsCount}}<span class="badge badge-pill badge-danger">{{notificationsCount}}</span>{{/if}}
                     </a>
                 </li>
                 
-                <li class="nav-item d-md-down-none">
+                <!--<li class="nav-item d-md-down-none">
                     <a class="nav-link" href="#">
                         <i class="icon-list"></i>
                     </a>
-                </li>
+                </li>-->
                 
                 {{#if currentUser}}
                     <li class="nav-item">

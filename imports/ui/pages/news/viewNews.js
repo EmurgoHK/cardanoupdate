@@ -6,6 +6,7 @@ import { FlowRouter } from 'meteor/kadira:flow-router'
 import { News } from '/imports/api/news/news'
 import { Comments } from '/imports/api/comments/comments'
 
+import { toggleWatchNews } from '/imports/api/news/methods'
 import { newComment, editComment, removeComment } from '/imports/api/comments/methods' 
 
 import { notify } from '/imports/modules/notifier'
@@ -31,6 +32,9 @@ Template.viewNews.onCreated(function() {
 })
 
 Template.viewNews.helpers({
+	watching: function() {
+		return ~(this.subscribers || []).indexOf(Meteor.userId())
+	},
 	news: () => News.findOne({
 		slug: FlowRouter.getParam('slug')
 	}),
@@ -120,5 +124,16 @@ Template.viewNews.events({
 		event.preventDefault()
 
 		templateInstance.edits.set(this._id, false)
+	},
+	'click .watch-news': function(event, templateInstance) {
+		event.preventDefault()
+
+		toggleWatchNews.call({
+			newsId: this._id
+		}, (err, data) => {
+			if (err) {
+                notify(err.reason || err.message, 'error')
+            }
+		})
 	}
 })
