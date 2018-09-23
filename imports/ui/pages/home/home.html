@@ -1,5 +1,5 @@
 <template name="home">
-  <div class="container-fluid">
+  <div class="news-list container-fluid">
     <div class="row">
       <div class="col-sm-12">
         <div class="row">
@@ -14,10 +14,10 @@
           {{#if newsCount}}
           <div class="row">
             {{#each news}}
-            <div class="col-sm-12 card">
+            <div class="col-sm-12 card news-item">
               <div class="card-body">
                 {{#if canEdit}}
-                  <div class="actions" style="float: right;">
+                  <div class="actions">
                     <a class="btn btn-sm btn-secondary" id="js-edit" href="/edit/{{newsId}}" role="button" title="Edit">
                       <i class="icon-pencil"></i>
                     </a>
