@@ -8,12 +8,12 @@ describe('Header when user isn\'t logged in', () => {
     })
 
     it ('should have a sign in link', () => {
-        assert(browser.isExisting('a=Sign In'), true)
-        assert(browser.isVisible('a=Sign In'), true)
+        assert(browser.isExisting('#signIn'), true)
+        assert(browser.isVisible('#signIn'), true)
     })
 
     it ('should redirect to login when sign in is clicked', () => {
-        browser.click('a=Sign In')
+        browser.click('#signIn')
         browser.pause(3000)
         assert.equal(browser.getUrl(), 'http://localhost:3000/login')
         browser.url(baseUrl)
@@ -52,8 +52,8 @@ describe('Header when user is logged in', () => {
         browser.click('#signOut')
         browser.pause(3000)
 
-        assert(browser.isExisting('a=Sign In'), true)
-        assert(browser.isVisible('a=Sign In'), true)
+        assert(browser.isExisting('#signIn'), true)
+        assert(browser.isVisible('#signIn'), true)
     })
 
     it('should hide sidebar when nav-bar toggler is clicked', () => {
