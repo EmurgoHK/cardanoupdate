@@ -292,6 +292,55 @@ export const resolveNewsFlags = new ValidatedMethod({
     }
 })
 
+export const voteNews = new ValidatedMethod({
+    name: 'voteNews',
+    validate:
+        new SimpleSchema({
+            newsId: {
+                type: String,
+                optional: false
+            },
+            vote: {
+                type: String,
+                optional: false
+            }
+        }).validator({
+            clean: true
+        }),
+    run({ newsId, vote }) {
+        let news = News.findOne({
+            _id: newsId
+        })
+
+        if (!news) {
+            throw new Meteor.Error('Error.', 'News doesn\'t exist.')
+        }
+
+        if (!Meteor.userId()) {
+            throw new Meteor.Error('Error.', 'You have to be logged in.')
+        }
+
+        if ((news.votes || []).some(i => i.votedBy === Meteor.userId())) {
+            throw new Meteor.Error('Error.', 'You have already voted.')
+        }
+
+        return News.update({
+            _id: newsId
+        }, {
+            $push: {
+                votes: {
+                    vote: vote,
+                    votedBy: Meteor.userId(),
+                    votedAt: new Date().getTime()
+                }
+            },
+            $inc: {
+                rating: vote === 'up' ? 1 : -1
+            }
+        })
+    }
+})
+
 if (Meteor.isDevelopment) {
     Meteor.methods({
         generateTestFlagged: () => {

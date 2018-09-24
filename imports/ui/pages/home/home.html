@@ -3,10 +3,19 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="row">
-          <div>
-            <button type="button" class="btn btn-primary float-right mb-4" id="js-new">
+          <div style="width: 100%">
+            <button type="button" class="btn btn-primary float-left mb-4" id="js-new">
               Add news
             </button>
+
+            <span class="float-right">
+                <select id="js-sort" class="form-control">
+                    <option value="date-desc">▼ Date created</option>
+                    <option value="date-asc">▲ Date created</option>
+                    <option value="rating-desc">▼ Rating</option>
+                    <option value="rating-asc">▲ Rating</option>
+                </select>
+            </span>
           </div>
         </div>
         <div class="news-container">
@@ -16,18 +25,26 @@
             {{#each news}}
             <div class="col-sm-12 card news-item">
               <div class="card-body">
+                <div class="actions">
                 {{#if canEdit}}
-                  <div class="actions">
                     <a class="btn btn-sm btn-secondary" id="js-edit" href="/edit/{{newsId}}" role="button" title="Edit">
                       <i class="icon-pencil"></i>
                     </a>
                     <a class="btn btn-sm btn-danger" id="js-remove" href="#" role="button" title="Remove">
                       <i class="icon-ban"></i>
                     </a>
-                  </div>
                 {{/if}}
-                <a class="card-title" href="/news/{{slug}}">{{headline}}</a>
-                <h6 class="card-subtitle mb-2 text-muted">Posted by : {{author}}, {{date}} <span class="badge badge-pill badge-primary">✉ {{comments}}</span></h6>
+                {{#if canVote}}
+                    <a class="btn btn-sm btn-success vote-news" href="#" data-vote="up" role="button" title="Vote up">
+                      <i class="icon-arrow-up"></i>
+                    </a>
+                    <a class="btn btn-sm btn-danger vote-news" href="#" data-vote="down" role="button" title="Vote down">
+                      <i class="icon-arrow-down"></i>
+                    </a>
+                {{/if}}
+                </div>
+                <span class="card-title"><span class="badge badge-pill badge-success">☆ {{rating}}</span> <a href="/news/{{slug}}">{{headline}}</a></span>
+                <h6 class="card-subtitle mb-2 text-muted">Posted by {{author}}, {{date}} <span class="badge badge-pill badge-primary">✉ {{comments}}</span></h6>
                 <p class="card-text">{{summary}}</p>
               </div>
             </div>
