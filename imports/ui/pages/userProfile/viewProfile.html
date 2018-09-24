@@ -27,10 +27,26 @@
           </ul>
           <div class="tab-content">
             <div class="tab-pane active" id="news" role="tabpanel">
-              Posts
+              {{#if newsCount}}
+              {{#each news}}
+              <div class="col-sm-12">
+                <a class="card-title" href="/news/{{slug}}">{{headline}}</a>
+              </div>
+              {{/each}}
+              {{else}}
+              You haven't added any news
+              {{/if}}
             </div>
             <div class="tab-pane" id="comments" role="tabpanel">
-              Comments
+              {{#if commentsCount}}
+              {{#each comments}}
+              <div class="col-sm-12">
+                New comment on <a class="card-title" href="/news/{{slug}}">{{headline}}</a>
+              </div>
+              {{/each}}
+              {{else}}
+              You haven't added any news
+              {{/if}}
             </div>
           </div>
         </div>

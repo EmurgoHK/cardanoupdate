@@ -1,3 +1,5 @@
+import { News } from '/imports/api/news/news'
+import { Comments } from '/imports/api/comments/comments'
 import './viewProfile.html'
 import './userProfile.scss'
 
@@ -19,26 +21,31 @@ Template.viewProfile.helpers({
       verifiedEmail : user.emails[0].verified,
     }
   },
-  news: function(){
-    let news =  News.find({})
+  newsCount(){
+    return News.find({createdBy : Meteor.userId()}).count()
+  },
+  commentsCount(){
+    return Comments.find({createdBy : Meteor.userId()}).count()
+  },
+  news(){
+    let news =  News.find({createdBy : Meteor.userId()})
     return news.map(a => {
-      let user = Meteor.users.findOne({_id : a.createdBy})
-      let canEdit = (Meteor.userId() === a.createdBy) ? true : false
       return {
         newsId : a._id,
-        // TODO : Update this user Name
-        author : user._id,
         headline : a.headline,
-        summary : a.summary,
         slug : a.slug,
         date : new Date(a.createdAt).toLocaleString(),
-        canEdit
       }
     })
   },
-  comments: function () {
-    return Comments.find({
-      parentId: this._id
-    }).count()
+  comments() {
+    let comments = Comments.find({createdBy: Meteor.userId()})
+    return comments.map(a => {
+      let post = News.findOne({_id : a.parentId})
+      return {
+        headline : post.headline,
+        slug : post.slug
+      }
+    })
   },
 })
