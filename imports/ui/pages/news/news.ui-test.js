@@ -67,6 +67,17 @@ describe('News page', function () {
         assert(browser.execute(() => $($('.card-text').get(1)).text().trim() === 'Body test').value, true)
     })
 
+    it('user can flag a news item', () => {
+        browser.click('.flag-news')
+        browser.pause(2000)
+
+        browser.setValue('.swal2-input', 'Test flag news')
+        browser.pause(1000)
+
+        browser.click('.swal2-confirm')
+        browser.pause(3000)
+    })
+
     it('user can comment', () => {
         browser.setValue('#comments', 'Test comment')
         browser.pause(1000)
@@ -88,6 +99,17 @@ describe('News page', function () {
         browser.pause(3000)
 
         assert(browser.execute(() => $($('.news-comments').find('.card-body span').get(0)).text().trim() === 'Test comment 2').value, true)
+    })
+
+    it('user can flag a comment', () => {
+        browser.click('.flag-comment')
+        browser.pause(2000)
+
+        browser.setValue('.swal2-input', 'Test flag')
+        browser.pause(1000)
+
+        browser.click('.swal2-confirm')
+        browser.pause(3000)
     })
 
     it('user can remove a comment', () => {

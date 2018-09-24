@@ -12,8 +12,20 @@ Meteor.publish('comments.news', (newsId) => {
 	})
 })
 
-Meteor.publish('comments', (newsId) => {
+Meteor.publish('comments', () => {
 	return Comments.find({}, {
+		sort: {
+			createdAt: -1
+		}
+	})
+})
+
+Meteor.publish('comments.flagged', () => {
+	return Comments.find({
+		'flags.0': {
+			$exists: true
+		}
+	}, {
 		sort: {
 			createdAt: -1
 		}
