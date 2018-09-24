@@ -1,52 +1,55 @@
 <template name="header">
-        <header class="app-header navbar bg-dark">
-            <button class="navbar-toggler sidebar-toggler d-lg-none mr-auto" type="button" data-toggle="sidebar-show">
-                <span class="fas fa-bars"></span>
-            </button>
-            
-            <a class="navbar-brand" href="/">
-                <!--<img class="navbar-brand-full" src="/img/logo.png" width="89" height="25" alt="Cardano updates Logo">
-                <img class="navbar-brand-minimized" src="/img/logo.png" width="30" height="30" alt="Cardano updates Logo">-->
-                CARDANO
-            </a>
-            
-            
-            <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button" data-toggle="sidebar-lg-show">
-                <span class="fas fa-bars"></span>
-            </button>
-            
-            <ul class="nav navbar-nav d-md-down-none">
-                <li class="nav-item px-3">
-                    <a class="nav-link" href="#">Dashboard</a>
-                </li>
-            </ul>
-            
-            <ul class="nav navbar-nav ml-auto mr-4">
-                <li class="nav-item d-md-down-none">
-                    <a class="nav-link" href="#">
-                        <i class="icon-bell"></i>
-                    </a>
-                </li>
-                
-                <li class="nav-item d-md-down-none">
-                    <a class="nav-link" href="#">
-                        <i class="icon-list"></i>
-                    </a>
-                </li>
-                
-                {{#if currentUser}}
-                    <li class="nav-item">
-                        <a class="nav-link" href="" id="signOut">
-                            Sign out
-                        </a>
-                    </li>
-                {{ else }}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/login">
-                            Sign In
-                        </a>
-                    </li>
-                {{/if}}
-            </ul>
-        </header>
+  <header class="app-header navbar bg-dark">
+    <button class="navbar-toggler sidebar-toggler d-lg-none mr-auto" type="button" data-toggle="sidebar-show">
+      <span class="fas fa-bars"></span>
+    </button>
+    <a class="navbar-brand" href="/">
+      CARDANO
+    </a>
+    <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button" data-toggle="sidebar-lg-show">
+      <span class="fas fa-bars"></span>
+    </button>
+    <ul class="nav navbar-nav d-md-down-none">
+      <li class="nav-item px-3">
+        <a class="nav-link" href="#">Dashboard</a>
+      </li>
+    </ul>
+    <ul class="nav navbar-nav ml-auto mr-4">
+      <li class="nav-item d-md-down-none">
+        <a class="nav-link" href="#">
+          <i class="icon-bell"></i>
+        </a>
+      </li>
+      <li class="nav-item d-md-down-none">
+        <a class="nav-link" href="#">
+          <i class="icon-list"></i>
+        </a>
+      </li>
+      <li class="nav-item dropdown mr-5">
+        {{#if currentUser}}
+        <a class="nav-link dropdown-toggle d-none d-sm-block" href="#" id="dropdownMenu2" data-toggle="dropdown" aria-expanded="true">
+          <!-- NB : This is for existing users who doesn't have a name -->
+         {{#if currentUser.profile.name}}
+          {{currentUser.profile.name}}
+         {{else}}
+            User Name 
+         {{/if}}
+        </a>
+        <!-- For Smaller Screen -->
+        <a class="nav-link dropdown-toggle d-block d-sm-none" data-toggle="dropdown" aria-expanded="false">
+          <i class="icon-user"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu2">
+          <div class="dropdown-header text-center">
+            <strong>Account</strong>
+          </div>
+          <a class="dropdown-item" href="/profile"><i class="nav-icon icon-settings"></i> My Profile</a>
+          <a class="dropdown-item" id="signOut" style="cursor: pointer;"><i class="nav-icon icon-logout"></i> Sign out</a>
+        </div>
+        {{else}}
+        <a class="nav-link" href="/login" id="signIn" style="cursor: pointer;">Sign In</a>
+        {{/if}}
+      </li>
+    </ul>
+  </header>
 </template>

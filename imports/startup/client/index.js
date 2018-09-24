@@ -1,5 +1,6 @@
 import './config'
 import './routes'
+import './testing'
 
 // import main templates
 import '/imports/ui/layouts/auth/auth'
@@ -11,3 +12,5 @@ import '/imports/ui/shared/empty-result/empty-result'
 
 // Blaze helpers
 import '/imports/ui/helpers/handlebars-helpers'
+
+import "bootstrap"

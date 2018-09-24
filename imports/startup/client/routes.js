@@ -9,101 +9,125 @@ import '/imports/ui/pages/signup/signup'
 import '/imports/ui/pages/not-found/not-found'
 import '/imports/ui/pages/news/newsForm'
 import '/imports/ui/pages/news/viewNews'
+import '/imports/ui/pages/notifications/notifications'
+import '/imports/ui/pages/userProfile/userProfile'
 
 import '/imports/ui/pages/moderator/flagged/flaggedItems'
 
 const userLoginFilter = (context, redirect, _stop) => {
-	let oldRoute = '/'
-	let authRoutes = ['/login', '/signup']
+  let oldRoute = '/'
+  let authRoutes = ['/login', '/signup']
 
-	if (context.oldRoute !== undefined) {
-		oldRoute = context.oldRoute.path
-	}
+  if (context.oldRoute !== undefined) {
+    oldRoute = context.oldRoute.path
+  }
 
-	// restrict access to auth pages when user is signed in
-	if (Meteor.userId() && authRoutes.includes(context.path)) {
-		redirect(oldRoute)
-	}
+  // restrict access to auth pages when user is signed in
+  if (Meteor.userId() && authRoutes.includes(context.path)) {
+    redirect(oldRoute)
+  }
 
-	if (!Meteor.userId() && !authRoutes.includes(context.path)) {
-		notify('Login to continue!', 'error')
-		redirect('/login')
-	}
+  if (!Meteor.userId() && !authRoutes.includes(context.path)) {
+    notify('Login to continue!', 'error')
+    redirect('/login')
+  }
 }
 
 const modRoutes = FlowRouter.group({
-	prefix: '/moderator',
-  	name: 'moderator'
+  prefix: '/moderator',
+  name: 'moderator'
 })
 
 // Redirect to login
 Accounts.onLogout((user) => {
-	FlowRouter.go('/login')
+  FlowRouter.go('/login')
 })
 
 FlowRouter.triggers.enter([userLoginFilter], { except: ['home'] })
 
 // Set up all routes in the app
 FlowRouter.route('/', {
-  	name: 'home',
-  	action() {
-    	BlazeLayout.render('main', {
-			header: 'header',
-			sidebar: 'sidebar',
-    		main: 'home'
-    	})
-  	}
+  name: 'home',
+  action() {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'home'
+    })
+  }
 })
 
 FlowRouter.route('/add', {
-  	name: 'addNews',
-  	action() {
-    	BlazeLayout.render('main', {
-			header: 'header',
-			sidebar: 'sidebar',
-    		main: 'newsForm'
-    	})
-  	}
+  name: 'addNews',
+  action() {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'newsForm'
+    })
+  }
 })
 
 FlowRouter.route('/edit/:id', {
-  	name: 'editNews',
-  	action() {
-    	BlazeLayout.render('main', {
-			header: 'header',
-			sidebar: 'sidebar',
-    		main: 'newsForm'
-    	})
-  	}
+  name: 'editNews',
+  action() {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'newsForm'
+    })
+  }
+})
+
+FlowRouter.route('/profile', {
+  name: 'userProfile',
+  action() {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'viewProfile'
+    })
+  }
 })
 
 FlowRouter.route('/news/:slug', {
-  	name: 'viewNews',
+  name: 'viewNews',
+  action() {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'viewNews'
+    })
+  }
+})
+
+FlowRouter.route('/notifications', {
+  	name: 'notifications',
   	action() {
     	BlazeLayout.render('main', {
 			header: 'header',
 			sidebar: 'sidebar',
-    		main: 'viewNews'
+    		main: 'notifications'
     	})
   	}
 })
 
 FlowRouter.route('/login', {
-	name: 'login',
-	action() {
-	  	BlazeLayout.render('auth', {
-		  	main: 'login'
-	  	})
-	}
+  name: 'login',
+  action() {
+    BlazeLayout.render('auth', {
+      main: 'login'
+    })
+  }
 })
 
 FlowRouter.route('/signup', {
-	name: 'signup',
-	action() {
-	  	BlazeLayout.render('auth', {
-		  	main: 'signup'
-	  	})
-	}
+  name: 'signup',
+  action() {
+    BlazeLayout.render('auth', {
+      main: 'signup'
+    })
+  }
 })
 
 modRoutes.route('/flagged', {
@@ -118,9 +142,9 @@ modRoutes.route('/flagged', {
 })
 
 FlowRouter.notFound = {
-  	action() {
-    	BlazeLayout.render('main', {
-    		main: 'notFound'
-    	})
-  	}
+  action() {
+    BlazeLayout.render('main', {
+      main: 'notFound'
+    })
+  }
 }

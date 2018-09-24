@@ -6,6 +6,8 @@ import { Comments } from './comments'
 
 import { isModerator } from '/imports/api/user/methods'
 
+import { addToSubscribers, sendToSubscribers } from '/imports/api/news/methods'
+
 export const newComment = new ValidatedMethod({
     name: 'newComment',
     validate:
@@ -26,6 +28,9 @@ export const newComment = new ValidatedMethod({
 		if (!Meteor.userId()) {
 			throw new Meteor.Error('Error.', 'You have to be logged in.')
 		}
+
+        addToSubscribers(parentId, Meteor.userId())
+        sendToSubscribers(parentId, Meteor.userId(), `${(Meteor.users.findOne({_id: Meteor.userId()}) || {}).username} commented on a news item you're watching.`)
 
         return Comments.insert({
             parentId: parentId,
