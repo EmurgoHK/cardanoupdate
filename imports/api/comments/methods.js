@@ -30,7 +30,7 @@ export const newComment = new ValidatedMethod({
 		}
 
         addToSubscribers(parentId, Meteor.userId())
-        sendToSubscribers(parentId, Meteor.userId(), `${(Meteor.users.findOne({_id: Meteor.userId()}) || {}).username} commented on a news item you're watching.`)
+        sendToSubscribers(parentId, Meteor.userId(), `${((Meteor.users.findOne({_id: Meteor.userId()}) || {}).profile || {}).name || 'No name'} commented on a news item you're watching.`)
 
         return Comments.insert({
             parentId: parentId,
