@@ -9,6 +9,7 @@ import '/imports/ui/pages/signup/signup'
 import '/imports/ui/pages/not-found/not-found'
 import '/imports/ui/pages/news/newsForm'
 import '/imports/ui/pages/news/viewNews'
+import '/imports/ui/pages/notifications/notifications'
 
 const userLoginFilter = (context, redirect, _stop) => {
 	let oldRoute = '/'
@@ -82,6 +83,17 @@ FlowRouter.route('/news/:slug', {
 			header: 'header',
 			sidebar: 'sidebar',
     		main: 'viewNews'
+    	})
+  	}
+})
+
+FlowRouter.route('/notifications', {
+  	name: 'notifications',
+  	action() {
+    	BlazeLayout.render('main', {
+			header: 'header',
+			sidebar: 'sidebar',
+    		main: 'notifications'
     	})
   	}
 })

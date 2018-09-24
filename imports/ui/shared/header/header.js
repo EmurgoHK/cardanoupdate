@@ -1,5 +1,13 @@
 import './header.html'
 
+import { Notifications } from '/imports/api/notifications/notifications'
+
+Template.header.onCreated(function() {
+    this.autorun(() => {
+        this.subscribe('notifications')
+    })
+})
+
 Template.header.events({
     'click .sidebar-toggler' (event) {
         event.preventDefault()
@@ -13,4 +21,18 @@ Template.header.events({
             Meteor.logout() 
         }
     }
+})
+
+Template.header.helpers({
+    notificationsCount: () => Notifications.find({
+        userId: Meteor.userId(),
+        read: false,
+        $or: [{
+            type: 'notification'
+        }, {
+            type: {
+                $exists: false
+            }
+        }]
+    }).count(),
 })

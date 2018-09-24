@@ -1,5 +1,6 @@
 import './config'
 import './routes'
+import './testing'
 
 // import main templates
 import '/imports/ui/layouts/auth/auth'

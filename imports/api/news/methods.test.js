@@ -29,6 +29,24 @@ describe('news methods', () => {
         })
     })
 
+    it('user can toggle watch status', () => {
+        let news = News.findOne({})
+
+        assert.ok(news)
+
+        return callWithPromise('toggleWatchNews', {
+            newsId: news._id
+        }).then(data => {
+            let news2 = News.findOne({
+                _id: news._id
+            })
+
+            assert.ok(news2)
+
+            assert.ok(!~news2.subscribers.indexOf(Meteor.userId()))
+        })
+    })
+
     it('user cannot add a new news item if data is missing', () => {
         return callWithPromise('addNews', {
             headline: 'Test headline',
