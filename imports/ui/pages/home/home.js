@@ -11,6 +11,7 @@ import { notify } from '/imports/modules/notifier'
 import { removeNews } from '/imports/api/news/methods'
 
 import swal from 'sweetalert2'
+import moment from 'moment'
 
 Template.home.onCreated(function () {
   this.autorun(() => {
@@ -35,12 +36,12 @@ Template.home.helpers({
       let canEdit = (Meteor.userId() === a.createdBy) ? true : false
       return {
         newsId : a._id,
-        // TODO : Update this user Name
-        author : user._id,
+        // TODO : we can remove this on production
+        author : user.hasOwnProperty('profile') ? user.profile.name : 'No Name',
         headline : a.headline,
         summary : a.summary,
         slug : a.slug,
-        date : new Date(a.createdAt).toLocaleString(),
+        date : moment(a.createdAt).fromNow(),
         canEdit
       }
     })
