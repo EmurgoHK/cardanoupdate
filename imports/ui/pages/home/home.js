@@ -11,6 +11,7 @@ import { notify } from '/imports/modules/notifier'
 import { removeNews } from '/imports/api/news/methods'
 
 import swal from 'sweetalert2'
+import moment from 'moment'
 
 Template.home.onCreated(function () {
   this.autorun(() => {
@@ -40,7 +41,7 @@ Template.home.helpers({
         headline : a.headline,
         summary : a.summary,
         slug : a.slug,
-        date : new Date(a.createdAt).toLocaleString(),
+        date : moment(a.createdAt).fromNow(),
         canEdit
       }
     })
