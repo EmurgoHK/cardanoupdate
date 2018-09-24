@@ -36,8 +36,8 @@ Template.home.helpers({
       let canEdit = (Meteor.userId() === a.createdBy) ? true : false
       return {
         newsId : a._id,
-        // TODO : Update this user Name
-        author : user._id,
+        // TODO : we can remove this on production
+        author : user.hasOwnProperty('profile') ? user.profile.name : 'No Name',
         headline : a.headline,
         summary : a.summary,
         slug : a.slug,
