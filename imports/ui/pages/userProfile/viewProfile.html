@@ -1,0 +1,25 @@
+<template name="viewProfile">
+  {{#if currentUser}}
+  <div class="container user-profile">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card user-info">
+          <h4>{{user.name}}</h4>
+          <p>Email : {{user.email}}
+            {{#if user.verifiedEmail}}
+            <span class="badge badge-success">Verified</span>
+            {{else}}
+            <span class="badge badge-danger">Not Verified</span>
+            {{/if}}
+          </p>
+        </div>
+      </div>
+      <div class="col sm 12">
+        <div class="user-content">
+
+        </div>
+      </div>
+    </div>
+  </div>
+  {{/if}}
+</template>

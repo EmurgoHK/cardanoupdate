@@ -9,17 +9,16 @@ Template.header.onCreated(function() {
 })
 
 Template.header.events({
-    'click .sidebar-toggler' (event) {
-        event.preventDefault()
-        $('body').toggleClass("sidebar-lg-show")
-    },
+  'click .sidebar-toggler'(event) {
+    event.preventDefault()
+    $('body').toggleClass("sidebar-lg-show")
+  },
 
-    'click #signOut' (event) {
-        event.preventDefault()
+  'click #signOut'(event) {
+    event.preventDefault()
 
-        if (Meteor.userId()) { 
-            Meteor.logout() 
-        }
+    if (Meteor.userId()) {
+      Meteor.logout()
     }
 })
 
