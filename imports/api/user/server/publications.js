@@ -7,7 +7,9 @@ Meteor.publish(null, () => Meteor.users.find({
 		_id: 1,
 		moderator: 1,
 		profile: 1,
-		username: 1
+		suspended: 1,
+		pardon: 1,
+		strikes: 1
 	}
 }))
 
@@ -16,6 +18,8 @@ Meteor.publish('users', () => Meteor.users.find({}, {
 		_id: 1,
 		moderator: 1,
 		profile: 1,
-		username: 1
+		suspended: 1,
+		pardon: 1,
+		strikes: 1
 	}
 }))

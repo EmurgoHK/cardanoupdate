@@ -11,8 +11,11 @@ import '/imports/ui/pages/news/newsForm'
 import '/imports/ui/pages/news/viewNews'
 import '/imports/ui/pages/notifications/notifications'
 import '/imports/ui/pages/userProfile/userProfile'
+import '/imports/ui/pages/suspended/suspended'
 
 import '/imports/ui/pages/moderator/flagged/flaggedItems'
+import '/imports/ui/pages/moderator/pardon/pardon'
+import '/imports/ui/pages/moderator/pardon/pardonUser'
 
 const userLoginFilter = (context, redirect, _stop) => {
   let oldRoute = '/'
@@ -44,6 +47,18 @@ Accounts.onLogout((user) => {
 })
 
 FlowRouter.triggers.enter([userLoginFilter], { except: ['home'] })
+
+FlowRouter.triggers.enter([() => {
+  	Tracker.autorun(() => {
+    	let user = Meteor.userId() && Meteor.users.findOne({
+    		_id: Meteor.userId()
+    	})
+
+    	if (user && user.suspended) {
+        	FlowRouter.go('/suspended')
+    	}
+  	})
+}])
 
 // Set up all routes in the app
 FlowRouter.route('/', {
@@ -88,6 +103,21 @@ FlowRouter.route('/profile', {
       main: 'viewProfile'
     })
   }
+})
+
+FlowRouter.route('/suspended', {
+  	name: 'suspended',
+  	action: () => {
+  		let user = Meteor.userId() && Meteor.users.findOne({
+      		_id: Meteor.userId()
+    	})
+
+    	if (user && user.suspended) {
+   			BlazeLayout.render('suspended')
+    	} else {
+      		FlowRouter.go('/')
+    	}
+  	}
 })
 
 FlowRouter.route('/news/:slug', {
@@ -137,6 +167,28 @@ modRoutes.route('/flagged', {
 			header: 'header',
 			sidebar: 'sidebar',
     		main: 'flaggedItems'
+    	})
+	}
+})
+
+modRoutes.route('/pardon/:id', {
+	name: 'pardonUser',
+	action: () => {
+		BlazeLayout.render('main', {
+			header: 'header',
+			sidebar: 'sidebar',
+    		main: 'pardonUser'
+    	})
+	}
+})
+
+modRoutes.route('/pardon', {
+	name: 'pardon',
+	action: () => {
+		BlazeLayout.render('main', {
+			header: 'header',
+			sidebar: 'sidebar',
+    		main: 'pardon'
     	})
 	}
 })

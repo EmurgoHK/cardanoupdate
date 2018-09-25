@@ -5,7 +5,7 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method'
 import { News } from './news'
 import { Comments } from '/imports/api/comments/comments'
 
-import { isModerator } from '/imports/api/user/methods'
+import { isModerator, userStrike } from '/imports/api/user/methods'
 
 import { sendNotification } from '/imports/api/notifications/methods'
 
@@ -272,6 +272,14 @@ export const resolveNewsFlags = new ValidatedMethod({
             throw new Meteor.Error('Error.', 'You have to be a moderator.')
         }
 
+        let news = News.findOne({
+            _id: newsId
+        })
+
+        if (!news) {
+            throw new Meteor.Error('Error.', 'News doesn\'t exist.')
+        }
+
         if (decision === 'ignore') {
             return News.update({
                 _id: newsId
@@ -281,6 +289,13 @@ export const resolveNewsFlags = new ValidatedMethod({
                 }
             })
         } else {
+            userStrike.call({
+                userId: news.createdBy,
+                type: 'news',
+                token: 's3rv3r-only',
+                times: 1
+            }, (err, data) => {})
+            
             Comments.remove({
                 parentId: newsId
             })

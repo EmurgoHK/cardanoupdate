@@ -1,0 +1,8 @@
+<template name="pardon">
+    {{#if isModerator}}
+        {{nextPardonRequest pardonRequest}}
+        <div class="alert alert-info">
+            <p>Great, no more users to pardon.</p>
+        </div>
+    {{/if}}
+</template>
