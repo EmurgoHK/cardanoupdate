@@ -39,9 +39,9 @@ Template.viewNews.helpers({
 		slug: FlowRouter.getParam('slug')
 	}),
 	author: function() {
-        return (Meteor.users.findOne({
+        return ((Meteor.users.findOne({
             _id: this.createdBy
-        }) || {}).username || ''
+        }) || {}).profile || {}).name || 'No name'
     },
     comments: () => {
     	let news = News.findOne({
