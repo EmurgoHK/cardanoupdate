@@ -1,5 +1,5 @@
 import './header.html'
-
+import './header.scss'
 import { Notifications } from '/imports/api/notifications/notifications'
 
 Template.header.onCreated(function () {
