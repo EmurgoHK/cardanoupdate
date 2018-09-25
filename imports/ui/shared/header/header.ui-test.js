@@ -45,10 +45,12 @@ describe('Header when user is logged in', () => {
     
     it ('should have a sign in link', () => {
         assert(browser.isExisting('#signOut'), true)
-        assert(browser.isVisible('#signOut'), true)
     })
 
     it ('should sign out user when signOut is clicked', () => {
+        browser.click('#dropdownMenu2')
+        browser.pause(1000)
+        
         browser.click('#signOut')
         browser.pause(3000)
 

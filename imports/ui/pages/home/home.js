@@ -8,12 +8,14 @@ import { News } from '/imports/api/news/news'
 import { Comments } from '/imports/api/comments/comments'
 import { notify } from '/imports/modules/notifier'
 
-import { removeNews } from '/imports/api/news/methods'
+import { removeNews, voteNews } from '/imports/api/news/methods'
 
 import swal from 'sweetalert2'
 import moment from 'moment'
 
 Template.home.onCreated(function () {
+    this.sort = new ReactiveVar('date-desc')
+
   this.autorun(() => {
     this.subscribe('news')
     this.subscribe('users')
@@ -37,13 +39,23 @@ Template.home.helpers({
       return {
         newsId : a._id,
         // TODO : we can remove this on production
-        author : user.hasOwnProperty('profile') ? user.profile.name : 'No Name',
+        author : user.hasOwnProperty('profile') ? user.profile.name : 'No name',
         headline : a.headline,
         summary : a.summary,
+        rating: a.rating || 0,
+        canVote: !(a.votes || []).some(i => i.votedBy === Meteor.userId()),
         slug : a.slug,
         date : moment(a.createdAt).fromNow(),
+        createdAt: a.createdAt,
         canEdit
       }
+    }).sort((i1, i2) => {
+        let sort = Template.instance().sort.get()
+
+        if (sort === 'date-desc') return i2.createdAt - i1.createdAt
+        if (sort === 'date-asc') return i1.createdAt - i2.createdAt
+        if (sort === 'rating-desc') return i2.rating - i1.rating
+        if (sort === 'rating-asc') return i1.rating - i2.rating
     })
   },
   comments: function () {
@@ -77,5 +89,22 @@ Template.home.events({
         })
       }
     })
-  }
+  },
+    'click .vote-news': function(event, templateInstance) {
+        event.preventDefault()
+
+        voteNews.call({
+            newsId: this.newsId,
+            vote: event.currentTarget.dataset.vote
+        }, (err, data) => {
+            if (err) {
+                notify(err.reason || err.message, 'error')
+            }
+        })
+    },
+    'change #js-sort': (event, templateInstance) => {
+        event.preventDefault()
+
+        templateInstance.sort.set($(event.currentTarget).val())
+    }
 })

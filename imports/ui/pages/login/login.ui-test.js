@@ -42,7 +42,6 @@ describe('Sign in page', () => {
         browser.pause(3000)
 
         assert(browser.isExisting('#signOut'), true)
-        assert(browser.isVisible('#signOut'), true)
 
         browser.pause(3000)
         assert.equal(browser.getUrl(), 'http://localhost:3000/')

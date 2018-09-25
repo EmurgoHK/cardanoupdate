@@ -47,6 +47,26 @@ describe('news methods', () => {
         })
     })
 
+    it('user can vote', () => {
+        let news = News.findOne({})
+
+        assert.ok(news)
+
+        return callWithPromise('voteNews', {
+            newsId: news._id,
+            vote: 'up'
+        }).then(data => {
+            let news2 = News.findOne({
+                _id: news._id
+            })
+
+            assert.ok(news2)
+
+            assert.ok(news2.votes.length > 0)
+            assert.ok(news2.votes.some(i => i.votedBy === Meteor.userId() && i.vote === 'up'))
+        })
+    })
+
     it('user cannot add a new news item if data is missing', () => {
         return callWithPromise('addNews', {
             headline: 'Test headline',
