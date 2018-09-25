@@ -1,0 +1,13 @@
+// Logo style override on small screen
+@media (max-width: 991.98px){
+  .app-header .navbar-brand {
+    left: 60px!important;
+    margin-left: 0!important;
+    justify-content: flex-start!important;
+    padding-top: 5px!important;
+  }
+  .navbar-nav .nav-link{
+    color: #73818f !important;
+    cursor: pointer;
+  }
+}

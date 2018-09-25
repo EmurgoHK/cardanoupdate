@@ -1,2 +1,9 @@
 node_modules/
 screens/
+
+# Error logs
+yarn-error.log
+npm-error.log
+
+# vscode
+.vscode
