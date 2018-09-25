@@ -20,7 +20,7 @@ describe('Header when user isn\'t logged in', () => {
     })
 
     it('should hide sidebar when nav-bar toggler is clicked', () => {
-        browser.click('button.d-md-down-none')
+        browser.click('button.d-none.d-lg-block')
         browser.pause(2000)
         assert(browser.isExisting('.sidebar'), false)
         assert(browser.isVisible('.sidebar'), false)
@@ -59,7 +59,7 @@ describe('Header when user is logged in', () => {
     })
 
     it('should hide sidebar when nav-bar toggler is clicked', () => {
-        browser.click('button.d-md-down-none')
+        browser.click('button.d-none.d-lg-block')
         browser.pause(3000)
         
         assert(browser.isExisting('.sidebar'), false)
