@@ -35,7 +35,10 @@ MDEditBeforeRender.body=function(next){
 Template.newsForm.helpers({
 	news: () => News.findOne({
 		_id: FlowRouter.getParam('id')
-	})
+  }),
+
+  add: () => FlowRouter.current().route.name === 'editNews' ? false : true
+
 })
 
 Template.newsForm.events({
