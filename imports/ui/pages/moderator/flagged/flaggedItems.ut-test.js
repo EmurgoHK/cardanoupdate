@@ -1,7 +1,7 @@
 const assert = require('assert')
 const baseUrl = 'http://localhost:3000'
 
-describe('News page', function () {
+describe('Flagged items page', function () {
     before(() => {
         browser.url(`${baseUrl}/`)
         browser.pause(5000)

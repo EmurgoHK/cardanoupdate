@@ -4,7 +4,7 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method'
 
 import { Comments } from './comments'
 
-import { isModerator } from '/imports/api/user/methods'
+import { isModerator, userStrike } from '/imports/api/user/methods'
 
 import { addToSubscribers, sendToSubscribers } from '/imports/api/news/methods'
 
@@ -188,6 +188,14 @@ export const resolveCommentFlags = new ValidatedMethod({
             throw new Meteor.Error('Error.', 'You have to be a moderator.')
         }
 
+        let comment = Comments.findOne({
+            _id: commentId
+        })
+
+        if (!comment) {
+            throw new Meteor.Error('Error.', 'Comment doesn\'t exist.')
+        }
+
         if (decision === 'ignore') {
             return Comments.update({
                 _id: commentId
@@ -197,6 +205,13 @@ export const resolveCommentFlags = new ValidatedMethod({
                 }
             })
         } else {
+            userStrike.call({
+                userId: comment.createdBy,
+                type: 'comment',
+                token: 's3rv3r-only',
+                times: 1
+            }, (err, data) => {})
+
             return Comments.remove({
                 _id: commentId
             })
