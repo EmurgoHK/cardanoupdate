@@ -34,7 +34,7 @@ describe('News page', function () {
 
         assert(browser.execute(() => $('#bodyError').text().trim() === 'Body is required').value, true)
 
-        browser.setValue('#body', 'Body test')
+        browser.execute(() => { MDEdit.body.value('Body test') })
         browser.pause(1000)
 
         browser.click('.add-news')
@@ -74,8 +74,8 @@ describe('News page', function () {
         browser.pause(3000)
 
         assert(browser.execute(() => $('h3').text() === 'Headline test 2').value, true)
-        assert(browser.execute(() => $($('.card-text').get(0)).text().trim() === 'Summary test').value, true)
-        assert(browser.execute(() => $($('.card-text').get(1)).text().trim() === 'Body test').value, true)
+        assert(browser.execute(() => $('.summary').text().trim() === 'Summary test').value, true)
+        assert(browser.execute(() => $('.content').text().trim() === 'Body test').value, true)
     })
 
     it('user can flag a news item', () => {
@@ -130,7 +130,7 @@ describe('News page', function () {
         browser.click('.swal2-confirm')
         browser.pause(2000)
 
-        assert(browser.execute(() => $('.news-comments').find('.card').length === 0).value, true)
+        assert(browser.execute(() => $('.news-comments').find('.card').length === 1).value, true)
     })
 
     it('user can remove news he/she created', () => {
