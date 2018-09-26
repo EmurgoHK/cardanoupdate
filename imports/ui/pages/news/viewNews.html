@@ -31,6 +31,19 @@
       {{/with}}
     </div>
     <div class="news-comments my-2">
+      <div class="card">
+        <div class="card-body">
+          <div class="form-group">
+            <textarea class="form-control" id="comments" name="comment" rows="3" required></textarea>
+          </div>
+          <p class="text-danger">{{commentInvalidMessage}}</p>
+          <div class="btn-group" role="group">
+            <div class="btn-group mr-2" role="group">
+              <button type="submit" class="btn btn-primary mb-2 new-comment">Comment</button>
+            </div>
+          </div>
+        </div>
+      </div>
       {{#each comments}}
       <div class="card">
         <div class="card-body">
@@ -56,19 +69,6 @@
         </div>
       </div>
       {{/each}}
-    </div>
-    <div class="card">
-      <div class="card-body">
-        <div class="form-group">
-          <textarea class="form-control" id="comments" name="comment" rows="3" required></textarea>
-        </div>
-        <p class="text-danger">{{commentInvalidMessage}}</p>
-        <div class="btn-group" role="group">
-          <div class="btn-group mr-2" role="group">
-            <button type="submit" class="btn btn-primary mb-2 new-comment">Comment</button>
-          </div>
-        </div>
-      </div>
     </div>
     {{else}}
     {{> loader}}

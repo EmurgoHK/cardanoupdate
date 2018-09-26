@@ -49,8 +49,8 @@ Template.viewNews.helpers({
 		}) || {}
 
     	return Comments.find({
-    		parentId: news._id
-    	})
+        parentId: news._id
+    	}, {sort: {createdAt: -1}})
     },
     canEditComment: function() {
     	return this.createdBy === Meteor.userId()
@@ -114,7 +114,6 @@ Template.viewNews.events({
 	},
 	'click .new-comment': (event, templateInstance) => {
 		event.preventDefault()
-
 		let news = News.findOne({
 			slug: FlowRouter.getParam('slug')
 		})
@@ -123,6 +122,7 @@ Template.viewNews.events({
 			parentId: news._id,
 			text: $('#comments').val()
 		}, (err, data) => {
+      $('#comments').val('')
 			if (!err) {
 				notify('Successfully commented.', 'success')
 				templateInstance.message.set('')
