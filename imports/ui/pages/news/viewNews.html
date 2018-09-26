@@ -1,73 +1,77 @@
 <template name="viewNews">
-    <div class="news-show">
-        {{#if SubsCacheReady}}
-        <div class="card">
-            <div class="card-body">
-                {{#with news}}
-                <h3>{{headline}}</h3>
-                <br/>
-                <h5 class="card-subtitle">Summary</h5>
-                <p class="card-text font-weight-normal">{{{md summary}}}</p>
-                <br/>
-                <h5 class="card-subtitle">Body</h5>
-                <p class="card-text font-weight-normal">{{{md body}}}</p>
-                <hr>
-                <p class="text-muted float-left" style="margin:0">
-                    <strong>{{author}}</strong> created this {{showTimeAgoTimestamp createdAt}}<br/>
-                </p>
-                <span style="float: right">
-                    <a class="btn btn-secondary flag-news" href="#"><i class="icon-flag"></i></a>
-                    {{#if watching}}
-                    <a class="btn btn-success watch-news" href="#" title="Unwatch"><i class="icon-eye"></i></a>
-                    {{else}}
-                    <a class="btn btn-secondary watch-news" href="#" title="Watch"><i class="icon-eye"></i></a>
-                    {{/if}}
-                </span>
-                {{/with}}
-            </div>
+  <div class="news-show">
+    {{#if SubsCacheReady}}
+    <div class="view-news">
+      {{#with news}}
+        <div class="header">
+          <h3 class="news-headline">{{headline}}</h3>
+          <div class="author-info">
+            <i class="fa fa-user-edit"></i> <span class="name">{{author}}</span> created this {{showTimeAgoTimestamp createdAt}}
+          </div>
         </div>
-        <div class="news-comments my-2">
-            {{#each comments}}
-            <div class="card">
-                <div class="card-body">
-                    {{#if editMode}}
-                    <textarea class="form-control" id="js-comment">{{{text}}}</textarea>
-                    <br />
-                    <a class="btn btn-sm btn-primary edit-comment" role="button">Save</a>
-                    <a class="btn btn-sm btn-danger cancel-edit" role="button">Cancel</a>
-                    {{else}}
-                    <span>{{{md text}}}</span>
-                    {{/if}}
-                    <hr>
-                    <div>
-                        <strong>{{author}}</strong> commented {{showTimeAgoTimestamp createdAt}}
-                        <span style="float: right">
-                            <a class="btn btn-secondary flag-comment" href="#"><i class="icon-flag"></i></a>
-                            {{#if canEditComment}}
-                            <a class="btn btn-secondary edit-mode" href="#"><i class="icon-pencil"></i></a>
-                            <a class="btn btn-danger delete-comment" href="#"><i class="icon-ban"></i></a>
-                            {{/if}}
-                        </span>
-                    </div>
-                </div>
-            </div>
-            {{/each}}
+        <div class="summary">
+          {{{md summary}}}
         </div>
-        <div class="card">
-            <div class="card-body">
-                <div class="form-group">
-                    <textarea class="form-control" id="comments" name="comment" rows="3" required></textarea>
-                </div>
-                <p class="text-danger">{{commentInvalidMessage}}</p>
-                <div class="btn-group" role="group">
-                    <div class="btn-group mr-2" role="group">
-                        <button type="submit" class="btn btn-primary mb-2 new-comment">Comment</button>
-                    </div>
-                </div>
-            </div>
+        <div class="content">
+          {{{md body}}}
         </div>
-    {{else}}
-        {{> loader}}
-    {{/if}}
+        <div class="reader-actions">
+          <div class="title">
+            Share you thoughts
+          </div>
+          <div class="actions">
+            <a class="btn btn-secondary flag-news" href="#"><i class="icon-flag"></i></a>
+            {{#if watching}}
+            <a class="btn btn-success watch-news" href="#" title="Unwatch"><i class="icon-eye"></i></a>
+            {{else}}
+            <a class="btn btn-secondary watch-news" href="#" title="Watch"><i class="icon-eye"></i></a>
+            {{/if}}
+          </div>
+        </div>
+      {{/with}}
     </div>
+    <div class="news-comments my-2">
+      <div class="card">
+        <div class="card-body">
+          <div class="form-group">
+            <textarea class="form-control" id="comments" name="comment" rows="3" required></textarea>
+          </div>
+          <p class="text-danger">{{commentInvalidMessage}}</p>
+          <div class="btn-group" role="group">
+            <div class="btn-group mr-2" role="group">
+              <button type="submit" class="btn btn-primary mb-2 new-comment">Comment</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{#each comments}}
+      <div class="card">
+        <div class="card-body">
+          {{#if editMode}}
+          <textarea class="form-control" id="js-comment">{{{text}}}</textarea>
+          <br />
+          <a class="btn btn-sm btn-primary edit-comment" role="button">Save</a>
+          <a class="btn btn-sm btn-danger cancel-edit" role="button">Cancel</a>
+          {{else}}
+          <span>{{{md text}}}</span>
+          {{/if}}
+          <hr>
+          <div>
+            <strong>{{author}}</strong> commented {{showTimeAgoTimestamp createdAt}}
+            <span style="float: right">
+              <a class="btn btn-secondary flag-comment" href="#"><i class="icon-flag"></i></a>
+              {{#if canEditComment}}
+              <a class="btn btn-secondary edit-mode" href="#"><i class="icon-pencil"></i></a>
+              <a class="btn btn-danger delete-comment" href="#"><i class="icon-ban"></i></a>
+              {{/if}}
+            </span>
+          </div>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+    {{else}}
+    {{> loader}}
+    {{/if}}
+  </div>
 </template>
