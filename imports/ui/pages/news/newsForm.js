@@ -1,4 +1,5 @@
 import './newsForm.html'
+import './news.scss'
 
 import { Template } from 'meteor/templating'
 import { FlowRouter } from 'meteor/kadira:flow-router'
@@ -25,6 +26,11 @@ Template.newsForm.onCreated(function() {
 		})
 	}
 })
+
+MDEditBeforeRender.body=function(next){
+  next('body');
+} //A hook before render, please don't forget next(id); !
+
 
 Template.newsForm.helpers({
 	news: () => News.findOne({
@@ -54,12 +60,11 @@ Template.newsForm.events({
     },
     'click .add-news': function(event, templateInstance) {
     	event.preventDefault()
-
     	if (FlowRouter.current().route.name === 'addNews') {
 	    	addNews.call({
 	    		headline: $('#headline').val(),
 	    		summary: $('#summary').val(),
-	    		body: $('#body').val()
+	    		body: MDEdit.body.value(),
 	    	}, (err, data) => {
 	    		if (!err) {
 	    			notify('Successfully added.', 'success')
@@ -82,7 +87,7 @@ Template.newsForm.events({
     			newsId: FlowRouter.getParam('id'),
 	    		headline: $('#headline').val(),
 	    		summary: $('#summary').val(),
-	    		body: $('#body').val()
+	    		body: MDEdit.body.value(),
 	    	}, (err, data) => {
 	    		if (!err) {
 	    			notify('Successfully edited.', 'success')
