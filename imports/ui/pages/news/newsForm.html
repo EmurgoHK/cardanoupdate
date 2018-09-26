@@ -1,35 +1,28 @@
 <template name="newsForm">
-  <div class="news-new">
+  <div class="news-form">
     <div class="card">
       <div class="card-body">
         <h2 class="news-form-title">{{#if add}}Add new news{{else}}Edit news{{/if}}</h2>
         <form>
-          <div class="input-group" style="padding-top:8px;">
-            <div class="input-group-prepend">
-              <div class="input-group-text">Headline:</div>
-            </div>
-
+          <div class="group-title">Headline</div>
+          <div class="input-group">
             <input type="text" class="form-control" id="headline" value="{{news.headline}}" placeholder="Headline in 140 characters or less">
             <div id="headlineError" class="invalid-feedback"></div>
           </div>
           <small><i id="headline-chars" class="text-muted"></i></small>
-          <div class="input-group" style="padding-top:8px;">
+          <div class="group-title">Summary</div>
+          <div class="input-group">
             <textarea class="form-control" id="summary" rows="6" value="{{news.summary}}" placeholder="Summarize the news article in 500 characters or less"></textarea>
             <div id="summaryError" class="invalid-feedback"></div>
           </div>
           <small><i id="summary-chars" class="text-muted"></i></small>
+          <div class="group-title">Content</div>
           <div class="article-body">
-            <p>Article body</p>
             {{> MDEdit id='body' defaultContent=news.body}}
           </div>
           <div id="bodyError" class="invalid-feedback"></div>
-          <!-- TODO : Remove this -->
-          <!-- <div class="input-group" style="padding-top:8px;">
-            <textarea class="form-control" id="body" rows="6" value="{{news.body}}" placeholder="Article body"></textarea>
-            <div id="bodyError" class="invalid-feedback"></div>
-          </div> -->
           <small><i id="body-chars" class="text-muted"></i></small>
-          <div style="padding-top:8px;">
+          <div>
             <button type="submit" class="btn btn-primary float-right add-news">Submit</button>
           </div>
         </form>
