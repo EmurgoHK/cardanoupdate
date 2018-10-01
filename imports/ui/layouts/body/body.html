@@ -3,7 +3,9 @@
   <div class="app-body">
       {{> Template.dynamic template=sidebar}}
     <main class="main">
-        {{> Template.dynamic template=main}}
+        <div class="container pt-5">
+          {{> Template.dynamic template=main}}
+        </div>
     </main> 
   </div>
   
@@ -11,5 +13,5 @@
 
 <!-- added title -->
 
-<body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show pace-done pace-done">
+<body class="app header-fixed sidebar-fixed aside-menu-fixed pace-done pace-done">
 </body>

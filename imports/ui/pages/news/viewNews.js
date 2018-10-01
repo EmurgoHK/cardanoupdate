@@ -58,7 +58,12 @@ Template.viewNews.helpers({
     editMode: function() {
     	return Template.instance().edits.get(this._id)
     },
-    commentInvalidMessage: () => Template.instance().message.get()
+	commentInvalidMessage: () => Template.instance().message.get(),
+	commentCount: function () {
+		return Comments.find({
+		  parentId: this._id
+		}).count()
+	}
 })
 
 Template.viewNews.events({

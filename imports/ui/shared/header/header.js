@@ -1,6 +1,7 @@
 import './header.html'
 import './header.scss'
 import { Notifications } from '/imports/api/notifications/notifications'
+import { FlowRouter } from 'meteor/kadira:flow-router'
 
 Template.header.onCreated(function () {
   this.autorun(() => {
@@ -20,7 +21,13 @@ Template.header.events({
     if (Meteor.userId()) {
       Meteor.logout()
     }
-  }
+  },
+
+  'click #js-new': (event, templateInstance) => {
+    event.preventDefault()
+
+    FlowRouter.go('/add')
+  },
 })
 
 Template.header.helpers({

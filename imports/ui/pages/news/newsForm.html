@@ -1,8 +1,11 @@
 <template name="newsForm">
   <div class="news-form">
-    <div class="card">
+    <div class="card mb-5">
       <div class="card-body">
-        <h2 class="news-form-title">{{#if add}}Add new news{{else}}Edit news{{/if}}</h2>
+        <h2 class="card-title">
+            {{#if add}}Add news{{else}}Edit news{{/if}}
+        </h2>
+        <hr>
         <form>
           <div class="group-title">Headline</div>
           <div class="input-group">
@@ -22,10 +25,12 @@
           </div>
           <div id="bodyError" class="invalid-feedback"></div>
           <small><i id="body-chars" class="text-muted"></i></small>
-          <div>
-            <button type="submit" class="btn btn-primary float-right add-news">Submit</button>
-          </div>
         </form>
+      </div>
+      <div class="card-footer">
+        <div>
+          <button type="submit" class="btn btn-lg btn-success add-news">Submit</button>
+        </div>
       </div>
     </div>
   </div>

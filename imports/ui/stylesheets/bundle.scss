@@ -1,5 +1,6 @@
 /* Style bundle
 -------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
 
 // Override Boostrap variables
 @import "{}/node_modules/@coreui/coreui/scss/_bootstrap-variables";
@@ -10,6 +11,8 @@
 // Noty with custom theme
 @import "{}/node_modules/noty/src/noty.scss";
 @import "{}/imports/ui/stylesheets/theme/noty.scss";
+
+
 
 // Import Core UI variables and Mixins
 @import "{}/node_modules/@coreui/coreui/scss/_variables";
@@ -63,6 +66,8 @@
 
 // Import Core UI Custom Properties support for Internet Explorer
 @import "{}/node_modules/@coreui/coreui/scss/_ie-custom-properties";
+
+
 
 //New stylesheet for custom styling of the form
 @import './custom'

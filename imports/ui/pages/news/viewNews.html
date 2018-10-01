@@ -1,77 +1,102 @@
 <template name="viewNews">
-  <div class="news-show">
-    {{#if SubsCacheReady}}
-    <div class="view-news">
-      {{#with news}}
-        <div class="header">
-          <h3 class="news-headline">{{headline}}</h3>
-          <div class="author-info">
-            <i class="fa fa-user-edit"></i> <span class="name"><a href="/profile/{{createdBy}}">{{author}}</a></span> created this {{showTimeAgoTimestamp createdAt}}
-          </div>
-        </div>
-        <div class="summary">
-          {{{md summary}}}
-        </div>
-        <div class="content">
-          {{{md body}}}
-        </div>
-        <div class="reader-actions">
-          <div class="title">
-            Share you thoughts
-          </div>
-          <div class="actions">
-            <a class="btn btn-secondary flag-news" href="#"><i class="icon-flag"></i></a>
-            {{#if watching}}
-            <a class="btn btn-success watch-news" href="#" title="Unwatch"><i class="icon-eye"></i></a>
-            {{else}}
-            <a class="btn btn-secondary watch-news" href="#" title="Watch"><i class="icon-eye"></i></a>
-            {{/if}}
-          </div>
-        </div>
-      {{/with}}
-    </div>
-    <div class="news-comments my-2">
-      <div class="card">
-        <div class="card-body">
-          <div class="form-group">
-            <textarea class="form-control" id="comments" name="comment" rows="3" required></textarea>
-          </div>
-          <p class="text-danger">{{commentInvalidMessage}}</p>
-          <div class="btn-group" role="group">
-            <div class="btn-group mr-2" role="group">
-              <button type="submit" class="btn btn-primary mb-2 new-comment">Comment</button>
+    <div class="row mx-auto mb-5">
+      <div class="col-sm-12">
+        {{#if SubsCacheReady}}
+          {{#with news}}
+            <div class="card">
+              <div class="card-body">
+                <h1 class="card-title mt-3">{{headline}}</h1>
+                <h6 class="card-subtitle mb-3 mt-3 text-muted">
+                  <ul class="list-inline">
+                    <li class="list-inline-item">Posted by <strong><span class="name"><a href="/profile/{{createdBy}}">{{author}}</a></span></strong></li>
+                    <li class="list-inline-item"><i class="icon-clock" style="vertical-align: middle"></i>&nbsp;{{showTimeAgoTimestamp createdAt}}</li>
+                    <li class="list-inline-item"><i class="icon-speech" style="vertical-align: middle"></i>&nbsp;{{commentCount}}</li>
+                  </ul>
+                </h6>
+
+                <div class="row">
+                  <div class="col-sm-12 summary mt-3 mb-3">
+                    {{{md summary}}}
+                  </div>
+                </div>
+
+                <div class="row mb-5">
+                  <div class="col-sm-12 news-body">
+                    {{{md body}}}
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-12">
+                      <a class="btn btn-secondary flag-news" href="#"><i class="icon-flag"></i></a>
+                      {{#if watching}}
+                      <a class="btn btn-success watch-news" href="#" title="Unwatch"><i class="icon-eye"></i></a>
+                      {{else}}
+                      <a class="btn btn-secondary watch-news" href="#" title="Watch"><i class="icon-eye"></i></a>
+                      {{/if}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          {{/with}}
+
+          <hr class="mb-5 mt-5">
+
+          <div class="row">
+            <div class="col-sm-12 news-form">
+              <div class="card">
+                <div class="card-body">
+                  <div class="form-group">
+                    <textarea class="form-control" id="comments" name="comment" rows="3" placeholder="Leave a comment ..." required></textarea>
+                  </div>
+                  
+                  <p class="text-danger">{{commentInvalidMessage}}</p>
+                  
+                  <div class="btn-group" role="group">
+                    <div class="btn-group" role="group">
+                      <button type="submit" class="btn btn-outline-primary mb-2 new-comment">Comment</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      {{#each comments}}
-      <div class="card">
-        <div class="card-body">
-          {{#if editMode}}
-          <textarea class="form-control" id="js-comment">{{{text}}}</textarea>
-          <br />
-          <a class="btn btn-sm btn-primary edit-comment" role="button">Save</a>
-          <a class="btn btn-sm btn-danger cancel-edit" role="button">Cancel</a>
-          {{else}}
-          <span>{{{md text}}}</span>
-          {{/if}}
-          <hr>
-          <div>
-            <strong>{{author}}</strong> commented {{showTimeAgoTimestamp createdAt}}
-            <span style="float: right">
-              <a class="btn btn-secondary flag-comment" href="#"><i class="icon-flag"></i></a>
-              {{#if canEditComment}}
-              <a class="btn btn-secondary edit-mode" href="#"><i class="icon-pencil"></i></a>
-              <a class="btn btn-danger delete-comment" href="#"><i class="icon-ban"></i></a>
-              {{/if}}
-            </span>
+
+          <div class="row">
+            <div class="col-sm-12 news-form comments">
+              {{#each comments}}
+                <div class="card">
+                  <div class="card-body">
+                    <div class="news-settings float-right dropdown" style="margin-top: -10px;">
+                      <i class="nav-icon icon-settings dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                      <div class="dropdown-menu">
+                        <a class="dropdown-item flag-comment" href="#"><i class="icon-flag text-dark"></i> Flag</a>
+                        {{#if canEditComment}}
+                          <a class="dropdown-item edit-mode" href="#"><i class="icon-pencil text-dark"></i> Edit</a>
+                          <a class="dropdown-item text-danger delete-comment" href="#"><i class="icon-trash text-danger"></i> Delete</a>
+                        {{/if}}
+                      </div>
+                    </div>
+                    
+                    <h6 class="card-subtitle mb-4">By <strong>{{author}}</strong> {{showTimeAgoTimestamp createdAt}}</h6>
+                    <p class="card-text mb-4"> 
+                      {{#if editMode}}
+                        <textarea class="form-control" id="js-comment"><span>{{{text}}}</span></textarea><br />
+                        <button class="btn btn-sm btn-outline-primary edit-comment" role="button">Save</button>
+                        <button class="btn btn-sm btn-outline-danger cancel-edit" role="button">Cancel</button>
+                      {{else}}
+                        <span>{{{text}}}</span> 
+                      {{/if}}
+                    </p>
+                    <a href="">Reply</a>
+                  </div>
+                </div>
+              {{/each}}
+            </div>
           </div>
-        </div>
+        {{else}}
+          {{> loader}}
+        {{/if}}
       </div>
-      {{/each}}
     </div>
-    {{else}}
-    {{> loader}}
-    {{/if}}
-  </div>
 </template>

@@ -24,7 +24,7 @@ describe('News page', function () {
 
         browser.pause(3000)
 
-        browser.setValue('#headline', 'Headline test')
+        browser.setValue('#headline', 'Headline Test')
         browser.pause(1000)
         browser.setValue('#summary', 'Summary test')
         browser.pause(1000)
@@ -44,10 +44,13 @@ describe('News page', function () {
     })
 
     it('user can edit news he/she created', () => {
+        browser.execute(() => $('.news-settings').find('.dropdown-menu').addClass('show'))
+        browser.pause(3000)
+
         browser.click('#js-edit')
         browser.pause(3000)
 
-        browser.setValue('#headline', 'Headline test 2')
+        browser.setValue('#headline', 'Headline Test 2')
         browser.pause(1000)
 
         browser.click('.add-news')
@@ -55,13 +58,14 @@ describe('News page', function () {
 
         assert(browser.execute(() => FlowRouter.current().route.name === 'home').value, true)
 
-        assert(browser.execute(() => Array.from($('.news-item').find('.card-title a')).some(i => $(i).text().trim() === 'Headline test 2')).value, true)
+        assert(browser.execute(() => Array.from($('.news-item').find('.card-title a')).some(i => $(i).text().trim() === 'Headline Test 2')).value, true)
     })
 
     it('user can vote on news', () => {
         let count = browser.execute(() => $('.vote-news').length).value
 
-        browser.click('.vote-news')
+        browser.execute(() => $('.news-reputation').find('.vote-news').click())
+        // browser.click('.vote-news')
         browser.pause(3000)
 
         let countN = browser.execute(() => $('.vote-news').length).value
@@ -73,12 +77,15 @@ describe('News page', function () {
         browser.execute(() => FlowRouter.go('/news/headline-test-1'))
         browser.pause(3000)
 
-        assert(browser.execute(() => $('h3').text() === 'Headline test 2').value, true)
+        assert(browser.execute(() => $('h1.card-title').text() === 'Headline Test 2').value, true)
         assert(browser.execute(() => $('.summary').text().trim() === 'Summary test').value, true)
-        assert(browser.execute(() => $('.content').text().trim() === 'Body test').value, true)
+        assert(browser.execute(() => $('.news-body').text().trim() === 'Body test').value, true)
     })
 
     it('user can flag a news item', () => {
+        browser.execute(() => $('.news-settings').find('.dropdown-menu').addClass('show'))
+        browser.pause(3000)
+
         browser.click('.flag-news')
         browser.pause(2000)
 
@@ -91,15 +98,18 @@ describe('News page', function () {
 
     it('user can comment', () => {
         browser.setValue('#comments', 'Test comment')
-        browser.pause(1000)
+        browser.pause(2000)
 
         browser.click('.new-comment')
         browser.pause(3000)
 
-        assert(browser.execute(() => $($('.news-comments').find('.card-body span').get(0)).text().trim() === 'Test comment').value, true)
+        assert(browser.execute(() => $($('.comments').find('.card-body span').get(0)).text().trim() === 'Test comment').value, true)
     })
 
     it('user can edit a comment', () => {
+        browser.execute(() => $('.news-settings').find('.dropdown-menu').addClass('show'))
+        browser.pause(3000)
+
         browser.click('.edit-mode')
         browser.pause(2000)
 
@@ -109,10 +119,13 @@ describe('News page', function () {
         browser.click('.edit-comment')
         browser.pause(3000)
 
-        assert(browser.execute(() => $($('.news-comments').find('.card-body span').get(0)).text().trim() === 'Test comment 2').value, true)
+        assert(browser.execute(() => $($('.comments').find('.card-body span').get(0)).text().trim() === 'Test comment 2').value, true)
     })
 
     it('user can flag a comment', () => {
+        browser.execute(() => $('.news-settings').find('.dropdown-menu').addClass('show'))
+        browser.pause(3000)
+
         browser.click('.flag-comment')
         browser.pause(2000)
 
@@ -124,13 +137,16 @@ describe('News page', function () {
     })
 
     it('user can remove a comment', () => {
+        browser.execute(() => $('.news-settings').find('.dropdown-menu').addClass('show'))
+        browser.pause(3000)
+
         browser.click('.delete-comment')
         browser.pause(2000)
 
         browser.click('.swal2-confirm')
         browser.pause(2000)
 
-        assert(browser.execute(() => $('.news-comments').find('.card').length === 1).value, true)
+        assert(browser.execute(() => $('.comments').find('.card').length === 0).value, true)
     })
 
     it('user can remove news he/she created', () => {
@@ -138,6 +154,9 @@ describe('News page', function () {
         browser.pause(5000)
 
         let count = browser.execute(() => $('.news-item').length).value
+
+        browser.execute(() => $('.news-settings').find('.dropdown-menu').addClass('show'))
+        browser.pause(3000)
 
         browser.click('#js-remove')
         browser.pause(2000)
