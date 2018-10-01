@@ -4,6 +4,7 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="card user-info">
+          <a class="btn btn-primary edit-btn" href="/profile/{{user.id}}/edit">Edit Profile</a>
           <h4>{{user.name}}</h4>
           <p>Email : {{user.email}}
             {{#if user.verifiedEmail}}
