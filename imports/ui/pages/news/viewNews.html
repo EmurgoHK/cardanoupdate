@@ -6,7 +6,7 @@
         <div class="header">
           <h3 class="news-headline">{{headline}}</h3>
           <div class="author-info">
-            <i class="fa fa-user-edit"></i> <span class="name">{{author}}</span> created this {{showTimeAgoTimestamp createdAt}}
+            <i class="fa fa-user-edit"></i> <span class="name"><a href="/profile/{{createdBy}}">{{author}}</a></span> created this {{showTimeAgoTimestamp createdAt}}
           </div>
         </div>
         <div class="summary">
