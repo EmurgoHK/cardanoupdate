@@ -3,5 +3,10 @@
   padding-top: 3em;
   .user-info{
     padding: 1em;
+    .edit-btn{
+      position: absolute;
+      top: 0.5em;
+      right: 0.5em;
+    }
   }
 }

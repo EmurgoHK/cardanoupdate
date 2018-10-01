@@ -1,57 +1,58 @@
 <template name="viewProfile">
-  {{#if currentUser}}
-  <div class="container user-profile">
-    <div class="row">
-      <div class="col-sm-12">
-        <div class="card user-info">
-          <h4>{{user.name}}</h4>
-          <p>Email : {{user.email}}
-            {{#if user.verifiedEmail}}
-            <span class="badge badge-success">Verified</span>
-            {{else}}
-            <span class="badge badge-danger">Not Verified</span>
-            {{/if}}
-          </p>
+  {{#with user}}
+    <div class="container user-profile">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="card user-info">
+            <h4>{{user.name}}</h4>
+            <!-- <p>Email : {{user.email}}
+              {{#if user.verifiedEmail}}
+              <span class="badge badge-success">Verified</span>
+              {{else}}
+              <span class="badge badge-danger">Not Verified</span>
+              {{/if}}
+            </p> -->
+            <p>About : <br /> {{user.bio}}</p>
+          </div>
         </div>
-      </div>
-      <div class="col sm 12">
-        <div class="user-content">
-          <h4>Your Content</h4>
-          <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item">
-              <a class="nav-link active" data-toggle="tab" href="#news" role="tab" aria-controls="news">News</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" href="#comments" role="tab" aria-controls="comments">Comments</a>
-            </li>
-          </ul>
-          <div class="tab-content">
-            <div class="tab-pane active" id="news" role="tabpanel">
-              {{#if newsCount}}
-              {{#each news}}
-              <div class="col-sm-12">
-                <a class="card-title" href="/news/{{slug}}">{{headline}}</a>
+        <div class="col sm 12">
+          <div class="user-content">
+            <h4>{{#if ownProfile}}Your Content{{else}}{{user.name}}'s Activity{{/if}}</h4>
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#news" role="tab" aria-controls="news">News</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#comments" role="tab" aria-controls="comments">Comments</a>
+              </li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane active" id="news" role="tabpanel">
+                {{#if newsCount}}
+                {{#each news}}
+                <div class="col-sm-12">
+                  <a class="card-title" href="/news/{{slug}}">{{headline}}</a>
+                </div>
+                {{/each}}
+                {{else}}
+                  User haven't added any news
+                {{/if}}
               </div>
-              {{/each}}
-              {{else}}
-              You haven't added any news
-              {{/if}}
-            </div>
-            <div class="tab-pane" id="comments" role="tabpanel">
-              {{#if commentsCount}}
-              {{#each comments}}
-              <div class="col-sm-12">
-                New comment on <a class="card-title" href="/news/{{slug}}">{{headline}}</a>
+              <div class="tab-pane" id="comments" role="tabpanel">
+                {{#if commentsCount}}
+                {{#each comments}}
+                <div class="col-sm-12">
+                  New comment on <a class="card-title" href="/news/{{slug}}">{{headline}}</a>
+                </div>
+                {{/each}}
+                {{else}}
+                 User haven't added any comments
+                {{/if}}
               </div>
-              {{/each}}
-              {{else}}
-              You haven't added any news
-              {{/if}}
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  {{/if}}
+  {{/with}}
 </template>

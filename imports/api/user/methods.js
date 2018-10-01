@@ -257,3 +257,20 @@ if (Meteor.isDevelopment) {
         }
     })
 }
+
+// Edit Profile
+export const updateProfile = new ValidatedMethod({
+  name: 'updateProfile',
+  validate: null,
+  run ({uId, name, email, bio}){
+    Meteor.users.update({
+      _id : Meteor.userId()
+    }, {
+      $set: {
+        'profile.name': name,
+        'profile.bio' : bio,
+        'emails.0.address' : email
+    }
+  }, { upsert : true })
+  }
+})

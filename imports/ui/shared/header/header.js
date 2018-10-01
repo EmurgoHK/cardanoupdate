@@ -35,4 +35,6 @@ Template.header.helpers({
       }
     }]
   }).count(),
+
+  userId : () => Meteor.userId()
 })

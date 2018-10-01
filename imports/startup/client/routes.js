@@ -94,13 +94,24 @@ FlowRouter.route('/edit/:id', {
   }
 })
 
-FlowRouter.route('/profile', {
+FlowRouter.route('/profile/:userId', {
   name: 'userProfile',
   action() {
     BlazeLayout.render('main', {
       header: 'header',
       sidebar: 'sidebar',
       main: 'viewProfile'
+    })
+  }
+})
+
+FlowRouter.route('/profile/:userId/edit', {
+  name: 'editProfile',
+  action() {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'editProfile'
     })
   }
 })
