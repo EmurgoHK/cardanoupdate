@@ -20,23 +20,28 @@ export const newComment = new ValidatedMethod({
                 type: String,
                 max: 1000,
                 optional: false
+            },
+            newsId: {
+                type: String,
+                optional: false
             }
         }).validator({
             clean: true
         }),
-    run({ parentId, text }) {
+    run({ parentId, newsId, text }) {
 		if (!Meteor.userId()) {
 			throw new Meteor.Error('Error.', 'You have to be logged in.')
 		}
 
-        addToSubscribers(parentId, Meteor.userId())
-        sendToSubscribers(parentId, Meteor.userId(), `${((Meteor.users.findOne({_id: Meteor.userId()}) || {}).profile || {}).name || 'No name'} commented on a news item you're watching.`)
+        addToSubscribers(newsId, Meteor.userId())
+        sendToSubscribers(newsId, Meteor.userId(), `${((Meteor.users.findOne({_id: Meteor.userId()}) || {}).profile || {}).name || 'No name'} commented on a news item you're watching.`)
 
         return Comments.insert({
             parentId: parentId,
             text: text,
             createdAt: new Date().getTime(),
-            createdBy: Meteor.userId()
+            createdBy: Meteor.userId(),
+            newsId: newsId
         })
     }
 })
@@ -66,6 +71,21 @@ export const removeComment = new ValidatedMethod({
         if (comment.createdBy !== Meteor.userId()) {
             throw new Meteor.Error('Error.', 'You can\'t remove a comment that you haven\'t posted.')
         }
+
+        // if the comment that's being deleted has children, append the children to the parent comment
+        let comments = Comments.find({
+            parentId: comment._id
+        }).fetch()
+
+        comments.forEach(i => {
+            Comments.update({
+                _id: i._id
+            }, {
+                $set: {
+                    parentId: comment.parentId
+                }
+            })
+        })
 
         return Comments.remove({
             _id: commentId
@@ -211,6 +231,20 @@ export const resolveCommentFlags = new ValidatedMethod({
                 token: 's3rv3r-only',
                 times: 1
             }, (err, data) => {})
+
+            let comments = Comments.find({
+                parentId: comment._id
+            }).fetch()
+
+            comments.forEach(i => {
+                Comments.update({
+                    _id: i._id
+                }, {
+                    $set: {
+                        parentId: comment.parentId
+                    }
+                })
+            })
 
             return Comments.remove({
                 _id: commentId

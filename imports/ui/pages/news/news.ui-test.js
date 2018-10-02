@@ -103,7 +103,22 @@ describe('News page', function () {
         browser.click('.new-comment')
         browser.pause(3000)
 
-        assert(browser.execute(() => $($('.comments').find('.card-body span').get(0)).text().trim() === 'Test comment').value, true)
+        assert(browser.execute(() => Array.from($('.comments').find('.card-body span')).some(i => $(i).text().includes('Test comment'))).value, true)
+    })
+
+    it('user can reply to a comment', () => {
+        browser.click('.reply')
+        browser.pause(2000)
+
+        let comment = browser.execute(() => testingComments.findOne()).value
+
+        browser.setValue(`.rep-comment-${comment._id}`, 'Test reply')
+        browser.pause(1000)
+
+        browser.click('.reply-comment')
+        browser.pause(3000)
+
+        assert(browser.execute(() => Array.from($('.comments').find('.card-body span')).some(i => $(i).text().includes('Test reply'))).value, true)
     })
 
     it('user can edit a comment', () => {
@@ -113,13 +128,15 @@ describe('News page', function () {
         browser.click('.edit-mode')
         browser.pause(2000)
 
-        browser.setValue('#js-comment', 'Test comment 2')
+        let comment = browser.execute(() => testingComments.findOne()).value
+
+        browser.setValue(`.edit-comment-${comment._id}`, 'Test comment 2')
         browser.pause(1000)
 
         browser.click('.edit-comment')
         browser.pause(3000)
 
-        assert(browser.execute(() => $($('.comments').find('.card-body span').get(0)).text().trim() === 'Test comment 2').value, true)
+        assert(browser.execute(() => Array.from($('.comments').find('.card-body span')).some(i => $(i).text().includes('Test comment 2'))).value, true)
     })
 
     it('user can flag a comment', () => {
@@ -137,6 +154,8 @@ describe('News page', function () {
     })
 
     it('user can remove a comment', () => {
+        let count = browser.execute(() => $('.comments').find('.card').length).value
+
         browser.execute(() => $('.news-settings').find('.dropdown-menu').addClass('show'))
         browser.pause(3000)
 
@@ -146,7 +165,9 @@ describe('News page', function () {
         browser.click('.swal2-confirm')
         browser.pause(2000)
 
-        assert(browser.execute(() => $('.comments').find('.card').length === 0).value, true)
+        let countN = browser.execute(() => $('.comments').find('.card').length).value
+
+        assert(count === countN + 1, true)
     })
 
     it('user can remove news he/she created', () => {

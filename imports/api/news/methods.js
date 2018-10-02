@@ -103,7 +103,7 @@ export const removeNews = new ValidatedMethod({
         }
 
         Comments.remove({
-            parentId: newsId
+            newsId: newsId
         })
 
         return News.remove({
@@ -297,7 +297,7 @@ export const resolveNewsFlags = new ValidatedMethod({
             }, (err, data) => {})
             
             Comments.remove({
-                parentId: newsId
+                newsId: newsId
             })
 
             return News.remove({

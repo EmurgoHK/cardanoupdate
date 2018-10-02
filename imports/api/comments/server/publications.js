@@ -4,7 +4,11 @@ import { Comments } from '../comments'
 
 Meteor.publish('comments.news', (newsId) => {
 	return Comments.find({
-		parentId: newsId
+		$or: [{
+			parentId: newsId
+		}, {
+			newsId: newsId
+		}]
 	}, {
 		sort: {
 			createdAt: -1

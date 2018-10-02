@@ -23,7 +23,8 @@ describe('comments methods', () => {
 
         return callWithPromise('newComment', {
             text: 'Test text',
-            parentId: news
+            parentId: news,
+            newsId: news
         }).then(data => {
             let comment = Comments.findOne({
                 _id: data
@@ -33,6 +34,29 @@ describe('comments methods', () => {
 
             assert.ok(comment.text === 'Test text')
             assert.ok(comment.parentId === news)
+            assert.ok(comment.newsId === news)
+        })
+    })
+
+    it('user can add a nested comment', () => {
+        let news = News.findOne({})
+
+        let comment = Comments.findOne({})
+
+        return callWithPromise('newComment', {
+            text: 'Test text',
+            parentId: comment._id,
+            newsId: news._id
+        }).then(data => {
+            let commentN = Comments.findOne({
+                _id: data
+            })
+
+            assert.ok(commentN)
+
+            assert.ok(commentN.text === 'Test text')
+            assert.ok(commentN.parentId === comment._id)
+            assert.ok(commentN.newsId === news._id)
         })
     })
 
@@ -143,6 +167,16 @@ describe('comments methods', () => {
             })
 
             assert.notOk(c2)
+
+            let children = Comments.find({
+                parentId: comment._id
+            }).fetch()
+
+            if (children.length) {
+                for (let i = 0; i < children.length; i++) {
+                    assert.ok(children[i].parentId === comment.parentId)
+                }
+            }
         })
     })
 
