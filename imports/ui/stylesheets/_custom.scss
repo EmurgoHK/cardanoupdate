@@ -1,28 +1,129 @@
-//This file is to add custom styles for the form to improve UI
+$theme-primary: #3cc8c8;
 
+@font-face {
+    font-family: 'proxima-nova';
+    src: url('/fonts/ProximaNova-Reg-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'proxima-nova', 'Montserrat', sans-serif !important;
+    color: #565867 !important;
+    font-size: 0.975rem !important;
+    font-weight: 500 !important;
+}
+
+.container {
+    max-width: 960px;
+}
+
+.card {
+    font-family: 'proxima-nova', 'Montserrat', sans-serif !important;
+    border: none !important;
+    @extend .shadow-sm;
+    @extend .rounded;
+
+    .card-title {
+        font-weight: 400;
+        text-transform: capitalize;
+
+        a {
+            color: #565867;
+        }
+    }
+
+    .card-body {
+        .news-body {
+            p {
+                font-size: 1.2rem !important;
+                @extend .card-text;
+            }
+        }
+    }
+}
+
+.summary {
+    padding: 1em;
+    background: #efefef;
+    border-left: solid #ccc;
+  
+    p {
+        @extend .lead; 
+
+        &:last-child{
+            margin-bottom: 0;
+        }
+    }
+}
+
+.btn-outline-primary {
+    color: $theme-primary;
+    background-color: transparent;
+    background-image: none;
+    border-color: $theme-primary;
+
+    &:hover {
+        background-color: $theme-primary;
+        border-color: $theme-primary;
+    }
+}
+
+.bg-dark {
+    
+    color: #fff;
+}
+
+.sidebar {
+    background: #0e2c37;
+
+    button.sidebar-minimizer {
+        background-color:  #091a26 !important;
+        border-color: #091a26;
+        color: #fff;
+
+        &:hover, &::before {
+            background-color:  #091a26 !important;
+            border-color: #091a26;
+            color: #fff;
+        }
+    }
+}
+
+.news-settings {
+    .dropdown-toggle {
+        cursor: pointer;
+
+        &::after {
+            border: none;
+        }
+    }
+}
 header {
     &.app-header {
-        border-bottom: 1px solid #23282c;
+        border-bottom: 1px solid #091a26;
     }
     &.bg-dark {
-        background-color:  #23282c !important;
+        background-color:  #091a26 !important;
     }
 
     .navbar-nav {
         li.nav-item {
             a.nav-link {
+                color: #fff;
+
                 &:hover, &:focus {
-                    color: #fff;
+                    color: $theme-primary;
                 }
             }
         }
     }
 
     button.navbar-toggler {
-        color: #73818f; 
+        color: #fff; 
 
         &:hover {
-            color: #fff;
+            color: $theme-primary;
             outline: 0; 
         }
 

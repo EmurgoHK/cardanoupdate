@@ -1,51 +1,67 @@
 <template name="home">
-  <div class="news-list container-fluid">
+  <div>
     <div class="row">
       <div class="col-sm-12">
         <div class="row">
-          <div style="width: 100%">
-            <button type="button" class="btn btn-primary float-left mb-4" id="js-new">
-              Add news
-            </button>
-
-            <span class="float-right">
-                <select id="js-sort" class="form-control">
-                    <option value="date-desc">▼ Date created</option>
-                    <option value="date-asc">▲ Date created</option>
-                    <option value="rating-desc">▼ Rating</option>
-                    <option value="rating-asc">▲ Rating</option>
-                </select>
-            </span>
+          <div class="col-sm-12">
+            <div class="float-right mb-4">
+              <select id="js-sort" class="form-control">
+                  <option value="date-desc">▼ Date created</option>
+                  <option value="date-asc">▲ Date created</option>
+                  <option value="rating-desc">▼ Rating</option>
+                  <option value="rating-asc">▲ Rating</option>
+              </select>
+            </div>
           </div>
+          
         </div>
-        <div class="news-container">
+        
           {{#if SubsCacheReady}}
           {{#if newsCount}}
           <div class="row">
             {{#each news}}
             <div class="col-sm-12 card news-item">
               <div class="card-body">
-                <div class="actions">
                 {{#if canEdit}}
-                    <a class="btn btn-sm btn-secondary" id="js-edit" href="/edit/{{newsId}}" role="button" title="Edit">
-                      <i class="icon-pencil"></i>
-                    </a>
-                    <a class="btn btn-sm btn-danger" id="js-remove" href="#" role="button" title="Remove">
-                      <i class="icon-ban"></i>
-                    </a>
-                {{/if}}
-                {{#if canVote}}
-                    <a class="btn btn-sm btn-success vote-news" href="#" data-vote="up" role="button" title="Vote up">
-                      <i class="icon-arrow-up"></i>
-                    </a>
-                    <a class="btn btn-sm btn-danger vote-news" href="#" data-vote="down" role="button" title="Vote down">
-                      <i class="icon-arrow-down"></i>
-                    </a>
-                {{/if}}
+                  <div class="news-settings float-right dropdown">
+                    <i class="nav-icon icon-settings dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" id="js-edit" href="/edit/{{newsId}}"><i class="icon-pencil"></i> Edit</a>
+                        <a class="dropdown-item text-danger" id="js-remove" href="#"><i class="icon-trash text-danger"></i> Delete</a>
+                    </div>
                 </div>
-                <span class="card-title"><span class="badge badge-pill badge-success">☆ {{rating}}</span> <a href="/news/{{slug}}">{{headline}}</a></span>
-                <h6 class="card-subtitle mb-2 text-muted">Posted by {{author}}, {{date}} <span class="badge badge-pill badge-primary">✉ {{comments}}</span></h6>
+
+                {{/if}}
+                <h3 class="card-title"> 
+                  <a href="/news/{{slug}}">{{headline}}</a>
+                </h3>
+                <h6 class="card-subtitle mb-2 text-muted">
+                  <ul class="list-inline">
+                    <li class="list-inline-item">Posted by <strong>{{author}}</strong></li>
+                    <li class="list-inline-item"><i class="icon-clock" style="vertical-align: middle"></i>&nbsp;{{date}}</li>
+                    <li class="list-inline-item"><i class="icon-speech" style="vertical-align: middle"></i>&nbsp;{{comments}}</li>
+                  </ul>
+                    
+                </h6>
                 <p class="card-text">{{summary}}</p>
+                <a href="/news/{{slug}}" class="btn btn-outline-primary">Read more</a>
+
+                <hr>
+                <span class="badge badge-pill badge-success">☆ {{rating}}</span>
+                {{#if canVote}}
+                  <div class="news-reputation float-right">
+                      <a class="vote-news" href="#" data-vote="up" title="Vote up">
+                          <i class="far fa-thumbs-up"></i>
+                      </a>
+                      &nbsp;
+                      &nbsp;
+                      <a class="vote-news" href="#" data-vote="down" title="Vote down">
+                        <i class="far fa-thumbs-down"></i>
+                      </a>
+                  </div>
+                    
+                {{/if}}
+
               </div>
             </div>
             {{/each}}
@@ -58,7 +74,7 @@
           {{else}}
           {{> loader}}
           {{/if}}
-        </div>
+        
       </div>
     </div>
   </div>
