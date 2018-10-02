@@ -65,32 +65,7 @@
           <div class="row">
             <div class="col-sm-12 news-form comments">
               {{#each comments}}
-                <div class="card">
-                  <div class="card-body">
-                    <div class="news-settings float-right dropdown" style="margin-top: -10px;">
-                      <i class="nav-icon icon-settings dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
-                      <div class="dropdown-menu">
-                        <a class="dropdown-item flag-comment" href="#"><i class="icon-flag text-dark"></i> Flag</a>
-                        {{#if canEditComment}}
-                          <a class="dropdown-item edit-mode" href="#"><i class="icon-pencil text-dark"></i> Edit</a>
-                          <a class="dropdown-item text-danger delete-comment" href="#"><i class="icon-trash text-danger"></i> Delete</a>
-                        {{/if}}
-                      </div>
-                    </div>
-                    
-                    <h6 class="card-subtitle mb-4">By <strong>{{author}}</strong> {{showTimeAgoTimestamp createdAt}}</h6>
-                    <p class="card-text mb-4"> 
-                      {{#if editMode}}
-                        <textarea class="form-control" id="js-comment"><span>{{{text}}}</span></textarea><br />
-                        <button class="btn btn-sm btn-outline-primary edit-comment" role="button">Save</button>
-                        <button class="btn btn-sm btn-outline-danger cancel-edit" role="button">Cancel</button>
-                      {{else}}
-                        <span>{{{text}}}</span> 
-                      {{/if}}
-                    </p>
-                    <a href="">Reply</a>
-                  </div>
-                </div>
+                {{> commentBody ident=0 comment=this}}
               {{/each}}
             </div>
           </div>
