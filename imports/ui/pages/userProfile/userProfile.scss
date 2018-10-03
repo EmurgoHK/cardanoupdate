@@ -9,4 +9,14 @@
       right: 0.5em;
     }
   }
+  .user-content {
+    position: relative;
+    .card{
+      display: block;
+      padding: 1.125em;
+      i, a {
+        display: inline;
+      }
+    }
+  }
 }

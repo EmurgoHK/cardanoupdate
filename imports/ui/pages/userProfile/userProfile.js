@@ -30,33 +30,38 @@ Template.viewProfile.helpers({
     }
     }
   },
-  newsCount(){
-    return News.find({createdBy : FlowRouter.getParam('userId')}).count()
+  contentCount(){
+    let news = News.find({createdBy : FlowRouter.getParam('userId')}).count()
+    let comments = Comments.find({createdBy : FlowRouter.getParam('userId')}).count()
+
+    return news + comments
   },
-  commentsCount(){
-    return Comments.find({createdBy : FlowRouter.getParam('userId')}).count()
-  },
-  news(){
-    let news =  News.find({createdBy : FlowRouter.getParam('userId')})
-    return news.map(a => {
-      return {
-        newsId : a._id,
-        headline : a.headline,
-        slug : a.slug,
-        date : new Date(a.createdAt).toLocaleString(),
-      }
-    })
-  },
-  comments() {
-    let comments = Comments.find({createdBy: FlowRouter.getParam('userId')})
-    return comments.map(a => {
-      let post = News.findOne({_id : a.parentId})
-      return {
-        headline : post.headline,
-        slug : post.slug
-      }
-    })
-  },
+  userContent(){
+    let content = []
+    let news = News.find({createdBy : FlowRouter.getParam('userId')})
+    let comments = Comments.find({createdBy : FlowRouter.getParam('userId')})
+    if(news){
+      news.map(news => {
+        content.push({
+          isComment : false,
+          createdAt : news.createdAt,
+          title : news.headline,
+          link : news.slug
+        })
+      })
+    }
+    if(comments){
+      comments.map(comment => {
+        content.push({
+          isComment : true,
+          createdAt : comment.createdAt,
+          title : newsTitle(comment.newsId),
+          link : newsUrl(comment.newsId, comment._id)
+        })
+      })
+    }
+    return content
+  }
 })
 
 Template.editProfile.onCreated(function(){
@@ -92,3 +97,14 @@ Template.editProfile.events({
     })
   },
 })
+
+
+const newsTitle = (newsID) => {
+  let news = News.findOne({_id : newsID})
+  return news.headline
+}
+
+const newsUrl = (newsID, commentID) => {
+  let news = News.findOne({_id : newsID})
+  return `${news.slug}#comment-${commentID}`
+}
