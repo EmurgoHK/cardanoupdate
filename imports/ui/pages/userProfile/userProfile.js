@@ -56,7 +56,7 @@ Template.viewProfile.helpers({
           isComment : true,
           createdAt : comment.createdAt,
           title : newsTitle(comment.newsId),
-          link : newsUrl(comment.newsId)
+          link : newsUrl(comment.newsId, comment._id)
         })
       })
     }
@@ -104,7 +104,7 @@ const newsTitle = (newsID) => {
   return news.headline
 }
 
-const newsUrl = (newsID) => {
+const newsUrl = (newsID, commentID) => {
   let news = News.findOne({_id : newsID})
-  return news.slug
+  return `${news.slug}#comment-${commentID}`
 }
