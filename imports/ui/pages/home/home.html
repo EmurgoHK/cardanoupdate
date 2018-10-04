@@ -4,16 +4,26 @@
       <div class="col-sm-12">
         <div class="row">
           <div class="col-sm-12">
-            <div class="float-right mb-4">
-              <select id="js-sort" class="form-control">
-                  <option value="date-desc">▼ Date created</option>
-                  <option value="date-asc">▲ Date created</option>
-                  <option value="rating-desc">▼ Rating</option>
-                  <option value="rating-asc">▲ Rating</option>
-              </select>
+            <div class="sort-news">
+              Sort News By 
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="sortOptions" id="sortOption1" value="date-desc">
+                <label class="form-check-label" for="sortOption1">Newest First</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="sortOptions" id="sortOption2" value="date-asc">
+                <label class="form-check-label" for="sortOption2">Oldest First</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="sortOptions" id="sortOption3" value="rating-desc">
+                <label class="form-check-label" for="sortOption3">▼ Rating</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="sortOptions" id="sortOption4" value="rating-asc">
+                <label class="form-check-label" for="sortOption4">▲ Rating</label>
+              </div>
             </div>
           </div>
-          
         </div>
         
           {{#if SubsCacheReady}}

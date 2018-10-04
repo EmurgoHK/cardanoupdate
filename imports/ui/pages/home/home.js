@@ -103,9 +103,8 @@ Template.home.events({
             }
         })
     },
-    'change #js-sort': (event, templateInstance) => {
-        event.preventDefault()
-
-        templateInstance.sort.set($(event.currentTarget).val())
+    'change .sort-news input': (event, templateInstance) => {
+      event.preventDefault()
+      templateInstance.sort.set($(event.currentTarget).val())
     }
 })
