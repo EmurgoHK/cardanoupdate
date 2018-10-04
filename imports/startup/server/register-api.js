@@ -8,6 +8,10 @@ import '/imports/api/user/server/publications'
 import '/imports/api/news/methods'
 import '/imports/api/news/server/publications'
 
+// projects api
+import '/imports/api/projects/methods'
+import '/imports/api/projects/server/publications'
+
 // comments api
 import '/imports/api/comments/methods'
 import '/imports/api/comments/server/publications'

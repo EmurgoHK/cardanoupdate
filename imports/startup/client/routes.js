@@ -9,6 +9,8 @@ import '/imports/ui/pages/signup/signup'
 import '/imports/ui/pages/not-found/not-found'
 import '/imports/ui/pages/news/newsForm'
 import '/imports/ui/pages/news/viewNews'
+import '/imports/ui/pages/projects/projects'
+import '/imports/ui/pages/projects/projectForm'
 import '/imports/ui/pages/notifications/notifications'
 import '/imports/ui/pages/userProfile/userProfile'
 import '/imports/ui/pages/suspended/suspended'
@@ -90,6 +92,39 @@ FlowRouter.route('/edit/:id', {
       header: 'header',
       sidebar: 'sidebar',
       main: 'newsForm'
+    })
+  }
+})
+
+FlowRouter.route('/projects', {
+  name: 'projects',
+  action() {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'projects'
+    })
+  }
+})
+
+FlowRouter.route('/projects/new', {
+  name: 'newProject',
+  action() {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'projectForm'
+    })
+  }
+})
+
+FlowRouter.route('/projects/:id/edit', {
+  name: 'editProject',
+  action() {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'projectForm'
     })
   }
 })
