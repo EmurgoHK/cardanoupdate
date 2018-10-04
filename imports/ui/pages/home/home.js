@@ -59,9 +59,9 @@ Template.home.helpers({
         if (sort === 'rating-asc') return i1.rating - i2.rating
     })
   },
-  comments: function () {
+  comments: function (id) {
     return Comments.find({
-      parentId: this._id
+      newsId: id
     }).count()
   },
 })
