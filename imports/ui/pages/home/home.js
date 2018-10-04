@@ -47,6 +47,7 @@ Template.home.helpers({
         slug : a.slug,
         date : moment(a.createdAt).fromNow(),
         createdAt: a.createdAt,
+        image: a.image,
         canEdit
       }
     }).sort((i1, i2) => {

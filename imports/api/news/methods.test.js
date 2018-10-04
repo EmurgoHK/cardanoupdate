@@ -15,7 +15,8 @@ describe('news methods', () => {
         return callWithPromise('addNews', {
             headline: 'Test headline',
             summary: 'Test summary',
-            body: 'Test body'
+            body: 'Test body',
+            image: '/images/test.png'
         }).then(data => {
             let news = News.findOne({
                 _id: data
@@ -26,6 +27,7 @@ describe('news methods', () => {
             assert.ok(news.headline === 'Test headline')
             assert.ok(news.summary === 'Test summary')
             assert.ok(news.body === 'Test body')
+            assert.ok(news.image === '/images/test.png')
         })
     })
 
@@ -86,7 +88,8 @@ describe('news methods', () => {
             newsId: news._id,
             headline: 'Test headline 2',
             summary: 'Test summary 2',
-            body: 'Test body 2'
+            body: 'Test body 2',
+            image: '/images/test2.png'
         }).then(data => {
             let news2 = News.findOne({
                 _id: news._id
@@ -97,6 +100,7 @@ describe('news methods', () => {
             assert.ok(news2.headline === 'Test headline 2')
             assert.ok(news2.summary === 'Test summary 2')
             assert.ok(news2.body === 'Test body 2')
+            assert.ok(news2.image === '/images/test2.png')
         })
     })
 

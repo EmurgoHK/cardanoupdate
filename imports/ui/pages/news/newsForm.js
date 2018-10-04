@@ -9,6 +9,9 @@ import { notify } from '/imports/modules/notifier'
 
 import { addNews, editNews } from '/imports/api/news/methods'
 
+import '/imports/ui/shared/uploader/imageUploader'
+import { getImages } from '/imports/ui/shared/uploader/imageUploader'
+
 const maxCharValue = (inputId) => {
     if (inputId === 'headline') {
     	return 140
@@ -35,10 +38,23 @@ MDEditBeforeRender.body=function(next){
 Template.newsForm.helpers({
 	news: () => News.findOne({
 		_id: FlowRouter.getParam('id')
-  }),
+  	}),
+  	add: () => FlowRouter.current().route.name === 'editNews' ? false : true,
+  	images: () => {
+  		if (FlowRouter.current().route.name === 'editNews') {
+  			let news = News.findOne({
+				_id: FlowRouter.getParam('id')
+  			}) || {}
 
-  add: () => FlowRouter.current().route.name === 'editNews' ? false : true
+  			if (news && news.image) {
+  				return [news.image]
+  			}
 
+  			return []
+  		}
+
+  		return []
+  	}
 })
 
 Template.newsForm.events({
@@ -68,6 +84,7 @@ Template.newsForm.events({
 	    		headline: $('#headline').val(),
 	    		summary: $('#summary').val(),
 	    		body: MDEdit.body.value(),
+	    		image: getImages()[0] || ''
 	    	}, (err, data) => {
 	    		if (!err) {
 	    			notify('Successfully added.', 'success')
@@ -91,6 +108,7 @@ Template.newsForm.events({
 	    		headline: $('#headline').val(),
 	    		summary: $('#summary').val(),
 	    		body: MDEdit.body.value(),
+	    		image: getImages()[0] || ''
 	    	}, (err, data) => {
 	    		if (!err) {
 	    			notify('Successfully edited.', 'success')

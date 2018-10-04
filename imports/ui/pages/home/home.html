@@ -43,6 +43,9 @@
                   </ul>
                     
                 </h6>
+                {{#if image}}
+                    <img src="{{image}}" width="256" />
+                {{/if}}
                 <p class="card-text">{{summary}}</p>
                 <a href="/news/{{slug}}" class="btn btn-outline-primary">Read more</a>
 
