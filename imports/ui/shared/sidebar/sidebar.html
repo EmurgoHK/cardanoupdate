@@ -1,37 +1,39 @@
 <template name="sidebar">
-    <div class="sidebar">
-        <nav class="sidebar-nav">
-            <ul class="nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="/">
-                        <i class="nav-icon icon-home"></i> Home
-                    </a>
-                    <a class="nav-link" href="/projects">
-                        <i class="nav-icon icon-notebook"></i> Projects
-                    </a>
-                </li>
-                {{#if isModerator}}
-                <li class="nav-item nav-dropdown open">
-                    <a class="nav-link nav-dropdown-toggle" href="#">
-                        <i class="nav-icon icon-energy"></i> Moderator
-                    </a>
-                    <ul class="nav-dropdown-items">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/moderator/flagged">
-                                <i class="nav-icon icon-flag"></i> Flagged items
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/moderator/pardon">
-                                <i class="nav-icon icon-flag"></i> Pardon requests
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                {{/if}}
-            </ul>
-        </nav>
-        
-        <button class="sidebar-minimizer brand-minimizer bg-dark" type="button"></button>
-    </div>
+  <div class="sidebar">
+    <nav class="sidebar-nav">
+      <ul class="nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/">
+            <i class="nav-icon icon-home"></i> Home
+          </a>
+          <a class="nav-link" href="/projects">
+            <i class="nav-icon icon-notebook"></i> Projects
+          </a>
+          <a class="nav-link" target="blank" href="https://github.com/EmurgoHK/cardanoupdate">
+            <i class="nav-icon icon-social-github"></i> GitHub
+          </a>
+        </li>
+        {{#if isModerator}}
+        <li class="nav-item nav-dropdown open">
+          <a class="nav-link nav-dropdown-toggle" href="#">
+            <i class="nav-icon icon-energy"></i> Moderator
+          </a>
+          <ul class="nav-dropdown-items">
+            <li class="nav-item">
+              <a class="nav-link" href="/moderator/flagged">
+                <i class="nav-icon icon-flag"></i> Flagged items
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/moderator/pardon">
+                <i class="nav-icon icon-flag"></i> Pardon requests
+              </a>
+            </li>
+          </ul>
+        </li>
+        {{/if}}
+      </ul>
+    </nav>
+    <button class="sidebar-minimizer brand-minimizer bg-dark" type="button"></button>
+  </div>
 </template>
