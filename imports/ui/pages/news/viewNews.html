@@ -14,6 +14,14 @@
                   </ul>
                 </h6>
 
+                {{#if image}}
+                <div class="row">
+                    <div class="col-sm-12 image mt-3 mb-3">
+                        <img src="{{image}}" />
+                    </div>
+                </div>
+                {{/if}}
+
                 <div class="row">
                   <div class="col-sm-12 summary mt-3 mb-3">
                     {{{md summary}}}

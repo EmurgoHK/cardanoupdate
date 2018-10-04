@@ -15,3 +15,6 @@ import '/imports/api/comments/server/publications'
 // notifications api
 import '/imports/api/notifications/methods'
 import '/imports/api/notifications/server/publications'
+
+// uploader api
+import '/imports/api/uploader/methods'

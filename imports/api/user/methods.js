@@ -260,17 +260,44 @@ if (Meteor.isDevelopment) {
 
 // Edit Profile
 export const updateProfile = new ValidatedMethod({
-  name: 'updateProfile',
-  validate: null,
-  run ({uId, name, email, bio}){
-    Meteor.users.update({
-      _id : Meteor.userId()
-    }, {
-      $set: {
-        'profile.name': name,
-        'profile.bio' : bio,
-        'emails.0.address' : email
+    name: 'updateProfile',
+    validate: 
+    new SimpleSchema({
+            uId: {
+                type: String,
+                optional: false
+            },
+            name: {
+                type: String,
+                optional: false
+            },
+            email: {
+                type: String,
+                optional: false
+            },
+            bio: {
+                type: String,
+                optional: false
+            },
+            image: {
+                type: String,
+                optional: true
+            }
+        }).validator({
+            clean: true
+        }),
+    run ({ uId, name, email, bio, image }){
+        Meteor.users.update({
+            _id : Meteor.userId()
+        }, {
+            $set: {
+                'profile.name': name,
+                'profile.bio': bio,
+                'profile.picture': image,
+                'emails.0.address': email
+            }
+        }, {
+            upsert: true
+        })
     }
-  }, { upsert : true })
-  }
 })

@@ -56,11 +56,15 @@ export const addNews = new ValidatedMethod({
             body: {
                 type: String,
                 optional: false
+            },
+            image: {
+                type: String,
+                optional: true
             }
         }).validator({
             clean: true
         }),
-    run({ headline, summary, body }) {
+    run({ headline, summary, body, image }) {
 		if (!Meteor.userId()) {
 			throw new Meteor.Error('Error.', 'You have to be logged in.')
 		}
@@ -71,7 +75,8 @@ export const addNews = new ValidatedMethod({
             body: body,
             createdAt: new Date().getTime(),
             createdBy: Meteor.userId(),
-            subscribers: [Meteor.userId()]
+            subscribers: [Meteor.userId()],
+            image: image || ''
         })
     }
 })
@@ -133,11 +138,15 @@ export const editNews = new ValidatedMethod({
             body: {
                 type: String,
                 optional: false
+            },
+            image: {
+                type: String,
+                optional: true
             }
         }).validator({
             clean: true
         }),
-    run({ newsId, headline, summary, body }) {
+    run({ newsId, headline, summary, body, image }) {
         let news = News.findOne({
             _id: newsId
         })
@@ -161,7 +170,8 @@ export const editNews = new ValidatedMethod({
                 headline: headline,
                 summary: summary,
                 body: body,
-                editedAt: new Date().getTime()
+                editedAt: new Date().getTime(),
+                image: image || ''
             }
         })
     }

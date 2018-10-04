@@ -4,8 +4,12 @@
       <div class="row">
         <div class="col-sm-12">
           <div class="card user-info">
-            <h4>{{user.name}}</h4>
-            <p>About : <br /> {{user.bio}}</p>
+            <h4>{{name}}</h4>
+            {{#if picture}}
+            <img src="{{picture}}" width="256" />
+            {{/if}}
+            <br />
+            <p>About: <br /> {{bio}}</p>
           </div>
         </div>
         <div class="col sm 12">
@@ -15,7 +19,7 @@
             {{#if contentCount}}
               {{#each userContent}}
                 <div class="card">
-                  {{#if isComment}} <i class="icon-speech"></i>&nbsp;commented on {{else}} <i class="icon-pencil"></i>&nbsp;Posted news {{/if}}
+                  {{#if isComment}} <i class="icon-speech"></i>&nbsp;Commented on {{else}} <i class="icon-pencil"></i>&nbsp;Posted {{/if}}
                   <a href="/news/{{link}}">{{title}}</a>, <i class="icon-clock" style="vertical-align: middle"></i>&nbsp;{{showTimeAgoTimestamp createdAt}}
                 </div>
               {{/each}}
