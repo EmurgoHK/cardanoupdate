@@ -14,3 +14,33 @@
     }
   }
 }
+
+.sort-news{
+  position: relative;
+  padding: 1em 0;
+  border-bottom: solid 1px #ccc;
+  margin-bottom: 1em;
+
+  // Custom design for sort radio buttons
+  [type="radio"]:checked,
+  [type="radio"]:not(:checked) {
+    position: absolute;
+    left: -9999px;
+  }
+  [type="radio"]:checked + label{
+    position: relative;
+    padding-left: 0.125em;
+    cursor: pointer;
+    color: #4dbd74;
+    line-height: 20px;
+    display: inline-block;
+  }
+  [type="radio"]:not(:checked) + label {
+    position: relative;
+    padding-left: 0.125em;
+    cursor: pointer;
+    color: #73818f;
+    line-height: 20px;
+    display: inline-block;
+  }
+}
