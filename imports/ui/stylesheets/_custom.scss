@@ -37,6 +37,7 @@ body {
         .news-body {
             p {
                 font-size: 1.2rem !important;
+                word-spacing: 6px;
                 @extend .card-text;
             }
         }
@@ -45,11 +46,17 @@ body {
 
 .summary {
     padding: 1em;
-    background: #efefef;
-    border-left: solid #ccc;
+    background: #fff;
+    border-left: 10px solid #ccc;
+
+    @extend .shadow-lg;
+    @extend .mb-5;
   
     p {
+        font-weight: 600;
+        font-style: italic;
         @extend .lead; 
+
 
         &:last-child{
             margin-bottom: 0;
