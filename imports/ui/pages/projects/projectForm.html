@@ -1,0 +1,49 @@
+<template name="projectForm">
+    <div class="row">
+        <div class="col-sm-12">
+            <h2>{{#if add}} New Project {{else}} Edit Project {{/if}}</h2>
+            <br>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <form class="news-form">
+                        <div class="group-title">Headline</div>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="headline" value="{{project.headline}}" placeholder="Headline in 100 characters or less">
+                            <div id="headlineError" class="invalid-feedback"></div>
+                        </div>
+                        <small><i id="headline-chars" class="text-muted"></i></small>
+                        
+                        <div class="group-title">Description</div>
+                        <div class="input-group">
+                            <textarea class="form-control" id="description" rows="8" value="{{project.description}}" placeholder="Project description in 500 characters or less"></textarea>
+                            <div id="descriptionError" class="invalid-feedback"></div>
+                        </div>
+                        <small><i id="description-chars" class="text-muted"></i></small>
+
+                        <div class="group-title">Github URL</div>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="github_url" value="{{project.github_url}}" placeholder="Github link">
+                            <div id="github_urlError" class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="group-title">Website</div>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="website" value="{{project.website}}" placeholder="Website link">
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer">
+                    <div>
+                        <button type="submit" class="btn btn-lg btn-success add-project">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</template>
