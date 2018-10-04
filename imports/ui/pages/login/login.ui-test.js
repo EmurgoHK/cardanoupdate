@@ -2,6 +2,16 @@ const assert = require('assert')
 const baseUrl = 'http://localhost:3000/login'
 
 describe('Sign in page', () => {
+    it ('should show 3rd party service logins', () => {
+        browser.url(baseUrl)
+        browser.pause(6000)
+
+        ;['facebook', 'github', 'google'].forEach(i => {
+            assert(browser.isExisting(`#js-${i}`), true)
+            assert(browser.isVisible(`#js-${i}`), true)
+        })
+    })
+
     it ('should have a \`Login\` header and subtitle', () => {
         browser.url(baseUrl)
         browser.pause(6000)

@@ -36,3 +36,7 @@ reactive-dict
 momentjs:moment
 lyuyea:md-editor
 cfs:graphicsmagick
+accounts-facebook
+accounts-github
+accounts-google
+service-configuration
