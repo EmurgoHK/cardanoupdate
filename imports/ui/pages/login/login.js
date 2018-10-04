@@ -4,12 +4,11 @@ import { notify } from '/imports/modules/notifier'
 import './login.html'
 
 Template.login.events({
-    'click #goToSignup' (event) {
+    'click #goToSignup': (event, templateInstance) => {
         event.preventDefault()
         FlowRouter.go('/signup')
     },
-
-    'submit' (event) {
+    'submit': (event, templateInstance) => {
         event.preventDefault()
 
         Meteor.loginWithPassword({ 
@@ -21,6 +20,39 @@ Template.login.events({
             }
 
             FlowRouter.go(window.last || '/')
+        })
+    },
+    'click #js-facebook': (event, templateInstance) => {
+        event.preventDefault()
+
+        Meteor.loginWithFacebook({}, (err) => {
+            if (!err) {
+                FlowRouter.go(window.last || '/')
+            } else {
+                notify(err.message, 'error')
+            }
+        })
+    },
+    'click #js-github': (event, templateInstance) => {
+        event.preventDefault()
+
+        Meteor.loginWithGithub({}, (err) => {
+            if (!err) {
+                FlowRouter.go(window.last || '/')
+            } else {
+                notify(err.message, 'error')
+            }
+        })
+    },
+    'click #js-google': (event, templateInstance) => {
+        event.preventDefault()
+
+        Meteor.loginWithGoogle({}, (err) => {
+            if (!err) {
+                FlowRouter.go(window.last || '/')
+            } else {
+                notify(err.message, 'error')
+            }
         })
     }
 })
