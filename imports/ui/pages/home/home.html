@@ -31,6 +31,9 @@
           <div class="row">
             {{#each news}}
             <div class="col-sm-12 card news-item pr-0 pl-0">
+              {{#if image}}
+                <img class="card-img-top" src="{{image}}" />
+              {{/if}}
               <div class="card-body pb-0">
                 {{#if canEdit}}
                   <div class="news-settings float-right dropdown">
@@ -45,10 +48,6 @@
                 <h3 class="card-title"> 
                   <a href="/news/{{slug}}">{{headline}}</a>
                 </h3>
-
-                {{#if image}}
-                    <img src="{{image}}" width="256" />
-                {{/if}}
                 <p class="card-text">{{summary}}</p>
                 <a href="/news/{{slug}}" class="btn btn-outline-primary">Read more</a>
 
