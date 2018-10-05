@@ -22,6 +22,11 @@
                 <input class="form-check-input" type="radio" name="sortOptions" id="sortOption3" value="rating-desc">
                 <label class="form-check-label" for="sortOption3">Best Rating</label>
               </div>
+              {{#if currentUser}}
+                <div class="float-right">
+                  <button class="btn btn-outline-primary" type="button" id="js-new">Add news</button>
+                </div>
+              {{/if}}
             </div>
           </div>
         </div>
