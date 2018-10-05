@@ -24,7 +24,8 @@ describe('comments methods', () => {
         return callWithPromise('newComment', {
             text: 'Test text',
             parentId: news,
-            newsId: news
+            newsId: news,
+            type: 'redflag'
         }).then(data => {
             let comment = Comments.findOne({
                 _id: data
@@ -35,6 +36,7 @@ describe('comments methods', () => {
             assert.ok(comment.text === 'Test text')
             assert.ok(comment.parentId === news)
             assert.ok(comment.newsId === news)
+            assert.ok(comment.type === 'redflag')
         })
     })
 

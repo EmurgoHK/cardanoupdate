@@ -3,6 +3,9 @@ import SimpleSchema from 'simpl-schema'
 import { ValidatedMethod } from 'meteor/mdg:validated-method'
 
 import { Projects } from './projects'
+import { Comments } from '../comments/comments'
+
+import { isModerator, userStrike } from '/imports/api/user/methods'
 
 export const addProject = new ValidatedMethod({
     name: 'addProject',
@@ -127,6 +130,112 @@ export const editProject = new ValidatedMethod({
                     website: website,
                     updatedAt: new Date().getTime()
                 }
+            })
+        }
+    }
+})
+
+export const flagProject = new ValidatedMethod({
+    name: 'flagProject',
+    validate:
+        new SimpleSchema({
+            projectId: {
+                type: String,
+                optional: false
+            },
+            reason: {
+                type: String,
+                max: 1000,
+                optional: false
+            }
+        }).validator({
+            clean: true
+        }),
+    run({ projectId, reason }) {
+        let project = Projects.findOne({
+            _id: projectId
+        })
+
+        if (!project) {
+            throw new Meteor.Error('Error.', 'Project doesn\'t exist.')
+        }
+
+        if (!Meteor.userId()) {
+            throw new Meteor.Error('Error.', 'You have to be logged in.')
+        }
+      
+        if ((project.flags || []).some(i => i.flaggedBy === Meteor.userId())) {
+            throw new Meteor.Error('Error.', 'You have already flagged this item.')
+        }
+
+        return Projects.update({
+            _id: projectId
+        }, {
+            $push: {
+                flags: {
+                    reason: reason,
+                    flaggedBy: Meteor.userId(),
+                    flaggedAt: new Date().getTime()
+                }
+            }
+        })
+    } 
+})
+
+export const resolveProjectFlags = new ValidatedMethod({
+    name: 'resolveProjectFlags',
+    validate:
+        new SimpleSchema({
+            projectId: {
+                type: String,
+                optional: false
+            },
+            decision: {
+                type: String,
+                optional: false
+            }
+        }).validator({
+            clean: true
+        }),
+    run({ projectId, decision }) {
+        if (!Meteor.userId()) {
+            throw new Meteor.Error('Error.', 'You have to be logged in.')
+        }
+
+        if (!isModerator(Meteor.userId())) {
+            throw new Meteor.Error('Error.', 'You have to be a moderator.')
+        }
+
+        let project = Projects.findOne({
+            _id: projectId
+        })
+
+        if (!project) {
+            throw new Meteor.Error('Error.', 'Project doesn\'t exist.')
+        }
+
+        if (decision === 'ignore') {
+            return Projects.update({
+                _id: projectId
+            }, {
+                $set: {
+                    flags: []
+                }
+            })
+        } else {
+            userStrike.call({
+                userId: project.createdBy,
+                type: 'project',
+                token: 's3rv3r-only',
+                times: 1
+            }, (err, data) => {})
+            
+            Comments.remove({
+                newsId: projectId
+            })
+
+            return Projects.remove({
+                _id: projectId
             })
         }
     }

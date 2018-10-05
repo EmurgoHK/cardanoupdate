@@ -5,10 +5,12 @@ import { FlowRouter } from 'meteor/kadira:flow-router'
 
 import { News } from '/imports/api/news/news'
 import { Comments } from '/imports/api/comments/comments'
+import { Projects } from '/imports/api/projects/projects'
 import { notify } from '/imports/modules/notifier'
 
 import { resolveNewsFlags } from '/imports/api/news/methods'
 import { resolveCommentFlags } from '/imports/api/comments/methods'
+import { resolveProjectFlags } from '/imports/api/projects/methods'
 
 import swal from 'sweetalert2'
 
@@ -17,6 +19,7 @@ Template.flaggedItems.onCreated(function() {
 		this.subscribe('comments.flagged')
 		this.subscribe('news')
 		this.subscribe('users')
+		this.subscribe('projects')
 	})
 })
 
@@ -34,9 +37,15 @@ Template.flaggedItems.helpers({
 			}
 		}).fetch()
 
-		return _.union(comments, news).map(i => ({
+		let projects = Projects.find({
+			'flags.0': {
+				$exists: true
+			}
+		}).fetch()
+
+		return _.union(comments, news, projects).map(i => ({
 			_id: i._id,
-			link: i.slug ? `/news/${i.slug}` : `/news/${(News.findOne({_id: i.parentId}) || {}).slug}`,
+			link: i.summary ? `/news/${i.slug}` : (i.description ? `/project/${i.slug}` : ''),
 			text: i.headline ? i.headline : i.text,
 			reasons: i.flags.map(j => ({
 				reason: j.reason,
@@ -45,7 +54,8 @@ Template.flaggedItems.helpers({
 				}) || {}).profile || {}).name || 'No name'
 			})),
 			times: `${i.flags.length} ${i.flags.length === 1 ? 'time' : 'times'}`,
-			isNews: !!i.slug
+			isNews: !!i.summary,
+			isProject: !!i.description
 		}))
 	}
 })
@@ -57,6 +67,17 @@ Template.flaggedItems.events({
 		if (this.isNews) {
 			resolveNewsFlags.call({
 				newsId: this._id,
+				decision: 'ignore'
+			}, (err, data) => {
+				if (err) {
+					notify(err.reason || err.message, 'error')
+				} else {
+					notify('Successfully ignored.', 'success')
+				}
+			})
+		} else if (this.isProject) {
+			resolveProjectFlags.call({
+				projectId: this._id,
 				decision: 'ignore'
 			}, (err, data) => {
 				if (err) {
@@ -84,6 +105,17 @@ Template.flaggedItems.events({
 		if (this.isNews) {
 			resolveNewsFlags.call({
 				newsId: this._id,
+				decision: 'remove'
+			}, (err, data) => {
+				if (err) {
+					notify(err.reason || err.message, 'error')
+				} else {
+					notify('Successfully removed.', 'success')
+				}
+			})
+		} else if (this.isProject) {
+			resolveProjectFlags.call({
+				projectId: this._id,
 				decision: 'remove'
 			}, (err, data) => {
 				if (err) {

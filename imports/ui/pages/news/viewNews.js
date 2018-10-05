@@ -1,5 +1,5 @@
 import './viewNews.html'
-import './commentBody'
+import '../comments/commentBody'
 
 import { Template } from 'meteor/templating'
 import { FlowRouter } from 'meteor/kadira:flow-router'
@@ -24,7 +24,7 @@ Template.viewNews.onCreated(function() {
 		})
 
 		if (news) {
-			this.subscribe('comments.news', news._id)
+			this.subscribe('comments.item', news._id)
 		}
 	})
 
