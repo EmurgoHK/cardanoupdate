@@ -7,3 +7,6 @@ npm-error.log
 
 # vscode
 .vscode
+
+# local testing images
+public/images
