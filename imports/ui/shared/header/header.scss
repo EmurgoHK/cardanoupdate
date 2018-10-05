@@ -4,6 +4,12 @@
   font-family: 'Montserrat', sans-serif;
 }
 
+.left-nav-menu{
+  li{
+    display: inline-block;
+  }
+}
+
 // Logo style override on small screen
 @media (max-width: 991.98px){
   .app-header .navbar-brand {
