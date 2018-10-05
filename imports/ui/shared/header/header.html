@@ -6,7 +6,7 @@
     <a class="navbar-brand" href="/">
       CARDANO
     </a>
-    <button class="navbar-toggler sidebar-toggler d-none d-lg-block" type="button" data-toggle="sidebar-lg-show">
+    <button class="navbar-toggler sidebar-toggler d-none d-lg-block" type="button" data-toggle="sidebar-show">
       <span class="fas fa-bars"></span>
     </button>
     <ul class="nav navbar-nav d-none d-lg-block">
@@ -26,12 +26,6 @@
           {{#if notificationsCount}}<span class="badge badge-pill badge-danger">{{notificationsCount}}</span>{{/if}}
         </a>
       </li>
-      <!--
-      <li class="nav-item d-md-down-none">
-        <a class="nav-link" href="#">
-          <i class="icon-list"></i>
-        </a>
-      </li>-->
       <li class="nav-item dropdown">
         {{#if currentUser}}
         <a class="nav-link dropdown-toggle d-none d-sm-block" href="#" id="dropdownMenu2" data-toggle="dropdown" aria-expanded="true">
