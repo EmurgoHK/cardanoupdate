@@ -49,7 +49,7 @@
     </div>
     {{/if}}
     {{#each childComments}}
-    	{{> commentBody ident=newIdent comment=this}}
+    	{{> commentBody ident=newIdent comment=this _id=origId type=type}}
     {{/each}}
     {{/with}}
 </template>

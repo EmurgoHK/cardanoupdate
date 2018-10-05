@@ -20,6 +20,8 @@ Template.commentBody.onCreated(function() {
 })
 
 Template.commentBody.helpers({
+	origId: () => Template.instance().data._id,
+	type: () => Template.instance().data.type,
 	author: function() {
         return ((Meteor.users.findOne({
             _id: this.createdBy
@@ -86,14 +88,11 @@ Template.commentBody.events({
 		event.preventDefault()
 		event.stopImmediatePropagation()
 
-		let news = News.findOne({
-			slug: FlowRouter.getParam('slug')
-		})
-
 		newComment.call({
 			parentId: this._id,
 			text: $(`.rep-comment-${this._id}`).val(),
-			newsId: news._id
+			newsId: templateInstance.data._id,
+			type: templateInstance.data.type
 		}, (err, data) => {
       		$(`.rep-comment-${this._id}`).val('')
 

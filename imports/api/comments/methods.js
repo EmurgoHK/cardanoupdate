@@ -3,6 +3,7 @@ import SimpleSchema from 'simpl-schema'
 import { ValidatedMethod } from 'meteor/mdg:validated-method'
 
 import { Comments } from './comments'
+import { News } from '/imports/api/news/news'
 
 import { isModerator, userStrike } from '/imports/api/user/methods'
 
@@ -24,24 +25,33 @@ export const newComment = new ValidatedMethod({
             newsId: {
                 type: String,
                 optional: false
+            },
+            type: {
+                type: String,
+                optional: true
             }
         }).validator({
             clean: true
         }),
-    run({ parentId, newsId, text }) {
+    run({ parentId, newsId, text, type }) {
 		if (!Meteor.userId()) {
 			throw new Meteor.Error('Error.', 'You have to be logged in.')
 		}
 
-        addToSubscribers(newsId, Meteor.userId())
-        sendToSubscribers(newsId, Meteor.userId(), `${((Meteor.users.findOne({_id: Meteor.userId()}) || {}).profile || {}).name || 'No name'} commented on a news item you're watching.`)
+        if (News.findOne({
+            _id: newsId
+        })) {
+            addToSubscribers(newsId, Meteor.userId())
+            sendToSubscribers(newsId, Meteor.userId(), `${((Meteor.users.findOne({_id: Meteor.userId()}) || {}).profile || {}).name || 'No name'} commented on a news item you're watching.`)
+        }
 
         return Comments.insert({
             parentId: parentId,
             text: text,
             createdAt: new Date().getTime(),
             createdBy: Meteor.userId(),
-            newsId: newsId
+            newsId: newsId,
+            type: type || 'comment'
         })
     }
 })

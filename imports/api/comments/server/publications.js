@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor'
 
 import { Comments } from '../comments'
 
-Meteor.publish('comments.news', (newsId) => {
+Meteor.publish('comments.item', (newsId) => {
 	return Comments.find({
 		$or: [{
 			parentId: newsId
