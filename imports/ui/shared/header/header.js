@@ -12,7 +12,7 @@ Template.header.onCreated(function () {
 Template.header.events({
   'click .sidebar-toggler'(event) {
     event.preventDefault()
-    $('body').toggleClass("sidebar-lg-show")
+    $('body').toggleClass("sidebar-show")
   },
 
   'click #signOut'(event) {
