@@ -56,7 +56,7 @@ Template.projectForm.events({
     			projectId: FlowRouter.getParam('id'),
 	    		headline: $('#headline').val(),
 	    		description: $('#description').val(),
-                github_url: $('#github_url').val(),
+                github_url: $('#github_url').val() || '',
                 website: $('#website').val() || ''
 	    	}, (err, _data) => {
 	    		if (!err) {
@@ -80,7 +80,7 @@ Template.projectForm.events({
         addProject.call({
             headline: $('#headline').val(),
             description: $('#description').val(),
-            github_url: $('#github_url').val(),
+            github_url: $('#github_url').val() || '',
             website: $('#website').val() || ''
         }, (err, data) => {
             if (!err) {
