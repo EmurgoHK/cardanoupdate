@@ -23,7 +23,7 @@ export const addProject = new ValidatedMethod({
             },
             github_url: {
                 type: String,
-                optional: false
+                optional: true
             },
             website: {
                 type: String,
@@ -95,7 +95,7 @@ export const editProject = new ValidatedMethod({
             },
             github_url: {
                 type: String,
-                optional: false
+                optional: true
             },
             website: {
                 type: String,
