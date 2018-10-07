@@ -3,9 +3,9 @@
     <h1>Cardano Update Space</h1>
     <h4>ALL Cardano news and projects in one place </h4>
   </div>
-  <div>
+  <div class="home-page-content">
     <div class="row">
-      <div class="col-sm-12">
+      <div class="col-sm-12 col-md-8">
         <div class="row">
           <div class="col-sm-12 pr-0 pl-0">
             <div class="sort-news">
@@ -23,9 +23,9 @@
                 <label class="form-check-label" for="sortOption3">Best Rating</label>
               </div>
               {{#if currentUser}}
-                <div class="float-right">
-                  <button class="btn btn-outline-primary" type="button" id="js-new">Add news</button>
-                </div>
+              <div class="float-right">
+                <button class="btn btn-outline-primary" type="button" id="js-new">Add news</button>
+              </div>
               {{/if}}
             </div>
           </div>
@@ -35,52 +35,51 @@
         {{#if newsCount}}
         <div class="row">
           {{#each news}}
-          <div class="col-sm-12 card news-item pr-0 pl-0">
-            <div class="card-body pb-0">
-              {{#if canEdit}}
-              <div class="news-settings float-right dropdown">
-                <i class="nav-icon icon-settings dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                  aria-expanded="false"></i>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item" id="js-edit" href="/edit/{{newsId}}"><i class="icon-pencil"></i> Edit</a>
-                  <a class="dropdown-item text-danger" id="js-remove" href="#"><i class="icon-trash text-danger"></i>
-                    Delete</a>
-                </div>
-              </div>
-              {{/if}}
+          <div class="col-sm-12 col-md-6">
+            <div class="news-item card card-body pb-0">
+              {{#if image}}<img class="card-img-top" src={{image}} alt="News image">{{/if}}
               <div class="news-card-content">
-                {{#if image}}
-                  <div class="image">
-                    <img src="{{image}}" />
-                  </div>
-                {{/if}}
                 <div class="content">
                   <h3 class="card-title">
                     <a href="/news/{{slug}}">{{headline}}</a>
                   </h3>
                   <p class="card-text">{{summary}}</p>
-                  <a href="/news/{{slug}}" class="btn btn-outline-primary">Read more</a>  
+                  <a href="/news/{{slug}}" class="btn btn-outline-primary">Read more</a>
                 </div>
+                {{#if canEdit}}
+                <div class="news-settings float-right dropdown">
+                  <i class="nav-icon icon-settings dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false"></i>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" id="js-edit" href="/edit/{{newsId}}"><i class="icon-pencil"></i> Edit</a>
+                    <a class="dropdown-item text-danger" id="js-remove" href="#"><i class="icon-trash text-danger"></i>
+                      Delete</a>
+                  </div>
+                </div>
+                {{/if}}
               </div>
-              <hr>
-              {{#if canVote}}
-              <div class="news-reputation float-right">
-                <span class="badge badge-pill badge-success">☆ {{rating}}</span>
-                <a class="vote-news" href="#" data-vote="up" title="Vote up">
-                  <i class="far fa-thumbs-up"></i>
-                </a>
-                &nbsp;
-                &nbsp;
-                <a class="vote-news" href="#" data-vote="down" title="Vote down">
-                  <i class="far fa-thumbs-down"></i>
-                </a>
+              <div class="news-footer">
+                <ul class="list-inline text-muted">
+                  <li class="list-inline-item">Posted by <strong>{{author}}</strong></li>
+                  <li class="list-inline-item"><i class="icon-clock" style="vertical-align: middle"></i>&nbsp;{{date}}</li>
+                  <li class="list-inline-item"><i class="icon-speech" style="vertical-align: middle"></i>&nbsp;{{comments newsId}}</li>
+                </ul>
+                {{#if canVote}}
+                <div class="news-reputation">
+                  <span class="badge badge-pill badge-success">☆ {{rating}}</span>
+                  &nbsp;
+                  &nbsp;
+                  <a class="vote-news" href="#" data-vote="up" title="Vote up">
+                    <i class="far fa-thumbs-up"></i>
+                  </a>
+                  &nbsp;
+                  &nbsp;
+                  <a class="vote-news" href="#" data-vote="down" title="Vote down">
+                    <i class="far fa-thumbs-down"></i>
+                  </a>
+                </div>
+                {{/if}}
               </div>
-              {{/if}}
-              <ul class="list-inline text-muted">
-                <li class="list-inline-item">Posted by <strong>{{author}}</strong></li>
-                <li class="list-inline-item"><i class="icon-clock" style="vertical-align: middle"></i>&nbsp;{{date}}</li>
-                <li class="list-inline-item"><i class="icon-speech" style="vertical-align: middle"></i>&nbsp;{{comments newsId}}</li>
-              </ul>
             </div>
           </div>
           {{/each}}
@@ -93,8 +92,22 @@
         {{else}}
         {{> loader}}
         {{/if}}
-
       </div>
+      {{#if SubsCacheReady}}
+        {{#if projectCount}}
+        <div class="col-sm-12 col-md-4">
+          <div class="project-list">
+            <h4 class="section-title">Cardano Projects</h4>
+            {{#each projects}}
+              <a class="project-link" href="/projects/{{slug}}"><i class="fa fa-caret-right"></i> {{headline}}</a>
+            {{/each}}
+            <div class="text-right">
+              <a href="/projects" class="btn btn-outline-primary">View All</a>
+            </div>
+          </div>
+        </div>
+        {{/if}}
+      {{/if}}
     </div>
   </div>
 </template>
