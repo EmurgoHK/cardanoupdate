@@ -5,7 +5,7 @@
   </div>
   <div class="home-page-content">
     <div class="row">
-      <div class="col-sm-12">
+      <div class="col-sm-12 col-md-8">
         <div class="row">
           <div class="col-sm-12 pr-0 pl-0">
             <div class="sort-news">
@@ -93,6 +93,21 @@
         {{> loader}}
         {{/if}}
       </div>
+      {{#if SubsCacheReady}}
+        {{#if projectCount}}
+        <div class="col-sm-12 col-md-4">
+          <div class="project-list">
+            <h4 class="section-title">Cardano Projects</h4>
+            {{#each projects}}
+              <a class="project-link" href="/projects/{{slug}}"><i class="fa fa-caret-right"></i> {{headline}}</a>
+            {{/each}}
+            <div class="text-right">
+              <a href="/projects" class="btn btn-outline-primary">View All</a>
+            </div>
+          </div>
+        </div>
+        {{/if}}
+      {{/if}}
     </div>
   </div>
 </template>
