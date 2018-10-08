@@ -34,6 +34,11 @@
                 {{/if}}
                 <div class="row">
                   <div class="col-sm-12">
+                      {{#unless github_url}}
+                      <a href="" class="btn btn-warning projectWarning"><i class="fas fa-exclamation-circle fa-lg"></i></a>
+                      {{/unless}}
+                      <a href="{{github_url}}" class="btn btn-dark text-white github"><i class="fab fa-github fa-lg"></i></a>
+                      <a href="{{website}}" class="btn btn-secondary website"><i class="fas fa-globe fa-lg"></i></a>
                       <a class="btn btn-secondary flag-project" href="#"><i class="icon-flag"></i></a>
                   </div>
                 </div>
