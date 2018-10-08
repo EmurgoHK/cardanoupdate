@@ -13,7 +13,14 @@
     <div class="container">
       <div class="row mx-auto">
         <div class="col-sm-12">
-          
+            <div class="row">
+              <div class="col-sm-12 pr-0 pl-0">
+                  <div class="input-group">
+                    <input type="text" id="searchBox" class="form-control" placeholder="Search news" aria-label="Search news">
+                  </div>
+                </div>
+            </div>
+            
           <div class="row">
             <div class="col-sm-12 pr-0 pl-0">
               <div class="sort-news">
@@ -42,7 +49,7 @@
   
           {{#if SubsCacheReady}}
           {{#if newsCount}}
-          <div class="row">
+          <div class="row new-list">
             {{#each news}}
             <div class="col-sm-12 pr-0 pl-0">
               <div class="card news-item">
