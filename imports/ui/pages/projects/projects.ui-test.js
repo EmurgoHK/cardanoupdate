@@ -47,6 +47,19 @@ describe('Projects page', function () {
         assert(browser.execute(() => FlowRouter.current().route.name === 'projects').value, true)
     })
 
+    it('user can propose new data if data is missing', () => {
+        browser.click('.website')
+        browser.pause(3000)
+
+        browser.setValue('.swal2-input', 'https://testing.com')
+        browser.pause(1000)
+
+        browser.click('.swal2-confirm')
+        browser.pause(3000)
+
+        assert(browser.execute(() => !!testingProjects.findOne({ 'edits.0': { $exists: true } })).value, true)
+    })
+
     it('user can edit a project he/she created', () => {
         browser.execute(() => $('.news-settings').find('.dropdown-menu').addClass('show'))
         browser.pause(3000)
@@ -165,7 +178,7 @@ describe('Projects page', function () {
         let count = browser.execute(() => $('.card').length).value
 
         browser.execute(() => $('.news-settings').find('.dropdown-menu').addClass('show'))
-        browser.pause(3000)
+        browser.pause(1000)
 
         browser.click('#js-remove')
         browser.pause(2000)

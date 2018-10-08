@@ -15,8 +15,7 @@ describe('project methods', () => {
         return callWithPromise('addProject', {
             headline: 'Test headline',
             description: 'Test description',
-            github_url: 'test',
-            website: 'test web'
+            github_url: 'test'
         }).then(data => {
             let project = Projects.findOne({
                 _id: data
@@ -27,7 +26,6 @@ describe('project methods', () => {
             assert.ok(project.headline === 'Test headline')
             assert.ok(project.description === 'Test description')
             assert.ok(project.github_url === 'test')
-            assert.ok(project.website === 'test web')
         })
     })
 
@@ -37,6 +35,51 @@ describe('project methods', () => {
             description: ''
         }).then(data => {}).catch(error => {
             assert.ok(error)
+        })
+    })
+
+    it('user can propose new data', () => {
+        let project = Projects.findOne({})
+
+        assert.ok(project)
+
+        return callWithPromise('proposeNewData', {
+            projectId: project._id,
+            datapoint: 'website',
+            newData: 'test',
+            type: 'link'
+        }).then(data => {
+            let p2 = Projects.findOne({
+                _id: project._id
+            })
+
+            assert.ok(p2.edits.length > 0)
+            assert.ok(p2.edits[0].type === 'link')
+            assert.ok(p2.edits[0].newData === 'test')
+            assert.ok(p2.edits[0].datapoint === 'website')            
+        })
+    })
+
+    it('moderator can approve proposed data', () => {
+        let project = Projects.findOne({
+            'edits.0': {
+                $exists: true
+            }
+        })
+
+        assert.ok(project)
+
+        return callWithPromise('resolveProjectDataUpdate', {
+            projectId: project._id,
+            editId: project.edits[0]._id,
+            decision: 'merge'
+        }).then(data => {
+            let p2 = Projects.findOne({
+                _id: project._id
+            })
+
+            assert.ok(p2.edits[0].status === 'merged')
+            assert.ok(p2[p2.edits[0].datapoint] === p2.edits[0].newData)
         })
     })
 

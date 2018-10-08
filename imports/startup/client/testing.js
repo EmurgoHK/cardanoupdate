@@ -1,11 +1,13 @@
 import { News } from '/imports/api/news/news'
 import { Comments } from '/imports/api/comments/comments'
 import { Notifications } from '/imports/api/notifications/notifications'
+import { Projects } from '/imports/api/projects/projects'
 
 const collections = {
 	News: News,
 	Comments: Comments,
-	Notifications: Notifications
+	Notifications: Notifications,
+	Projects: Projects
 }
 
 Object.keys(collections).forEach(a => {
