@@ -17,6 +17,7 @@ import '/imports/ui/pages/userProfile/userProfile'
 import '/imports/ui/pages/suspended/suspended'
 
 import '/imports/ui/pages/moderator/flagged/flaggedItems'
+import '/imports/ui/pages/moderator/changes/changes'
 import '/imports/ui/pages/moderator/pardon/pardon'
 import '/imports/ui/pages/moderator/pardon/pardonUser'
 
@@ -225,6 +226,17 @@ modRoutes.route('/flagged', {
 			header: 'header',
 			sidebar: 'sidebar',
     		main: 'flaggedItems'
+    	})
+	}
+})
+
+modRoutes.route('/changes', {
+	name: 'changes',
+	action: () => {
+		BlazeLayout.render('main', {
+			header: 'header',
+			sidebar: 'sidebar',
+    		main: 'changes'
     	})
 	}
 })

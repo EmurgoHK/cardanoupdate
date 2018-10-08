@@ -200,6 +200,147 @@ export const flagProject = new ValidatedMethod({
     } 
 })
 
+export const proposeNewData = new ValidatedMethod({
+    name: 'proposeNewData',
+    validate: 
+        new SimpleSchema({
+            projectId: {
+                type: String,
+                optional: false
+            },
+            datapoint: {
+                type: String,
+                optional: false
+            },
+            newData: {
+                type: String,
+                optional: false
+            },
+            type: {
+                type: String,
+                optional: true
+            }
+        }).validator({
+            clean: true
+        }),
+    run({ projectId, datapoint, newData, type }) {
+        if (!Meteor.userId()) {
+            throw new Meteor.Error('Error.', 'You have to be logged in.')
+        }
+        
+        let project = Projects.findOne({
+            _id: projectId
+        })
+
+        if (!project) {
+            throw new Meteor.Error('Error.', 'Project doesn\'t exist.')
+        }
+
+        if (project[datapoint]) {
+            throw new Meteor.Error('Error.', 'Data already exists.')
+        }
+
+        Projects.update({
+            _id: project._id
+        }, {
+            $push: {
+                edits: {
+                    _id: Random.id(10),
+                    proposedBy: Meteor.userId(),
+                    datapoint: datapoint,
+                    newData: newData,
+                    createdAt: new Date().getTime(),
+                    status: 'open',
+                    type: type || 'string'
+                }
+            }
+        })
+    }
+})
+
+export const resolveProjectDataUpdate = new ValidatedMethod({
+    name: 'resolveProjectDataUpdate',
+    validate:
+        new SimpleSchema({
+            projectId: {
+                type: String,
+                optional: false
+            },
+            editId: {
+                type: String,
+                optional: false
+            },
+            decision: {
+                type: String,
+                optional: false
+            }
+        }).validator({
+            clean: true
+        }),
+    run({ projectId, editId, decision }) {
+        if (!Meteor.userId()) {
+            throw new Meteor.Error('Error.', 'You have to be logged in.')
+        }
+
+        if (!isModerator(Meteor.userId())) {
+            throw new Meteor.Error('Error.', 'You have to be a moderator.')
+        }
+
+        let project = Projects.findOne({
+            _id: projectId
+        })
+
+        if (!project) {
+            throw new Meteor.Error('Error.', 'Project doesn\'t exist.')
+        }
+
+        if (decision === 'merge') {
+            let edits = project.edits || []
+            let edit = {}
+
+            edits.forEach(i => {
+                if (i._id === editId) {
+                    edit = i
+
+                    i.mergedAt =  new Date().getTime()
+                    i.status = 'merged'
+                }
+            })
+
+            if (!edit) {
+                throw new Meteor.Error('Error.', 'Edit doesn\'t exist.')
+            }
+
+            return Projects.update({
+                _id: project._id
+            }, {
+                $set: {
+                    edits: edits,
+                    [edit.datapoint]: edit.newData
+                }
+            })
+        } else {
+            let edits = project.edits || []
+
+            edits.forEach(i => {
+                if (i._id === editId) {
+                    i.rejectedAt =  new Date().getTime()
+
+                    i.status = 'rejected'
+                }
+            })
+
+            return Projects.update({
+                _id: project._id
+            }, {
+                $set: {
+                    edits: edits
+                }
+            })
+        }
+    }
+})
+
 export const resolveProjectFlags = new ValidatedMethod({
     name: 'resolveProjectFlags',
     validate:
@@ -258,3 +399,34 @@ export const resolveProjectFlags = new ValidatedMethod({
         }
     }
 })
+
+if (Meteor.isDevelopment) {
+    Meteor.methods({
+        generateTestChanges: () => {
+            for (let i = 0; i < 2; i++) {
+                Projects.insert({
+                    headline: `Testing 123`,
+                    description: 'Test',
+                    createdBy: 'test',
+                    createdAt: new Date().getTime(),
+                    edits: [{
+                        _id: 'testId',
+                        proposedBy: 'test',
+                        newData: 'https://testing.com',
+                        datapoint: 'github_url',
+                        status: 'open',
+                        createdAt: new Date().getTime(),
+                        type: 'link'
+                    }]
+                })
+            }
+        },
+        removeTestChanges: () => {
+            for (let i = 0; i < 2; i++) {
+                Projects.remove({
+                    headline: `Testing 123`,
+                })
+            }
+        }
+    })
+}

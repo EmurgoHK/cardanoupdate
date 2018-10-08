@@ -41,14 +41,11 @@
                         {{description}}
                     </p>
                     <hr>
-                    {{#if github_url}}
-                        <a href="{{github_url}}" class="card-link"><i class="fab fa-github fa-lg"></i></a>
-                    {{else}}
-                        <a href="#" class="card-link projectWarning text-warning"><i class="fas fa-exclamation-circle"></i></a>
-                    {{/if}}
-                    {{#if website}}
-                        <a href="{{website}}" class="card-link"><i class="fas fa-globe fa-lg"></i></a>
-                    {{/if}}
+                    {{#unless github_url}}
+                        <a href="" class="card-link projectWarning text-warning"><i class="fas fa-exclamation-circle"></i></a>
+                    {{/unless}}
+                    <a href="{{github_url}}" class="github card-link"><i class="fab fa-github fa-lg"></i></a>
+                    <a href="{{website}}" class="website card-link"><i class="fas fa-globe fa-lg"></i></a>
                 </div>
             </div>
         {{/each}}
