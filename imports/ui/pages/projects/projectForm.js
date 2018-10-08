@@ -24,7 +24,8 @@ Template.projectForm.onCreated(function() {
 
 Template.projectForm.helpers({
     add: () => FlowRouter.current().route.name === 'editProject' ? false : true,
-    project: () => Projects.findOne({ _id: FlowRouter.getParam('id') })
+    project: () => Projects.findOne({ _id: FlowRouter.getParam('id') }),
+    tagsAsString: (tags) => tags == undefined ? [] : tags.toString()
 })
 
 Template.projectForm.events({
@@ -51,13 +52,15 @@ Template.projectForm.events({
     'click .add-project' (event, _tpl) {
         event.preventDefault()
 
+        let tags = $('#tagInput').val().split(',')
         if (FlowRouter.current().route.name === 'editProject') {
             editProject.call({
     			projectId: FlowRouter.getParam('id'),
 	    		headline: $('#headline').val(),
 	    		description: $('#description').val(),
                 github_url: $('#github_url').val() || '',
-                website: $('#website').val() || ''
+                website: $('#website').val() || '',
+                tags: tags
 	    	}, (err, _data) => {
 	    		if (!err) {
 	    			notify('Successfully edited.', 'success')
@@ -81,7 +84,8 @@ Template.projectForm.events({
             headline: $('#headline').val(),
             description: $('#description').val(),
             github_url: $('#github_url').val() || '',
-            website: $('#website').val() || ''
+            website: $('#website').val() || '',
+            tags: tags
         }, (err, data) => {
             if (!err) {
                 notify('Successfully added.', 'success')
