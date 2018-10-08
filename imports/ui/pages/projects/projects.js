@@ -53,4 +53,15 @@ Template.projects.events({
             }
         })
       },
+    'click .projectWarning' (event, _tpl) {
+        event.preventDefault()
+        console.log('here')
+        swal({
+            title: 'Missing source repository',
+            text: "This project does't contain any link to the source repository",
+            type: 'warning',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Okay'
+        })
+    }
 })
