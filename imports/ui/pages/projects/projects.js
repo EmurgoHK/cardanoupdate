@@ -22,16 +22,7 @@ Template.projects.helpers({
         return CHUNK_SIZE + 1
     },
     projects () {
-        let results = Projects.find({}).fetch()
-        let projects = [] 
-        let projectIdx = 0
-
-        while (projectIdx < results.length) {
-            projects.push(results.slice(projectIdx, CHUNK_SIZE + projectIdx))
-            projectIdx += CHUNK_SIZE
-        }
-        
-        return projects
+        return Projects.find({}).fetch()
     },
     canEdit () {
         return this.createdBy === Meteor.userId()
