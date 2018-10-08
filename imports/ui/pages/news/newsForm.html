@@ -33,6 +33,11 @@
             -->
 
             {{> imageUploader images=images single=true}}
+            <div class="group-title">Tags</div>
+            <div class="input-group">
+                <input type="text" class="form-control" id="tagInput" placeholder="Add a tags separated by comma(,) eg crypto,wallet" value="{{tagsAsString news.tags}}">
+            </div>
+
         </form>
       </div>
       <div class="card-footer">

@@ -54,7 +54,8 @@ Template.newsForm.helpers({
   		}
 
   		return []
-  	}
+	  },
+	  tagsAsString: (tags) => tags == undefined ? [] : tags.toString()	  
 })
 
 Template.newsForm.events({
@@ -78,13 +79,16 @@ Template.newsForm.events({
         $(`#${inputId}`).unbind('keypress')
     },
     'click .add-news': function(event, templateInstance) {
-    	event.preventDefault()
+		event.preventDefault()
+
+        let tags = $('#tagInput').val().split(',')
     	if (FlowRouter.current().route.name === 'addNews') {
 	    	addNews.call({
 	    		headline: $('#headline').val(),
 	    		summary: $('#summary').val(),
 	    		body: MDEdit.body.value(),
-	    		image: getImages()[0] || ''
+				image: getImages()[0] || '',
+				tags: tags
 	    	}, (err, data) => {
 	    		if (!err) {
 	    			notify('Successfully added.', 'success')
@@ -108,7 +112,8 @@ Template.newsForm.events({
 	    		headline: $('#headline').val(),
 	    		summary: $('#summary').val(),
 	    		body: MDEdit.body.value(),
-	    		image: getImages()[0] || ''
+				image: getImages()[0] || '',
+				tags: tags
 	    	}, (err, data) => {
 	    		if (!err) {
 	    			notify('Successfully edited.', 'success')

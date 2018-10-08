@@ -28,7 +28,16 @@ export const addProject = new ValidatedMethod({
             website: {
                 type: String,
                 optional: true
-            }
+            },
+            tags: {
+                type: Array,
+                optional: true
+            },
+            "tags.$": {
+                type: String,
+                optional: true
+            },
+            
         }).validator({
             clean: true
         }),
@@ -100,11 +109,19 @@ export const editProject = new ValidatedMethod({
             website: {
                 type: String,
                 optional: true
-            }
+            },
+            tags: {
+                type: Array,
+                optional: true
+            },
+            "tags.$": {
+                type: String,
+                optional: true
+            },
         }).validator({
             clean: true
         }),
-    run({ projectId, headline, description, github_url, website }) {
+    run({ projectId, headline, description, github_url, website, tags }) {
         if (Meteor.isServer) {
             let project = Projects.findOne({ _id: projectId })
 
@@ -128,6 +145,7 @@ export const editProject = new ValidatedMethod({
                     description: description,
                     github_url: github_url,
                     website: website,
+                    tags: tags,
                     updatedAt: new Date().getTime()
                 }
             })
