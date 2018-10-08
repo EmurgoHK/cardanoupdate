@@ -1,51 +1,53 @@
 <template name="home">
-  <div>
-    <h1>Cardano Update Space</h1>
-    <h4>ALL Cardano news and projects in one place </h4>
-  </div>
-  <div class="home-page-content">
-    <div class="row">
-      <div class="col-sm-12 col-md-8">
-        <div class="row">
-          <div class="col-sm-12 pr-0 pl-0">
-            <div class="sort-news">
-              <strong>Sort News By</strong> &nbsp;
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="sortOptions" id="sortOption1" value="date-desc">
-                <label class="form-check-label" for="sortOption1">Newest First</label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="sortOptions" id="sortOption2" value="date-asc">
-                <label class="form-check-label" for="sortOption2">Oldest First</label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="sortOptions" id="sortOption3" value="rating-desc">
-                <label class="form-check-label" for="sortOption3">Best Rating</label>
-              </div>
-              {{#if currentUser}}
-              <div class="float-right">
-                <button class="btn btn-outline-primary" type="button" id="js-new">Add news</button>
-              </div>
-              {{/if}}
+  <section class="home-tagline">
+    <div class="container">
+        <div class="row mx-auto">
+            <div class="col-sm-12 pr-0 pl-0 pb-5">
+                <span class="header-title">Cardano Update Space</span>
+                <h4>All Cardano news and projects in one place </h4>
             </div>
           </div>
-        </div>
-
-        {{#if SubsCacheReady}}
-        {{#if newsCount}}
-        <div class="row">
-          {{#each news}}
-          <div class="col-sm-12 col-md-6">
-            <div class="news-item card card-body pb-0">
-              {{#if image}}<img class="card-img-top" src={{image}} alt="News image">{{/if}}
-              <div class="news-card-content">
-                <div class="content">
-                  <h3 class="card-title">
-                    <a href="/news/{{slug}}">{{headline}}</a>
-                  </h3>
-                  <p class="card-text">{{summary}}</p>
-                  <a href="/news/{{slug}}" class="btn btn-outline-primary">Read more</a>
+    </div>
+  </section>
+    
+    <div class="container">
+      <div class="row mx-auto">
+        <div class="col-sm-12">
+          
+          <div class="row">
+            <div class="col-sm-12 pr-0 pl-0">
+              <div class="sort-news">
+                {{#if currentUser}}
+                  <div class="float-md-right pb-3">
+                    <button class="btn btn-primary btn-sm" type="button" id="js-new"><strong><i class="fas fa-edit"></i> Add news</strong></button>
+                  </div>
+                {{/if}}
+                <strong>Sort News By</strong> &nbsp;
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="sortOptions" id="sortOption1" value="date-desc">
+                  <label class="form-check-label" for="sortOption1">Newest First</label>
                 </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="sortOptions" id="sortOption2" value="date-asc">
+                  <label class="form-check-label" for="sortOption2">Oldest First</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="sortOptions" id="sortOption3" value="rating-desc">
+                  <label class="form-check-label" for="sortOption3">Best Rating</label>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+  
+          {{#if SubsCacheReady}}
+          {{#if newsCount}}
+          <div class="row">
+            {{#each news}}
+            <div class="col-sm-12 pr-0 pl-0">
+              <div class="card news-item">
+              <img class="card-img-top d-sm-none" src="{{image}}" />
+              <div class="card-body pb-0">
                 {{#if canEdit}}
                 <div class="news-settings float-right dropdown">
                   <i class="nav-icon icon-settings dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
@@ -57,18 +59,23 @@
                   </div>
                 </div>
                 {{/if}}
-              </div>
-              <div class="news-footer">
-                <ul class="list-inline text-muted">
-                  <li class="list-inline-item">Posted by <strong>{{author}}</strong></li>
-                  <li class="list-inline-item"><i class="icon-clock" style="vertical-align: middle"></i>&nbsp;{{date}}</li>
-                  <li class="list-inline-item"><i class="icon-speech" style="vertical-align: middle"></i>&nbsp;{{comments newsId}}</li>
-                </ul>
+                <div class="news-card-content">
+                  {{#if image}}
+                    <div class="image d-none d-md-block pr-3">
+                      <img src="{{image}}" class="rounded" />
+                    </div>
+                  {{/if}}
+                  <div class="content">
+                    <h4 class="card-title">
+                      <a href="/news/{{slug}}">{{headline}}</a>
+                    </h4>
+                    <p class="card-text">{{{truncate summary}}}</p>
+                  </div>
+                </div>
+                <hr>
                 {{#if canVote}}
-                <div class="news-reputation">
+                <div class="news-reputation float-right">
                   <span class="badge badge-pill badge-success">☆ {{rating}}</span>
-                  &nbsp;
-                  &nbsp;
                   <a class="vote-news" href="#" data-vote="up" title="Vote up">
                     <i class="far fa-thumbs-up"></i>
                   </a>
@@ -79,35 +86,26 @@
                   </a>
                 </div>
                 {{/if}}
+                <ul class="list-inline text-muted">
+                  <li class="list-inline-item">Posted by <strong>{{author}}</strong></li>
+                  <li class="list-inline-item"><i class="icon-clock" style="vertical-align: middle"></i>&nbsp;{{date}}</li>
+                  <li class="list-inline-item"><i class="icon-speech" style="vertical-align: middle"></i>&nbsp;{{comments newsId}}</li>
+                </ul>
               </div>
             </div>
-          </div>
-          {{/each}}
-        </div>
-        {{else}}
-        <div class="mt-3">
-          <h3>No news found!</h3>
-        </div>
-        {{/if}}
-        {{else}}
-        {{> loader}}
-        {{/if}}
-      </div>
-      {{#if SubsCacheReady}}
-        {{#if projectCount}}
-        <div class="col-sm-12 col-md-4">
-          <div class="project-list">
-            <h4 class="section-title">Cardano Projects</h4>
-            {{#each projects}}
-              <a class="project-link" href="/projects/{{slug}}"><i class="fa fa-caret-right"></i> {{headline}}</a>
-            {{/each}}
-            <div class="text-right">
-              <a href="/projects" class="btn btn-outline-primary">View All</a>
             </div>
+            {{/each}}
           </div>
+          {{else}}
+          <div class="mt-3">
+            <h3>No news found!</h3>
+          </div>
+          {{/if}}
+          {{else}}
+          {{> loader}}
+          {{/if}}
+  
         </div>
-        {{/if}}
-      {{/if}}
+      </div>
     </div>
-  </div>
-</template>
+  </template>
