@@ -16,16 +16,17 @@ body {
 
 .container {
     max-width: 960px;
+    @extend .pt-5
 }
 
 .card {
     font-family: 'proxima-nova', 'Montserrat', sans-serif !important;
     border: none !important;
-    @extend .shadow-sm;
+    @extend .shadow;
     @extend .rounded;
 
     .card-title {
-        font-weight: 400;
+        font-weight: 800;
         text-transform: capitalize;
 
         a {

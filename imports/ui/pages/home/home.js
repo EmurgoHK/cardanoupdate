@@ -5,7 +5,6 @@ import { Template } from 'meteor/templating'
 import { FlowRouter } from 'meteor/kadira:flow-router'
 
 import { News } from '/imports/api/news/news'
-import { Projects } from '/imports/api/projects/projects'
 import { Comments } from '/imports/api/comments/comments'
 import { notify } from '/imports/modules/notifier'
 
@@ -19,7 +18,6 @@ Template.home.onCreated(function () {
 
   this.autorun(() => {
     this.subscribe('news')
-    this.subscribe('projects')
     this.subscribe('users')
     this.subscribe('comments')
   })
@@ -61,30 +59,20 @@ Template.home.helpers({
         if (sort === 'rating-asc') return i1.rating - i2.rating
     })
   },
-  projectCount(){
-    let projects =  Projects.find({}).count()
-    if(projects){
-      return true
-    }
-    return false
-  },
-
-  // TODO : Limit the no of projects to be displayed on home page
-  projects : function(){
-    let projects = Projects.find()
-    return projects.map(a => {
-      return {
-        projectId : a._id,
-        headline : a.headline,
-        slug : a.slug
-      }
-    })
-  },
   comments: function (id) {
     return Comments.find({
       newsId: id
     }).count()
   },
+  truncate: function (str) {
+    const max_length = 180
+    
+    if (str.length > max_length) {
+      return str.substring(0, max_length) + `... <a href="/news/${this.slug}" class="read-more">(more)</a>` 
+    }
+
+    return str
+  }
 })
 
 Template.home.events({
