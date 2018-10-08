@@ -11,6 +11,7 @@ const CHUNK_SIZE = 3
 
 Template.projects.onCreated(function () {
     this.sort = new ReactiveVar('date-desc')
+    this.searchFilter = new ReactiveVar(undefined);
     
     this.autorun(() => {
         this.subscribe('projects')
@@ -22,7 +23,25 @@ Template.projects.helpers({
         return CHUNK_SIZE + 1
     },
     projects () {
-        return Projects.find({}).fetch()
+        let projects = [];
+        let searchText = Template.instance().searchFilter.get()
+
+        // Check if user has searched for something
+        if (searchText != undefined && searchText != '') {
+            projects = Projects.find({
+            $or: [{
+                description: new RegExp(searchText.replace(/ /g, '|'), 'ig')
+            }, {
+                headline: new RegExp(searchText.replace(/ /g, '|'), 'ig')
+            }, {
+                tags: new RegExp(searchText.replace(/ /g, '|'), 'ig')
+            }]
+        })
+        } else {
+            projects = Projects.find({})
+        }
+
+        return projects
     },
     canEdit () {
         return this.createdBy === Meteor.userId()
@@ -55,7 +74,6 @@ Template.projects.events({
       },
     'click .projectWarning' (event, _tpl) {
         event.preventDefault()
-        console.log('here')
         swal({
             title: 'Missing source repository',
             text: "This project does't contain any link to the source repository",
@@ -63,5 +81,11 @@ Template.projects.events({
             cancelButtonColor: '#d33',
             confirmButtonText: 'Okay'
         })
+    },
+    'keyup #searchBox': function (event, templateInstance) {
+      event.preventDefault();
+
+      templateInstance.searchFilter.set($('#searchBox').val())
     }
+
 })

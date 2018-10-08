@@ -14,12 +14,13 @@ import swal from 'sweetalert2'
 import moment from 'moment'
 
 Template.home.onCreated(function () {
-    this.sort = new ReactiveVar('date-desc')
-
+  this.sort = new ReactiveVar('date-desc')
+  this.searchFilter = new ReactiveVar(undefined);
   this.autorun(() => {
     this.subscribe('news')
     this.subscribe('users')
     this.subscribe('comments')
+    let searchFilter = Template.instance().searchFilter.get();
   })
 })
 
@@ -32,7 +33,26 @@ Template.home.helpers({
     return false
   },
   news: function(){
-    let news =  News.find({})
+    let news = [];
+    let searchText = Template.instance().searchFilter.get()
+
+    // Check if user has searched for something
+    if (searchText != undefined && searchText != '') {
+      news = News.find({
+        $or: [{
+            summary: new RegExp(searchText.replace(/ /g, '|'), 'ig')
+          }, {
+            headline: new RegExp(searchText.replace(/ /g, '|'), 'ig')
+          }, {
+            body: new RegExp(searchText.replace(/ /g, '|'), 'ig')
+          },{
+            tags: new RegExp(searchText.replace(/ /g, '|'), 'ig')
+          }]
+      })
+    } else {
+      news = News.find({})
+    }
+    
     return news.map(a => {
       let user = Meteor.users.findOne({_id : a.createdBy})
       let canEdit = (Meteor.userId() === a.createdBy) ? true : false
@@ -115,5 +135,10 @@ Template.home.events({
     'change .sort-news input': (event, templateInstance) => {
       event.preventDefault()
       templateInstance.sort.set($(event.currentTarget).val())
-    }
+    },
+    'keyup #searchBox': function (event, templateInstance) {
+      event.preventDefault();
+
+      templateInstance.searchFilter.set($('#searchBox').val())
+  }
 })
