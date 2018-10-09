@@ -13,6 +13,10 @@ import '/imports/api/news/server/publications'
 import '/imports/api/projects/methods'
 import '/imports/api/projects/server/publications'
 
+// events api
+import '/imports/api/events/methods'
+import '/imports/api/events/server/publications'
+
 // comments api
 import '/imports/api/comments/methods'
 import '/imports/api/comments/server/publications'

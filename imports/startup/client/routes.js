@@ -12,6 +12,9 @@ import '/imports/ui/pages/news/viewNews'
 import '/imports/ui/pages/projects/projects'
 import '/imports/ui/pages/projects/projectForm'
 import '/imports/ui/pages/projects/viewProject'
+import '/imports/ui/pages/events/events'
+import '/imports/ui/pages/events/eventForm'
+import '/imports/ui/pages/events/viewEvent'
 import '/imports/ui/pages/notifications/notifications'
 import '/imports/ui/pages/userProfile/userProfile'
 import '/imports/ui/pages/suspended/suspended'
@@ -139,6 +142,50 @@ FlowRouter.route('/projects/:slug', {
       header: 'header',
       sidebar: 'sidebar',
       main: 'viewProject'
+    })
+  }
+})
+
+FlowRouter.route('/events', {
+  name: 'events',
+  action() {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'events'
+    })
+  }
+})
+
+FlowRouter.route('/events/new', {
+  name: 'newEvent',
+  action() {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'eventForm'
+    })
+  }
+})
+
+FlowRouter.route('/events/:id/edit', {
+  name: 'editEvent',
+  action() {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'eventForm'
+    })
+  }
+})
+
+FlowRouter.route('/events/:slug', {
+  name: 'viewEvent',
+  action() {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'viewEvent'
     })
   }
 })
