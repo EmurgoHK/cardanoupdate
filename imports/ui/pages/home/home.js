@@ -66,6 +66,7 @@ Template.home.helpers({
         canVote: !(a.votes || []).some(i => i.votedBy === Meteor.userId()),
         slug : a.slug,
         date : moment(a.createdAt).fromNow(),
+        createdBy: a.createdBy,
         createdAt: a.createdAt,
         image: a.image,
         canEdit
