@@ -50,7 +50,7 @@ Accounts.onLogout((user) => {
   FlowRouter.go('/login')
 })
 
-FlowRouter.triggers.enter([userLoginFilter], { except: ['home', 'projects'] })
+// FlowRouter.triggers.enter([userLoginFilter], { except: ['home', 'projects'] })
 
 FlowRouter.triggers.enter([() => {
   	Tracker.autorun(() => {
