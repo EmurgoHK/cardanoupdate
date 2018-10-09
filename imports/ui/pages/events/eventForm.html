@@ -1,0 +1,54 @@
+<template name="eventForm">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <h5><a href="/events" class="text-muted" style="text-decoration: underline;">Events</a></h5>
+        <h2>{{#if add}} New Event {{else}} Edit Event {{/if}}</h2>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-body">
+            <form class="news-form" id="event_form">
+              <div class="group-title">Headline</div>
+              <div class="input-group">
+                <input type="text" class="form-control" id="headline" value="{{event.headline}}" placeholder="Headline in 100 characters or less">
+                <div id="headlineError" class="invalid-feedback"></div>
+              </div>
+              <small><i id="headline-chars" class="text-muted"></i></small>
+              <div class="group-title">Start Date and Time</div>
+              <div class="input-group">
+                <input type="datetime-local" class="form-control" id="start_date" value="{{event.start_date}}" placeholder="Start Date and Time">
+                <div id="start_dateError" class="invalid-feedback"></div>
+              </div>
+              <div class="group-title">End Date and Time</div>
+              <div class="input-group">
+                <input type="datetime-local" class="form-control" id="end_date" value="{{event.end_date}}" placeholder="End Date and Time">
+                <div id="end_dateError" class="invalid-feedback"></div>
+              </div>
+              <div class="group-title">Description</div>
+              <div class="input-group">
+                <textarea class="form-control" id="description" rows="8" value="{{event.description}}" placeholder="Event description in 500 characters or less"></textarea>
+                <div id="descriptionError" class="invalid-feedback"></div>
+              </div>
+              <small><i id="description-chars" class="text-muted"></i></small>
+
+              <div class="group-title">Location</div>
+              <div class="input-group">
+                <input type="text" class="form-control" id="location" value="{{event.location}}" placeholder="Event Location">
+                <div id="locationError" class="invalid-feedback"></div>
+              </div>
+            </form>
+          </div>
+          <div class="card-footer">
+            <div>
+              <button form="event_form" type="submit" class="btn btn-lg btn-success add-event">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

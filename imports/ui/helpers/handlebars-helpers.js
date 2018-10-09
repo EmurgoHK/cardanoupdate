@@ -16,3 +16,7 @@ Template.registerHelper('md', content => {
 Template.registerHelper('showTimeAgoTimestamp', date => {
 	return !date ? "" : moment(date).fromNow()
 })
+
+Template.registerHelper('showLocalTimestamp', date => {
+	return !date ? "" : moment(date).format('LLL')
+})
