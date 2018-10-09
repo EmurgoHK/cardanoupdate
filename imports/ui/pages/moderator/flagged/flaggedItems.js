@@ -72,98 +72,117 @@ Template.flaggedItems.helpers({
 Template.flaggedItems.events({
 	'click #js-ignore': function(event, templateInstance) {
 		event.preventDefault()
-    if (this.isEvent) {
-      resolveEventFlags.call({
-				eventId: this._id,
-				decision: 'ignore'
-			}, (err, data) => {
-				if (err) {
-					notify(err.reason || err.message, 'error')
+
+		swal({
+			title: 'Are you sure?',
+            text: `Content will be ignored and no longer marked as flagged`,
+            type: 'warning',
+            showCancelButton: true
+        }).then(confirmed => {
+            if (confirmed.value) {
+                if (this.isEvent) {
+					resolveEventFlags.call({
+							  eventId: this._id,
+							  decision: 'ignore'
+						  }, (err, data) => {
+							  if (err) {
+								  notify(err.reason || err.message, 'error')
+							  } else {
+								  notify('Successfully ignored.', 'success')
+							  }
+						  })
+				} else if (this.isNews) {
+					resolveNewsFlags.call({
+						newsId: this._id,
+						decision: 'ignore'
+					}, (err, data) => {
+						if (err) {
+							notify(err.reason || err.message, 'error')
+						} else {
+							notify('Successfully ignored.', 'success')
+						}
+					})
+				} else if (this.isProject) {
+					resolveProjectFlags.call({
+						projectId: this._id,
+						decision: 'ignore'
+					}, (err, data) => {
+						if (err) {
+							notify(err.reason || err.message, 'error')
+						} else {
+							notify('Successfully ignored.', 'success')
+						}
+					})
 				} else {
-					notify('Successfully ignored.', 'success')
+					resolveCommentFlags.call({
+						commentId: this._id,
+						decision: 'ignore'
+					}, (err, data) => {
+						if (err) {
+							notify(err.reason || err.message, 'error')
+						} else {
+							notify('Successfully ignored.', 'success')
+						}
+					})
 				}
-			})
-    } else if (this.isNews) {
-			resolveNewsFlags.call({
-				newsId: this._id,
-				decision: 'ignore'
-			}, (err, data) => {
-				if (err) {
-					notify(err.reason || err.message, 'error')
-				} else {
-					notify('Successfully ignored.', 'success')
-				}
-			})
-		} else if (this.isProject) {
-			resolveProjectFlags.call({
-				projectId: this._id,
-				decision: 'ignore'
-			}, (err, data) => {
-				if (err) {
-					notify(err.reason || err.message, 'error')
-				} else {
-					notify('Successfully ignored.', 'success')
-				}
-			})
-		} else {
-			resolveCommentFlags.call({
-				commentId: this._id,
-				decision: 'ignore'
-			}, (err, data) => {
-				if (err) {
-					notify(err.reason || err.message, 'error')
-				} else {
-					notify('Successfully ignored.', 'success')
-				}
-			})
-		}
+			}
+		})
 	},
 	'click #js-remove': function(event, templateInstance) {
 		event.preventDefault()
-    if (this.isEvent) {
-      resolveEventFlags.call({
-				eventId: this._id,
-				decision: 'remove'
-			}, (err, data) => {
-				if (err) {
-					notify(err.reason || err.message, 'error')
+		swal({
+			title: 'Are you sure?',
+            text: `Deleting this Red flag will delete the flagged content. This action is not reversible.`,
+            type: 'error',
+            showCancelButton: true
+        }).then(confirmed => {
+            if (confirmed.value) {
+				if (this.isEvent) {
+					resolveEventFlags.call({
+							  eventId: this._id,
+							  decision: 'remove'
+						  }, (err, data) => {
+							  if (err) {
+								  notify(err.reason || err.message, 'error')
+							  } else {
+								  notify('Successfully removed.', 'success')
+							  }
+						  })
+				} else if (this.isNews) {
+					resolveNewsFlags.call({
+						newsId: this._id,
+						decision: 'remove'
+					}, (err, data) => {
+						if (err) {
+							notify(err.reason || err.message, 'error')
+						} else {
+							notify('Successfully removed.', 'success')
+						}
+					})
+				} else if (this.isProject) {
+					resolveProjectFlags.call({
+						projectId: this._id,
+						decision: 'remove'
+					}, (err, data) => {
+						if (err) {
+							notify(err.reason || err.message, 'error')
+						} else {
+							notify('Successfully removed.', 'success')
+						}
+					})
 				} else {
-					notify('Successfully removed.', 'success')
+					resolveCommentFlags.call({
+						commentId: this._id,
+						decision: 'remove'
+					}, (err, data) => {
+						if (err) {
+							notify(err.reason || err.message, 'error')
+						} else {
+							notify('Successfully removed.', 'success')
+						}
+					})
 				}
-			})
-    } else if (this.isNews) {
-			resolveNewsFlags.call({
-				newsId: this._id,
-				decision: 'remove'
-			}, (err, data) => {
-				if (err) {
-					notify(err.reason || err.message, 'error')
-				} else {
-					notify('Successfully removed.', 'success')
-				}
-			})
-		} else if (this.isProject) {
-			resolveProjectFlags.call({
-				projectId: this._id,
-				decision: 'remove'
-			}, (err, data) => {
-				if (err) {
-					notify(err.reason || err.message, 'error')
-				} else {
-					notify('Successfully removed.', 'success')
-				}
-			})
-		} else {
-			resolveCommentFlags.call({
-				commentId: this._id,
-				decision: 'remove'
-			}, (err, data) => {
-				if (err) {
-					notify(err.reason || err.message, 'error')
-				} else {
-					notify('Successfully removed.', 'success')
-				}
-			})
-		}
+			}
+		})
 	}
 })
