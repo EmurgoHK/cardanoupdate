@@ -1,0 +1,27 @@
+.event-form {
+  // Markdown Text Editor
+  .text-editor{
+    flex-direction: column;
+  }
+  input[type="text"],
+  textarea {
+    outline: none;
+    height: auto;
+    border-radius: 0;
+    padding: 10px;
+    border: none;
+    color: #23282c;
+    background: #e9e9e9;
+    line-height: 1.5em;
+    box-shadow: 5px 5px 100px #ddd inset, -5px -5px 100px #ddd inset;
+
+    &:active,
+    &:focus {
+      outline: none;
+      border: none;
+      color: #23282c;
+      background: #e9e9e9;
+      box-shadow: 5px 5px 100px #ddd inset, -5px -5px 100px #ddd inset;
+    }
+  }
+}
