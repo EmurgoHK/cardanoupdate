@@ -1,7 +1,9 @@
 // Logo CSS
-@import url('https://fonts.googleapis.com/css?family=Montserrat:700');
 .app-header .navbar-brand {
-  font-family: 'Montserrat', sans-serif;
+  img{
+    max-width: 100%;
+    height: auto;
+  }
 }
 
 .left-nav-menu{
