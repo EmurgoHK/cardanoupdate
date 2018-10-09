@@ -60,7 +60,9 @@ Template.eventForm.events({
       description: $('#description').val(),
       start_date: $('#start_date').val(),
       end_date : $('#end_date').val(),
-      location: $('#location').val()
+      location: $('#location').val(),
+      rsvp: $('#rsvp').val()
+
     }
     if (FlowRouter.current().route.name === 'editEvent') {
       editEvent.call({
@@ -69,7 +71,9 @@ Template.eventForm.events({
         description: $('#description').val(),
         start_date: $('#start_date').val(),
         end_date : $('#end_date').val(),
-        location: $('#location').val()
+        location: $('#location').val(),
+        rsvp: $('#rsvp').val(),
+
       }, (err, _data) => {
         if (!err) {
           notify('Successfully edited.', 'success')
@@ -94,7 +98,8 @@ Template.eventForm.events({
       description: $('#description').val(),
       start_date: $('#start_date').val(),
       end_date : $('#end_date').val(),
-      location: $('#location').val()
+      location: $('#location').val(),
+      rsvp: $('#rsvp').val(),
     }, (err, data) => {
       if (!err) {
         notify('Successfully added.', 'success')

@@ -30,6 +30,10 @@ export const newEvent = new ValidatedMethod({
       type: String,
       max: 100,
       optional: false
+    },
+    rsvp: {
+      type: String,
+      optional: false
     }
   }).validator({
     clean: true
@@ -108,6 +112,10 @@ export const editEvent = new ValidatedMethod({
       type: String,
       max: 100,
       optional: false
+    },
+    rsvp: {
+      type: String,
+      optional: false
     }
   }).validator({
     clean: true
@@ -118,7 +126,8 @@ export const editEvent = new ValidatedMethod({
     description,
     start_date,
     end_date,
-    location
+    location,
+    rsvp
   }) {
     if (Meteor.isServer) {
       let event = Events.findOne({
@@ -146,6 +155,7 @@ export const editEvent = new ValidatedMethod({
           start_date: start_date,
           end_date: end_date,
           location: location,
+          rsvp:rsvp,
           updatedAt: new Date().getTime()
         }
       })

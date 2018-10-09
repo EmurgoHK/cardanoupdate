@@ -37,6 +37,7 @@ describe('event methods', () => {
       assert.ok(event.description === 'Test description')
       assert.ok(event.start_date === 'test')
       assert.ok(event.end_date === 'test')
+      assert.ok(event.rsvp === 'test')
       assert.ok(event.location === 'city, country')
     })
   })
@@ -61,7 +62,8 @@ describe('event methods', () => {
       description: 'Test description 2',
       start_date: 'test',
       end_date : 'test',
-      location: 'test web'
+      location: 'test web',
+      rsvp:'test'
     }).then(data => {
       let event2 = Events.findOne({
         _id: event._id
@@ -74,6 +76,8 @@ describe('event methods', () => {
       assert.ok(event2.start_date === 'test')
       assert.ok(event2.end_date === 'test web')
       assert.ok(event2.location === 'test web')
+      assert.ok(event2.rsvp === 'test')
+
     })
   })
 
@@ -85,6 +89,7 @@ describe('event methods', () => {
       start_date : 'test',
       end_date : 'test',
       location : 'test',
+      rsvp : 'test',
       createdAt: new Date().getTime()
     })
 
@@ -97,6 +102,7 @@ describe('event methods', () => {
       start_date : 'test',
       end_date : 'test',
       location : 'test',
+      rsvp : 'test',
     }).then(data => {}).catch(error => {
       assert.ok(error)
     })
@@ -139,6 +145,7 @@ describe('event methods', () => {
       start_date : 'test',
       end_date : 'test',
       location : 'test',
+      rsvp : 'test',
       createdBy: 'not-me',
       createdAt: new Date().getTime()
     })

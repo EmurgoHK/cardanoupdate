@@ -46,6 +46,9 @@ describe('Events page', function () {
         browser.setValue('#location', 'City, Country')
         browser.pause(1000)
 
+        browser.setValue('#rsvp', 'test')
+        browser.pause(1000)
+
         browser.click('.add-event')
         browser.pause(3000)
 
