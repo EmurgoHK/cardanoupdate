@@ -33,13 +33,23 @@ const geolocate = (autocomplete) => {
 }
 
 Template.eventForm.onCreated(function () {
+  this.location = new ReactiveVar({})
+
   if (FlowRouter.current().route.name === 'editEvent') {
     this.autorun(() => {
       this.subscribe('events.item', FlowRouter.getParam('id'))
+
+      let event = Events.findOne({
+        _id: FlowRouter.getParam('id')
+      })
+
+      if (event) {
+        this.location.set({
+          place_id: event.placeId
+        })
+      }
     })
   }
-
-  this.location = new ReactiveVar({})
 })
 
 Template.eventForm.onRendered(function() {
@@ -132,7 +142,7 @@ Template.eventForm.events({
 
     newEvent.call({
       headline: $('#headline').val(),
-      description: $('#description').val(),
+      description: MDEdit.description.value(),
       start_date: $('#start_date').val(),
       end_date : $('#end_date').val(),
       location: $('#location').val(),

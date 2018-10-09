@@ -135,6 +135,7 @@ export const editEvent = new ValidatedMethod({
     start_date,
     end_date,
     location,
+    placeId,
     rsvp
   }) {
     if (Meteor.isServer) {
@@ -164,6 +165,7 @@ export const editEvent = new ValidatedMethod({
           end_date: end_date,
           location: location,
           rsvp:rsvp,
+          placeId: placeId,
           updatedAt: new Date().getTime()
         }
       })

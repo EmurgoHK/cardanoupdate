@@ -426,7 +426,12 @@ if (Meteor.isDevelopment) {
                     summary: 'Test',
                     body: 'Test',
                     createdBy: 'test',
-                    createdAt: new Date().getTime()
+                    createdAt: new Date().getTime(),
+                    flags: [{
+                        reason: 'testing',
+                        flaggedBy: Meteor.userId(),
+                        flaggedAt: new Date().getTime()
+                    }]
                 })
             }
         },

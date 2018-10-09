@@ -34,13 +34,13 @@ describe('Events page', function () {
 
         assert(browser.execute(() => $('#descriptionError').text().trim() === 'Description is required').value, true)
 
-        browser.setValue('#description', 'Description Test')
+        browser.execute(() => { MDEdit.description.value('Description Test') })
         browser.pause(1000)
 
-        browser.setValue('#start_date', 'date1')
+        browser.execute(() => $('#start_date').val('2018-12-16T12:12'))
         browser.pause(1000)
 
-        browser.setValue('#end_date', 'date2')
+        browser.execute(() => $('#end_date').val('2018-12-18T12:12'))
         browser.pause(1000)
 
         browser.setValue('#location', 'Novi Sad, S')
@@ -91,6 +91,16 @@ describe('Events page', function () {
 
         browser.click('.swal2-confirm')
         browser.pause(3000)
+    })
+
+    it('user can comment', () => {
+        browser.setValue('#comments', 'Test comment')
+        browser.pause(2000)
+
+        browser.click('.new-comment')
+        browser.pause(3000)
+
+        assert(browser.execute(() => Array.from($('.comments').find('.card-body span')).some(i => $(i).text().includes('Test comment'))).value, true)
     })
 
     it('user can reply to a comment', () => {

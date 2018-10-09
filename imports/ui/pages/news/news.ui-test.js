@@ -206,7 +206,7 @@ describe('News page', function () {
         assert(count === countN + 1, true)
     })
 
-    it('user can be suspended', () => {
+    /*it('user can be suspended', () => {
         browser.execute(() => Meteor.call('toggleSuspended', (err, data) => {}))
         browser.pause(3000)
 
@@ -218,5 +218,5 @@ describe('News page', function () {
         browser.pause(5000)
 
         assert(browser.execute(() => FlowRouter.current().route.name === 'home').value, true)
-    })
+    })*/
 })
