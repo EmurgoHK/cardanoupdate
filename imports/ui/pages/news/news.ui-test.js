@@ -61,26 +61,32 @@ describe('News page', function () {
         assert(browser.execute(() => Array.from($('.news-item').find('.card-title a')).some(i => $(i).text().trim() === 'Headline Test 2')).value, true)
     })
 
-    it('user can vote on news', () => {
-        browser.execute(() => $('.news-reputation').find('.vote-up').click())
+    it('user can vote up/down on news', () => {
+        let initial = browser.execute(() => $('.upvote-count').text()).value
+
+        // downvote 
+        browser.execute(() => $('.news-reputation').find('.vote-down').click())
         browser.pause(3000)
 
+        // get vote count after downvote
         let upvoteCount = browser.execute(() => $('.upvote-count').text()).value
         let downvoteCount = browser.execute(() => $('.downvote-count').text()).value
 
         assert(parseInt(upvoteCount) === 1, true)
-        assert(parseInt(downvoteCount) === 0, true)
-    })
+        assert(parseInt(downvoteCount) === 1, true)
 
-    it('user can downvote on news', () => {
-        browser.execute(() => $('.news-reputation').find('.vote-down').click())
         browser.pause(3000)
 
-        let upvoteCount = browser.execute(() => $('.upvote-count').text()).value
-        let downvoteCount = browser.execute(() => $('.downvote-count').text()).value
+        // upvote
+        browser.execute(() => $('.news-reputation').find('.vote-up').click())
+        browser.pause(3000)
 
-        assert(parseInt(upvoteCount) === 0, true)
-        assert(parseInt(downvoteCount) === 1, true)
+        // get vote count after upvote
+        upvoteCount = browser.execute(() => $('.upvote-count').text()).value
+        downvoteCount = browser.execute(() => $('.downvote-count').text()).value
+
+        assert(parseInt(upvoteCount) === 2, true)
+        assert(parseInt(downvoteCount) === 0, true)
     })
 
     it('user can read the news', () => {
