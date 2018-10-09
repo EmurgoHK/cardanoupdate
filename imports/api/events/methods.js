@@ -15,7 +15,7 @@ export const newEvent = new ValidatedMethod({
     },
     description: {
       type: String,
-      max: 500,
+      max: 1000,
       optional: false
     },
     start_date: {
@@ -97,7 +97,7 @@ export const editEvent = new ValidatedMethod({
     },
     description: {
       type: String,
-      max: 500,
+      max: 1000,
       optional: false
     },
     start_date: {

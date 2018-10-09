@@ -1,5 +1,5 @@
 import './eventForm.html'
-
+import './events.scss'
 import { Template } from 'meteor/templating'
 import { FlowRouter } from 'meteor/kadira:flow-router'
 import { Events } from '/imports/api/events/events'
@@ -8,10 +8,10 @@ import { notify } from '/imports/modules/notifier'
 import { newEvent, editEvent } from '/imports/api/events/methods'
 
 const maxCharValue = (inputId) => {
-  if (inputId === 'headline') {
-    return 100
+  if (inputId === 'description') {
+    return 1000
   }
-  return 500
+  return 100
 }
 
 Template.eventForm.onCreated(function () {
@@ -21,6 +21,11 @@ Template.eventForm.onCreated(function () {
     })
   }
 })
+
+
+MDEditBeforeRender.description=function(next){
+  next('description');
+} //A hook before render, please don't forget next(id); !
 
 Template.eventForm.helpers({
   add: () => FlowRouter.current().route.name === 'editEvent' ? false : true,
@@ -57,7 +62,7 @@ Template.eventForm.events({
 
     let data = {
       headline: $('#headline').val(),
-      description: $('#description').val(),
+      description: MDEdit.description.value(),
       start_date: $('#start_date').val(),
       end_date : $('#end_date').val(),
       location: $('#location').val(),
@@ -68,7 +73,7 @@ Template.eventForm.events({
       editEvent.call({
         eventId : FlowRouter.getParam('id'),
         headline: $('#headline').val(),
-        description: $('#description').val(),
+        description: MDEdit.description.value(),
         start_date: $('#start_date').val(),
         end_date : $('#end_date').val(),
         location: $('#location').val(),
