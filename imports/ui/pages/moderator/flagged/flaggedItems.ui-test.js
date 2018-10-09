@@ -38,7 +38,11 @@ describe('Flagged items page', function () {
         let count = browser.execute(() => $('.news-item').length).value
 
         browser.click('#js-ignore')
-        browser.pause(2000)
+        browser.pause(3000)
+
+        // confirm swal dialog
+        browser.execute(() => $('.swal2-confirm').click())
+        browser.pause(3000)
 
         let countN = browser.execute(() => $('.news-item').length).value
 
@@ -49,7 +53,11 @@ describe('Flagged items page', function () {
         let count = browser.execute(() => $('.news-item').length).value
 
         browser.click('#js-remove')
-        browser.pause(2000)
+        browser.pause(3000)
+
+        // confirm swal dialog
+        browser.execute(() => $('.swal2-confirm').click())
+        browser.pause(3000)
 
         let countN = browser.execute(() => $('.news-item').length).value
 
