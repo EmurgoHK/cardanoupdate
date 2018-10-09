@@ -10,3 +10,19 @@
     text-transform: uppercase;
   }
 }
+
+.mobile-nav{
+  @extend .home-tagline;
+  ul{
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+    padding: 1em;
+    a{
+      font-weight: bold;
+      font-size: 1rem;
+      color: #fff;
+      text-decoration: none;
+    }
+  }
+}
