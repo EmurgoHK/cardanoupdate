@@ -1,12 +1,21 @@
 <template name="main">
   {{> Template.dynamic template=header}}
   <div class="app-body">
-      {{> Template.dynamic template=sidebar}}
+    {{> Template.dynamic template=sidebar}}
     <main class="main">
-        {{> Template.dynamic template=main}}
+      <section class="home-tagline">
+        <div class="container">
+          <div class="row mx-auto">
+            <div class="col-sm-12 pr-0 pl-0 pb-5">
+              <span class="header-title">Cardano Update Space</span>
+              <h4>All Cardano news and projects in one place </h4>
+            </div>
+          </div>
+        </div>
+      </section>
+      {{> Template.dynamic template=main}}
     </main> 
   </div>
-  
 </template>
 
 <!-- added title -->
