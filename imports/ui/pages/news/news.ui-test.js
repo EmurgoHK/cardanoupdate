@@ -62,15 +62,25 @@ describe('News page', function () {
     })
 
     it('user can vote on news', () => {
-        let count = browser.execute(() => $('.vote-news').length).value
-
-        browser.execute(() => $('.news-reputation').find('.vote-news').click())
-        // browser.click('.vote-news')
+        browser.execute(() => $('.news-reputation').find('.vote-up').click())
         browser.pause(3000)
 
-        let countN = browser.execute(() => $('.vote-news').length).value
+        let upvoteCount = browser.execute(() => $('.upvote-count').text()).value
+        let downvoteCount = browser.execute(() => $('.downvote-count').text()).value
 
-        assert(count === countN + 2, true)
+        assert(parseInt(upvoteCount) === 1, true)
+        assert(parseInt(downvoteCount) === 0, true)
+    })
+
+    it('user can downvote on news', () => {
+        browser.execute(() => $('.news-reputation').find('.vote-down').click())
+        browser.pause(3000)
+
+        let upvoteCount = browser.execute(() => $('.upvote-count').text()).value
+        let downvoteCount = browser.execute(() => $('.downvote-count').text()).value
+
+        assert(parseInt(upvoteCount) === 0, true)
+        assert(parseInt(downvoteCount) === 1, true)
     })
 
     it('user can read the news', () => {
