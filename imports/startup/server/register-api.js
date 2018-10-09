@@ -3,6 +3,7 @@
 // user api
 import '/imports/api/user/methods'
 import '/imports/api/user/server/publications'
+import '/imports/api/user/server/startup'
 
 // news api
 import '/imports/api/news/methods'
