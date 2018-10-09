@@ -1,0 +1,40 @@
+<template name="candidates">
+    <div class="news-list container-fluid">
+        <h2>Moderator candidates</h2>
+        <div class="row">
+            {{#if isModerator}}
+            <div class="col-sm-12">
+                <div class="changes-container">
+                {{#if SubsCacheReady}}
+                {{#if candidates.length}}
+                    <div class="row">
+                    {{#each candidates}}
+                        <div class="col-sm-12 card news-item">
+                            <div class="card-body">
+                                <div class="actions">
+                                    <a class="btn btn-sm btn-success" id="js-promote" href="#" role="button" title="Promote">
+                                        Promote
+                                    </a>
+                                </div>
+                                <a class="card-title" href="/profile/{{_id}}">{{profile.name}}</a>
+                                <p class="card-text">Input rating - {{fixed rating}}<br>Total input - {{totalInput}}<br>Rank - {{rank}}</p>
+                            </div>
+                        </div>
+                    {{/each}}
+                    </div>
+                {{else}}
+                    <div class="mt-3">
+                        <h3>No candidates found!</h3>
+                    </div>
+                {{/if}}
+                {{else}}
+                    {{> loader}}
+                {{/if}}
+                </div>
+            </div>
+            {{else}}
+                <h3>You have to be a moderator.</h3>
+            {{/if}}
+        </div>
+    </div>
+</template>

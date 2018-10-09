@@ -3,6 +3,10 @@ import { Meteor } from 'meteor/meteor'
 import { ValidatedMethod } from 'meteor/mdg:validated-method'
 import SimpleSchema from 'simpl-schema'
 
+import { Projects } from '../projects/projects'
+import { News } from '../news/news'
+import { Comments } from '../comments/comments'
+
 export const isModerator = userId => {
 	let user = Meteor.users.findOne({
         _id: userId
@@ -196,8 +200,142 @@ export const pardonVote = new ValidatedMethod({
     }
 })
 
+export const possibleModerators = new ValidatedMethod({
+    name: 'possibleModerators',
+    validate:
+        new SimpleSchema({}).validator({
+            clean: true
+        }),
+    run({}) {
+        let possible = []
+        
+        Meteor.users.find({}).fetch().forEach(i => {
+            let strikes = (i.strikes || []).filter(i => i.time > (new Date().getTime() - 1000*60*60*24*30))
+
+            if (!i.suspended && !i.moderator && strikes.length === 0) { // three requirements, user is not suspended, user is not a moderator, and the user has no strikes in the last 30 days
+                let projects = Projects.find({
+                    createdBy: i._id
+                }).count()
+          
+                let news = News.find({
+                    createdBy: i._id
+                }).count()
+          
+                let comments = Comments.find({
+                    createdBy: i._id
+                }).count()
+
+                possible.push({
+                    _id: i._id,
+                    totalInput: projects + news + comments,
+                })
+            }
+        })
+
+        let maxTotalInput = possible.reduce((i1, i2) => i2.totalInput > i1 ? i2.totalInput : i1, 0) || 1
+
+        possible = possible.map(i => _.extend(i, {
+            rating: (i.totalInput / maxTotalInput)
+        })).sort((i1, i2) => {
+            return i2.rating - i1.rating
+        })
+
+        possible.forEach((i, ind) => {
+            Meteor.users.update({
+                _id: i._id
+            }, {
+                $set: {
+                    'mod.data': _.extend(_.omit(i, '_id'), {
+                        rank: ind + 1
+                    })
+                }
+            })
+        }) // save data for all possible moderators
+
+        possible = possible.slice(0, Math.ceil(possible.length * 0.1)) // top 10%
+
+        Meteor.users.update({
+            'mod.candidate': true
+        }, {
+            $set: {
+                'mod.candidate': false
+            }
+        }) // reset all flags before
+
+        possible.forEach(i => { // set the flag for all candidates
+            Meteor.users.update({
+                _id: i._id
+            }, {
+                $set: {
+                    'mod.candidate': true
+                }
+            })
+        })
+    }
+})
+
+export const promoteUser = new ValidatedMethod({
+    name: 'promoteUser',
+    validate:
+        new SimpleSchema({
+            userId: {
+                type: String,
+                optional: false
+            }
+        }).validator({
+            clean: true
+        }),
+    run({ userId }) {
+        if (!Meteor.userId()) {
+            throw new Meteor.Error('Error.', 'You have to be logged in.')
+        }
+
+        if (!isModerator(Meteor.userId())) {
+            throw new Meteor.Error('Error.', 'You have to be a moderator.')
+        }
+        
+        let user = Meteor.users.findOne({
+            _id: userId
+        })
+
+        if (!user) {
+            throw new Meteor.Error('Error.', 'Invalid user.')
+        }
+
+        Meteor.users.update({
+            _id: user._id
+        }, {
+            $set: {
+                'mod.approved': true,
+                'mod.time': new Date().getTime(),
+                moderator: true
+            }
+        })
+    }
+})
+
 if (Meteor.isDevelopment) {
     Meteor.methods({
+        generateTestCandidate: () => {
+            Meteor.users.insert({
+                profile: {
+                    name: 'TestCandidate'
+                },
+                mod: {
+                    candidate: true,
+                    data: {
+                        rating: 1,
+                        totalInput: 100,
+                        rank: 1
+                    }
+                }
+            })
+        },
+        removeTestCandidate: () => {
+            Meteor.users.remove({
+                'profile.name': 'TestCandidate'
+            })
+        },
         generateTestPardon: () => {
             Meteor.users.insert({
                 profile: {
@@ -301,3 +439,4 @@ export const updateProfile = new ValidatedMethod({
         })
     }
 })
+
