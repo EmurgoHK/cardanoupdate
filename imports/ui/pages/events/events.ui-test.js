@@ -43,8 +43,10 @@ describe('Events page', function () {
         browser.setValue('#end_date', 'date2')
         browser.pause(1000)
 
-        browser.setValue('#location', 'City, Country')
+        browser.setValue('#location', 'Novi Sad, S')
         browser.pause(1000)
+        browser.click('.pac-item')
+        browser.pause(2000)
 
         browser.setValue('#rsvp', 'test')
         browser.pause(1000)

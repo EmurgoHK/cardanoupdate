@@ -14,12 +14,40 @@ const maxCharValue = (inputId) => {
   return 500
 }
 
+const geolocate = (autocomplete) => {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const geolocation = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      }
+
+      const circle = new google.maps.Circle({
+        center: geolocation,
+        radius: position.coords.accuracy
+      })
+
+      autocomplete.setBounds(circle.getBounds())
+    })
+  }
+}
+
 Template.eventForm.onCreated(function () {
   if (FlowRouter.current().route.name === 'editEvent') {
     this.autorun(() => {
       this.subscribe('events.item', FlowRouter.getParam('id'))
     })
   }
+
+  this.location = new ReactiveVar({})
+})
+
+Template.eventForm.onRendered(function() {
+  this.autocomplete = new google.maps.places.Autocomplete($('#location').get(0), {
+    types: ['geocode']
+  })
+
+  this.autocomplete.addListener('place_changed', () => this.location.set(this.autocomplete.getPlace()))
 })
 
 Template.eventForm.helpers({
@@ -30,6 +58,11 @@ Template.eventForm.helpers({
 })
 
 Template.eventForm.events({
+  'focus #location': (event, templateInstance) => {
+    event.preventDefault()
+
+    geolocate(templateInstance.autocomplete)
+  },
   'keyup .form-control'(event, _tpl) {
     event.preventDefault()
 
@@ -62,7 +95,6 @@ Template.eventForm.events({
       end_date : $('#end_date').val(),
       location: $('#location').val(),
       rsvp: $('#rsvp').val()
-
     }
     if (FlowRouter.current().route.name === 'editEvent') {
       editEvent.call({
@@ -73,7 +105,7 @@ Template.eventForm.events({
         end_date : $('#end_date').val(),
         location: $('#location').val(),
         rsvp: $('#rsvp').val(),
-
+        placeId: _tpl.location.get().place_id || ''
       }, (err, _data) => {
         if (!err) {
           notify('Successfully edited.', 'success')
@@ -100,6 +132,7 @@ Template.eventForm.events({
       end_date : $('#end_date').val(),
       location: $('#location').val(),
       rsvp: $('#rsvp').val(),
+      placeId: _tpl.location.get().place_id || ''
     }, (err, data) => {
       if (!err) {
         notify('Successfully added.', 'success')

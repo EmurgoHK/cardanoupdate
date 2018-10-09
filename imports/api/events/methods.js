@@ -31,6 +31,10 @@ export const newEvent = new ValidatedMethod({
       max: 100,
       optional: false
     },
+    placeId: {
+      type: String,
+      optional: false
+    },
     rsvp: {
       type: String,
       optional: false
@@ -111,6 +115,10 @@ export const editEvent = new ValidatedMethod({
     location: {
       type: String,
       max: 100,
+      optional: false
+    },
+    placeId: {
+      type: String,
       optional: false
     },
     rsvp: {
