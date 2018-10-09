@@ -40,7 +40,7 @@
                 </div>
                 <div class="form-check form-check-inline">
                   <input class="form-check-input" type="radio" name="sortOptions" id="sortOption3" value="rating-desc">
-                  <label class="form-check-label" for="sortOption3">Best Rating</label>
+                  <label class="form-check-label" for="sortOption3">Most Popular</label>
                 </div>
                 
               </div>
@@ -80,19 +80,21 @@
                   </div>
                 </div>
                 <hr>
-                {{#if canVote}}
+                <!-- {{#if canVote}} -->
                 <div class="news-reputation float-right">
-                  <span class="badge badge-pill badge-success">☆ {{rating}}</span>
-                  <a class="vote-news" href="#" data-vote="up" title="Vote up">
-                    <i class="far fa-thumbs-up"></i>
+                  <!-- <span class="badge badge-pill badge-success">☆ {{rating}}</span> -->
+                  <span class="text-muted upvote-count"><strong>{{upvotes}}</strong></span> 
+                  <a class="vote-news vote-up" href="#" data-vote="up" title="Vote up">
+                    <i class="{{voteThumbActive 'up'}} fa-thumbs-up"></i>
                   </a>
                   &nbsp;
                   &nbsp;
-                  <a class="vote-news" href="#" data-vote="down" title="Vote down">
-                    <i class="far fa-thumbs-down"></i>
+                  <span class="text-muted downvote-count"><strong>{{downvotes}}</strong></span>  
+                  <a class="vote-news vote-down" href="#" data-vote="down" title="Vote down">
+                    <i class="{{voteThumbActive 'down'}} fa-thumbs-down"></i>
                   </a>
                 </div>
-                {{/if}}
+                <!-- {{/if}} -->
                 <ul class="list-inline text-muted">
                   <li class="list-inline-item">Posted by <a href="/profile/{{createdBy}}"><strong>{{author}}</strong></a></li>
                   <li class="list-inline-item"><i class="icon-clock" style="vertical-align: middle"></i>&nbsp;{{date}}</li>

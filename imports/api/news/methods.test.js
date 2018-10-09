@@ -49,7 +49,7 @@ describe('news methods', () => {
         })
     })
 
-    it('user can vote', () => {
+    it('user can vote up', () => {
         let news = News.findOne({})
 
         assert.ok(news)
@@ -66,6 +66,26 @@ describe('news methods', () => {
 
             assert.ok(news2.votes.length > 0)
             assert.ok(news2.votes.some(i => i.votedBy === Meteor.userId() && i.vote === 'up'))
+        })
+    })
+
+    it('user can vote down', () => {
+        let news = News.findOne({})
+
+        assert.ok(news)
+
+        return callWithPromise('voteNews', {
+            newsId: news._id,
+            vote: 'down'
+        }).then(data => {
+            let news2 = News.findOne({
+                _id: news._id
+            })
+
+            assert.ok(news2)
+
+            assert.ok(news2.votes.length > 0)
+            assert.ok(news2.votes.some(i => i.votedBy === Meteor.userId() && i.vote === 'down'))
         })
     })
 

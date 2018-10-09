@@ -59,10 +59,11 @@ Template.home.helpers({
       return {
         newsId : a._id,
         // TODO : we can remove this on production
-        author : user.hasOwnProperty('profile') ? user.profile.name : 'No name',
+        author : (user || {}).hasOwnProperty('profile') ? user.profile.name : 'No name',
         headline : a.headline,
         summary : a.summary,
         rating: a.rating || 0,
+        votes: a.votes || [],
         canVote: !(a.votes || []).some(i => i.votedBy === Meteor.userId()),
         slug : a.slug,
         date : moment(a.createdAt).fromNow(),
@@ -85,7 +86,7 @@ Template.home.helpers({
       newsId: id
     }).count()
   },
-  truncate: function (str) {
+  truncate (str) {
     const max_length = 180
     
     if (str.length > max_length) {
@@ -93,7 +94,21 @@ Template.home.helpers({
     }
 
     return str
+  },
+  upvotes () {
+    return ((this.votes || []).filter(v => v.vote === 'up')).length
+  },
+  downvotes () {
+    return ((this.votes || []).filter(v => v.vote === 'down')).length
+  },
+  voteThumbActive (vote) {
+    if((this.votes || []).some(i => i.votedBy === Meteor.userId() && i.vote === vote)) {
+      return 'fas'
+    }
+
+    return 'far'
   }
+
 })
 
 Template.home.events({
