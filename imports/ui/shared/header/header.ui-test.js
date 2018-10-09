@@ -47,6 +47,14 @@ describe('Header when user is logged in', () => {
         assert(browser.isExisting('#signOut'), true)
     })
 
+    it('should hide sidebar when nav-bar toggler is clicked', () => {
+        browser.click('button.d-none.d-lg-block')
+        browser.pause(3000)
+        
+        assert(browser.isExisting('.sidebar'), false)
+        assert(browser.isVisible('.sidebar'), false)
+    })
+
     it ('should sign out user when signOut is clicked', () => {
         browser.click('#dropdownMenu2')
         browser.pause(1000)
@@ -54,15 +62,7 @@ describe('Header when user is logged in', () => {
         browser.click('#signOut')
         browser.pause(3000)
 
-        assert(browser.isExisting('#signIn'), true)
-        assert(browser.isVisible('#signIn'), true)
-    })
-
-    it('should hide sidebar when nav-bar toggler is clicked', () => {
-        browser.click('button.d-none.d-lg-block')
-        browser.pause(3000)
-        
-        assert(browser.isExisting('.sidebar'), false)
-        assert(browser.isVisible('.sidebar'), false)
+        assert(browser.isExisting('#js-facebook'), true)
+        assert(browser.isVisible('#js-facebook'), true)
     })
 })
