@@ -91,6 +91,15 @@ export const addNews = new ValidatedMethod({
             createdAt: new Date().getTime(),
             createdBy: Meteor.userId(),
             subscribers: [Meteor.userId()],
+            votes: [{
+                vote: 'up',
+                votedBy: Meteor.userId(),
+                votedAt: new Date().getTime()
+            }, {
+                vote: 'up',
+                votedBy: 'System',
+                votedAt: new Date().getTime()
+            }],
             image: image || ''
         })
     }
