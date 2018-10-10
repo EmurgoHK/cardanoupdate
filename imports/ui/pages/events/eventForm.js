@@ -78,6 +78,9 @@ Template.eventForm.events({
 
     geolocate(templateInstance.autocomplete)
   },
+  'focus #end_date'(event, _tpl) {
+     if($('#start_date').val() && !$('#end_date').val()){$('#end_date').val($('#start_date').val())}
+  },
   'keyup .form-control'(event, _tpl) {
     event.preventDefault()
 
