@@ -10,3 +10,6 @@ npm-error.log
 
 # local testing images
 public/images
+
+# ENV Variables
+*.env
