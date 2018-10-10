@@ -258,6 +258,15 @@ FlowRouter.route('/login', {
   }
 })
 
+FlowRouter.route('/password-reset', {
+  name: 'resetPassword',
+  action() {
+    BlazeLayout.render('auth', {
+      main: 'passwordReset'
+    })
+  }
+})
+
 FlowRouter.route('/signup', {
   name: 'signup',
   action() {

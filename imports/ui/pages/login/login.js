@@ -56,3 +56,22 @@ Template.login.events({
         })
     }
 })
+
+// Password Reset
+Template.passwordReset.events({
+  'submit #resetPasswordForm' : (event, templateInstance) => {
+    event.preventDefault()
+    let forgotPasswordForm = templateInstance.$(event.currentTarget),
+    email = forgotPasswordForm.find('#email').val().toLowerCase()
+    if (email && email !== '') {
+      Accounts.forgotPassword({ email: email }, function (err) {
+        if (err) {
+          notify(err.reason || err.message, 'error')
+          return
+        } else {
+          notify('Please check your mail box for password reset link.', 'success')
+        }
+      });
+    }
+  }
+})
