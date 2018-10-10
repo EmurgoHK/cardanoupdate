@@ -1,13 +1,12 @@
-import './newsForm.html'
-import './news.scss'
+import './researchForm.html'
 
 import { Template } from 'meteor/templating'
 import { FlowRouter } from 'meteor/kadira:flow-router'
 
-import { News } from '/imports/api/news/news'
+import { Research } from '/imports/api/research/research'
 import { notify } from '/imports/modules/notifier'
 
-import { addNews, editNews } from '/imports/api/news/methods'
+import { newResearch, editResearch } from '/imports/api/research/methods'
 
 import '/imports/ui/shared/uploader/uploader'
 import { getFiles } from '/imports/ui/shared/uploader/uploader'
@@ -15,50 +14,42 @@ import { getFiles } from '/imports/ui/shared/uploader/uploader'
 const maxCharValue = (inputId) => {
     if (inputId === 'headline') {
     	return 140
-    } else if (inputId === 'summary') {
-    	return 500
     }
 
-    return 5000
+    return 1000
 }
 
-Template.newsForm.onCreated(function() {
-	if (FlowRouter.current().route.name === 'editNews') {
+Template.researchForm.onCreated(function() {
+	if (FlowRouter.current().route.name === 'editResearch') {
 		this.autorun(() => {
-			this.subscribe('news.item', FlowRouter.getParam('id'))
+			this.subscribe('research.item', FlowRouter.getParam('slug'))
 		})
 	}
 })
 
-MDEditBeforeRender.body=function(next){
-  next('body');
-} //A hook before render, please don't forget next(id); !
-
-
-Template.newsForm.helpers({
-	news: () => News.findOne({
-		_id: FlowRouter.getParam('id')
+Template.researchForm.helpers({
+	research: () => Research.findOne({
+		slug: FlowRouter.getParam('slug')
   	}),
-  	add: () => FlowRouter.current().route.name === 'editNews' ? false : true,
-  	images: () => {
-  		if (FlowRouter.current().route.name === 'editNews') {
-  			let news = News.findOne({
-				_id: FlowRouter.getParam('id')
+  	add: () => !(FlowRouter.current().route.name === 'editResearch'),
+  	pdf: () => {
+  		if (FlowRouter.current().route.name === 'editResearch') {
+  			let research = Research.findOne({
+				slug: FlowRouter.getParam('slug')
   			}) || {}
 
-  			if (news && news.image) {
-  				return [news.image]
+  			if (research && research.pdf) {
+  				return [research.pdf]
   			}
 
   			return []
   		}
 
   		return []
-	  },
-	  tagsAsString: (tags) => tags == undefined ? [] : tags.toString()	  
+	}  
 })
 
-Template.newsForm.events({
+Template.researchForm.events({
 	'keyup .form-control': (event, templateInstance) => {
         event.preventDefault()
 
@@ -78,22 +69,19 @@ Template.newsForm.events({
 
         $(`#${inputId}`).unbind('keypress')
     },
-    'click .add-news': function(event, templateInstance) {
+    'click .new-research': function(event, templateInstance) {
 		event.preventDefault()
 
-        let tags = $('#tagInput').val().split(',')
-    	if (FlowRouter.current().route.name === 'addNews') {
-	    	addNews.call({
+    	if (FlowRouter.current().route.name === 'newResearch') {
+	    	newResearch.call({
 	    		headline: $('#headline').val(),
-	    		summary: $('#summary').val(),
-	    		body: MDEdit.body.value(),
-				image: getFiles()[0] || '',
-				tags: tags
+	    		abstract: $('#abstract').val(),
+				pdf: getFiles()[0]
 	    	}, (err, data) => {
 	    		if (!err) {
 	    			notify('Successfully added.', 'success')
 
-	        		FlowRouter.go('/')
+	        		FlowRouter.go('/research')
 
 	        		return
 	      		}
@@ -107,18 +95,20 @@ Template.newsForm.events({
 		      	}
 	    	})
     	} else {
-    		editNews.call({
-    			newsId: FlowRouter.getParam('id'),
+    		let research = Research.findOne({
+    			slug: FlowRouter.getParam('slug')
+    		})
+
+    		editResearch.call({
+    			researchId: research._id,
 	    		headline: $('#headline').val(),
-	    		summary: $('#summary').val(),
-	    		body: MDEdit.body.value(),
-				image: getFiles()[0] || '',
-				tags: tags
+	    		abstract: $('#abstract').val(),
+				pdf: getFiles()[0]
 	    	}, (err, data) => {
 	    		if (!err) {
 	    			notify('Successfully edited.', 'success')
 
-	        		FlowRouter.go('/')
+	        		FlowRouter.go('/research')
 
 	        		return
 	      		}

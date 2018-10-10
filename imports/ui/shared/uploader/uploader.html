@@ -1,0 +1,18 @@
+<template name="uploader">
+	<div>
+		<label class="btn btn-primary" for="fileInput" id="fileInputLabel">
+	        <input id="fileInput" type="file" style="display:none">
+	        <span id="fileUploadValue">Upload</span>
+	    </label>
+	    <div id="preview">
+	    	{{#each files}}
+	    	{{#if image}}
+	    		<img src="{{this}}" height="100" />
+	    	{{/if}}
+	    	{{#if pdf}}
+	    		<a href="{{this}}">{{this}}</a>
+	    	{{/if}}
+	    	{{/each}}
+	    </div>
+	</div>
+</template>

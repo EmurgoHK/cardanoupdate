@@ -12,6 +12,9 @@ import '/imports/ui/pages/news/viewNews'
 import '/imports/ui/pages/projects/projects'
 import '/imports/ui/pages/projects/projectForm'
 import '/imports/ui/pages/projects/viewProject'
+import '/imports/ui/pages/research/research'
+import '/imports/ui/pages/research/researchForm'
+import '/imports/ui/pages/research/viewResearch'
 import '/imports/ui/pages/events/events'
 import '/imports/ui/pages/events/eventForm'
 import '/imports/ui/pages/events/viewEvent'
@@ -142,6 +145,50 @@ FlowRouter.route('/projects/:slug', {
       header: 'header',
       sidebar: 'sidebar',
       main: 'viewProject'
+    })
+  }
+})
+
+FlowRouter.route('/research', {
+  name: 'research',
+  action() {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'research'
+    })
+  }
+})
+
+FlowRouter.route('/research/new', {
+  name: 'newResearch',
+  action() {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'researchForm'
+    })
+  }
+})
+
+FlowRouter.route('/research/:slug/edit', {
+  name: 'editResearch',
+  action() {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'researchForm'
+    })
+  }
+})
+
+FlowRouter.route('/research/:slug', {
+  name: 'viewResearch',
+  action() {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'viewResearch'
     })
   }
 })
