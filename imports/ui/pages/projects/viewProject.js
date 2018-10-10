@@ -33,6 +33,12 @@ Template.viewProject.onCreated(function() {
 })
 
 Template.viewProject.helpers({
+  isOwner : function() {
+    if(this.createdBy === Meteor.userId()){
+      return true
+    }
+    return false
+  },
 	project: () => Projects.findOne({
 		slug: FlowRouter.getParam('slug')
 	}),
