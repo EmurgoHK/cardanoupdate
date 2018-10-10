@@ -32,6 +32,12 @@ Template.viewNews.onCreated(function() {
 })
 
 Template.viewNews.helpers({
+  isOwner : function() {
+    if(this.createdBy === Meteor.userId()){
+      return true
+    }
+    return false
+  },
 	watching: function() {
 		return ~(this.subscribers || []).indexOf(Meteor.userId())
 	},

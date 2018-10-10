@@ -29,6 +29,12 @@ Template.viewEvent.onCreated(function () {
 })
 
 Template.viewEvent.helpers({
+  isOwner : function() {
+    if(this.createdBy === Meteor.userId()){
+      return true
+    }
+    return false
+  },
   watching: function() {
 		return ~(this.subscribers || []).indexOf(Meteor.userId())
 	},
