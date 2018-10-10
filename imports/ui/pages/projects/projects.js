@@ -4,7 +4,7 @@ import { Template } from 'meteor/templating'
 import { FlowRouter } from 'meteor/kadira:flow-router'
 import { Projects } from '/imports/api/projects/projects'
 
-import { deleteProject, proposeNewData } from '/imports/api/projects/methods'
+import { deleteProject, proposeNewData, flagProject } from '/imports/api/projects/methods'
 import swal from 'sweetalert2'
 
 import { notify } from '/imports/modules/notifier'
@@ -142,6 +142,30 @@ Template.projects.events({
       event.preventDefault();
 
       templateInstance.searchFilter.set($('#searchBox').val())
-    }
+    },
 
+    'click .flag-project' : function (event, templateInstance){
+      event.preventDefault()
+      swal({
+		  	title: 'Why are you flagging this?',
+		  	input: 'text',
+		  	showCancelButton: true,
+		  	inputValidator: (value) => {
+		    	return !value && 'You need to write a valid reason!'
+		  	}
+      }).then(data => {
+        if (data.value) {
+          flagProject.call({
+            projectId: this._id,
+            reason: data.value
+          }, (err, data) => {
+            if (err) {
+              notify(err.reason || err.message, 'error')
+            } else {
+              notify('Successfully flagged. Moderators will decide what to do next.', 'success')
+            }
+          })
+        }
+      })
+    }
 })

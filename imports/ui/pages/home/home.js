@@ -8,7 +8,7 @@ import { News } from '/imports/api/news/news'
 import { Comments } from '/imports/api/comments/comments'
 import { notify } from '/imports/modules/notifier'
 
-import { removeNews, voteNews } from '/imports/api/news/methods'
+import { flagNews, removeNews, voteNews } from '/imports/api/news/methods'
 
 import swal from 'sweetalert2'
 import moment from 'moment'
@@ -131,6 +131,29 @@ Template.home.events({
         }, (err, data) => {
           if (err) {
             notify(err.reason || err.message, 'error')
+          }
+        })
+      }
+    })
+  },
+  'click .flag-news' : function(event, templateInstance) {
+    swal({
+      title: 'Why are you flagging this?',
+      input: 'text',
+      showCancelButton: true,
+      inputValidator: (value) => {
+        return !value && 'You need to write a valid reason!'
+      }
+    }).then(data => {
+      if (data.value) {
+        flagNews.call({
+          newsId: this.newsId,
+          reason: data.value
+        }, (err, data) => {
+          if (err) {
+            notify(err.reason || err.message, 'error')
+          } else {
+            notify('Successfully flagged. Moderators will decide what to do next.', 'success')
           }
         })
       }

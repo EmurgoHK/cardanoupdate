@@ -3,7 +3,8 @@ import './events.html'
 import { Template } from 'meteor/templating'
 import { FlowRouter } from 'meteor/kadira:flow-router'
 import { Events } from '/imports/api/events/events'
-import { deleteEvent } from '/imports/api/events/methods'
+import { deleteEvent, flagEvent } from '/imports/api/events/methods'
+import { notify } from '/imports/modules/notifier'
 import swal from 'sweetalert2'
 
 const CHUNK_SIZE = 3
@@ -52,4 +53,28 @@ Template.events.events({
       }
     })
   },
+  'click .flag-event' : function (event, templateInstance){
+    event.preventDefault()
+    swal({
+      title: 'Why are you flagging this?',
+      input: 'text',
+      showCancelButton: true,
+      inputValidator: (value) => {
+        return !value && 'You need to write a valid reason!'
+      }
+    }).then(data => {
+      if (data.value) {
+        flagEvent.call({
+          eventId: this._id,
+          reason: data.value
+        }, (err, data) => {
+          if (err) {
+            notify(err.reason || err.message, 'error')
+          } else {
+            notify('Successfully flagged. Moderators will decide what to do next.', 'success')
+          }
+        })
+      }
+    })
+  }
 })
