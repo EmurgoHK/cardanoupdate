@@ -34,7 +34,7 @@ describe('News page', function () {
 
         assert(browser.execute(() => $('#bodyError').text().trim() === 'Body is required').value, true)
 
-        browser.execute(() => { MDEdit.body.value('Body test') })
+        browser.execute(() => { window.mde.value('Body test') })
         browser.pause(1000)
 
         browser.click('.add-news')

@@ -1,6 +1,8 @@
 import './newsForm.html'
 import './news.scss'
 
+import SimpleMDE from 'simplemde'
+
 import { Template } from 'meteor/templating'
 import { FlowRouter } from 'meteor/kadira:flow-router'
 
@@ -30,10 +32,24 @@ Template.newsForm.onCreated(function() {
 	}
 })
 
-MDEditBeforeRender.body=function(next){
-  next('body');
-} //A hook before render, please don't forget next(id); !
+Template.newsForm.onRendered(function() {
+	this.mde = new SimpleMDE({
+		element: $("#body")[0],
+		toolbar: ['bold', 'italic', 'heading', '|', 'quote', 'unordered-list', 'ordered-list', '|', 'clean-block', 'link', 'image', '|', 'preview', 'side-by-side', 'fullscreen', '|', 'guide'],
+	})
 
+	window.mde = this.mde
+
+	this.autorun(() => {
+		let news = News.findOne({
+			_id: FlowRouter.getParam('id')
+	  	})
+
+		if (news) {
+			this.mde.value(news.body)
+		}
+	})
+})
 
 Template.newsForm.helpers({
 	news: () => News.findOne({
@@ -86,7 +102,7 @@ Template.newsForm.events({
 	    	addNews.call({
 	    		headline: $('#headline').val(),
 	    		summary: $('#summary').val(),
-	    		body: MDEdit.body.value(),
+	    		body: templateInstance.mde.value(),
 				image: getImages()[0] || '',
 				tags: tags
 	    	}, (err, data) => {
@@ -111,7 +127,7 @@ Template.newsForm.events({
     			newsId: FlowRouter.getParam('id'),
 	    		headline: $('#headline').val(),
 	    		summary: $('#summary').val(),
-	    		body: MDEdit.body.value(),
+	    		body: templateInstance.mde.value(),
 				image: getImages()[0] || '',
 				tags: tags
 	    	}, (err, data) => {

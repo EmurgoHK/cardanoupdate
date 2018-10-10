@@ -21,7 +21,7 @@
           <small><i id="summary-chars" class="text-muted"></i></small>
           <div class="group-title">Content</div>
           <div class="article-body">
-            {{> MDEdit id='body' defaultContent=news.body}}
+            <textarea class="form-control" id="body" rows="6" value="{{news.body}}" placeholder="News article body"></textarea>
           </div>
           <div id="bodyError" class="invalid-feedback"></div>
           <small><i id="body-chars" class="text-muted"></i></small>
