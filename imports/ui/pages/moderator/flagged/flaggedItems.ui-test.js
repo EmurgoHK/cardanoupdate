@@ -31,11 +31,11 @@ describe('Flagged items page', function () {
         browser.url(`${baseUrl}/moderator/flagged`)
         browser.pause(5000)
 
-        assert(browser.execute(() => $('.news-item').length > 0).value, true)
+        assert(browser.execute(() => $('.card').length > 0).value, true)
     })
 
     it('moderator can ignore flagged items', function () {
-        let count = browser.execute(() => $('.news-item').length).value
+        let count = browser.execute(() => $('.card').length).value
 
         browser.click('#js-ignore')
         browser.pause(3000)
@@ -44,13 +44,13 @@ describe('Flagged items page', function () {
         browser.execute(() => $('.swal2-confirm').click())
         browser.pause(3000)
 
-        let countN = browser.execute(() => $('.news-item').length).value
+        let countN = browser.execute(() => $('.card').length).value
 
-        assert(count === countN - 1, true)
+        assert(count === countN + 1, true)
     })
     
     it('moderator can remove flagged items', function () {
-        let count = browser.execute(() => $('.news-item').length).value
+        let count = browser.execute(() => $('.card').length).value
 
         browser.click('#js-remove')
         browser.pause(3000)
@@ -59,9 +59,9 @@ describe('Flagged items page', function () {
         browser.execute(() => $('.swal2-confirm').click())
         browser.pause(3000)
 
-        let countN = browser.execute(() => $('.news-item').length).value
+        let countN = browser.execute(() => $('.card').length).value
 
-        assert(count === countN - 1, true)
+        assert(count === countN + 1, true)
     })
 
     after(() => {

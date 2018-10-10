@@ -38,7 +38,7 @@ describe('Pardon requests page', function () {
 
     it('moderator can vote on pardon request', function () {
         browser.click('.js-vote')
-        browser.pause(3000)
+        browser.pause(4000)
 
         assert(browser.execute(() => FlowRouter.current().route.name === 'pardon').value, true)
     })

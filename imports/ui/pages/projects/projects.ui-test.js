@@ -55,7 +55,7 @@ describe('Projects page', function () {
         browser.pause(1000)
 
         browser.click('.swal2-confirm')
-        browser.pause(3000)
+        browser.pause(2000)
 
         assert(browser.execute(() => !!testingProjects.findOne({ 'edits.0': { $exists: true } })).value, true)
     })

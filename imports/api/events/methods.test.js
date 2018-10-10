@@ -24,8 +24,11 @@ describe('event methods', () => {
     return callWithPromise('newEvent', {
       headline: 'Test headline',
       description: 'Test description',
-      github_url: 'test',
-      website: 'test web'
+      start_date: 'test',
+      end_date: 'test2',
+      location: 'test loc',
+      placeId: 'tt',
+      rsvp: 'test rsvp'
     }).then(data => {
       let event = Events.findOne({
         _id: data
@@ -36,9 +39,10 @@ describe('event methods', () => {
       assert.ok(event.headline === 'Test headline')
       assert.ok(event.description === 'Test description')
       assert.ok(event.start_date === 'test')
-      assert.ok(event.end_date === 'test')
-      assert.ok(event.rsvp === 'test')
-      assert.ok(event.location === 'city, country')
+      assert.ok(event.end_date === 'test2')
+      assert.ok(event.rsvp === 'test rsvp')
+      assert.ok(event.location === 'test loc')
+      assert.ok(event.placeId === 'tt')
     })
   })
 
@@ -63,7 +67,8 @@ describe('event methods', () => {
       start_date: 'test',
       end_date : 'test',
       location: 'test web',
-      rsvp:'test'
+      rsvp:'test',
+      placeId: 'ttt'
     }).then(data => {
       let event2 = Events.findOne({
         _id: event._id
@@ -74,9 +79,10 @@ describe('event methods', () => {
       assert.ok(event2.headline === 'Test headline 2')
       assert.ok(event2.description === 'Test description 2')
       assert.ok(event2.start_date === 'test')
-      assert.ok(event2.end_date === 'test web')
+      assert.ok(event2.end_date === 'test')
       assert.ok(event2.location === 'test web')
       assert.ok(event2.rsvp === 'test')
+      assert.ok(event2.placeId === 'ttt')
 
     })
   })
