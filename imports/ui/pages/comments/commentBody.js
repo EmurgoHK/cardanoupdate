@@ -26,7 +26,8 @@ Template.commentBody.helpers({
         return ((Meteor.users.findOne({
             _id: this.createdBy
         }) || {}).profile || {}).name || 'No name'
-    },
+	},
+	user: () => Meteor.users.findOne({ _id: this.createdBy}),
     canEditComment: function() {
     	return this.createdBy === Meteor.userId()
     },
