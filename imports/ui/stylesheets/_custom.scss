@@ -145,6 +145,16 @@ header {
     }
 }
 
+.nav-tabs {
+    li.nav-item {
+        a.nav-link {
+            &.active {
+                color: $theme-primary;
+            }
+        }
+    }
+}
+
 .main {
     .container-fluid {
         padding-top: 30px;
