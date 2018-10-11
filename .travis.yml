@@ -19,6 +19,8 @@ before_install:
   - selenium-standalone start &
   - sudo mkdir -p /home/gareth/cardanoupdate_assets/static/images/ # for the image upload
   - sudo chmod -R 777 /home/gareth/cardanoupdate_assets/static/images/
+  - sudo mkdir -p /home/gareth/cardanoupdate_assets/static/pdfs/ # for the pdf upload
+  - sudo chmod -R 777 /home/gareth/cardanoupdate_assets/static/pdfs/
 
 cache:
   directories:

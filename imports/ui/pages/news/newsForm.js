@@ -11,8 +11,8 @@ import { notify } from '/imports/modules/notifier'
 
 import { addNews, editNews } from '/imports/api/news/methods'
 
-import '/imports/ui/shared/uploader/imageUploader'
-import { getImages } from '/imports/ui/shared/uploader/imageUploader'
+import '/imports/ui/shared/uploader/uploader'
+import { getFiles } from '/imports/ui/shared/uploader/uploader'
 
 const maxCharValue = (inputId) => {
     if (inputId === 'headline') {
@@ -103,8 +103,8 @@ Template.newsForm.events({
 	    		headline: $('#headline').val(),
 	    		summary: $('#summary').val(),
 	    		body: templateInstance.mde.value(),
-				image: getImages()[0] || '',
-				tags: tags
+				  image: getFiles()[0] || '',
+				  tags: tags
 	    	}, (err, data) => {
 	    		if (!err) {
 	    			notify('Successfully added.', 'success')
@@ -128,8 +128,8 @@ Template.newsForm.events({
 	    		headline: $('#headline').val(),
 	    		summary: $('#summary').val(),
 	    		body: templateInstance.mde.value(),
-				image: getImages()[0] || '',
-				tags: tags
+				  image: getFiles()[0] || '',
+				  tags: tags
 	    	}, (err, data) => {
 	    		if (!err) {
 	    			notify('Successfully edited.', 'success')

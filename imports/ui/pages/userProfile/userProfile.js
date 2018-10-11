@@ -7,8 +7,8 @@ import './viewProfile.html'
 import './editProfile.html'
 import './userProfile.scss'
 
-import '/imports/ui/shared/uploader/imageUploader'
-import { getImages } from '/imports/ui/shared/uploader/imageUploader'
+import '/imports/ui/shared/uploader/uploader'
+import { getFiles } from '/imports/ui/shared/uploader/uploader'
 
 Template.viewProfile.onCreated(function(){
   this.autorun(() => {
@@ -105,7 +105,7 @@ Template.editProfile.events({
       name : event.target.userName.value,
       email : event.target.userEmail.value,
       bio : event.target.bio.value,
-      image: getImages()[0] || ''
+      image: getFiles()[0] || ''
     }, (err, res) => {
       if(err){
         console.log(err)

@@ -7,12 +7,14 @@ import { News } from '/imports/api/news/news'
 import { Comments } from '/imports/api/comments/comments'
 import { Projects } from '/imports/api/projects/projects'
 import { Events } from '/imports/api/events/events'
+import { Research } from '/imports/api/research/research'
 import { notify } from '/imports/modules/notifier'
 
 import { resolveNewsFlags } from '/imports/api/news/methods'
 import { resolveCommentFlags } from '/imports/api/comments/methods'
 import { resolveProjectFlags } from '/imports/api/projects/methods'
 import { resolveEventFlags } from '/imports/api/events/methods'
+import { resolveResearchFlags } from '/imports/api/research/methods'
 
 import swal from 'sweetalert2'
 
@@ -21,8 +23,9 @@ Template.flaggedItems.onCreated(function() {
 		this.subscribe('comments.flagged')
 		this.subscribe('news')
 		this.subscribe('users')
-    this.subscribe('projects')
-    this.subscribe('events')
+    	this.subscribe('projects')
+    	this.subscribe('events')
+    	this.subscribe('research')
 	})
 })
 
@@ -46,14 +49,21 @@ Template.flaggedItems.helpers({
 			}
 		}).fetch()
 
-    let events = Events.find({
-      'flags.0': {
+	    let events = Events.find({
+	      'flags.0': {
+					$exists: true
+				}
+	    }).fetch()
+
+	    let research = Research.find({
+			'flags.0': {
 				$exists: true
 			}
-    }).fetch()
-		return _.union(events, comments, news, projects).map(i => ({
+		}).fetch()
+
+		return _.union(research, events, comments, news, projects).map(i => ({
 			_id: i._id,
-			link: i.location ? `/events/${i.slug}` : (i.summary ? `/news/${i.slug}` : (i.description ? `/project/${i.slug}` : '')),
+			link: i.pdf ? `/research/${i.slug}` : (i.location ? `/events/${i.slug}` : (i.summary ? `/news/${i.slug}` : (i.description ? `/project/${i.slug}` : ''))),
 			text: i.headline ? i.headline : i.text,
 			reasons: i.flags.map(j => ({
 				reason: j.reason,
@@ -62,9 +72,10 @@ Template.flaggedItems.helpers({
 				}) || {}).profile || {}).name || 'No name'
 			})),
 			times: `${i.flags.length} ${i.flags.length === 1 ? 'time' : 'times'}`,
-      isEvent: !!i.location,
-      isNews: !!i.summary,
-			isProject: !!i.description
+      		isEvent: !!i.location,
+      		isNews: !!i.summary,
+			isProject: !!i.description,
+			isResearch: !!i.pdf
 		}))
 	}
 })
@@ -105,6 +116,17 @@ Template.flaggedItems.events({
 				} else if (this.isProject) {
 					resolveProjectFlags.call({
 						projectId: this._id,
+						decision: 'ignore'
+					}, (err, data) => {
+						if (err) {
+							notify(err.reason || err.message, 'error')
+						} else {
+							notify('Successfully ignored.', 'success')
+						}
+					})
+				} else if (this.isResearch) {
+					resolveResearchFlags.call({
+						researchId: this._id,
 						decision: 'ignore'
 					}, (err, data) => {
 						if (err) {
@@ -162,6 +184,17 @@ Template.flaggedItems.events({
 				} else if (this.isProject) {
 					resolveProjectFlags.call({
 						projectId: this._id,
+						decision: 'remove'
+					}, (err, data) => {
+						if (err) {
+							notify(err.reason || err.message, 'error')
+						} else {
+							notify('Successfully removed.', 'success')
+						}
+					})
+				} else if (this.isResearch) {
+					resolveResearchFlags.call({
+						researchId: this._id,
 						decision: 'remove'
 					}, (err, data) => {
 						if (err) {

@@ -3,7 +3,7 @@ const baseUrl = 'http://localhost:3000/add'
 
 const path = require('path')
 
-describe('Image uploader', function () {
+describe('Uploader', function () {
     before(() => {
         browser.url(`http://localhost:3000/`)
         browser.pause(5000)
@@ -33,10 +33,10 @@ describe('Image uploader', function () {
     it('should upload an image correctly', () => {
         const file = path.join(__dirname, '..', '..', '..', '..', 'public', 'img', 'dog.jpg')
 
-        browser.chooseFile('#imageInput', file)
+        browser.chooseFile('#fileInput', file)
         browser.pause(10000)
 
-        assert(browser.execute(() => $('#fileUploadValue').text() === 'Change image').value, true)
+        assert(browser.execute(() => $('#fileUploadValue').text() === 'Change').value, true)
         assert(browser.execute(() => Array.from($('#preview img').map((i, el) => $(el).attr('src'))).length > 0).value, true)
     })
 })
