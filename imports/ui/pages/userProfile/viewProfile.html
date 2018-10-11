@@ -4,17 +4,47 @@
       <div class="row">
         <div class="col-sm-12">
           <div class="card user-info">
-            <h4>{{name}}</h4>
-            {{#if picture}}
-            <img src="{{picture}}" width="256" />
-            {{/if}}
-            <br />
-            <p>About: <br /> {{bio}}</p>
+            <div class="media">
+                <img src="{{avatarFor currentUser '100'}}" alt=""  height="100" width="100" class="mr-3 rounded">
+                <div class="media-body">
+                  <h4 class="mt-0"><strong>{{name}}</strong></h4>
+                  <p class="h6 text-muted"><strong>About</strong></p>
+                  <p>{{bio}}</p>
+                </div>
+            </div>
           </div>
         </div>
-        <div class="col sm 12">
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active border-0 mb-1 bg-transparent pl-1" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
+                <i class="fas fa-chart-line"></i>&nbsp; {{#if ownProfile}}Your Content{{else}}{{user.name}}'s Activity{{/if}}
+              </a>
+            </li>
+          </ul>
           
-          <div class="user-content">
+          <div class="tab-content border-0 rounded shadow mb-4" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                {{#if contentCount}}
+                {{#each userContent}}
+                  <h6 class="mb-3 mt-3">
+                    {{#if isComment}} 
+                      <i class="far fa-comments" style="vertical-align: middle"></i>&nbsp;Commented on 
+                    {{else}} 
+                      <i class="far fa-edit" style="vertical-align: middle"></i>&nbsp;Posted 
+                    {{/if}}
+
+                    <strong><a href="/news/{{link}}">{{title}}</a></strong>&nbsp;&nbsp;<small class="text-muted"><i class="icon-clock" style="vertical-align: middle"></i>&nbsp;{{showTimeAgoTimestamp createdAt}}</small> 
+                  </h6>
+                {{/each}}
+              {{else}}
+                User doesn't have any activity.
+              {{/if}}
+            </div>
+          </div>
+          <!-- <div class="user-content">
             <h4>{{#if ownProfile}}Your Content{{else}}{{user.name}}'s Activity{{/if}}</h4>
             {{#if contentCount}}
               {{#each userContent}}
@@ -26,7 +56,7 @@
             {{else}}
               User doesn't have any activity.
             {{/if}}
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
