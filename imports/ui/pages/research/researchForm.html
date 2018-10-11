@@ -1,0 +1,33 @@
+<template name="researchForm">
+  <div class="news-form container">
+    <div class="card mb-5">
+      <div class="card-body">
+        <h2 class="card-title">
+            {{#if add}}New research{{else}}Edit research{{/if}}
+        </h2>
+        <hr>
+        <form>
+          <div class="group-title">Headline</div>
+          <div class="input-group">
+            <input type="text" class="form-control" id="headline" value="{{research.headline}}" placeholder="Headline in 140 characters or less">
+            <div id="headlineError" class="invalid-feedback"></div>
+          </div>
+          <small><i id="headline-chars" class="text-muted"></i></small>
+          <div class="group-title">Abstract</div>
+          <div class="input-group">
+            <textarea class="form-control" id="abstract" rows="6" value="{{research.abstract}}" placeholder="Research paper abstract in 1000 characters or less"></textarea>
+            <div id="abstractError" class="invalid-feedback"></div>
+          </div>
+          <small><i id="abstract-chars" class="text-muted"></i></small>
+          <div class="group-title">PDF file</div>
+          {{> uploader files=pdf single=true type='pdf'}}
+        </form>
+      </div>
+      <div class="card-footer">
+        <div>
+          <button type="submit" class="btn btn-lg btn-success new-research">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

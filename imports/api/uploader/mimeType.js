@@ -1,7 +1,8 @@
 const db = {
 	'image/png': 'png',
 	'image/gif': 'gif',
-	'image/jpeg': 'jpg'
+	'image/jpeg': 'jpg',
+	'application/pdf': 'pdf'
 }
 
 const dbInv = Object.keys(db).reduce((obj, key) => (obj[db[key]] = key, obj), {})
