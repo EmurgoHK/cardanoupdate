@@ -3,8 +3,12 @@
   .text-editor{
     flex-direction: column;
   }
-  input[type="text"],
-  textarea {
+  .article-body{
+    p{
+      margin-top: 1em;
+    }
+  }
+  input[type="text"], textarea{
     outline: none;
     height: auto;
     border-radius: 0;
@@ -14,9 +18,7 @@
     background: #e9e9e9;
     line-height: 1.5em;
     box-shadow: 5px 5px 100px #ddd inset, -5px -5px 100px #ddd inset;
-
-    &:active,
-    &:focus {
+    &:active, &:focus{
       outline: none;
       border: none;
       color: #23282c;

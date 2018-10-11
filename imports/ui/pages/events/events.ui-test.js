@@ -34,7 +34,7 @@ describe('Events page', function () {
 
         assert(browser.execute(() => $('#descriptionError').text().trim() === 'Description is required').value, true)
 
-        browser.execute(() => { MDEdit.description.value('Description Test') })
+        browser.execute(() => { window.mde.value('Description Test') })
         browser.pause(1000)
 
         browser.execute(() => $('#start_date').val('2018-12-16T12:12'))

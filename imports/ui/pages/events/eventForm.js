@@ -5,6 +5,8 @@ import { FlowRouter } from 'meteor/kadira:flow-router'
 import { Events } from '/imports/api/events/events'
 import { notify } from '/imports/modules/notifier'
 
+import SimpleMDE from 'simplemde'
+
 import { newEvent, editEvent } from '/imports/api/events/methods'
 
 const maxCharValue = (inputId) => {
@@ -58,12 +60,24 @@ Template.eventForm.onRendered(function() {
   })
 
   this.autocomplete.addListener('place_changed', () => this.location.set(this.autocomplete.getPlace()))
+
+  this.mde = new SimpleMDE({
+    element: $("#description")[0],
+    toolbar: ['bold', 'italic', 'heading', '|', 'quote', 'unordered-list', 'ordered-list', '|', 'clean-block', 'link', 'image', '|', 'preview', 'side-by-side', 'fullscreen', '|', 'guide'],
+  })
+
+  window.mde = this.mde
+
+  this.autorun(() => {
+    let event = Events.findOne({
+      _id: FlowRouter.getParam('id')
+    })
+
+    if (event) {
+      this.mde.value(event.description)
+    }
+  })
 })
-
-
-MDEditBeforeRender.description=function(next){
-  next('description');
-} //A hook before render, please don't forget next(id); !
 
 Template.eventForm.helpers({
   add: () => FlowRouter.current().route.name === 'editEvent' ? false : true,
@@ -108,7 +122,7 @@ Template.eventForm.events({
 
     let data = {
       headline: $('#headline').val(),
-      description: MDEdit.description.value(),
+      description: _tpl.mde.value(),
       start_date: $('#start_date').val(),
       end_date : $('#end_date').val(),
       location: $('#location').val(),
@@ -118,7 +132,7 @@ Template.eventForm.events({
       editEvent.call({
         eventId : FlowRouter.getParam('id'),
         headline: $('#headline').val(),
-        description: MDEdit.description.value(),
+        description: _tpl.mde.value(),
         start_date: $('#start_date').val(),
         end_date : $('#end_date').val(),
         location: $('#location').val(),
@@ -145,7 +159,7 @@ Template.eventForm.events({
 
     newEvent.call({
       headline: $('#headline').val(),
-      description: MDEdit.description.value(),
+      description: _tpl.mde.value(),
       start_date: $('#start_date').val(),
       end_date : $('#end_date').val(),
       location: $('#location').val(),

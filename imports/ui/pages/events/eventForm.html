@@ -29,10 +29,10 @@
                 <div id="end_dateError" class="invalid-feedback"></div>
               </div>
               <div class="group-title">Description</div>
-              <div class="input-group text-editor">
-                {{> MDEdit id='description' defaultContent=event.description}}
-                <div id="descriptionError" class="invalid-feedback"></div>
+              <div class="article-body">
+                <textarea class="form-control" id="description" rows="6" value="{{event.description}}" placeholder="Event description"></textarea>
               </div>
+              <div id="descriptionError" class="invalid-feedback"></div>
               <small><i id="description-chars" class="text-muted"></i></small>
 
               <div class="group-title">Location</div>
