@@ -21,7 +21,7 @@
                   <div class="col-sm-12 news-body pt-4 pl-5 pr-5">
                     {{description}}
                   </div>
-                </div> 
+                </div>
 
                 {{#if tags.length}}
                   <div class="row">
@@ -33,6 +33,7 @@
                     </div>
                   </div>
                 {{/if}}
+
                 <div class="row">
                   <div class="col-sm-12">
                       {{#unless github_url}}
@@ -43,6 +44,17 @@
                       <a class="btn btn-secondary flag-project" href="#"><i class="icon-flag"></i></a>
                   </div>
                 </div>
+                {{#if SocialResources.length}}
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div style="margin: 10px 0px;"> Social Resources </div>
+                    {{#each SocialResources}}
+                      <a class="SocialResources" href="{{ResourceLink}}" target="_blank"> {{ResourceName}}</a>
+                    {{/each}}
+                  </div>
+                </div>
+                {{/if}}
+
               </div>
             </div>
           {{/with}}
@@ -62,9 +74,9 @@
                       <div class="form-group">
                         <textarea class="form-control" id="cool-comment" name="comment" rows="3" placeholder="Leave a comment ..." required></textarea>
                       </div>
-                          
+
                       <p class="text-danger">{{coolInvalidMessage}}</p>
-                          
+
                       <div class="btn-group" role="group">
                         <div class="btn-group" role="group">
                           <button type="submit" class="btn btn-outline-primary mb-2 new-cool">Comment</button>
@@ -90,9 +102,9 @@
                       <div class="form-group">
                         <textarea class="form-control" id="flag-comment" name="comment" rows="3" placeholder="Leave a comment ..." required></textarea>
                       </div>
-                          
+
                       <p class="text-danger">{{flagInvalidMessage}}</p>
-                          
+
                       <div class="btn-group" role="group">
                         <div class="btn-group" role="group">
                           <button type="submit" class="btn btn-outline-primary mb-2 new-flag">Comment</button>
