@@ -53,9 +53,8 @@ Template.uploader.events({
 
             const reader = new FileReader()
 
-            reader.onload = fileLoadEvent => {
+            reader.onloadend = fileLoadEvent => {
                 const data = reader.result
-                const md5 = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(data)).toString()
 
                 let uploadFn
 
@@ -69,8 +68,8 @@ Template.uploader.events({
                 
                 uploadFn.call({
                     fileName: file.name,
-                    data: reader.result,
-                    md5: md5
+                    data: data,
+                    md5: CryptoJS.MD5(CryptoJS.enc.Latin1.parse(data.trim())).toString()
                 }, (err, data) => {
                     if (err) {
                         notify(err.reason || err.message, 'error')
