@@ -7,16 +7,14 @@ import { Projects } from '/imports/api/projects/projects'
 import { notify } from '/imports/modules/notifier'
 
 import { addProject, editProject } from '/imports/api/projects/methods'
-import { ReactiveVar } from 'meteor/reactive-var';
 
 const maxCharValue = (inputId) => {
-    if (inputId === 'headline') { return 100 }
+    if (inputId === 'headline') { return 100 } 
+
     return 500
 }
 
 Template.projectForm.onCreated(function() {
-  this.SocialResources =  new ReactiveVar([]);
-
 	if (FlowRouter.current().route.name === 'editProject') {
 		this.autorun(() => {
 			this.subscribe('projects.item', FlowRouter.getParam('id'))
@@ -26,13 +24,8 @@ Template.projectForm.onCreated(function() {
 
 Template.projectForm.helpers({
     add: () => FlowRouter.current().route.name === 'editProject' ? false : true,
-    project: () => {
-      let item = Projects.findOne({ _id: FlowRouter.getParam('id')});
-      let projectResources = item&&item.SocialResources?item.SocialResources:[];
-      Template.instance().SocialResources.set(projectResources); return item;
-    },
-    tagsAsString: (tags) => tags == undefined ? [] : tags.toString(),
-    SocialResources: () =>Template.instance().SocialResources.get()
+    project: () => Projects.findOne({ _id: FlowRouter.getParam('id') }),
+    tagsAsString: (tags) => tags == undefined ? [] : tags.toString()
 })
 
 Template.projectForm.events({
@@ -55,18 +48,10 @@ Template.projectForm.events({
 
         $(`#${inputId}`).unbind('keypress')
     },
-    'click .add-SocialResources' (event, _tpl) {
-      _tpl.SocialResources.set([..._tpl.SocialResources.get(),{ResourceName:$('#ResourceName').val(),ResourceLink:$('#ResourceLink').val()}]);
-      $('#ResourceName').val('')
-      $('#ResourceLink').val('')
-    },
-    'click .remove-SocialResources' (event, _tpl) {
-      let ind = event.currentTarget.dataset.index;
-      _tpl.SocialResources.get().splice(ind,1);
-      _tpl.SocialResources.set(_tpl.SocialResources.get());
-    },
+
     'click .add-project' (event, _tpl) {
         event.preventDefault()
+
         let tags = $('#tagInput').val().split(',')
         if (FlowRouter.current().route.name === 'editProject') {
             editProject.call({
@@ -75,14 +60,14 @@ Template.projectForm.events({
 	    		description: $('#description').val(),
                 github_url: $('#github_url').val() || '',
                 website: $('#website').val() || '',
-                tags: tags,
-                SocialResources:_tpl.SocialResources.get()
+                tags: tags
 	    	}, (err, _data) => {
 	    		if (!err) {
 	    			notify('Successfully edited.', 'success')
 	        		FlowRouter.go('/projects')
 	        		return
 	      		}
+
 		      	if (err.details && err.details.length >= 1) {
 		        	err.details.forEach(e => {
 		          		$(`#${e.name}`).addClass('is-invalid')
@@ -94,13 +79,13 @@ Template.projectForm.events({
 
             return
         }
+
         addProject.call({
             headline: $('#headline').val(),
             description: $('#description').val(),
             github_url: $('#github_url').val() || '',
             website: $('#website').val() || '',
-            tags: tags,
-            SocialResources:_tpl.SocialResources.get()
+            tags: tags
         }, (err, data) => {
             if (!err) {
                 notify('Successfully added.', 'success')
@@ -112,7 +97,7 @@ Template.projectForm.events({
                 notify(err.reason, 'error')
                 return
             }
-
+            
             if (err.details && err.details.length >= 1) {
                 err.details.forEach(e => {
                     $(`#${e.name}`).addClass('is-invalid')

@@ -18,7 +18,7 @@
                             <div id="headlineError" class="invalid-feedback"></div>
                         </div>
                         <small><i id="headline-chars" class="text-muted"></i></small>
-
+                        
                         <div class="group-title">Description</div>
                         <div class="input-group">
                             <textarea class="form-control" id="description" rows="8" value="{{project.description}}" placeholder="Project description in 500 characters or less"></textarea>
@@ -40,20 +40,6 @@
                         <div class="group-title">Website</div>
                         <div class="input-group">
                             <input type="text" class="form-control" id="website" value="{{project.website}}" placeholder="Website link">
-                        </div>
-
-                        <div class="group-title">Social Resources</div>
-                        {{#each SocialResources}}
-                          <div>
-                            <a  href="{{ResourceLink}}" target="_blank"> {{ResourceName}}</a>
-                            <i class="fas fa-times fa-lg remove-SocialResources" style="margin: 12px 25px;" data-index="{{@index}}"></i>
-                          </div>
-                        {{/each}}
-
-                        <div class="input-group">
-                          <input type="text" class="form-control col-sm-3" style="margin-right: 10px;" id="ResourceName" value="" placeholder="Social Resources Name">
-                          <input type="text" class="form-control col-sm-9" id="ResourceLink" value="" placeholder="Social Resources link">
-                          <i class="far fa-plus-square fa-lg add-SocialResources" style="margin: 4px 25px;font-size: 40px;"></i>
                         </div>
                     </form>
                 </div>
