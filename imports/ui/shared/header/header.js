@@ -11,7 +11,7 @@ Template.header.onCreated(function () {
 
 Template.header.events({
   'click .sidebar-toggler'(event) {
-    event.preventDefault()
+    event.stopPropagation();
     $('body').toggleClass("sidebar-show")
   },
 

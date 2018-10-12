@@ -13,7 +13,7 @@
                 </div>
             </div>
                     
-            <h6 class="card-subtitle mb-4">By <strong>{{author}}</strong> {{showTimeAgoTimestamp createdAt}}</h6>
+            <h6 class="card-subtitle mb-4">By <strong><a href="/profile/{{createdBy}}">{{author}}</a></strong> {{showTimeAgoTimestamp createdAt}}</h6>
             <p class="card-text mb-4"> 
             {{#if editMode}}
             	<textarea class="form-control edit-comment-{{_id}}">{{text}}</textarea><br />

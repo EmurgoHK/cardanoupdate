@@ -36,7 +36,7 @@ export const addProject = new ValidatedMethod({
             "tags.$": {
                 type: String,
                 optional: true
-            }
+            },
 
         }).validator({
             clean: true
@@ -46,7 +46,7 @@ export const addProject = new ValidatedMethod({
             if (!Meteor.userId()) {
                 throw new Meteor.Error('Error.', 'You have to be logged in.')
             }
-
+            
             data.createdBy = Meteor.userId()
             data.createdAt = new Date().getTime()
             return Projects.insert(data)
@@ -117,7 +117,7 @@ export const editProject = new ValidatedMethod({
             "tags.$": {
                 type: String,
                 optional: true
-            }
+            },
         }).validator({
             clean: true
         }),
@@ -181,7 +181,7 @@ export const flagProject = new ValidatedMethod({
         if (!Meteor.userId()) {
             throw new Meteor.Error('Error.', 'You have to be logged in.')
         }
-
+      
         if ((project.flags || []).some(i => i.flaggedBy === Meteor.userId())) {
             throw new Meteor.Error('Error.', 'You have already flagged this item.')
         }
@@ -197,12 +197,12 @@ export const flagProject = new ValidatedMethod({
                 }
             }
         })
-    }
+    } 
 })
 
 export const proposeNewData = new ValidatedMethod({
     name: 'proposeNewData',
-    validate:
+    validate: 
         new SimpleSchema({
             projectId: {
                 type: String,
@@ -227,7 +227,7 @@ export const proposeNewData = new ValidatedMethod({
         if (!Meteor.userId()) {
             throw new Meteor.Error('Error.', 'You have to be logged in.')
         }
-
+        
         let project = Projects.findOne({
             _id: projectId
         })
@@ -388,7 +388,7 @@ export const resolveProjectFlags = new ValidatedMethod({
                 token: 's3rv3r-only',
                 times: 1
             }, (err, data) => {})
-
+            
             Comments.remove({
                 newsId: projectId
             })
