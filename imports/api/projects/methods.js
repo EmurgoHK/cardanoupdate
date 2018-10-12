@@ -37,7 +37,7 @@ export const addProject = new ValidatedMethod({
                 type: String,
                 optional: true
             },
-            
+
         }).validator({
             clean: true
         }),

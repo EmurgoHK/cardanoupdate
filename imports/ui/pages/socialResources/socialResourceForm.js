@@ -1,35 +1,31 @@
-import './projectForm.html'
-
+import './socialResourceForm.html'
 import { Template } from 'meteor/templating'
-import { FlowRouter } from 'meteor/kadira:flow-router'
-
-import { Projects } from '/imports/api/projects/projects'
+import { addSocialResource, editSocialResource } from '/imports/api/socialResources/methods'
 import { notify } from '/imports/modules/notifier'
-
-import { addProject, editProject } from '/imports/api/projects/methods'
+import { FlowRouter } from 'meteor/kadira:flow-router'
+import { socialResources } from '/imports/api/socialResources/socialResources'
 
 const maxCharValue = (inputId) => {
-    if (inputId === 'headline') { return 100 } 
+    if (inputId === 'Name') { return 100 }
 
     return 500
 }
 
-Template.projectForm.onCreated(function() {
-
-	if (FlowRouter.current().route.name === 'editProject') {
+Template.socialResourceFormTemp.onCreated(function() {
+	if (FlowRouter.current().route.name === 'editSocialResource') {
 		this.autorun(() => {
-			this.subscribe('projects.item', FlowRouter.getParam('id'))
+			this.subscribe('socialResources.item', FlowRouter.getParam('id'))
 		})
 	}
 })
 
-Template.projectForm.helpers({
-    add: () => FlowRouter.current().route.name === 'editProject' ? false : true,
-    project: () => Projects.findOne({ _id: FlowRouter.getParam('id') }),
-    tagsAsString: (tags) => tags == undefined ? [] : tags.toString()
+
+Template.socialResourceFormTemp.helpers({
+    add: () => FlowRouter.current().route.name === 'editSocialResource' ? false : true,
+    Resource: () => {return socialResources.findOne({ _id: FlowRouter.getParam('id') })},
 })
 
-Template.projectForm.events({
+Template.socialResourceFormTemp.events({
     'keyup .form-control' (event, _tpl) {
         event.preventDefault()
 
@@ -50,22 +46,19 @@ Template.projectForm.events({
         $(`#${inputId}`).unbind('keypress')
     },
 
-    'click .add-project' (event, _tpl) {
+    'click .add-socialResource' (event, _tpl) {
         event.preventDefault()
 
-        let tags = $('#tagInput').val().split(',')
-        if (FlowRouter.current().route.name === 'editProject') {
-            editProject.call({
+        if (FlowRouter.current().route.name === 'editSocialResource') {
+            editSocialResource.call({
     			projectId: FlowRouter.getParam('id'),
-	    		headline: $('#headline').val(),
-	    		description: $('#description').val(),
-                github_url: $('#github_url').val() || '',
-                website: $('#website').val() || '',
-                tags: tags,
+	    		Name: $('#Name').val(),
+          Resource_url: $('#Resource_url').val() || '',
+          description: $('#description').val(),
 	    	}, (err, _data) => {
 	    		if (!err) {
 	    			notify('Successfully edited.', 'success')
-	        		FlowRouter.go('/projects')
+	        		FlowRouter.go('/socialResources')
 	        		return
 	      		}
 
@@ -81,16 +74,14 @@ Template.projectForm.events({
             return
         }
 
-        addProject.call({
-            headline: $('#headline').val(),
+        addSocialResource.call({
+            Name: $('#Name').val(),
             description: $('#description').val(),
-            github_url: $('#github_url').val() || '',
-            website: $('#website').val() || '',
-            tags: tags,
+            Resource_url: $('#Resource_url').val() || '',
         }, (err, data) => {
             if (!err) {
                 notify('Successfully added.', 'success')
-                FlowRouter.go('/projects')
+                FlowRouter.go('/socialResources')
                 return
             }
 
@@ -98,7 +89,7 @@ Template.projectForm.events({
                 notify(err.reason, 'error')
                 return
             }
-            
+
             if (err.details && err.details.length >= 1) {
                 err.details.forEach(e => {
                     $(`#${e.name}`).addClass('is-invalid')
