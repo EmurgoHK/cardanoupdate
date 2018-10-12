@@ -28,7 +28,9 @@ Template.viewProfile.helpers({
       id : user._id,
       name : user.profile.name ? user.profile.name : 'No Name',
       bio : user.profile.bio ? user.profile.bio : '',
-      picture: user.profile.picture || ''
+      picture: user.profile.picture || '',
+      profile: user.profile,
+      emails: user.emails
       // email : user.emails[0].address,
       // verifiedEmail : user.emails[0].verified,
     }
