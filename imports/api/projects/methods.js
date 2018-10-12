@@ -37,7 +37,19 @@ export const addProject = new ValidatedMethod({
                 type: String,
                 optional: true
             },
-            
+            SocialResources: {
+                type: Array,
+                optional: true
+            },"SocialResources.$": {
+                type: Object
+            },
+            "SocialResources.$.ResourceName":{
+              type:String
+            },
+            "SocialResources.$.ResourceLink":{
+              type: String,
+            }
+
         }).validator({
             clean: true
         }),
@@ -46,7 +58,7 @@ export const addProject = new ValidatedMethod({
             if (!Meteor.userId()) {
                 throw new Meteor.Error('Error.', 'You have to be logged in.')
             }
-            
+
             data.createdBy = Meteor.userId()
             data.createdAt = new Date().getTime()
             return Projects.insert(data)
@@ -118,10 +130,23 @@ export const editProject = new ValidatedMethod({
                 type: String,
                 optional: true
             },
+            SocialResources: {
+              type: Array,
+              optional: true
+            },
+            "SocialResources.$": {
+                type: Object
+            },
+            "SocialResources.$.ResourceName":{
+              type:String
+            },
+            "SocialResources.$.ResourceLink":{
+              type: String,
+            }
         }).validator({
             clean: true
         }),
-    run({ projectId, headline, description, github_url, website, tags }) {
+    run({ projectId, headline, description, github_url, website, tags,SocialResources }) {
         if (Meteor.isServer) {
             let project = Projects.findOne({ _id: projectId })
 
@@ -146,6 +171,7 @@ export const editProject = new ValidatedMethod({
                     github_url: github_url,
                     website: website,
                     tags: tags,
+                    SocialResources:SocialResources,
                     updatedAt: new Date().getTime()
                 }
             })
@@ -181,7 +207,7 @@ export const flagProject = new ValidatedMethod({
         if (!Meteor.userId()) {
             throw new Meteor.Error('Error.', 'You have to be logged in.')
         }
-      
+
         if ((project.flags || []).some(i => i.flaggedBy === Meteor.userId())) {
             throw new Meteor.Error('Error.', 'You have already flagged this item.')
         }
@@ -197,12 +223,12 @@ export const flagProject = new ValidatedMethod({
                 }
             }
         })
-    } 
+    }
 })
 
 export const proposeNewData = new ValidatedMethod({
     name: 'proposeNewData',
-    validate: 
+    validate:
         new SimpleSchema({
             projectId: {
                 type: String,
@@ -227,7 +253,7 @@ export const proposeNewData = new ValidatedMethod({
         if (!Meteor.userId()) {
             throw new Meteor.Error('Error.', 'You have to be logged in.')
         }
-        
+
         let project = Projects.findOne({
             _id: projectId
         })
@@ -388,7 +414,7 @@ export const resolveProjectFlags = new ValidatedMethod({
                 token: 's3rv3r-only',
                 times: 1
             }, (err, data) => {})
-            
+
             Comments.remove({
                 newsId: projectId
             })
