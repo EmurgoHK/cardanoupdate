@@ -31,3 +31,7 @@ import '/imports/api/research/server/publications'
 
 // uploader api
 import '/imports/api/uploader/methods'
+
+// research api
+import '/imports/api/socialResources/methods'
+import '/imports/api/socialResources/server/publications'

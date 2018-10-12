@@ -36,18 +36,6 @@ export const addProject = new ValidatedMethod({
             "tags.$": {
                 type: String,
                 optional: true
-            },
-            SocialResources: {
-                type: Array,
-                optional: true
-            },"SocialResources.$": {
-                type: Object
-            },
-            "SocialResources.$.ResourceName":{
-              type:String
-            },
-            "SocialResources.$.ResourceLink":{
-              type: String,
             }
 
         }).validator({
@@ -129,24 +117,11 @@ export const editProject = new ValidatedMethod({
             "tags.$": {
                 type: String,
                 optional: true
-            },
-            SocialResources: {
-              type: Array,
-              optional: true
-            },
-            "SocialResources.$": {
-                type: Object
-            },
-            "SocialResources.$.ResourceName":{
-              type:String
-            },
-            "SocialResources.$.ResourceLink":{
-              type: String,
             }
         }).validator({
             clean: true
         }),
-    run({ projectId, headline, description, github_url, website, tags,SocialResources }) {
+    run({ projectId, headline, description, github_url, website, tags }) {
         if (Meteor.isServer) {
             let project = Projects.findOne({ _id: projectId })
 
@@ -171,7 +146,6 @@ export const editProject = new ValidatedMethod({
                     github_url: github_url,
                     website: website,
                     tags: tags,
-                    SocialResources:SocialResources,
                     updatedAt: new Date().getTime()
                 }
             })

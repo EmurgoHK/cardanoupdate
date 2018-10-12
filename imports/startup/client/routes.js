@@ -12,6 +12,11 @@ import '/imports/ui/pages/news/viewNews'
 import '/imports/ui/pages/projects/projects'
 import '/imports/ui/pages/projects/projectForm'
 import '/imports/ui/pages/projects/viewProject'
+import '/imports/ui/pages/socialResources/socialResources'
+import '/imports/ui/pages/socialResources/socialResourceForm'
+import '/imports/ui/pages/socialResources/viewSocialResource'
+
+
 import '/imports/ui/pages/research/research'
 import '/imports/ui/pages/research/researchForm'
 import '/imports/ui/pages/research/viewResearch'
@@ -145,6 +150,50 @@ FlowRouter.route('/projects/:slug', {
       header: 'header',
       sidebar: 'sidebar',
       main: 'viewProject'
+    })
+  }
+})
+
+FlowRouter.route('/socialResources', {
+  name: 'socialResources',
+  action() {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'socialResourcesTemp'
+    })
+  }
+})
+
+FlowRouter.route('/socialResources/new', {
+  name: 'newSocialResource',
+  action() {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'socialResourceFormTemp'
+    })
+  }
+})
+
+FlowRouter.route('/socialResources/:id/edit', {
+  name: 'editSocialResource',
+  action() {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'socialResourceFormTemp'
+    })
+  }
+})
+
+FlowRouter.route('/socialResources/:slug', {
+  name: 'viewSocialResource',
+  action() {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'viewSocialResourceTemp'
     })
   }
 })
