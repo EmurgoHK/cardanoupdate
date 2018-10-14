@@ -12,7 +12,7 @@ import { notify } from '/imports/modules/notifier'
 import { addNews, editNews } from '/imports/api/news/methods'
 
 import '/imports/ui/shared/uploader/uploader'
-import { getFiles } from '/imports/ui/shared/uploader/uploader'
+import { getFiles, insertImage } from '/imports/ui/shared/uploader/uploader'
 
 const maxCharValue = (inputId) => {
     if (inputId === 'headline') {
@@ -35,7 +35,12 @@ Template.newsForm.onCreated(function() {
 Template.newsForm.onRendered(function() {
 	this.mde = new SimpleMDE({
 		element: $("#body")[0],
-		toolbar: ['bold', 'italic', 'heading', '|', 'quote', 'unordered-list', 'ordered-list', '|', 'clean-block', 'link', 'image', '|', 'preview', 'side-by-side', 'fullscreen', '|', 'guide'],
+		toolbar: ['bold', 'italic', 'heading', '|', 'quote', 'unordered-list', 'ordered-list', '|', 'clean-block', 'link', {
+            name: 'insertImage',
+            action: insertImage,
+            className: 'fa fa-picture-o',
+            title: 'Insert image',
+        }, '|', 'preview', 'side-by-side', 'fullscreen', '|', 'guide'],
 	})
 
 	window.mde = this.mde
