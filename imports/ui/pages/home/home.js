@@ -32,6 +32,16 @@ Template.home.helpers({
     }
     return false
   },
+  thumb: function() {
+    if (this.image) {
+        let im = this.image.split('.')
+        let ext = im[im.length - 1]
+
+        return this.image.replace(`.${ext}`, `_thumbnail.${ext}`)
+    } 
+
+    return ''
+  },
   news: function(){
     let news = [];
     let searchText = Template.instance().searchFilter.get()

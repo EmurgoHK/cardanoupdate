@@ -61,14 +61,21 @@ export const uploadImage = new ValidatedMethod({
             }))
 
             if (gm && gm.isAvailable) {
-                const size = {
-                    width: 100,
-                    height: 100
-                }
-
-                gm(`${uploadDir}${filename}`).resize(size.width, `${size.height}>`).gravity('Center').write(filenameThumbnail, error => {
+                gm(`${uploadDir}${filename}`).resize(200).gravity('Center').write(filenameThumbnail, error => {
                     if (error) {
-                        console.log('Error - ', error)
+                        console.log(error)
+                    }
+                })
+
+                gm(`${uploadDir}${filename}`).size((err, size) => {
+                    if (!err) {
+                        if (size.width > 960) { // max-width of the container
+                            gm(`${uploadDir}${filename}`).resize(960).gravity('Center').write(`${uploadDir}${filename}`, err => {
+                                if (err) {
+                                    console.log(err)
+                                }
+                            })
+                        }
                     }
                 })
             }
