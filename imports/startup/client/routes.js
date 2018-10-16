@@ -7,6 +7,7 @@ import '/imports/ui/pages/home/home'
 import '/imports/ui/pages/login/login'
 import '/imports/ui/pages/signup/signup'
 import '/imports/ui/pages/not-found/not-found'
+import '/imports/ui/pages/news/news'
 import '/imports/ui/pages/news/newsForm'
 import '/imports/ui/pages/news/viewNews'
 import '/imports/ui/pages/projects/projects'
@@ -84,6 +85,17 @@ FlowRouter.route('/', {
       header: 'header',
       sidebar: 'sidebar',
       main: 'home'
+    })
+  }
+})
+
+FlowRouter.route('/news', {
+  name: 'news',
+  action() {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'newsList'
     })
   }
 })
