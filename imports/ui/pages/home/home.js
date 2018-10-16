@@ -9,7 +9,7 @@ import { Comments } from '/imports/api/comments/comments'
 import { notify } from '/imports/modules/notifier'
 
 import { flagNews, removeNews, voteNews } from '/imports/api/news/methods'
-
+import { UsersStats } from '/imports/api/user/usersStats'
 import swal from 'sweetalert2'
 import moment from 'moment'
 
@@ -20,6 +20,7 @@ Template.home.onCreated(function () {
     this.subscribe('news')
     this.subscribe('users')
     this.subscribe('comments')
+    this.subscribe('usersStats')
     let searchFilter = Template.instance().searchFilter.get();
   })
 })
@@ -107,8 +108,19 @@ Template.home.helpers({
     }
 
     return 'far'
-  }
-
+  },
+  signedUp: () => (UsersStats.findOne({
+    _id: 'lastMonth'
+  }) || {}).created || 0,
+  commentsLastMonth: () => (UsersStats.findOne({
+    _id: 'lastMonthComments'
+  }) || {}).created || 0,
+  onlineUsers() {
+    console.log('user stats ::', UsersStats.find({}).fetch())
+    let connectionUsers = ((UsersStats.findOne("connected") || {}).userIds || []).length;
+    return connectionUsers ? connectionUsers : 0;
+  },
+  totalUsers: () => Meteor.users.find({}).count() || 0,
 })
 
 Template.home.events({

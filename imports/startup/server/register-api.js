@@ -2,8 +2,10 @@
 
 // user api
 import '/imports/api/user/methods'
+import '/imports/api/user/users'
 import '/imports/api/user/server/publications'
 import '/imports/api/user/server/startup'
+import '/imports/api/user/usersStats'
 
 // news api
 import '/imports/api/news/methods'

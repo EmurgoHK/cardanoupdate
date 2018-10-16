@@ -1,15 +1,58 @@
 <template name="home">  
     <div class="container">
       <div class="row mx-auto">
+        <!-- TODO : Move this into Home page -->
         <div class="col-sm-12">
-            <div class="row">
-              <div class="col-sm-12 pr-0 pl-0">
-                  <div class="input-group">
-                    <input type="text" id="searchBox" class="form-control" placeholder="Search news" aria-label="Search news">
+          <div class="row">
+            <div class="col sm-4">
+              <div class="card text-white bg-success">
+                <div class="card-body">
+                  <h5 class="text-right">
+                    <i class="icon-people"></i>
+                  </h5>
+                  <div class="home-text-value">
+                    {{onlineUsers}} / {{totalUsers}}
                   </div>
+                  <span class="text-muted text-uppercase font-weight-bold">Users Online</span>
                 </div>
+              </div>
             </div>
-            
+            <div class="col sm-4">
+              <div class="card text-white bg-info">
+                <div class="card-body">
+                  <h5 class="text-right">
+                    <i class="icon-people"></i>
+                  </h5>
+                  <div class="home-text-value">
+                    {{signedUp}}
+                  </div>
+                  <span class="text-muted text-uppercase font-weight-bold">New users in the last month</span>
+                </div>
+              </div>
+            </div>
+            <div class="col sm-4">
+              <div class="card text-white bg-dark">
+                <div class="card-body">
+                  <h5 class="text-right">
+                    <i class="icon-speech"></i>
+                  </h5>
+                  <div class="home-text-value">
+                    {{commentsLastMonth}}
+                  </div>
+                  <span class="text-muted text-uppercase font-weight-bold">Comments this month</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12">
+          <div class="row">
+            <div class="col-sm-12 pr-0 pl-0">
+                <div class="input-group">
+                  <input type="text" id="searchBox" class="form-control" placeholder="Search news" aria-label="Search news">
+                </div>
+              </div>
+          </div>            
           <div class="row">
             <div class="col-sm-12 pr-0 pl-0">
               <div class="sort-news">
