@@ -1,86 +1,64 @@
 <template name="home">  
-    <div class="container">
-      <div class="row mx-auto">
-        <!-- TODO : Move this into Home page -->
-        <div class="col-sm-12">
-          <div class="row">
-            <div class="col sm-4">
-              <div class="card text-white bg-success">
-                <div class="card-body">
-                  <h5 class="text-right">
-                    <i class="icon-people"></i>
-                  </h5>
-                  <div class="home-text-value">
-                    {{onlineUsers}} / {{totalUsers}}
-                  </div>
-                  <span class="text-muted text-uppercase font-weight-bold">Users Online</span>
+  <div class="container">
+    <div class="row mx-auto">
+      <!-- User Stats -->
+      <div class="col-sm-12">
+        <div class="row">
+          <div class="col sm-4">
+            <div class="card text-white bg-success">
+              <div class="card-body">
+                <h5 class="text-right">
+                  <i class="icon-people"></i>
+                </h5>
+                <div class="home-text-value">
+                  {{onlineUsers}} / {{totalUsers}}
                 </div>
+                <span class="text-muted text-uppercase font-weight-bold">Users Online</span>
               </div>
             </div>
-            <div class="col sm-4">
-              <div class="card text-white bg-info">
-                <div class="card-body">
-                  <h5 class="text-right">
-                    <i class="icon-people"></i>
-                  </h5>
-                  <div class="home-text-value">
-                    {{signedUp}}
-                  </div>
-                  <span class="text-muted text-uppercase font-weight-bold">New users in the last month</span>
+          </div>
+          <div class="col sm-4">
+            <div class="card text-white bg-info">
+              <div class="card-body">
+                <h5 class="text-right">
+                  <i class="icon-people"></i>
+                </h5>
+                <div class="home-text-value">
+                  {{signedUp}}
                 </div>
+                <span class="text-muted text-uppercase font-weight-bold">New users in the last month</span>
               </div>
             </div>
-            <div class="col sm-4">
-              <div class="card text-white bg-dark">
-                <div class="card-body">
-                  <h5 class="text-right">
-                    <i class="icon-speech"></i>
-                  </h5>
-                  <div class="home-text-value">
-                    {{commentsLastMonth}}
-                  </div>
-                  <span class="text-muted text-uppercase font-weight-bold">Comments this month</span>
+          </div>
+          <div class="col sm-4">
+            <div class="card text-white bg-dark">
+              <div class="card-body">
+                <h5 class="text-right">
+                  <i class="icon-speech"></i>
+                </h5>
+                <div class="home-text-value">
+                  {{commentsLastMonth}}
                 </div>
+                <span class="text-muted text-uppercase font-weight-bold">Comments this month</span>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-sm-12">
-          <div class="row">
-            <div class="col-sm-12 pr-0 pl-0">
-                <div class="input-group">
-                  <input type="text" id="searchBox" class="form-control" placeholder="Search news" aria-label="Search news">
-                </div>
-              </div>
-          </div>            
-          <div class="row">
-            <div class="col-sm-12 pr-0 pl-0">
-              <div class="sort-news">
-                {{#if currentUser}}
-                  <div class="float-md-right pb-3">
-                    <button class="btn btn-primary btn-sm" type="button" id="js-new"><strong><i class="fas fa-edit"></i> Add news</strong></button>
-                  </div>
-                {{/if}}
-                <strong>Sort News By</strong> &nbsp;
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="sortOptions" id="sortOption1" value="date-desc">
-                  <label class="form-check-label" for="sortOption1">Newest First</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="sortOptions" id="sortOption2" value="date-asc">
-                  <label class="form-check-label" for="sortOption2">Oldest First</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="sortOptions" id="sortOption3" value="rating-desc">
-                  <label class="form-check-label" for="sortOption3">Most Popular</label>
-                </div>
-                
+      </div>
+      <!-- News -->
+      <div class="col-sm-12 col-md-8">
+        <div class="row">
+          <div class="col-sm-12 pr-0 pl-0">
+            <div class="sort-news">
+              <strong>Latest News</strong>
+              <div class="float-md-right pb-3">
+                <a href="/news">view all</a>
               </div>
             </div>
           </div>
-  
-          {{#if SubsCacheReady}}
-          {{#if newsCount}}
+        </div>
+        {{#if SubsCacheReady}}
+        {{#if newsCount}}
           <div class="row new-list">
             {{#each news}}
             <div class="col-sm-12 pr-0 pl-0">
@@ -140,16 +118,59 @@
             </div>
             {{/each}}
           </div>
-          {{else}}
-          <div class="mt-3">
-            <h3>No news found!</h3>
-          </div>
+        {{else}}
+        <div class="mt-3">
+          <h3>No news found!</h3>
+        </div>
+        {{/if}}
+        {{else}}
+        {{> loader}}
+        {{/if}}
+      </div>
+      <div class="col-sm-12 col-md-4">
+        <div class="row">
+          <!-- Projects -->
+          {{#if projectCount}}
+            <div class="col-sm-12">
+              <section class="content-container project">
+                <div class="section-title">
+                  Projects
+                  <div class="float-md-right pb-3">
+                    <a href="/projects">view all</a>
+                  </div>
+                </div>
+                <div class="section-content">
+                  {{#each projects}}
+                    <div class="single-item card card-body">
+                      <i class="icon-notebook"></i>  <a href=/projects/{{slug}}>{{headline}}</a>
+                    </div>
+                  {{/each}}
+                </div>
+              </section>
+            </div>
           {{/if}}
-          {{else}}
-          {{> loader}}
+          <!-- Events -->
+          {{#if eventCount}}
+            <div class="col-sm-12">
+              <section class="content-container events">
+                <div class="section-title">
+                  Events
+                  <div class="float-md-right pb-3">
+                    <a href="/news">view all</a>
+                  </div>
+                </div>
+                <div class="section-content">
+                  {{#each events}}
+                    <div class="single-item card card-body">
+                      <i class="icon-calendar"></i>  <a href=/events/{{slug}}>{{headline}}</a>
+                    </div>
+                  {{/each}}
+                </div>
+              </section>
+            </div>
           {{/if}}
-  
         </div>
       </div>
     </div>
-  </template>
+  </div>
+</template>
