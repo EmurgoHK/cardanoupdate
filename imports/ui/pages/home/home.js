@@ -53,8 +53,12 @@ Template.home.helpers({
   },
 
   events(){
-    // Return only latest 5 events
-    return Events.find({}, {limit : 5})
+    // Return only latest 5 active events
+    return Events.find({
+      start_date : {
+        $lte : moment().toISOString()
+      }
+    }, {limit : 5})
   },
 
   // News Helpers
