@@ -6,6 +6,7 @@ import { Events } from '/imports/api/events/events'
 import { deleteEvent, flagEvent } from '/imports/api/events/methods'
 import { notify } from '/imports/modules/notifier'
 import swal from 'sweetalert2'
+import moment from 'moment'
 
 const CHUNK_SIZE = 3
 
@@ -26,6 +27,16 @@ Template.events.helpers({
   },
   canEdit() {
     return this.createdBy === Meteor.userId()
+  },
+  eventLabel() {
+    let now = moment()
+    if (moment(this.start_date) > now && moment(this.end_date) > now){
+      return 'upcoming-event'
+    } else if ( moment(this.start_date) <= now && now <= moment(this.end_date)) {
+      return 'ongoing-event'
+    } else {
+      return 'past-event'
+    }
   }
 })
 
