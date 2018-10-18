@@ -1,4 +1,5 @@
 import './projectForm.html'
+import './projects.scss'
 
 import { Template } from 'meteor/templating'
 import { FlowRouter } from 'meteor/kadira:flow-router'
@@ -7,6 +8,8 @@ import { Projects } from '/imports/api/projects/projects'
 import { notify } from '/imports/modules/notifier'
 
 import { addProject, editProject } from '/imports/api/projects/methods'
+import { hideInstructionModal } from '/imports/api/user/methods'
+import _ from 'lodash'
 
 const maxCharValue = (inputId) => {
     if (inputId === 'headline') { return 100 } 
@@ -20,7 +23,19 @@ Template.projectForm.onCreated(function() {
 		this.autorun(() => {
 			this.subscribe('projects.item', FlowRouter.getParam('id'))
 		})
-	}
+	} else {
+    let user = Meteor.users.findOne({_id : Meteor.userId()})
+    // check if user is already hidden modal for instruction
+    if(user && _.includes(user.hidden, 'addProject')) {
+      Meteor.setTimeout(() => {
+        $('#projectInstruction').modal('hide')
+      }, 100)
+    } else {
+      Meteor.setTimeout(() => {
+        $('#projectInstruction').modal('show')
+      }, 100)
+    }
+  }
 })
 
 Template.projectForm.helpers({
@@ -30,6 +45,18 @@ Template.projectForm.helpers({
 })
 
 Template.projectForm.events({
+  // Hide Instruction Modal
+  'click .foreverHideModal' (event) {
+    event.preventDefault()
+    $('#projectInstruction').modal('hide')
+    hideInstructionModal.call({modalId : 'addProject'}, (err, res) => {
+      if (!err) {
+      notify('Successfully updated.', 'success')
+        return
+      } 
+      notify('Error while updating information :: '+err.reason, 'error')
+    })
+  },
     'keyup .form-control' (event, _tpl) {
         event.preventDefault()
 
