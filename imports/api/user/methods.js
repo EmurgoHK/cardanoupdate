@@ -453,3 +453,29 @@ Meteor.methods({
     return Comments.find({}).fetch().filter(i => new Date(i.createdAt) > (new Date().getTime() - 1000*60*60*24*30)).count()
   }
 })
+
+// Hide Instruction Modals
+
+export const hideInstructionModal = new ValidatedMethod({
+  name: 'hideInstructionModal',
+  validate: new SimpleSchema({
+    modalId: {
+      type: String,
+      optional: false
+    }
+  }).validator({
+    clean: true
+  }),
+  run({ modalId }) {
+    if (!Meteor.userId()) {
+      throw new Meteor.Error('Error.', 'You have to be logged in.')
+    }
+    return Meteor.users.update({
+      _id: Meteor.userId()
+    }, {
+      $addToSet: {
+          hidden: modalId
+      }
+    })
+  }
+})
