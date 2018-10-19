@@ -9,7 +9,7 @@ import { notify } from '/imports/modules/notifier'
 import { addProject, editProject } from '/imports/api/projects/methods'
 
 const maxCharValue = (inputId) => {
-    if (inputId === 'headline') { return 100 } 
+    if (inputId === 'headline') { return 25 } 
 
     return 500
 }
@@ -98,7 +98,7 @@ Template.projectForm.events({
                 notify(err.reason, 'error')
                 return
             }
-            
+
             if (err.details && err.details.length >= 1) {
                 err.details.forEach(e => {
                     $(`#${e.name}`).addClass('is-invalid')
