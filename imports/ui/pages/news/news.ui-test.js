@@ -20,6 +20,9 @@ describe('News page', function () {
     })
 
     it('user can add new news', function () {
+        browser.url(`${baseUrl}/news`)
+        browser.pause(5000)
+
         browser.click('#js-new')
 
         browser.pause(3000)

@@ -88,6 +88,10 @@ Template.viewProject.helpers({
 		  	newsId: this._id,
 		  	type: 'redflag'
 		}).count()
+	},
+	tagName: function(tag) {
+		if (tag.name != undefined) return tag.name
+		return tag
 	}
 })
 

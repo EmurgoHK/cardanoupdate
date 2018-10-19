@@ -27,6 +27,9 @@ describe('Projects page', function () {
 
         browser.pause(3000)
 
+        browser.click('.btn-secondary')
+        browser.pause(2000)
+
         browser.setValue('#headline', 'Headline Test')
         browser.pause(1000)
 

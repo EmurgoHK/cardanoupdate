@@ -174,7 +174,7 @@ describe('Events page', function () {
         let count = browser.execute(() => $('.card').length).value
 
         browser.execute(() => $('.news-settings').find('.dropdown-menu').addClass('show'))
-        browser.pause(3000)
+        browser.pause(2000)
 
         browser.click('#js-remove')
         browser.pause(2000)

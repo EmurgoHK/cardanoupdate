@@ -2,8 +2,10 @@
 
 // user api
 import '/imports/api/user/methods'
+import '/imports/api/user/users'
 import '/imports/api/user/server/publications'
 import '/imports/api/user/server/startup'
+import '/imports/api/user/usersStats'
 
 // news api
 import '/imports/api/news/methods'
@@ -35,3 +37,7 @@ import '/imports/api/uploader/methods'
 // research api
 import '/imports/api/socialResources/methods'
 import '/imports/api/socialResources/server/publications'
+
+// tags
+import '/imports/api/tags/methods'
+import '/imports/api/tags/server/publications' 

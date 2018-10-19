@@ -1,67 +1,30 @@
-import './home.html'
-import './home.scss'
+import './news.html'
+import './news.scss'
 
 import { Template } from 'meteor/templating'
 import { FlowRouter } from 'meteor/kadira:flow-router'
-import { Projects } from '/imports/api/projects/projects'
+
 import { News } from '/imports/api/news/news'
-import { Events } from '/imports/api/events/events'
 import { Comments } from '/imports/api/comments/comments'
 import { notify } from '/imports/modules/notifier'
 
 import { flagNews, removeNews, voteNews } from '/imports/api/news/methods'
-import { UsersStats } from '/imports/api/user/usersStats'
+
 import swal from 'sweetalert2'
 import moment from 'moment'
 
-Template.home.onCreated(function () {
+Template.newsList.onCreated(function () {
   this.sort = new ReactiveVar('date-desc')
   this.searchFilter = new ReactiveVar(undefined);
   this.autorun(() => {
-    this.subscribe('projects')
-    this.subscribe('events')
     this.subscribe('news')
     this.subscribe('users')
     this.subscribe('comments')
-    this.subscribe('usersStats')
     let searchFilter = Template.instance().searchFilter.get();
   })
 })
 
-Template.home.helpers({
-  // Project Helpers
-  projectCount(){
-    let project = Projects.find({}).count
-    if(project){
-      return true
-    }
-    return false
-  },
-
-  projects(){
-    // Return only latest 5 projects
-    return Projects.find({}, {limit : 5})
-  },
-
-  // Events
-  eventCount(){
-    let event = Events.find({}).count
-    if(event){
-      return true
-    }
-    return false
-  },
-
-  events(){
-    // Return only latest 5 active events
-    return Events.find({
-      start_date : {
-        $lte : moment().toISOString()
-      }
-    }, {limit : 5})
-  },
-
-  // News Helpers
+Template.newsList.helpers({
   newsCount(){
     let news =  News.find({}).count()
     if(news){
@@ -152,23 +115,13 @@ Template.home.helpers({
     if((this.votes || []).some(i => i.votedBy === Meteor.userId() && i.vote === vote)) {
       return 'fas'
     }
+
     return 'far'
-  },
-  signedUp: () => (UsersStats.findOne({
-    _id: 'lastMonth'
-  }) || {}).created || 0,
-  commentsLastMonth: () => (UsersStats.findOne({
-    _id: 'lastMonthComments'
-  }) || {}).created || 0,
-  onlineUsers() {
-    console.log('user stats ::', UsersStats.find({}).fetch())
-    let connectionUsers = ((UsersStats.findOne("connected") || {}).userIds || []).length;
-    return connectionUsers ? connectionUsers : 0;
-  },
-  totalUsers: () => Meteor.users.find({}).count() || 0,
+  }
+
 })
 
-Template.home.events({
+Template.newsList.events({
   'click #js-new': (event, templateInstance) => {
     event.preventDefault()
 
@@ -216,15 +169,25 @@ Template.home.events({
       }
     })
   },
-  'click .vote-news': function(event, templateInstance) {
-    event.preventDefault()
-    voteNews.call({
-      newsId: this.newsId,
-      vote: event.currentTarget.dataset.vote
-    }, (err, data) => {
-      if (err) {
-        notify(err.reason || err.message, 'error')
-      }
-    })
+    'click .vote-news': function(event, templateInstance) {
+        event.preventDefault()
+
+        voteNews.call({
+            newsId: this.newsId,
+            vote: event.currentTarget.dataset.vote
+        }, (err, data) => {
+            if (err) {
+                notify(err.reason || err.message, 'error')
+            }
+        })
+    },
+    'change .sort-news input': (event, templateInstance) => {
+      event.preventDefault()
+      templateInstance.sort.set($(event.currentTarget).val())
+    },
+    'keyup #searchBox': function (event, templateInstance) {
+      event.preventDefault();
+
+      templateInstance.searchFilter.set($('#searchBox').val())
   }
 })

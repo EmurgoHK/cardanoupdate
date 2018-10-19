@@ -1,10 +1,10 @@
 <template name="projectForm">
-    <div class="container">
+  <div class="container">
     <div class="row">
-        <div class="col-sm-12">
-            <h5><a href="/projects" class="text-muted" style="text-decoration: underline;">Projects</a></h5>
-            <h2>{{#if add}} New Project {{else}} Edit Project {{/if}}</h2>
-        </div>
+      <div class="col-sm-12">
+        <h5><a href="/projects" class="text-muted" style="text-decoration: underline;">Projects</a></h5>
+        <h2>{{#if add}} New Project {{else}} Edit Project {{/if}}</h2>
+      </div>
     </div>
     <hr>
     <div class="row">
@@ -51,7 +51,27 @@
                     </div>
                 </div>
             </div>
+          </div>
         </div>
-    </div>
+      </div>
+    <!-- Project Instruction Modal -->
+    <div class="modal fade" id="projectInstruction" tabindex="-1" role="dialog" aria-labelledby="projectInstructionLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="projectInstructionLabel">Instructions</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Projects added here must be something that people can use with Cardano, for example a wallet, a developer library, a development framework, etc.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary foreverHideModal">Never Show Again</button>
+          </div>
+        </div>
+      </div>
     </div>
 </template>

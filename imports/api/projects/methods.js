@@ -5,6 +5,9 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method'
 import { Projects } from './projects'
 import { Comments } from '../comments/comments'
 
+import { Tags } from '/imports/api/tags/tags'
+import { addTag, mentionTag } from '/imports/api/tags/methods'
+
 import { isModerator, userStrike } from '/imports/api/user/methods'
 
 export const addProject = new ValidatedMethod({
@@ -34,9 +37,17 @@ export const addProject = new ValidatedMethod({
                 optional: true
             },
             "tags.$": {
+                type: Object,
+                optional: true
+            },
+            "tags.$.id": {
                 type: String,
                 optional: true
             },
+            "tags.$.name": {
+                type: String,
+                optional: true
+            }
 
         }).validator({
             clean: true
@@ -45,6 +56,19 @@ export const addProject = new ValidatedMethod({
         if (Meteor.isServer) {
             if (!Meteor.userId()) {
                 throw new Meteor.Error('Error.', 'You have to be logged in.')
+            }
+            
+            if (data.tags != undefined) {
+                data.tags.forEach(tag => {
+                    if(tag.id && tag.id != '') {
+                        // add mention
+                        mentionTag(tag.id)
+                    } else if(tag.name && tag.name != '') {
+                        // add the tag to the list
+                        tagId = addTag(tag.name)
+                        tag.id = tagId
+                    }
+                })
             }
 
             data.createdBy = Meteor.userId()
@@ -115,9 +139,17 @@ export const editProject = new ValidatedMethod({
                 optional: true
             },
             "tags.$": {
+                type: Object,
+                optional: true
+            },
+            "tags.$.id": {
                 type: String,
                 optional: true
             },
+            "tags.$.name": {
+                type: String,
+                optional: true
+            }
         }).validator({
             clean: true
         }),
@@ -135,6 +167,19 @@ export const editProject = new ValidatedMethod({
 
             if (project.createdBy !== Meteor.userId()) {
                 throw new Meteor.Error('Error.', 'You can\'t edit a project that you haven\'t added.')
+            }
+
+            if (tags != undefined) {
+                tags.forEach(tag => {
+                    if(tag.id && tag.id != '') {
+                        // add mention
+                        mentionTag(tag.id)
+                    } else if(tag.name && tag.name != '') {
+                        // add the tag to the list
+                        tagId = addTag(tag.name)
+                        tag.id = tagId
+                    }
+                })
             }
 
             return Projects.update({

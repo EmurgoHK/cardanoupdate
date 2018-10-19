@@ -5,6 +5,9 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method'
 import { News } from './news'
 import { Comments } from '/imports/api/comments/comments'
 
+import { Tags } from '/imports/api/tags/tags'
+import { addTag, mentionTag } from '/imports/api/tags/methods'
+ 
 import { isModerator, userStrike } from '/imports/api/user/methods'
 
 import { sendNotification } from '/imports/api/notifications/methods'
@@ -72,6 +75,14 @@ export const addNews = new ValidatedMethod({
                 optional: true
             },
             "tags.$": {
+                type: Object,
+                optional: true
+            },
+            "tags.$.id": {
+                type: String,
+                optional: true
+            },
+            "tags.$.name": {
                 type: String,
                 optional: true
             }
@@ -81,7 +92,20 @@ export const addNews = new ValidatedMethod({
     run({ headline, summary, body, image, tags }) {
 		if (!Meteor.userId()) {
 			throw new Meteor.Error('Error.', 'You have to be logged in.')
-		}
+        }
+        
+        if (tags != undefined) {
+            tags.forEach(tag => {
+                if(tag.id && tag.id != '') {
+                    // add mention
+                    mentionTag(tag.id)
+                } else if(tag.name && tag.name != '') {
+                    // add the tag to the list
+                    tagId = addTag(tag.name)
+                    tag.id = tagId
+                }
+            })
+        }
 
         return News.insert({
             headline: headline,
@@ -172,6 +196,14 @@ export const editNews = new ValidatedMethod({
                 optional: true
             },
             "tags.$": {
+                type: Object,
+                optional: true
+            },
+            "tags.$.id": {
+                type: String,
+                optional: true
+            },
+            "tags.$.name": {
                 type: String,
                 optional: true
             }
@@ -195,6 +227,19 @@ export const editNews = new ValidatedMethod({
             throw new Meteor.Error('Error.', 'You can\'t edit news that you haven\'t posted.')
         }
 
+        if (tags != undefined) {
+            tags.forEach(tag => {
+                if(tag.id && tag.id != '') {
+                    // add mention
+                    mentionTag(tag.id)
+                } else if(tag.name && tag.name != '') {
+                    // add the tag to the list
+                    tagId = addTag(tag.name)
+                    tag.id = tagId
+                }
+            })
+        }
+       
         return News.update({
             _id: newsId
         }, {
