@@ -7,6 +7,8 @@ import { FlowRouter } from 'meteor/kadira:flow-router'
 import { Projects } from '/imports/api/projects/projects'
 import { notify } from '/imports/modules/notifier'
 
+import { Tags } from '/imports/api/tags/tags'
+
 import { addProject, editProject } from '/imports/api/projects/methods'
 import { hideInstructionModal } from '/imports/api/user/methods'
 import _ from 'lodash'
@@ -18,7 +20,8 @@ const maxCharValue = (inputId) => {
 }
 
 Template.projectForm.onCreated(function() {
-
+	this.newsTags = new ReactiveVar([]);
+    
 	if (FlowRouter.current().route.name === 'editProject') {
 		this.autorun(() => {
 			this.subscribe('projects.item', FlowRouter.getParam('id'))
@@ -36,12 +39,40 @@ Template.projectForm.onCreated(function() {
       }, 100)
     }
   }
+  this.subscribe('tags')
+  
 })
 
 Template.projectForm.helpers({
     add: () => FlowRouter.current().route.name === 'editProject' ? false : true,
     project: () => Projects.findOne({ _id: FlowRouter.getParam('id') }),
-    tagsAsString: (tags) => tags == undefined ? [] : tags.toString()
+    tags: () =>  Tags.find({}),
+    tagsAsString: (tags) => tags == undefined || (tags !=undefined && tags.length > 0 && tags[0].id == undefined) ? [] : tags.map(t => { return t.name.toString().toUpperCase() }),
+    tagDisabled: (name, tags) => {
+    
+      if (tags != undefined) { // this will only be true for edit mode
+          let tag = tags.find(t => { return name == t.name ? t : undefined });
+          let newsTags = Template.instance().newsTags.get();
+
+          if (tag != undefined) { // check if the tag exists in the top 10 tags
+              
+              if (newsTags.find(t => { return tag.id == t.id }) == undefined) { // check if the tag has already been added to newsTags
+                  
+                  newsTags.push({
+                      id: tag.id,
+                      name: tag.name
+                 })
+ 
+                 Template.instance().newsTags.set(newsTags)
+              }
+              
+              return 'disabled'
+          }
+          return ''
+      } 
+
+      return ''
+    }
 })
 
 Template.projectForm.events({
@@ -76,11 +107,64 @@ Template.projectForm.events({
 
         $(`#${inputId}`).unbind('keypress')
     },
+	'click .tag-button': (event, templateInstance) => {
+		let name = ($(event.currentTarget).find('.tag-name')[0]).innerHTML;
+		let tagString = $('#tagInput').val()
 
+		tagString = (tagString === undefined || tagString === '') ? name : `${tagString},${name}`;
+
+		$('#tagInput').val(tagString)
+		$(event.currentTarget).attr('disabled', true);
+
+		let newsTags = templateInstance.newsTags.get();
+		
+		newsTags.push({
+			id: event.currentTarget.id,
+			name: name.toUpperCase()
+		})
+		templateInstance.newsTags.set(newsTags)
+	},
+	'keyup #tagInput': function(event, templateInstance){
+		let inputs = $(event.currentTarget).val().split(',')
+		let topTags = $('.tag-name').toArray().map(t => t.innerHTML)
+		let topIds = $('.tag-name').toArray().map(t => t.parentElement.id)
+		
+		$('.tag-button').attr('disabled', false);
+
+		let newsTags = [];
+		inputs.forEach(input => {
+			// Add the tag to the object
+			input = input.trim();
+			if (topTags.includes(input.toUpperCase())) {
+				let addedTag = {
+					id: topIds[topTags.indexOf(input.toUpperCase())],
+					name: input.toUpperCase()
+				}
+				$(`#${addedTag.id}`).attr('disabled', true);
+				newsTags.push(addedTag)
+			}
+		})
+
+		templateInstance.newsTags.set(newsTags)
+	},
     'click .add-project' (event, _tpl) {
         event.preventDefault()
 
-        let tags = $('#tagInput').val().split(',')
+        let tags = $('#tagInput').val().split(',').map(e => e.trim())
+		let newsTags = _tpl.newsTags.get();
+		
+		// convert all tags to array of objects
+		tags = tags.map(t => {
+			let element = undefined
+			
+			if (newsTags.length > 0) element = newsTags.find(n => n.name === t.toUpperCase())
+ 			// add the element to the array if it not present
+			if (element === undefined) {
+				return { id: '', name: t.trim().toUpperCase()}
+			} 
+			return element	
+        });
+        
         if (FlowRouter.current().route.name === 'editProject') {
             editProject.call({
     			projectId: FlowRouter.getParam('id'),

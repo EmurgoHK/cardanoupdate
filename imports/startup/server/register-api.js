@@ -37,3 +37,7 @@ import '/imports/api/uploader/methods'
 // research api
 import '/imports/api/socialResources/methods'
 import '/imports/api/socialResources/server/publications'
+
+// tags
+import '/imports/api/tags/methods'
+import '/imports/api/tags/server/publications' 
