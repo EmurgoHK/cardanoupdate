@@ -34,6 +34,13 @@
                 <div id="github_urlError" class="invalid-feedback"></div>
               </div>
               <div class="group-title">Tags</div>
+              <div class="group-title">
+                {{#each tags}}
+                  <button class="btn btn-dark tag-button" type="button" id={{_id}} {{tagDisabled name project.tags}}>
+                      <span class="tag-name">{{name}}</span>
+                  </button>
+                {{/each}}
+              </div>
               <div class="input-group">
                 <input type="text" class="form-control" id="tagInput" placeholder="Add a tags separated by comma(,) eg crypto,wallet"
                   value="{{tagsAsString project.tags}}">

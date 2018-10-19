@@ -63,6 +63,10 @@ Template.viewNews.helpers({
 		return Comments.find({
 		  parentId: this._id
 		}).count()
+	},
+	tagName: function(tag) {
+		if (tag.name != undefined) return tag.name
+		return tag
 	}
 })
 
