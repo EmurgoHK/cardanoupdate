@@ -42,11 +42,11 @@ describe('Research page', function () {
 
         const file = path.join(__dirname, '..', '..', '..', '..', 'public', 'pdf', 'test.pdf')
 
-        browser.chooseFile('#fileInput', file)
+        browser.chooseFile('#fileInput-default', file)
         browser.pause(15000)
 
-        assert(browser.execute(() => $('#fileUploadValue').text() === 'Change').value, true)
-        assert(browser.execute(() => Array.from($('#preview a').map((i, el) => $(el).attr('href'))).length > 0).value, true)
+        assert(browser.execute(() => $('#fileUploadValue-default').text() === 'Change').value, true)
+        assert(browser.execute(() => Array.from($('#preview-default a').map((i, el) => $(el).attr('href'))).length > 0).value, true)
 
         browser.click('.new-research')
         browser.pause(3000)

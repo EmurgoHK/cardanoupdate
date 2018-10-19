@@ -9,6 +9,8 @@ import SimpleMDE from 'simplemde'
 
 import { newEvent, editEvent } from '/imports/api/events/methods'
 
+import { insertImage } from '/imports/ui/shared/uploader/uploader'
+
 const maxCharValue = (inputId) => {
   if (inputId === 'description') {
     return 1000
@@ -63,7 +65,12 @@ Template.eventForm.onRendered(function() {
 
   this.mde = new SimpleMDE({
     element: $("#description")[0],
-    toolbar: ['bold', 'italic', 'heading', '|', 'quote', 'unordered-list', 'ordered-list', '|', 'clean-block', 'link', 'image', '|', 'preview', 'side-by-side', 'fullscreen', '|', 'guide'],
+    toolbar: ['bold', 'italic', 'heading', '|', 'quote', 'unordered-list', 'ordered-list', '|', 'clean-block', 'link', {
+      name: 'insertImage',
+      action: insertImage,
+      className: 'fa fa-picture-o',
+      title: 'Insert image',
+    }, '|', 'preview', 'side-by-side', 'fullscreen', '|', 'guide'],
   })
 
   window.mde = this.mde

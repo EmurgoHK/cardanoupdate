@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor'
+import { UsersStats } from '../usersStats'
 
 Meteor.publish(null, () => Meteor.users.find({
 	_id: Meteor.userId()
@@ -27,3 +28,7 @@ Meteor.publish('users', () => Meteor.users.find({}, {
 		emails: 1
 	}
 }))
+
+Meteor.publish("usersStats", () => {
+  return UsersStats.find({}, {fields: {userIds: 1, created: 1}})
+})

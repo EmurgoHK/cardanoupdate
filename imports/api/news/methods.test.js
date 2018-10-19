@@ -16,7 +16,8 @@ describe('news methods', () => {
             headline: 'Test headline',
             summary: 'Test summary',
             body: 'Test body',
-            image: '/images/test.png'
+            image: '/images/test.png',
+            tags: []
         }).then(data => {
             let news = News.findOne({
                 _id: data
@@ -109,7 +110,8 @@ describe('news methods', () => {
             headline: 'Test headline 2',
             summary: 'Test summary 2',
             body: 'Test body 2',
-            image: '/images/test2.png'
+            image: '/images/test2.png',
+            tags: []
         }).then(data => {
             let news2 = News.findOne({
                 _id: news._id
@@ -180,6 +182,7 @@ describe('news methods', () => {
             headline: 'a',
             summary: 'b',
             body: 'c',
+            tags: [],
             createdBy: 'not-me',
             createdAt: new Date().getTime()
         })
