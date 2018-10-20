@@ -273,6 +273,17 @@ FlowRouter.route('/profile/:userId', {
   }
 })
 
+FlowRouter.route('/uploader-test', {
+  name: 'uploaderTest',
+  action() {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'uploader'
+    })
+  }
+})
+
 FlowRouter.route('/profile/:userId/edit', {
   name: 'editProfile',
   action() {
