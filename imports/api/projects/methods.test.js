@@ -15,7 +15,8 @@ describe('project methods', () => {
         return callWithPromise('addProject', {
             headline: 'Test headline',
             description: 'Test description',
-            github_url: 'test'
+            github_url: 'test',
+            type: 'built-on-cardano'
         }).then(data => {
             let project = Projects.findOne({
                 _id: data
@@ -26,6 +27,7 @@ describe('project methods', () => {
             assert.ok(project.headline === 'Test headline')
             assert.ok(project.description === 'Test description')
             assert.ok(project.github_url === 'test')
+            assert.ok(project.type === 'built-on-cardano')
         })
     })
 
@@ -93,7 +95,8 @@ describe('project methods', () => {
             headline: 'Test headline 2',
             description: 'Test description 2',
             github_url: 'test',
-            website: 'test web'
+            website: 'test web',
+            type: 'built-for-cardano'
         }).then(data => {
             let project2 = Projects.findOne({
                 _id: project._id
@@ -105,6 +108,7 @@ describe('project methods', () => {
             assert.ok(project2.description === 'Test description 2')
             assert.ok(project2.github_url === 'test')
             assert.ok(project2.website === 'test web')
+            assert.ok(project2.type === 'built-for-cardano')
         })
     })
 
