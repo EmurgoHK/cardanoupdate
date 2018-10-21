@@ -26,7 +26,56 @@
           </ul>
           
           <div class="tab-content border-0 rounded shadow mb-4" id="myTabContent">
-            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" id="project-tab" data-toggle="tab" href="#project" role="tab" aria-controls="home" aria-selected="true">Projects</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" id="contact-tab" data-toggle="tab" href="#research" role="tab" aria-controls="research" aria-selected="false">Research</a>
+                </li>
+              <li class="nav-item">
+                <a class="nav-link" id="comment-tab" data-toggle="tab" href="#comment" role="tab" aria-controls="profile" aria-selected="false">Comments</a>
+              </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+              <div class="tab-pane fade show active" id="project" role="tabpanel" aria-labelledby="project-tab">
+                {{#each projects}} 
+                  <div class="card">
+                    <div class="card-body">
+                    <div ><a href="/projects/{{headline}}" class="card-title" >{{headline}}</a> Created {{showTimeAgoTimestamp createdAt}}</div>
+                    <p class="card-text">{{description}}</p>              
+                    </div>
+                  </div>
+                {{else}}
+                  User has not added any project yet.
+                {{/each}}
+              </div>
+              <div class="tab-pane fade" id="research" role="tabpanel" aria-labelledby="research-tab">
+                  {{#each projects}} 
+                    <div class="card">
+                      <div class="card-body">
+                      <div ><a href="/projects/{{headline}}" class="card-title" >{{headline}}</a> Posted {{showTimeAgoTimestamp createdAt}}</div>
+                      <p class="card-text">{{abstract}}</p>              
+                      </div>
+                    </div>
+                  {{else}}
+                    User has not added any project yet.
+                  {{/each}}
+                </div>
+              <div class="tab-pane fade" id="comment" role="tabpanel" aria-labelledby="comment-tab">
+                {{#each comments}} 
+                  <div class="card">
+                    <div class="card-body">
+                        <i class="far fa-comments" style="vertical-align: middle"></i>&nbsp;Commented {{text}} {{showTimeAgoTimestamp createdAt}}
+                    </div>
+                  </div>
+                {{else}}
+                  User has not commented yet.
+                {{/each}}
+              </div>
+            </div>
+           
+            <!-- <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                 {{#if contentCount}}
                 {{#each userContent}}
                   <h6 class="mb-3 mt-3">
@@ -42,7 +91,7 @@
               {{else}}
                 User doesn't have any activity.
               {{/if}}
-            </div>
+            </div> -->
           </div>
           <!-- <div class="user-content">
             <h4>{{#if ownProfile}}Your Content{{else}}{{user.name}}'s Activity{{/if}}</h4>
