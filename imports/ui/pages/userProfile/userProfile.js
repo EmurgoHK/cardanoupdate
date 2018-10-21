@@ -1,5 +1,7 @@
 import { News } from '/imports/api/news/news'
 import { Comments } from '/imports/api/comments/comments'
+import { Projects } from '/imports/api/projects/projects'
+import { Research } from '/imports/api/research/research'
 import { updateProfile } from '/imports/api/user/methods'
 import { FlowRouter } from 'meteor/kadira:flow-router'
 
@@ -12,9 +14,10 @@ import { getFiles } from '/imports/ui/shared/uploader/uploader'
 
 Template.viewProfile.onCreated(function(){
   this.autorun(() => {
-    this.subscribe('news')
+    this.subscribe('projects')
     this.subscribe('users')
     this.subscribe('comments')
+    this.subscribe('research')
   })
 })
 
@@ -44,7 +47,6 @@ Template.viewProfile.helpers({
   },
   userContent(){
     let content = []
-    let news = News.find({createdBy : FlowRouter.getParam('userId')})
     let comments = Comments.find({createdBy : FlowRouter.getParam('userId')})
     if(news){
       news.map(news => {
@@ -67,7 +69,10 @@ Template.viewProfile.helpers({
       })
     }
     return content
-  }
+  },
+  comments: () => Comments.find({createdBy : FlowRouter.getParam('userId')}),
+  projects: () => Projects.find({createdBy : FlowRouter.getParam('userId')}),
+  research: () => Research.find({createdBy : FlowRouter.getParam('userId')})
 })
 
 Template.editProfile.onCreated(function(){
