@@ -25,6 +25,15 @@ Template.projectForm.onCreated(function() {
 	if (FlowRouter.current().route.name === 'editProject') {
 		this.autorun(() => {
 			this.subscribe('projects.item', FlowRouter.getParam('id'))
+
+            let project = Projects.findOne({
+                _id: FlowRouter.getParam('id')
+            })
+
+            // preselect the correct type if it's on the project edit page
+            if (project) {
+                $('[name=type]').val([(project.tags.filter(i => /built-(on|for)-cardano/i.test(i.name))[0] || {}).name])
+            }
 		})
 	} else {
     let user = Meteor.users.findOne({_id : Meteor.userId()})
@@ -46,8 +55,12 @@ Template.projectForm.onCreated(function() {
 Template.projectForm.helpers({
     add: () => FlowRouter.current().route.name === 'editProject' ? false : true,
     project: () => Projects.findOne({ _id: FlowRouter.getParam('id') }),
-    tags: () =>  Tags.find({}),
-    tagsAsString: (tags) => tags == undefined || (tags !=undefined && tags.length > 0 && tags[0].id == undefined) ? [] : tags.map(t => { return t.name.toString().toUpperCase() }),
+    tags: () =>  Tags.find({
+        name: {
+            $not: new RegExp('built-(for|on)-cardano', 'i') // dont include these tags 
+        }
+    }),
+    tagsAsString: (tags) => tags == undefined || (tags !=undefined && tags.length > 0 && tags[0].id == undefined) ? [] : tags.filter(i => !/built-(for|on)-cardano/i.test(i.name)).map(t => { return t.name.toString().toUpperCase() }),
     tagDisabled: (name, tags) => {
     
       if (tags != undefined) { // this will only be true for edit mode
@@ -76,6 +89,10 @@ Template.projectForm.helpers({
 })
 
 Template.projectForm.events({
+    'click input[name="type"]': (event, templateInstance) => {
+        // show the explanation for two possible choices
+        $('.typeExp').show()
+    },
   // Hide Instruction Modal
   'click .foreverHideModal' (event) {
     event.preventDefault()
@@ -150,7 +167,7 @@ Template.projectForm.events({
     'click .add-project' (event, _tpl) {
         event.preventDefault()
 
-        let tags = $('#tagInput').val().split(',').map(e => e.trim())
+        let tags = $('#tagInput').val().split(',').map(e => e.trim()).filter(i => !!i)
 		let newsTags = _tpl.newsTags.get();
 		
 		// convert all tags to array of objects
@@ -173,6 +190,7 @@ Template.projectForm.events({
                 github_url: $('#github_url').val() || '',
                 website: $('#website').val() || '',
                 tags: tags,
+                type: $('input[name="type"]:checked').val()
 	    	}, (err, _data) => {
 	    		if (!err) {
 	    			notify('Successfully edited.', 'success')
@@ -198,6 +216,7 @@ Template.projectForm.events({
             github_url: $('#github_url').val() || '',
             website: $('#website').val() || '',
             tags: tags,
+            type: $('input[name="type"]:checked').val()
         }, (err, data) => {
             if (!err) {
                 notify('Successfully added.', 'success')

@@ -7,9 +7,6 @@ import '/imports/ui/pages/home/home'
 import '/imports/ui/pages/login/login'
 import '/imports/ui/pages/signup/signup'
 import '/imports/ui/pages/not-found/not-found'
-import '/imports/ui/pages/news/news'
-import '/imports/ui/pages/news/newsForm'
-import '/imports/ui/pages/news/viewNews'
 import '/imports/ui/pages/projects/projects'
 import '/imports/ui/pages/projects/projectForm'
 import '/imports/ui/pages/projects/viewProject'
@@ -85,39 +82,6 @@ FlowRouter.route('/', {
       header: 'header',
       sidebar: 'sidebar',
       main: 'home'
-    })
-  }
-})
-
-FlowRouter.route('/news', {
-  name: 'news',
-  action() {
-    BlazeLayout.render('main', {
-      header: 'header',
-      sidebar: 'sidebar',
-      main: 'newsList'
-    })
-  }
-})
-
-FlowRouter.route('/add', {
-  name: 'addNews',
-  action() {
-    BlazeLayout.render('main', {
-      header: 'header',
-      sidebar: 'sidebar',
-      main: 'newsForm'
-    })
-  }
-})
-
-FlowRouter.route('/edit/:id', {
-  name: 'editNews',
-  action() {
-    BlazeLayout.render('main', {
-      header: 'header',
-      sidebar: 'sidebar',
-      main: 'newsForm'
     })
   }
 })
@@ -309,6 +273,17 @@ FlowRouter.route('/profile/:userId', {
   }
 })
 
+FlowRouter.route('/uploader-test', {
+  name: 'uploaderTest',
+  action() {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'uploader'
+    })
+  }
+})
+
 FlowRouter.route('/profile/:userId/edit', {
   name: 'editProfile',
   action() {
@@ -333,17 +308,6 @@ FlowRouter.route('/suspended', {
       		FlowRouter.go('/')
     	}
   	}
-})
-
-FlowRouter.route('/news/:slug', {
-  name: 'viewNews',
-  action() {
-    BlazeLayout.render('main', {
-      header: 'header',
-      sidebar: 'sidebar',
-      main: 'viewNews'
-    })
-  }
 })
 
 FlowRouter.route('/notifications', {

@@ -8,6 +8,7 @@ import '/imports/ui/shared/header/header'
 import '/imports/ui/shared/sidebar/sidebar'
 import '/imports/ui/shared/loader/loader'
 import '/imports/ui/shared/empty-result/empty-result'
+import '/imports/ui/shared/uploader/uploader'
 
 import './routes'
 

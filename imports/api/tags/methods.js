@@ -12,6 +12,11 @@ export const addTag = (name) => {
     })
 }
 
+export const getTag = (name) => {
+    return Tags.findOne({
+        name: new RegExp(name, 'i')
+    })
+}
 
 export const mentionTag = (tagId) => {
     let tag = Tags.findOne({ _id : tagId });
