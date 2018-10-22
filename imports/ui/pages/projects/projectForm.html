@@ -8,66 +8,52 @@
     </div>
     <hr>
     <div class="row">
-      <div class="col-sm-12">
-        <div class="card">
-          <div class="card-body">
-            <form class="news-form project-form">
-              <div class="group-title">Name</div>
-              <div class="input-group">
-                <input type="text" class="form-control" id="headline" value="{{project.headline}}" placeholder="Headline in 100 characters or less">
-                <div id="headlineError" class="invalid-feedback"></div>
-              </div>
-              <small><i id="headline-chars" class="text-muted"></i></small>
-              <div class="group-title">Description</div>
-              <div class="input-group">
-                <textarea class="form-control" id="description" rows="8" value="{{project.description}}" placeholder="Project description in 500 characters or less"></textarea>
-                <span class="instructions">
-                  <i class="icon-info"></i> Please provide a very clear description of what the project is for, what it
-                  does, or what problem it solves.
-                </span>
-                <div id="descriptionError" class="invalid-feedback"></div>
-              </div>
-              <small><i id="description-chars" class="text-muted"></i></small>
-              <div class="group-title">Github URL</div>
-              <div class="input-group">
-                <input type="text" class="form-control" id="github_url" value="{{project.github_url}}" placeholder="Github link">
-                <div id="github_urlError" class="invalid-feedback"></div>
-              </div>
-              <div class="group-title">Tags</div>
-              <div class="group-title">
-                {{#each tags}}
-                  <button class="btn btn-dark tag-button" type="button" id={{_id}} {{tagDisabled name project.tags}}>
-                      <span class="tag-name">{{name}}</span>
-                  </button>
-                {{/each}}
-              </div>
-              <div class="input-group">
-                <input type="text" class="form-control" id="tagInput" placeholder="Add a tags separated by comma(,) eg crypto,wallet"
-                  value="{{tagsAsString project.tags}}">
-              </div>
-              <div class="group-title">Website</div>
-              <div class="input-group">
-                <input type="text" class="form-control" id="website" value="{{project.website}}" placeholder="Website link">
-              </div>
-              <br />
-              <div>
-                <input type="radio" name="type" value="BUILT-FOR-CARDANO"> Built <b>for</b> Cardano
-                <input type="radio" name="type" value="BUILT-ON-CARDANO"> Built <b>on</b> Cardano
-                <br>
-                <small style="display: none" class="typeExp">Is this project something <b>for</b> Cardano OR something built <b>on</b> Cardano? An example of something that's <b>for</b> Cardano is a wallet or a developer library. An example of something built <b>on</b> Cardano is Traxia.</small>
-                <br>
-                <div id="typeError" class="invalid-feedback"></div>
-              </div>
-            </form>
-          </div>
-          <div class="card-footer">
-            <div>
-              <button type="submit" class="btn btn-lg btn-success add-project">Submit</button>
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <form class="news-form">
+                        <div class="group-title">Name</div>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="headline" value="{{project.headline}}" placeholder="Name in 25 characters or less">
+                            <div id="headlineError" class="invalid-feedback"></div>
+                        </div>
+                        <small><i id="headline-chars" class="text-muted"></i></small>
+
+                        <div class="group-title">Description</div>
+                        <div class="input-group">
+                            <textarea class="form-control" id="description" rows="8" value="{{project.description}}" placeholder="Project description in 500 characters or less"></textarea>
+                            <div id="descriptionError" class="invalid-feedback"></div>
+                        </div>
+                        <small><i id="description-chars" class="text-muted"></i></small>
+
+                        <div class="group-title">Github URL</div>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="github_url" value="{{project.github_url}}" placeholder="Github link">
+                            <div id="github_urlError" class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="group-title">Tags</div>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="tagInput" placeholder="Add a tags separated by comma(,) eg crypto,wallet" value="{{tagsAsString project.tags}}">
+                        </div>
+
+                        <div class="group-title">Website</div>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="website" value="{{project.website}}" placeholder="Website link">
+                        </div>
+
+
+                    </form>
+                </div>
+                <div class="card-footer">
+                    <div>
+                        <button type="submit" class="btn btn-lg btn-success add-project">Submit</button>
+                    </div>
+                </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
     <!-- Project Instruction Modal -->
     <div class="modal fade" id="projectInstruction" tabindex="-1" role="dialog" aria-labelledby="projectInstructionLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -87,6 +73,5 @@
           </div>
         </div>
       </div>
-    </div>
   </div>
 </template>

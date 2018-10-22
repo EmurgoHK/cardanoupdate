@@ -16,7 +16,7 @@ export const addProject = new ValidatedMethod({
         new SimpleSchema({
             headline: {
                 type: String,
-                max: 100,
+                max: 25,
                 optional: false
             },
             description: {
@@ -132,7 +132,7 @@ export const editProject = new ValidatedMethod({
             },
             headline: {
                 type: String,
-                max: 100,
+                max: 25,
                 optional: false
             },
             description: {
@@ -262,7 +262,7 @@ export const flagProject = new ValidatedMethod({
         if (!Meteor.userId()) {
             throw new Meteor.Error('Error.', 'You have to be logged in.')
         }
-      
+
         if ((project.flags || []).some(i => i.flaggedBy === Meteor.userId())) {
             throw new Meteor.Error('Error.', 'You have already flagged this item.')
         }
@@ -278,12 +278,12 @@ export const flagProject = new ValidatedMethod({
                 }
             }
         })
-    } 
+    }
 })
 
 export const proposeNewData = new ValidatedMethod({
     name: 'proposeNewData',
-    validate: 
+    validate:
         new SimpleSchema({
             projectId: {
                 type: String,
@@ -308,7 +308,7 @@ export const proposeNewData = new ValidatedMethod({
         if (!Meteor.userId()) {
             throw new Meteor.Error('Error.', 'You have to be logged in.')
         }
-        
+
         let project = Projects.findOne({
             _id: projectId
         })
@@ -469,7 +469,7 @@ export const resolveProjectFlags = new ValidatedMethod({
                 token: 's3rv3r-only',
                 times: 1
             }, (err, data) => {})
-            
+
             Comments.remove({
                 newsId: projectId
             })
