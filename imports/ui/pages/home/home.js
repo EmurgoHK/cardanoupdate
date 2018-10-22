@@ -9,6 +9,8 @@ import { socialResources } from '/imports/api/socialResources/socialResources'
 import { UsersStats } from '/imports/api/user/usersStats'
 import moment from 'moment'
 
+import swal from 'sweetalert2'
+
 Template.home.onCreated(function () {
   this.autorun(() => {
     this.subscribe('research')
@@ -75,11 +77,22 @@ Template.home.helpers({
     // Return only latest 5 active events
     return Events.find({
       start_date : {
-        $lte : moment().toISOString()
+        $gte : moment().toISOString()
       }
     }, {limit : 5})
   },
   
+  eventLabel() {
+    let now = moment()
+    if (moment(this.start_date) > now && moment(this.end_date) > now){
+      return 'upcoming-event'
+    } else if ( moment(this.start_date) <= now && now <= moment(this.end_date)) {
+      return 'ongoing-event'
+    } else {
+      return 'past-event'
+    }
+  },
+
   // User Stats
   signedUp: () => (UsersStats.findOne({
     _id: 'lastMonth'
@@ -98,5 +111,117 @@ Template.home.helpers({
 })
 
 Template.home.events({
-  
+  'click .projectWarning' (event, _tpl) {
+    console.log('HELLO')
+      event.preventDefault()
+      swal({
+          title: 'Missing source repository',
+          text: "This project does't contain any link to the source repository",
+          type: 'warning',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Okay'
+      })
+  },
+  'click .flag-research' : function(event, templateInstance) {
+    event.preventDefault()
+    swal({
+        title: 'Why are you flagging this?',
+        input: 'text',
+        showCancelButton: true,
+        inputValidator: (value) => {
+            return !value && 'You need to write a valid reason!'
+        }
+    }).then(data => {
+        if (data.value) {
+            flagResearch.call({
+                researchId: this._id,
+                reason: data.value
+            }, (err, data) => {
+                if (err) {
+                    notify(err.reason || err.message, 'error')
+                } else {
+                    notify('Successfully flagged. Moderators will decide what to do next.', 'success')
+                }
+            })
+        }
+    })
+  },
+  'click .flag-project' : function (event, templateInstance){
+    event.preventDefault()
+    swal({
+      title: 'Why are you flagging this?',
+      input: 'text',
+      showCancelButton: true,
+      inputValidator: (value) => {
+        return !value && 'You need to write a valid reason!'
+      }
+    }).then(data => {
+      if (data.value) {
+        flagProject.call({
+          projectId: this._id,
+          reason: data.value
+        }, (err, data) => {
+          if (err) {
+            notify(err.reason || err.message, 'error')
+          } else {
+            notify('Successfully flagged. Moderators will decide what to do next.', 'success')
+          }
+        })
+      }
+    })
+  },
+  'click .flag-event' : function (event, templateInstance){
+    event.preventDefault()
+    swal({
+      title: 'Why are you flagging this?',
+      input: 'text',
+      showCancelButton: true,
+      inputValidator: (value) => {
+        return !value && 'You need to write a valid reason!'
+      }
+    }).then(data => {
+      if (data.value) {
+        flagEvent.call({
+          eventId: this._id,
+          reason: data.value
+        }, (err, data) => {
+          if (err) {
+            notify(err.reason || err.message, 'error')
+          } else {
+            notify('Successfully flagged. Moderators will decide what to do next.', 'success')
+          }
+        })
+      }
+    })
+  },
+    'click .new-link': function(event, temlateInstance) {
+        if ($(event.currentTarget).attr('href')) {
+            return
+        }
+
+
+        let data = $(event.currentTarget).attr('class').includes('github') ? 'github' : 'website'
+
+        swal({
+            text: `Website is not available. If you know this information, please contribute below:`,
+            type: 'warning',
+            showCancelButton: true,
+            input: 'text'
+        }).then(val => {
+            if (val.value) {
+                proposeNewData.call({
+                    projectId: this._id,
+                    datapoint: data,
+                    newData: val.value,
+                    type: 'link'
+                }, (err, data) => {
+                    if (err) {
+                        notify(err.reason || err.message, 'error')
+                    } else {
+                        notify('Successfully contributed.', 'success')
+                    }
+                })
+            }
+        })
+    },
 })

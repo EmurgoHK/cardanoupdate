@@ -61,9 +61,36 @@
                   <div class="row">
                     {{#each projects}}
                       <div class="col-md-4">
-                        <div class="single-item card card-body">
-                          <i class="icon-notebook"></i>  <a href=/projects/{{slug}}>{{headline}}</a>
-                        </div>
+                          <div class="card">
+                              <div class="card-body">
+                                  {{#if canEdit}}
+                                      <div class="news-settings float-right dropdown">
+                                          <i class="icon-settings dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                                          <div class="dropdown-menu">
+                                              <a class="dropdown-item" id="js-edit" href="/projects/{{_id}}/edit"><i class="icon-pencil"></i> Edit</a>
+                                              <a class="dropdown-item text-danger" id="js-remove" href="#"><i class="icon-trash text-danger"></i> Delete</a>
+                                          </div>
+                                      </div>
+                                  {{/if}}
+                                  
+                                  <h4 class="card-title">
+                                      <a href="/projects/{{slug}}">{{headline}}</a>
+                                  </h4>
+                                  <br>
+                                  <p class="card-text">
+                                      {{description}}
+                                  </p>
+                                  <hr>
+                                  {{#unless github_url}}
+                                      <a href="" class="card-link projectWarning text-warning"><i class="fas fa-exclamation-circle fa-lg"></i></a>
+                                  {{/unless}}
+                                  <a href="{{github_url}}" class="github new-link card-link"><i class="fab fa-github fa-lg"></i></a>
+                                  <a href="{{website}}" class="website new-link card-link"><i class="fas fa-globe fa-lg"></i></a>
+                                  <a class="flag-project float-right" href="#" title="Flag this project">
+                                    <i class="icon-flag"></i>
+                                  </a>
+                              </div>
+                          </div>
                       </div>
                     {{/each}}
                   </div>
@@ -85,9 +112,36 @@
                   <div class="row">
                     {{#each events}}
                       <div class="col-md-4">
-                        <div class="single-item card card-body">
-                          <i class="icon-calendar"></i>  <a href=/events/{{slug}}>{{headline}}</a>
-                        </div>
+                          <div class="card">
+                              <div class="card-body">
+                                  {{#if canEdit}}
+                                    <div class="news-settings float-right dropdown">
+                                      <i class="icon-settings dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                                      <div class="dropdown-menu">
+                                        <a class="dropdown-item" id="js-edit" href="/events/{{_id}}/edit"><i class="icon-pencil"></i> Edit</a>
+                                        <a class="dropdown-item text-danger" id="js-remove" href="#"><i class="icon-trash text-danger"></i>
+                                          Delete</a>
+                                      </div>
+                                    </div>
+                                  {{/if}}
+                                <p class="event-label {{eventLabel}}">{{eventLabel}}</p>
+                                <h4 class="card-title">
+                                  <a href="/events/{{slug}}">{{headline}}</a>
+                                </h4>
+                                <br>
+                                <p class="card-text">
+                                  <P>Starts on {{showLocalTimestamp start_date}} <br/> Ends on {{showLocalTimestamp end_date}}</P>
+                                </p>
+                                <hr>
+                                <p>{{rsvp}}</p>
+                                <P>
+                                  <i class="icon-location-pin"></i> {{location}}
+                                  <a class="flag-event float-right" href="#" title="Flag this event">
+                                    <i class="icon-flag"></i>
+                                  </a>
+                                </P>
+                              </div>
+                            </div>
                       </div>
                     {{/each}}
                   </div>
@@ -109,9 +163,32 @@
                   <div class="row">
                     {{#each research}}
                       <div class="col-md-4">
-                        <div class="single-item card card-body">
-                          <i class="icon-calendar"></i>  <a href=/research/{{slug}}>{{headline}}</a>
-                        </div>
+                          <div class="card">
+                              <div class="card-body">
+                                  {{#if canEdit}}
+                                      <div class="news-settings float-right dropdown">
+                                          <i class="icon-settings dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                                          <div class="dropdown-menu">
+                                              <a class="dropdown-item" id="js-edit" href="/research/{{slug}}/edit"><i class="icon-pencil"></i> Edit</a>
+                                              <a class="dropdown-item text-danger" id="js-remove" href="#"><i class="icon-trash text-danger"></i> Delete</a>
+                                          </div>
+                                      </div>
+                                  {{/if}}
+                                  
+                                  <h4 class="card-title">
+                                      <a href="/research/{{slug}}">{{headline}}</a>
+                                  </h4>
+                                  <br>
+                                  <p class="card-text">
+                                      {{abstract}}
+                                  </p>
+                                  <hr>
+                                  <a href="{{pdf}}" class="card-link"><i class="far fa-file-pdf"></i></a>
+                                  <a class="flag-research float-right" href="#" title="Flag this research">
+                                    <i class="icon-flag"></i>
+                                  </a>
+                              </div>
+                          </div>
                       </div>
                     {{/each}}
                   </div>
@@ -133,9 +210,29 @@
                   <div class="row">
                     {{#each socialResources}}
                       <div class="col-md-4">
-                        <div class="single-item card card-body">
-                          <i class="icon-calendar"></i>  <a href=/socialResources/{{_id}}>{{Name}}</a>
-                        </div>
+                          <div class="card">
+                              <div class="card-body">
+                                  {{#if canEdit}}
+                                      <div class="news-settings float-right dropdown">
+                                          <i class="icon-settings dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                                          <div class="dropdown-menu">
+                                              <a class="dropdown-item" id="js-edit" href="/socialResources/{{_id}}/edit"><i class="icon-pencil"></i> Edit</a>
+                                              <a class="dropdown-item text-danger" id="js-remove" href="#"><i class="icon-trash text-danger"></i> Delete</a>
+                                          </div>
+                                      </div>
+                                  {{/if}}
+                
+                                  <h4 class="card-title">
+                                      <a href="/socialResources/{{_id}}">{{Name}}</a>
+                                  </h4>
+                                  <br>
+                                  <p class="card-text">
+                                      {{description}}
+                                  </p>
+                                  <hr>
+                                  <a href="{{Resource_url}}" class="website card-link"><i class="fas fa-globe fa-lg"></i></a>
+                              </div>
+                          </div>
                       </div>
                     {{/each}}
                   </div>
