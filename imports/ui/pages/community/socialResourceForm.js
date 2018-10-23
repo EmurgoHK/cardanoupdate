@@ -58,7 +58,7 @@ Template.socialResourceFormTemp.events({
 	    	}, (err, _data) => {
 	    		if (!err) {
 	    			notify('Successfully edited.', 'success')
-	        		FlowRouter.go('/socialResources')
+	        		FlowRouter.go('/community')
 	        		return
 	      		}
 
@@ -81,7 +81,7 @@ Template.socialResourceFormTemp.events({
         }, (err, data) => {
             if (!err) {
                 notify('Successfully added.', 'success')
-                FlowRouter.go('/socialResources')
+                FlowRouter.go('/community')
                 return
             }
 

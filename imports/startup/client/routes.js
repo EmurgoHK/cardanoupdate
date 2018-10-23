@@ -10,9 +10,9 @@ import '/imports/ui/pages/not-found/not-found'
 import '/imports/ui/pages/projects/projects'
 import '/imports/ui/pages/projects/projectForm'
 import '/imports/ui/pages/projects/viewProject'
-import '/imports/ui/pages/socialResources/socialResources'
-import '/imports/ui/pages/socialResources/socialResourceForm'
-import '/imports/ui/pages/socialResources/viewSocialResource'
+import '/imports/ui/pages/community/socialResources'
+import '/imports/ui/pages/community/socialResourceForm'
+import '/imports/ui/pages/community/viewSocialResource'
 
 
 import '/imports/ui/pages/research/research'
@@ -131,7 +131,7 @@ FlowRouter.route('/projects/:slug', {
   }
 })
 
-FlowRouter.route('/socialResources', {
+FlowRouter.route('/community', {
   name: 'socialResources',
   action() {
     BlazeLayout.render('main', {
@@ -142,7 +142,7 @@ FlowRouter.route('/socialResources', {
   }
 })
 
-FlowRouter.route('/socialResources/new', {
+FlowRouter.route('/community/new', {
   name: 'newSocialResource',
   action() {
     BlazeLayout.render('main', {
@@ -153,7 +153,7 @@ FlowRouter.route('/socialResources/new', {
   }
 })
 
-FlowRouter.route('/socialResources/:id/edit', {
+FlowRouter.route('/community/:id/edit', {
   name: 'editSocialResource',
   action() {
     BlazeLayout.render('main', {
@@ -164,7 +164,7 @@ FlowRouter.route('/socialResources/:id/edit', {
   }
 })
 
-FlowRouter.route('/socialResources/:slug', {
+FlowRouter.route('/community/:slug', {
   name: 'viewSocialResource',
   action() {
     BlazeLayout.render('main', {
