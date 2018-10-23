@@ -15,7 +15,7 @@ export const newResearch = new ValidatedMethod({
         new SimpleSchema({
             headline: {
                 type: String,
-                max: 140,
+                max: 25,
                 optional: false
             },
             abstract: {
@@ -91,7 +91,7 @@ export const editResearch = new ValidatedMethod({
             },
             headline: {
                 type: String,
-                max: 140,
+                max: 25,
                 optional: false
             },
             abstract: {
@@ -164,7 +164,7 @@ export const flagResearch = new ValidatedMethod({
         if (!Meteor.userId()) {
             throw new Meteor.Error('Error.', 'You have to be logged in.')
         }
-      
+
         if ((research.flags || []).some(i => i.flaggedBy === Meteor.userId())) {
             throw new Meteor.Error('Error.', 'You have already flagged this item.')
         }
@@ -180,7 +180,7 @@ export const flagResearch = new ValidatedMethod({
                 }
             }
         })
-    } 
+    }
 })
 
 export const resolveResearchFlags = new ValidatedMethod({
@@ -230,7 +230,7 @@ export const resolveResearchFlags = new ValidatedMethod({
                 token: 's3rv3r-only',
                 times: 1
             }, (err, data) => {})
-            
+
             Comments.remove({
                 newsId: researchId
             })

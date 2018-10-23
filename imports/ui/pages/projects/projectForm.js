@@ -14,14 +14,14 @@ import { hideInstructionModal } from '/imports/api/user/methods'
 import _ from 'lodash'
 
 const maxCharValue = (inputId) => {
-    if (inputId === 'headline') { return 100 } 
+    if (inputId === 'headline') { return 25 }
 
     return 500
 }
 
 Template.projectForm.onCreated(function() {
 	this.newsTags = new ReactiveVar([]);
-    
+
 	if (FlowRouter.current().route.name === 'editProject') {
 		this.autorun(() => {
 			this.subscribe('projects.item', FlowRouter.getParam('id'))
@@ -49,7 +49,7 @@ Template.projectForm.onCreated(function() {
     }
   }
   this.subscribe('tags')
-  
+
 })
 
 Template.projectForm.helpers({
@@ -57,32 +57,32 @@ Template.projectForm.helpers({
     project: () => Projects.findOne({ _id: FlowRouter.getParam('id') }),
     tags: () =>  Tags.find({
         name: {
-            $not: new RegExp('built-(for|on)-cardano', 'i') // dont include these tags 
+            $not: new RegExp('built-(for|on)-cardano', 'i') // dont include these tags
         }
     }),
     tagsAsString: (tags) => tags == undefined || (tags !=undefined && tags.length > 0 && tags[0].id == undefined) ? [] : tags.filter(i => !/built-(for|on)-cardano/i.test(i.name)).map(t => { return t.name.toString().toUpperCase() }),
     tagDisabled: (name, tags) => {
-    
+
       if (tags != undefined) { // this will only be true for edit mode
           let tag = tags.find(t => { return name == t.name ? t : undefined });
           let newsTags = Template.instance().newsTags.get();
 
           if (tag != undefined) { // check if the tag exists in the top 10 tags
-              
+
               if (newsTags.find(t => { return tag.id == t.id }) == undefined) { // check if the tag has already been added to newsTags
-                  
+
                   newsTags.push({
                       id: tag.id,
                       name: tag.name
                  })
- 
+
                  Template.instance().newsTags.set(newsTags)
               }
-              
+
               return 'disabled'
           }
           return ''
-      } 
+      }
 
       return ''
     }
@@ -101,7 +101,7 @@ Template.projectForm.events({
       if (!err) {
       notify('Successfully updated.', 'success')
         return
-      } 
+      }
       notify('Error while updating information :: '+err.reason, 'error')
     })
   },
@@ -134,7 +134,7 @@ Template.projectForm.events({
 		$(event.currentTarget).attr('disabled', true);
 
 		let newsTags = templateInstance.newsTags.get();
-		
+
 		newsTags.push({
 			id: event.currentTarget.id,
 			name: name.toUpperCase()
@@ -145,7 +145,7 @@ Template.projectForm.events({
 		let inputs = $(event.currentTarget).val().split(',')
 		let topTags = $('.tag-name').toArray().map(t => t.innerHTML)
 		let topIds = $('.tag-name').toArray().map(t => t.parentElement.id)
-		
+
 		$('.tag-button').attr('disabled', false);
 
 		let newsTags = [];
@@ -169,19 +169,19 @@ Template.projectForm.events({
 
         let tags = $('#tagInput').val().split(',').map(e => e.trim()).filter(i => !!i)
 		let newsTags = _tpl.newsTags.get();
-		
+
 		// convert all tags to array of objects
 		tags = tags.map(t => {
 			let element = undefined
-			
+
 			if (newsTags.length > 0) element = newsTags.find(n => n.name === t.toUpperCase())
  			// add the element to the array if it not present
 			if (element === undefined) {
 				return { id: '', name: t.trim().toUpperCase()}
-			} 
-			return element	
+			}
+			return element
         });
-        
+
         if (FlowRouter.current().route.name === 'editProject') {
             editProject.call({
     			projectId: FlowRouter.getParam('id'),
@@ -228,7 +228,7 @@ Template.projectForm.events({
                 notify(err.reason, 'error')
                 return
             }
-            
+
             if (err.details && err.details.length >= 1) {
                 err.details.forEach(e => {
                     $(`#${e.name}`).addClass('is-invalid')

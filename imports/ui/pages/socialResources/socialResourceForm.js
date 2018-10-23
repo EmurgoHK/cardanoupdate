@@ -6,7 +6,7 @@ import { FlowRouter } from 'meteor/kadira:flow-router'
 import { socialResources } from '/imports/api/socialResources/socialResources'
 
 const maxCharValue = (inputId) => {
-    if (inputId === 'Name') { return 100 }
+    if (inputId === 'Name') { return 25 }
 
     return 500
 }

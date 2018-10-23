@@ -8,7 +8,7 @@ export const addSocialResource = new ValidatedMethod({
         new SimpleSchema({
             Name: {
                 type: String,
-                max: 100,
+                max: 25,
                 optional: false
             },
             description: {
@@ -75,7 +75,7 @@ export const editSocialResource = new ValidatedMethod({
                 optional: false
             },Name: {
                 type: String,
-                max: 100,
+                max: 25,
                 optional: false
             },
             description: {
