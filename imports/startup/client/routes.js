@@ -30,6 +30,7 @@ import '/imports/ui/pages/moderator/changes/changes'
 import '/imports/ui/pages/moderator/candidates/candidates'
 import '/imports/ui/pages/moderator/pardon/pardon'
 import '/imports/ui/pages/moderator/pardon/pardonUser'
+import '/imports/ui/pages/addNewModal/addNewModal'
 
 const userLoginFilter = (context, redirect, _stop) => {
   let oldRoute = '/'

@@ -1,6 +1,14 @@
-<template name="home">  
+<template name="home">
   <div class="container">
     <div class="row mx-auto">
+      <div class="col-sm-12">
+        <div class="float-right">
+          <button class="btn btn-outline-primary mb-3" id="add-new">
+            <i class="fa fa-plus" style="margin-right: 3px;"></i>
+            NEW
+          </button>
+        </div>
+      </div>
       <!-- User Stats -->
       <div class="col-sm-12">
         <div class="row">
@@ -72,7 +80,7 @@
                                           </div>
                                       </div>
                                   {{/if}}
-                                  
+
                                   <h4 class="card-title">
                                       <a href="/projects/{{slug}}">{{headline}}</a>
                                   </h4>
@@ -174,7 +182,7 @@
                                           </div>
                                       </div>
                                   {{/if}}
-                                  
+
                                   <h4 class="card-title">
                                       <a href="/research/{{slug}}">{{headline}}</a>
                                   </h4>
@@ -221,7 +229,7 @@
                                           </div>
                                       </div>
                                   {{/if}}
-                
+
                                   <h4 class="card-title">
                                       <a href="/socialResources/{{_id}}">{{Name}}</a>
                                   </h4>
