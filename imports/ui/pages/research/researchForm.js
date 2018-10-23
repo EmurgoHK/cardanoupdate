@@ -13,7 +13,7 @@ import { getFiles } from '/imports/ui/shared/uploader/uploader'
 
 const maxCharValue = (inputId) => {
     if (inputId === 'headline') {
-    	return 140
+    	return 25
     }
 
     return 1000
@@ -46,7 +46,7 @@ Template.researchForm.helpers({
   		}
 
   		return []
-	}  
+	}
 })
 
 Template.researchForm.events({
