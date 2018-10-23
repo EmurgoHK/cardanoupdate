@@ -1,6 +1,6 @@
 <template name="uploader">
 	<div class="row">
-		<div class="col-sm-12" id="preview">
+		<div class="col-sm-12" id="preview-{{id}}">
 			{{#each files}}
 				{{#if image}}
 					<img src="{{this}}" height="100" class="rounded" />
@@ -13,9 +13,9 @@
 	</div>
 	<div class="row">
 		<div class="col-sm-12 ml-2">
-			<label class="btn btn-primary" for="fileInput" id="fileInputLabel">
-				<input id="fileInput" type="file" style="display:none">
-				<span id="fileUploadValue">Upload</span>
+			<label class="btn btn-primary" for="fileInput-{{id}}" id="fileInputLabel-{{id}}">
+				<input id="fileInput-{{id}}" class="fileInput" data-id="{{id}}" type="file" style="display:none">
+				<span id="fileUploadValue-{{id}}">Upload</span>
 			</label>
 		</div>
 	</div>

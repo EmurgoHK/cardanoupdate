@@ -1,5 +1,5 @@
 const assert = require('assert')
-const baseUrl = 'http://localhost:3000/add'
+const baseUrl = 'http://localhost:3000/uploader-test'
 
 const path = require('path')
 
@@ -26,17 +26,17 @@ describe('Uploader', function () {
     })
 
     it('should render correctly', () => {
-        assert(browser.isExisting('#fileUploadValue'), true)
-        assert(browser.isVisible('#fileUploadValue'), true)
+        assert(browser.isExisting('#fileUploadValue-default'), true)
+        assert(browser.isVisible('#fileUploadValue-default'), true)
     })
 
     it('should upload an image correctly', () => {
         const file = path.join(__dirname, '..', '..', '..', '..', 'public', 'img', 'dog.jpg')
 
-        browser.chooseFile('#fileInput', file)
+        browser.chooseFile('#fileInput-default', file)
         browser.pause(10000)
 
-        assert(browser.execute(() => $('#fileUploadValue').text() === 'Change').value, true)
-        assert(browser.execute(() => Array.from($('#preview img').map((i, el) => $(el).attr('src'))).length > 0).value, true)
+        assert(browser.execute(() => $('#fileUploadValue-default').text() === 'Upload another').value, true)
+        assert(browser.execute(() => Array.from($('#preview-default img').map((i, el) => $(el).attr('src'))).length > 0).value, true)
     })
 })

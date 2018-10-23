@@ -2,141 +2,152 @@ import './home.html'
 import './home.scss'
 
 import { Template } from 'meteor/templating'
-import { FlowRouter } from 'meteor/kadira:flow-router'
-
-import { News } from '/imports/api/news/news'
-import { Comments } from '/imports/api/comments/comments'
-import { notify } from '/imports/modules/notifier'
-
-import { flagNews, removeNews, voteNews } from '/imports/api/news/methods'
-
-import swal from 'sweetalert2'
+import { Projects } from '/imports/api/projects/projects'
+import { Events } from '/imports/api/events/events'
+import { Research } from '/imports/api/research/research'
+import { socialResources } from '/imports/api/socialResources/socialResources'
+import { UsersStats } from '/imports/api/user/usersStats'
 import moment from 'moment'
 
+import swal from 'sweetalert2'
+
 Template.home.onCreated(function () {
-  this.sort = new ReactiveVar('date-desc')
-  this.searchFilter = new ReactiveVar(undefined);
   this.autorun(() => {
+    this.subscribe('research')
+    this.subscribe('socialResources')
+    this.subscribe('projects')
+    this.subscribe('events')
     this.subscribe('news')
     this.subscribe('users')
     this.subscribe('comments')
-    let searchFilter = Template.instance().searchFilter.get();
+    this.subscribe('usersStats')
   })
 })
 
 Template.home.helpers({
-  newsCount(){
-    let news =  News.find({}).count()
-    if(news){
+  // Research Helpers
+  researchCount(){
+    let research = Research.find({}).count()
+    if(research){
       return true
     }
     return false
   },
-  news: function(){
-    let news = [];
-    let searchText = Template.instance().searchFilter.get()
 
-    // Check if user has searched for something
-    if (searchText != undefined && searchText != '') {
-      news = News.find({
-        $or: [{
-            summary: new RegExp(searchText.replace(/ /g, '|'), 'ig')
-          }, {
-            headline: new RegExp(searchText.replace(/ /g, '|'), 'ig')
-          }, {
-            body: new RegExp(searchText.replace(/ /g, '|'), 'ig')
-          },{
-            tags: new RegExp(searchText.replace(/ /g, '|'), 'ig')
-          }]
-      })
-    } else {
-      news = News.find({})
+  research(){
+    return Research.find({}, {limit : 5})
+  },
+  // socialResources Helpers
+  socialResourcesCount(){
+    let project = socialResources.find({}).count()
+    if(project){
+      return true
     }
-    
-    return news.map(a => {
-      let user = Meteor.users.findOne({_id : a.createdBy})
-      let canEdit = (Meteor.userId() === a.createdBy) ? true : false
-      return {
-        newsId : a._id,
-        // TODO : we can remove this on production
-        author : (user || {}).hasOwnProperty('profile') ? user.profile.name : 'No name',
-        headline : a.headline,
-        summary : a.summary,
-        rating: a.rating || 0,
-        votes: a.votes || [],
-        canVote: !(a.votes || []).some(i => i.votedBy === Meteor.userId()),
-        slug : a.slug,
-        date : moment(a.createdAt).fromNow(),
-        createdBy: a.createdBy,
-        createdAt: a.createdAt,
-        image: a.image,
-        canEdit
+    return false
+  },
+
+  socialResources(){
+    return socialResources.find({}, {limit : 5})
+  },
+
+  // Project Helpers
+  projectCount(){
+    let project = Projects.find({}).count()
+    if(project){
+      return true
+    }
+    return false
+  },
+
+  // Return only latest 5 projects
+  projects(){
+    return Projects.find({}, {limit : 5})
+  },
+
+  // Events
+  eventCount(){
+    let event = Events.find({}).count()
+    if(event){
+      return true
+    }
+    return false
+  },
+
+  events(){
+    // Return only latest 5 active events
+    return Events.find({
+      start_date : {
+        $gte : moment().toISOString()
       }
-    }).sort((i1, i2) => {
-        let sort = Template.instance().sort.get()
-
-        if (sort === 'date-desc') return i2.createdAt - i1.createdAt
-        if (sort === 'date-asc') return i1.createdAt - i2.createdAt
-        if (sort === 'rating-desc') return i2.rating - i1.rating
-        if (sort === 'rating-asc') return i1.rating - i2.rating
-    })
+    }, {limit : 5})
   },
-  comments: function (id) {
-    return Comments.find({
-      newsId: id
-    }).count()
-  },
-  truncate (str) {
-    const max_length = 180
-    
-    if (str.length > max_length) {
-      return str.substring(0, max_length) + `... <a href="/news/${this.slug}" class="read-more">(more)</a>` 
+  
+  eventLabel() {
+    let now = moment()
+    if (moment(this.start_date) > now && moment(this.end_date) > now){
+      return 'upcoming-event'
+    } else if ( moment(this.start_date) <= now && now <= moment(this.end_date)) {
+      return 'ongoing-event'
+    } else {
+      return 'past-event'
     }
-
-    return str
   },
-  upvotes () {
-    return ((this.votes || []).filter(v => v.vote === 'up')).length
-  },
-  downvotes () {
-    return ((this.votes || []).filter(v => v.vote === 'down')).length
-  },
-  voteThumbActive (vote) {
-    if((this.votes || []).some(i => i.votedBy === Meteor.userId() && i.vote === vote)) {
-      return 'fas'
-    }
 
-    return 'far'
-  }
+  // User Stats
+  signedUp: () => (UsersStats.findOne({
+    _id: 'lastMonth'
+  }) || {}).created || 0,
 
+  commentsLastMonth: () => (UsersStats.findOne({
+    _id: 'lastMonthComments'
+  }) || {}).created || 0,
+
+  onlineUsers() {
+    let connectionUsers = ((UsersStats.findOne("connected") || {}).userIds || []).length;
+    return connectionUsers ? connectionUsers : 0;
+  },
+  
+  totalUsers: () => Meteor.users.find({}).count() || 0,
 })
 
 Template.home.events({
-  'click #js-new': (event, templateInstance) => {
-    event.preventDefault()
-
-    FlowRouter.go('/add')
+  'click .projectWarning' (event, _tpl) {
+    console.log('HELLO')
+      event.preventDefault()
+      swal({
+          title: 'Missing source repository',
+          text: "This project does't contain any link to the source repository",
+          type: 'warning',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Okay'
+      })
   },
-  'click #js-remove': function (event, templateInstance) {
+  'click .flag-research' : function(event, templateInstance) {
     event.preventDefault()
-
     swal({
-      text: `Are you sure you want to remove this news item? This action is not reversible.`,
-      type: 'warning',
-      showCancelButton: true
-    }).then(confirmed => {
-      if (confirmed.value) {
-        removeNews.call({
-          newsId: this.newsId
-        }, (err, data) => {
-          if (err) {
-            notify(err.reason || err.message, 'error')
-          }
-        })
-      }
+        title: 'Why are you flagging this?',
+        input: 'text',
+        showCancelButton: true,
+        inputValidator: (value) => {
+            return !value && 'You need to write a valid reason!'
+        }
+    }).then(data => {
+        if (data.value) {
+            flagResearch.call({
+                researchId: this._id,
+                reason: data.value
+            }, (err, data) => {
+                if (err) {
+                    notify(err.reason || err.message, 'error')
+                } else {
+                    notify('Successfully flagged. Moderators will decide what to do next.', 'success')
+                }
+            })
+        }
     })
   },
-  'click .flag-news' : function(event, templateInstance) {
+  'click .flag-project' : function (event, templateInstance){
+    event.preventDefault()
     swal({
       title: 'Why are you flagging this?',
       input: 'text',
@@ -146,8 +157,8 @@ Template.home.events({
       }
     }).then(data => {
       if (data.value) {
-        flagNews.call({
-          newsId: this.newsId,
+        flagProject.call({
+          projectId: this._id,
           reason: data.value
         }, (err, data) => {
           if (err) {
@@ -159,25 +170,58 @@ Template.home.events({
       }
     })
   },
-    'click .vote-news': function(event, templateInstance) {
-        event.preventDefault()
-
-        voteNews.call({
-            newsId: this.newsId,
-            vote: event.currentTarget.dataset.vote
+  'click .flag-event' : function (event, templateInstance){
+    event.preventDefault()
+    swal({
+      title: 'Why are you flagging this?',
+      input: 'text',
+      showCancelButton: true,
+      inputValidator: (value) => {
+        return !value && 'You need to write a valid reason!'
+      }
+    }).then(data => {
+      if (data.value) {
+        flagEvent.call({
+          eventId: this._id,
+          reason: data.value
         }, (err, data) => {
-            if (err) {
-                notify(err.reason || err.message, 'error')
+          if (err) {
+            notify(err.reason || err.message, 'error')
+          } else {
+            notify('Successfully flagged. Moderators will decide what to do next.', 'success')
+          }
+        })
+      }
+    })
+  },
+    'click .new-link': function(event, temlateInstance) {
+        if ($(event.currentTarget).attr('href')) {
+            return
+        }
+
+
+        let data = $(event.currentTarget).attr('class').includes('github') ? 'github' : 'website'
+
+        swal({
+            text: `Website is not available. If you know this information, please contribute below:`,
+            type: 'warning',
+            showCancelButton: true,
+            input: 'text'
+        }).then(val => {
+            if (val.value) {
+                proposeNewData.call({
+                    projectId: this._id,
+                    datapoint: data,
+                    newData: val.value,
+                    type: 'link'
+                }, (err, data) => {
+                    if (err) {
+                        notify(err.reason || err.message, 'error')
+                    } else {
+                        notify('Successfully contributed.', 'success')
+                    }
+                })
             }
         })
     },
-    'change .sort-news input': (event, templateInstance) => {
-      event.preventDefault()
-      templateInstance.sort.set($(event.currentTarget).val())
-    },
-    'keyup #searchBox': function (event, templateInstance) {
-      event.preventDefault();
-
-      templateInstance.searchFilter.set($('#searchBox').val())
-  }
 })

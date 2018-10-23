@@ -27,6 +27,9 @@ describe('Projects page', function () {
 
         browser.pause(3000)
 
+        browser.click('.btn-secondary')
+        browser.pause(2000)
+
         browser.setValue('#headline', 'Headline Test')
         browser.pause(1000)
 
@@ -40,6 +43,9 @@ describe('Projects page', function () {
 
         browser.setValue('#github_url', 'https://github.com/anbud')
         browser.pause(1000)
+
+        browser.click('input[name="type"]')
+        browser.pause(2000)
 
         browser.click('.add-project')
         browser.pause(3000)

@@ -5,6 +5,9 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method'
 import { Projects } from './projects'
 import { Comments } from '../comments/comments'
 
+import { Tags } from '/imports/api/tags/tags'
+import { addTag, mentionTag, getTag } from '/imports/api/tags/methods'
+
 import { isModerator, userStrike } from '/imports/api/user/methods'
 
 export const addProject = new ValidatedMethod({
@@ -34,10 +37,21 @@ export const addProject = new ValidatedMethod({
                 optional: true
             },
             "tags.$": {
+                type: Object,
+                optional: true
+            },
+            "tags.$.id": {
                 type: String,
                 optional: true
             },
-
+            "tags.$.name": {
+                type: String,
+                optional: true
+            },
+            type: {
+                type: String,
+                optional: false
+            }
         }).validator({
             clean: true
         }),
@@ -46,7 +60,31 @@ export const addProject = new ValidatedMethod({
             if (!Meteor.userId()) {
                 throw new Meteor.Error('Error.', 'You have to be logged in.')
             }
+
+            data.tags = data.tags || []
+
+            // find the type tag
+            let tag = getTag(data.type) || {}
+
+            // add it to the list of tags
+            data.tags.push({
+                name: data.type,
+                id: tag._id // this will be undefined if the tag doesn't exist yet, so it'll be added correctly
+            })
             
+            if (data.tags != undefined) {
+                data.tags.forEach(tag => {
+                    if(tag.id && tag.id != '') {
+                        // add mention
+                        mentionTag(tag.id)
+                    } else if(tag.name && tag.name != '') {
+                        // add the tag to the list
+                        tagId = addTag(tag.name)
+                        tag.id = tagId
+                    }
+                })
+            }
+
             data.createdBy = Meteor.userId()
             data.createdAt = new Date().getTime()
             return Projects.insert(data)
@@ -115,13 +153,25 @@ export const editProject = new ValidatedMethod({
                 optional: true
             },
             "tags.$": {
+                type: Object,
+                optional: true
+            },
+            "tags.$.id": {
                 type: String,
                 optional: true
             },
+            "tags.$.name": {
+                type: String,
+                optional: true
+            },
+            type: {
+                type: String,
+                optional: false
+            }
         }).validator({
             clean: true
         }),
-    run({ projectId, headline, description, github_url, website, tags }) {
+    run({ projectId, headline, description, github_url, website, tags, type }) {
         if (Meteor.isServer) {
             let project = Projects.findOne({ _id: projectId })
 
@@ -137,6 +187,36 @@ export const editProject = new ValidatedMethod({
                 throw new Meteor.Error('Error.', 'You can\'t edit a project that you haven\'t added.')
             }
 
+            tags = tags || []
+
+            // find the type tag
+            let tag = getTag(type) || {}
+
+            // check if it already has the type tag
+            if (!tags.some(i => i.name === type)) {
+                // if the type tag has changed, remove the old one
+                tags = tags.filter(i => !/built-(on|for)-cardano/i.test(i.name))
+
+                // and add the new tag
+                tags.push({
+                    name: type,
+                    id: tag._id
+                })
+            }
+
+            if (tags != undefined) {
+                tags.forEach(tag => {
+                    if(tag.id && tag.id != '') {
+                        // add mention
+                        mentionTag(tag.id)
+                    } else if(tag.name && tag.name != '') {
+                        // add the tag to the list
+                        tagId = addTag(tag.name)
+                        tag.id = tagId
+                    }
+                })
+            }
+
             return Projects.update({
                 _id: projectId
             }, {
@@ -146,6 +226,7 @@ export const editProject = new ValidatedMethod({
                     github_url: github_url,
                     website: website,
                     tags: tags,
+                    type: type,
                     updatedAt: new Date().getTime()
                 }
             })

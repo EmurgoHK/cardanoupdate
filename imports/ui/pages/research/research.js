@@ -77,12 +77,12 @@ Template.research.events({
     'click .flag-research' : function(event, templateInstance) {
         event.preventDefault()
         swal({
-		  	title: 'Why are you flagging this?',
-		  	input: 'text',
-		  	showCancelButton: true,
-		  	inputValidator: (value) => {
-		    	return !value && 'You need to write a valid reason!'
-		  	}
+            title: 'Why are you flagging this?',
+            input: 'text',
+            showCancelButton: true,
+            inputValidator: (value) => {
+                return !value && 'You need to write a valid reason!'
+            }
         }).then(data => {
             if (data.value) {
                 flagResearch.call({
