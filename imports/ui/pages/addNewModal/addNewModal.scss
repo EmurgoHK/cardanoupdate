@@ -1,0 +1,18 @@
+#newModal{
+  .modal-body{margin-bottom: 20px;}
+  li{
+    background-color: #fff;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 0;
+    a{
+      text-decoration: none;color: #63c2de;
+    }
+  }
+  li:hover{
+    background-color: #63c2de;
+  a{
+      color: #fff;
+    }
+  }
+}
