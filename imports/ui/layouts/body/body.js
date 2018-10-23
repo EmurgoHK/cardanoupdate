@@ -25,3 +25,7 @@ Template.main.events({
 		}
 	}
 })
+
+Template.main.onRendered(function() {
+	this.$('[data-toggle="tooltip"]').tooltip({placement: 'right'});
+});
