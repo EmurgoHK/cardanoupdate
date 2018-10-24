@@ -14,7 +14,7 @@ const CHUNK_SIZE = 3
 Template.projects.onCreated(function () {
     this.sort = new ReactiveVar('date-desc')
     this.searchFilter = new ReactiveVar(undefined);
-    
+
     this.autorun(() => {
         this.subscribe('projects')
     })
@@ -47,6 +47,9 @@ Template.projects.helpers({
     },
     canEdit () {
         return this.createdBy === Meteor.userId()
+    },
+    LimitChars (val) {
+        return val&&val.length>50?val.slice(0,50)+' ... ':val;
     }
 })
 
@@ -111,11 +114,11 @@ Template.projects.events({
     },
     'click #js-remove': function (event, _) {
         event.preventDefault()
-        
+
         swal({
             text: `Are you sure you want to remove this Project? This action is not reversible.`,
             type: 'warning',
-            showCancelButton: true 
+            showCancelButton: true
         }).then(confirmed => {
             if (confirmed.value) {
                 deleteProject.call({
