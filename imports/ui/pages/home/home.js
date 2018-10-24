@@ -8,6 +8,7 @@ import { Research } from '/imports/api/research/research'
 import { Learn } from '/imports/api/learn/learn'
 import { socialResources } from '/imports/api/socialResources/socialResources'
 import { UsersStats } from '/imports/api/user/usersStats'
+import { Stats } from '/imports/api/stats/stats'
 import moment from 'moment'
 
 import swal from 'sweetalert2'
@@ -23,6 +24,7 @@ Template.home.onCreated(function () {
     this.subscribe('comments')
     this.subscribe('usersStats')
     this.subscribe('learn')
+    this.subscribe('stats')
   })
 })
 
@@ -103,9 +105,9 @@ Template.home.helpers({
     _id: 'lastMonth'
   }) || {}).created || 0,
 
-  commentsLastMonth: () => (UsersStats.findOne({
-    _id: 'lastMonthComments'
-  }) || {}).created || 0,
+    commentsLastMonth: () => (Stats.findOne({
+        _id: 'last-month'
+    }) || {}).count || 0,
 
   onlineUsers() {
     let connectionUsers = ((UsersStats.findOne("connected") || {}).userIds || []).length;
