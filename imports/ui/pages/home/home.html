@@ -13,40 +13,41 @@
       <div class="col-sm-12">
         <div class="row">
           <div class="col sm-4">
-            <div class="card text-white bg-success">
+            <div class="card text-white bg-success m-0 h-100">
               <div class="card-body">
                 <h5 class="text-right">
+                  <div class="home-text-value float-left">
+                    {{onlineUsers}} / {{totalUsers}}
+                  </div>
                   <i class="icon-people"></i>
                 </h5>
-                <div class="home-text-value">
-                  {{onlineUsers}} / {{totalUsers}}
-                </div>
+
                 <span class="text-muted text-uppercase font-weight-bold h6">Users Online</span>
               </div>
             </div>
           </div>
           <div class="col sm-4">
-            <div class="card text-white bg-info">
+            <div class="card text-white bg-info m-0 h-100">
               <div class="card-body">
                 <h5 class="text-right">
+                  <div class="home-text-value float-left">
+                    {{signedUp}}
+                  </div>
                   <i class="icon-people"></i>
                 </h5>
-                <div class="home-text-value">
-                  {{signedUp}}
-                </div>
                 <span class="text-muted text-uppercase font-weight-bold h6">New users in the last month</span>
               </div>
             </div>
           </div>
           <div class="col sm-4">
-            <div class="card text-white bg-dark">
+            <div class="card text-white bg-dark m-0 h-100">
               <div class="card-body">
                 <h5 class="text-right">
+                  <div class="home-text-value float-left">
+                    {{commentsLastMonth}}
+                  </div>
                   <i class="icon-speech"></i>
                 </h5>
-                <div class="home-text-value">
-                  {{commentsLastMonth}}
-                </div>
                 <span class="text-muted text-uppercase font-weight-bold h6">Comments this month</span>
               </div>
             </div>
