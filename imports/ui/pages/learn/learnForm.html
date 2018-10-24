@@ -1,0 +1,43 @@
+<template name="learnForm">
+  <div class="event-form container">
+    <div class="card mb-5">
+      <div class="card-body">
+        <h2 class="card-title">
+            {{#if add}}New{{else}}Edit{{/if}} learning resource
+        </h2>
+        <hr>
+        <form>
+          <div class="group-title">Title</div>
+          <div class="input-group">
+            <input type="text" class="form-control" id="title" value="{{learn.title}}" placeholder="What are users going to learn about by reading or watching this? (in 25 chars or less)">
+            <div id="titleError" class="invalid-feedback"></div>
+          </div>
+          <small><i id="title-chars" class="text-muted"></i></small>
+          <div class="group-title">Content</div>
+          <div class="article-body">
+            <textarea class="form-control" id="content" rows="6" value="{{learn.content}}" placeholder="Learning resource content in 5000 characters or less"></textarea>
+            <div id="contentError" class="invalid-feedback"></div>
+          </div>
+          <small><i id="content-chars" class="text-muted"></i></small>
+          <div class="group-title">Tags</div>
+              <div class="group-title">
+                {{#each tags}}
+                  <button class="btn btn-dark tag-button" type="button" id={{_id}} {{tagDisabled name project.tags}}>
+                      <span class="tag-name">{{name}}</span>
+                  </button>
+                {{/each}}
+              </div>
+              <div class="input-group">
+                <input type="text" class="form-control" id="tagInput" placeholder="Add a tags separated by comma(,) eg crypto,wallet"
+                  value="{{tagsAsString learn.tags}}">
+              </div>
+        </form>
+      </div>
+      <div class="card-footer">
+        <div>
+          <button type="submit" class="btn btn-lg btn-success new-learn">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

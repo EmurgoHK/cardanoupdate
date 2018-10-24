@@ -18,6 +18,11 @@ import '/imports/ui/pages/community/viewSocialResource'
 import '/imports/ui/pages/research/research'
 import '/imports/ui/pages/research/researchForm'
 import '/imports/ui/pages/research/viewResearch'
+
+import '/imports/ui/pages/learn/learn'
+import '/imports/ui/pages/learn/learnForm'
+import '/imports/ui/pages/learn/viewLearn'
+
 import '/imports/ui/pages/events/events'
 import '/imports/ui/pages/events/eventForm'
 import '/imports/ui/pages/events/viewEvent'
@@ -215,6 +220,50 @@ FlowRouter.route('/research/:slug', {
       header: 'header',
       sidebar: 'sidebar',
       main: 'viewResearch'
+    })
+  }
+})
+
+FlowRouter.route('/learn', {
+  name: 'learn',
+  action() {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'learn'
+    })
+  }
+})
+
+FlowRouter.route('/learn/new', {
+  name: 'newLearn',
+  action() {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'learnForm'
+    })
+  }
+})
+
+FlowRouter.route('/learn/:slug/edit', {
+  name: 'editLearn',
+  action() {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'learnForm'
+    })
+  }
+})
+
+FlowRouter.route('/learn/:slug', {
+  name: 'viewLearn',
+  action() {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'viewLearn'
     })
   }
 })

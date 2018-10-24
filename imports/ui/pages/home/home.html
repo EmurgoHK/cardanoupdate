@@ -13,41 +13,42 @@
       <div class="col-sm-12">
         <div class="row">
           <div class="col sm-4">
-            <div class="card text-white bg-success">
+            <div class="card text-white bg-success m-0 h-100">
               <div class="card-body">
                 <h5 class="text-right">
+                  <div class="home-text-value float-left">
+                    {{onlineUsers}} / {{totalUsers}}
+                  </div>
                   <i class="icon-people"></i>
                 </h5>
-                <div class="home-text-value">
-                  {{onlineUsers}} / {{totalUsers}}
-                </div>
+
                 <span class="text-muted text-uppercase font-weight-bold h6">Users Online</span>
               </div>
             </div>
           </div>
           <div class="col sm-4">
-            <div class="card text-white bg-info">
+            <div class="card text-white bg-info m-0 h-100">
               <div class="card-body">
                 <h5 class="text-right">
+                  <div class="home-text-value float-left">
+                    {{signedUp}}
+                  </div>
                   <i class="icon-people"></i>
                 </h5>
-                <div class="home-text-value">
-                  {{signedUp}}
-                </div>
                 <span class="text-muted text-uppercase font-weight-bold h6">New users in the last month</span>
               </div>
             </div>
           </div>
           <div class="col sm-4">
-            <div class="card text-white bg-dark">
+            <div class="card text-white bg-dark m-0 h-100">
               <div class="card-body">
                 <h5 class="text-right">
+                  <div class="home-text-value float-left">
+                    {{commentsLastMonth}}
+                  </div>
                   <i class="icon-speech"></i>
                 </h5>
-                <div class="home-text-value">
-                  {{commentsLastMonth}}
-                </div>
-                <span class="text-muted text-uppercase font-weight-bold h6">Comments this month</span>
+                <span class="text-muted text-uppercase font-weight-bold h6">Content this month</span>
               </div>
             </div>
           </div>
@@ -195,6 +196,43 @@
                                   <a class="flag-research float-right" href="#" title="Flag this research">
                                     <i class="icon-flag"></i>
                                   </a>
+                              </div>
+                          </div>
+                      </div>
+                    {{/each}}
+                  </div>
+                </div>
+              </section>
+            </div>
+          {{/if}}
+          <!-- Learn -->
+          {{#if learnCount}}
+            <div class="col-sm-12">
+              <section class="content-container learn">
+                <div class="section-title">
+                  Learning resources
+                  <div class="float-md-right pb-3">
+                    <a href="/learn">view all</a>
+                  </div>
+                </div>
+                <div class="section-content">
+                  <div class="row">
+                    {{#each learn}}
+                      <div class="col-md-4">
+                          <div class="card">
+                              <div class="card-body">
+                                  {{#if canEdit}}
+                                      <div class="news-settings float-right dropdown">
+                                          <i class="icon-settings dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                                          <div class="dropdown-menu">
+                                              <a class="dropdown-item" id="js-edit" href="/learn/{{slug}}/edit"><i class="icon-pencil"></i> Edit</a>
+                                          </div>
+                                      </div>
+                                  {{/if}}
+
+                                  <h4 class="card-title">
+                                      <a href="/learn/{{slug}}">{{title}}</a>
+                                  </h4>
                               </div>
                           </div>
                       </div>

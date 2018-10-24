@@ -7,6 +7,12 @@ import '/imports/api/user/server/publications'
 import '/imports/api/user/server/startup'
 import '/imports/api/user/usersStats'
 
+// stats api
+import '/imports/api/stats/methods'
+import '/imports/api/stats/stats'
+import '/imports/api/stats/server/publications'
+import '/imports/api/stats/server/startup'
+
 // news api
 import '/imports/api/news/methods'
 import '/imports/api/news/server/publications'
@@ -37,6 +43,11 @@ import '/imports/api/uploader/methods'
 // research api
 import '/imports/api/socialResources/methods'
 import '/imports/api/socialResources/server/publications'
+
+// learn api
+import '/imports/api/learn/methods'
+import '/imports/api/learn/server/publications'
+
 
 // tags
 import '/imports/api/tags/methods'
