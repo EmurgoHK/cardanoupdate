@@ -87,10 +87,7 @@ describe('Research page', function () {
         browser.click('.flag-research')
         browser.pause(2000)
 
-        browser.setValue('.swal2-input', 'Test flag research')
-        browser.pause(1000)
-
-        browser.click('.swal2-confirm')
+        browser.click('#spam')
         browser.pause(3000)
     })
 

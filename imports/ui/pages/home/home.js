@@ -11,6 +11,13 @@ import { UsersStats } from '/imports/api/user/usersStats'
 import { Stats } from '/imports/api/stats/stats'
 import moment from 'moment'
 
+import { flagResearch } from '/imports/api/research/methods'
+import { flagProject } from '/imports/api/projects/methods'
+import { flagEvent } from '/imports/api/events/methods'
+import { flagLearningItem } from '/imports/api/learn/methods'
+
+import { flagDialog } from '/imports/modules/flagDialog'
+
 import swal from 'sweetalert2'
 
 Template.home.onCreated(function () {
@@ -135,75 +142,23 @@ Template.home.events({
   },
   'click .flag-research' : function(event, templateInstance) {
     event.preventDefault()
-    swal({
-        title: 'Why are you flagging this?',
-        input: 'text',
-        showCancelButton: true,
-        inputValidator: (value) => {
-            return !value && 'You need to write a valid reason!'
-        }
-    }).then(data => {
-        if (data.value) {
-            flagResearch.call({
-                researchId: this._id,
-                reason: data.value
-            }, (err, data) => {
-                if (err) {
-                    notify(err.reason || err.message, 'error')
-                } else {
-                    notify('Successfully flagged. Moderators will decide what to do next.', 'success')
-                }
-            })
-        }
-    })
+    
+    flagDialog.call(this, flagResearch, 'researchId')
   },
-  'click .flag-project' : function (event, templateInstance){
+  'click .flag-learn' : function(event, templateInstance) {
     event.preventDefault()
-    swal({
-      title: 'Why are you flagging this?',
-      input: 'text',
-      showCancelButton: true,
-      inputValidator: (value) => {
-        return !value && 'You need to write a valid reason!'
-      }
-    }).then(data => {
-      if (data.value) {
-        flagProject.call({
-          projectId: this._id,
-          reason: data.value
-        }, (err, data) => {
-          if (err) {
-            notify(err.reason || err.message, 'error')
-          } else {
-            notify('Successfully flagged. Moderators will decide what to do next.', 'success')
-          }
-        })
-      }
-    })
+    
+    flagDialog.call(this, flagLearningItem, 'learnId')
   },
-  'click .flag-event' : function (event, templateInstance){
+  'click .flag-project' : function(event, templateInstance) {
     event.preventDefault()
-    swal({
-      title: 'Why are you flagging this?',
-      input: 'text',
-      showCancelButton: true,
-      inputValidator: (value) => {
-        return !value && 'You need to write a valid reason!'
-      }
-    }).then(data => {
-      if (data.value) {
-        flagEvent.call({
-          eventId: this._id,
-          reason: data.value
-        }, (err, data) => {
-          if (err) {
-            notify(err.reason || err.message, 'error')
-          } else {
-            notify('Successfully flagged. Moderators will decide what to do next.', 'success')
-          }
-        })
-      }
-    })
+    
+    flagDialog.call(this, flagProject, 'projectId')
+  },
+  'click .flag-event' : function(event, templateInstance) {
+    event.preventDefault()
+    
+    flagDialog.call(this, flagEvent, 'eventId')
   },
     'click .new-link': function(event, temlateInstance) {
         if ($(event.currentTarget).attr('href')) {

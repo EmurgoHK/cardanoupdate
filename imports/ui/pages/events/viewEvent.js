@@ -9,6 +9,8 @@ import { newComment } from '/imports/api/comments/methods'
 import { flagEvent, toggleWatchEvents } from '/imports/api/events/methods'
 import { notify } from '/imports/modules/notifier'
 
+import { flagDialog } from '/imports/modules/flagDialog'
+
 import swal from 'sweetalert2'
 
 Template.viewEvent.onCreated(function () {
@@ -69,27 +71,7 @@ Template.viewEvent.events({
 			slug: FlowRouter.getParam('slug')
 		}) || {}
 
-		swal({
-		  	title: 'Why are you flagging this?',
-		  	input: 'text',
-		  	showCancelButton: true,
-		  	inputValidator: (value) => {
-		    	return !value && 'You need to write a valid reason!'
-		  	}
-		}).then(data => {
-			if (data.value) {
-				flagEvent.call({
-					eventId: event._id,
-					reason: data.value
-				}, (err, data) => {
-					if (err) {
-						notify(err.reason || err.message, 'error')
-					} else {
-						notify('Successfully flagged. Moderators will decide what to do next.', 'success')
-					}
-				})
-			}
-		})
+		flagDialog.call(event, flagEvent, 'eventId')
 	},
 	'click .new-comment': (e, templateInstance) => {
 		e.preventDefault()
