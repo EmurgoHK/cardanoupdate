@@ -7,9 +7,9 @@
                         Add Project
                     </button>
                 </div>
-                
+
                 <h2>Projects</h2>
-            
+
             </div>
         </div>
 
@@ -35,13 +35,13 @@
                             </div>
                         </div>
                     {{/if}}
-                    
+
                     <h4 class="card-title">
                         <a href="/projects/{{slug}}">{{headline}}</a>
                     </h4>
                     <br>
                     <p class="card-text">
-                        {{description}}
+                        {{LimitChars description}}
                     </p>
                     <hr>
                     {{#unless github_url}}
