@@ -8,9 +8,10 @@ import { Research } from '/imports/api/research/research'
 import { Comments } from '/imports/api/comments/comments'
 
 import { newComment } from '/imports/api/comments/methods' 
-import { flagResarch } from '/imports/api/research/methods'
+import { flagResearch } from '/imports/api/research/methods'
 
 import { notify } from '/imports/modules/notifier'
+import { flagDialog } from '/imports/modules/flagDialog'
 
 import swal from 'sweetalert2'
 
@@ -70,27 +71,7 @@ Template.viewResearch.events({
 			slug: FlowRouter.getParam('slug')
 		}) || {}
 
-		swal({
-		  	title: 'Why are you flagging this?',
-		  	input: 'text',
-		  	showCancelButton: true,
-		  	inputValidator: (value) => {
-		    	return !value && 'You need to write a valid reason!'
-		  	}
-		}).then(data => {
-			if (data.value) {
-				flagResarch.call({
-					researchId: research._id,
-					reason: data.value
-				}, (err, data) => {
-					if (err) {
-						notify(err.reason || err.message, 'error')
-					} else {
-						notify('Successfully flagged. Moderators will decide what to do next.', 'success')
-					}
-				})
-			}
-		})
+		flagDialog.call(research, flagResearch, 'researchId')
 	},
 	'click .new-comment': (event, templateInstance) => {
 		event.preventDefault()
