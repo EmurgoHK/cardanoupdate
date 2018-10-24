@@ -16,7 +16,7 @@ export const addProject = new ValidatedMethod({
         new SimpleSchema({
             headline: {
                 type: String,
-                max: 100,
+                max: 25,
                 optional: false
             },
             description: {
@@ -71,7 +71,7 @@ export const addProject = new ValidatedMethod({
                 name: data.type,
                 id: tag._id // this will be undefined if the tag doesn't exist yet, so it'll be added correctly
             })
-            
+
             if (data.tags != undefined) {
                 data.tags.forEach(tag => {
                     if(tag.id && tag.id != '') {
@@ -132,7 +132,7 @@ export const editProject = new ValidatedMethod({
             },
             headline: {
                 type: String,
-                max: 100,
+                max: 25,
                 optional: false
             },
             description: {
@@ -262,7 +262,7 @@ export const flagProject = new ValidatedMethod({
         if (!Meteor.userId()) {
             throw new Meteor.Error('Error.', 'You have to be logged in.')
         }
-      
+
         if ((project.flags || []).some(i => i.flaggedBy === Meteor.userId())) {
             throw new Meteor.Error('Error.', 'You have already flagged this item.')
         }
@@ -278,12 +278,12 @@ export const flagProject = new ValidatedMethod({
                 }
             }
         })
-    } 
+    }
 })
 
 export const proposeNewData = new ValidatedMethod({
     name: 'proposeNewData',
-    validate: 
+    validate:
         new SimpleSchema({
             projectId: {
                 type: String,
@@ -308,7 +308,7 @@ export const proposeNewData = new ValidatedMethod({
         if (!Meteor.userId()) {
             throw new Meteor.Error('Error.', 'You have to be logged in.')
         }
-        
+
         let project = Projects.findOne({
             _id: projectId
         })
@@ -469,7 +469,7 @@ export const resolveProjectFlags = new ValidatedMethod({
                 token: 's3rv3r-only',
                 times: 1
             }, (err, data) => {})
-            
+
             Comments.remove({
                 newsId: projectId
             })

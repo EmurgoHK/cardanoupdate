@@ -6,7 +6,7 @@ import { FlowRouter } from 'meteor/kadira:flow-router'
 import { socialResources } from '/imports/api/socialResources/socialResources'
 
 const maxCharValue = (inputId) => {
-    if (inputId === 'Name') { return 100 }
+    if (inputId === 'Name') { return 25 }
 
     return 500
 }
@@ -58,7 +58,7 @@ Template.socialResourceFormTemp.events({
 	    	}, (err, _data) => {
 	    		if (!err) {
 	    			notify('Successfully edited.', 'success')
-	        		FlowRouter.go('/socialResources')
+	        		FlowRouter.go('/community')
 	        		return
 	      		}
 
@@ -81,7 +81,7 @@ Template.socialResourceFormTemp.events({
         }, (err, data) => {
             if (!err) {
                 notify('Successfully added.', 'success')
-                FlowRouter.go('/socialResources')
+                FlowRouter.go('/community')
                 return
             }
 

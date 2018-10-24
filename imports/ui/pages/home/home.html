@@ -1,6 +1,14 @@
-<template name="home">  
+<template name="home">
   <div class="container">
     <div class="row mx-auto">
+      <div class="col-sm-12">
+        <div class="float-right">
+          <button class="btn btn-outline-primary mb-3" id="add-new">
+            <i class="fa fa-plus" style="margin-right: 3px;"></i>
+            NEW
+          </button>
+        </div>
+      </div>
       <!-- User Stats -->
       <div class="col-sm-12">
         <div class="row">
@@ -72,7 +80,7 @@
                                           </div>
                                       </div>
                                   {{/if}}
-                                  
+
                                   <h4 class="card-title">
                                       <a href="/projects/{{slug}}">{{headline}}</a>
                                   </h4>
@@ -174,7 +182,7 @@
                                           </div>
                                       </div>
                                   {{/if}}
-                                  
+
                                   <h4 class="card-title">
                                       <a href="/research/{{slug}}">{{headline}}</a>
                                   </h4>
@@ -203,7 +211,7 @@
                 <div class="section-title">
                   Social Resources
                   <div class="float-md-right pb-3">
-                    <a href="/socialResources">view all</a>
+                    <a href="/community">view all</a>
                   </div>
                 </div>
                 <div class="section-content">
@@ -216,14 +224,14 @@
                                       <div class="news-settings float-right dropdown">
                                           <i class="icon-settings dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
                                           <div class="dropdown-menu">
-                                              <a class="dropdown-item" id="js-edit" href="/socialResources/{{_id}}/edit"><i class="icon-pencil"></i> Edit</a>
+                                              <a class="dropdown-item" id="js-edit" href="/community/{{_id}}/edit"><i class="icon-pencil"></i> Edit</a>
                                               <a class="dropdown-item text-danger" id="js-remove" href="#"><i class="icon-trash text-danger"></i> Delete</a>
                                           </div>
                                       </div>
                                   {{/if}}
-                
+
                                   <h4 class="card-title">
-                                      <a href="/socialResources/{{_id}}">{{Name}}</a>
+                                      <a href="/community/{{_id}}">{{Name}}</a>
                                   </h4>
                                   <br>
                                   <p class="card-text">

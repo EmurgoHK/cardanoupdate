@@ -47,7 +47,7 @@ Template.socialResourcesTemp.helpers({
 Template.socialResourcesTemp.events({
   'click #add-Resource': (event, _) => {
       event.preventDefault()
-      FlowRouter.go('/socialResources/new')
+      FlowRouter.go('/community/new')
   },
   'keyup #searchBox': function (event, templateInstance) {
     event.preventDefault();

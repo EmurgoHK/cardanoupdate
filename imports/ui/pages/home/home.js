@@ -81,7 +81,7 @@ Template.home.helpers({
       }
     }, {limit : 5})
   },
-  
+
   eventLabel() {
     let now = moment()
     if (moment(this.start_date) > now && moment(this.end_date) > now){
@@ -106,11 +106,15 @@ Template.home.helpers({
     let connectionUsers = ((UsersStats.findOne("connected") || {}).userIds || []).length;
     return connectionUsers ? connectionUsers : 0;
   },
-  
+
   totalUsers: () => Meteor.users.find({}).count() || 0,
 })
 
 Template.home.events({
+
+  'click #add-new' (event, _tpl) {
+    $('#newModal').modal('show')
+  },
   'click .projectWarning' (event, _tpl) {
     console.log('HELLO')
       event.preventDefault()
