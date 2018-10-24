@@ -5,6 +5,7 @@ import { Template } from 'meteor/templating'
 import { Projects } from '/imports/api/projects/projects'
 import { Events } from '/imports/api/events/events'
 import { Research } from '/imports/api/research/research'
+import { Learn } from '/imports/api/learn/learn'
 import { socialResources } from '/imports/api/socialResources/socialResources'
 import { UsersStats } from '/imports/api/user/usersStats'
 import moment from 'moment'
@@ -21,6 +22,7 @@ Template.home.onCreated(function () {
     this.subscribe('users')
     this.subscribe('comments')
     this.subscribe('usersStats')
+    this.subscribe('learn')
   })
 })
 
@@ -37,6 +39,9 @@ Template.home.helpers({
   research(){
     return Research.find({}, {limit : 5})
   },
+  // Learn Helpers
+  learnCount: () => !!Learn.find({}).count(),
+  learn: () => Learn.find({}, {limit : 5}),
   // socialResources Helpers
   socialResourcesCount(){
     let project = socialResources.find({}).count()
