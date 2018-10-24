@@ -38,6 +38,11 @@ import '/imports/api/uploader/methods'
 import '/imports/api/socialResources/methods'
 import '/imports/api/socialResources/server/publications'
 
+// learn api
+import '/imports/api/learn/methods'
+import '/imports/api/learn/server/publications'
+
+
 // tags
 import '/imports/api/tags/methods'
 import '/imports/api/tags/server/publications' 

@@ -205,6 +205,43 @@
               </section>
             </div>
           {{/if}}
+          <!-- Learn -->
+          {{#if learnCount}}
+            <div class="col-sm-12">
+              <section class="content-container learn">
+                <div class="section-title">
+                  Learning resources
+                  <div class="float-md-right pb-3">
+                    <a href="/learn">view all</a>
+                  </div>
+                </div>
+                <div class="section-content">
+                  <div class="row">
+                    {{#each learn}}
+                      <div class="col-md-4">
+                          <div class="card">
+                              <div class="card-body">
+                                  {{#if canEdit}}
+                                      <div class="news-settings float-right dropdown">
+                                          <i class="icon-settings dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                                          <div class="dropdown-menu">
+                                              <a class="dropdown-item" id="js-edit" href="/learn/{{slug}}/edit"><i class="icon-pencil"></i> Edit</a>
+                                          </div>
+                                      </div>
+                                  {{/if}}
+
+                                  <h4 class="card-title">
+                                      <a href="/learn/{{slug}}">{{title}}</a>
+                                  </h4>
+                              </div>
+                          </div>
+                      </div>
+                    {{/each}}
+                  </div>
+                </div>
+              </section>
+            </div>
+          {{/if}}
           <!-- Social Resources -->
           {{#if socialResourcesCount}}
             <div class="col-sm-12">

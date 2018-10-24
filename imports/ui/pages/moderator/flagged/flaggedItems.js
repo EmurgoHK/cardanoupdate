@@ -8,6 +8,7 @@ import { Comments } from '/imports/api/comments/comments'
 import { Projects } from '/imports/api/projects/projects'
 import { Events } from '/imports/api/events/events'
 import { Research } from '/imports/api/research/research'
+import { Learn } from '/imports/api/learn/learn'
 import { notify } from '/imports/modules/notifier'
 
 import { resolveNewsFlags } from '/imports/api/news/methods'
@@ -15,6 +16,7 @@ import { resolveCommentFlags } from '/imports/api/comments/methods'
 import { resolveProjectFlags } from '/imports/api/projects/methods'
 import { resolveEventFlags } from '/imports/api/events/methods'
 import { resolveResearchFlags } from '/imports/api/research/methods'
+import { resolveLearningItemFlags } from '/imports/api/learn/methods'
 
 import swal from 'sweetalert2'
 
@@ -26,6 +28,7 @@ Template.flaggedItems.onCreated(function() {
     	this.subscribe('projects')
     	this.subscribe('events')
     	this.subscribe('research')
+    	this.subscribe('learn')
 	})
 })
 
@@ -61,10 +64,16 @@ Template.flaggedItems.helpers({
 			}
 		}).fetch()
 
-		return _.union(research, events, comments, news, projects).map(i => ({
+		let learn = Learn.find({
+			'flags.0': {
+				$exists: true
+			}
+		}).fetch()
+
+		return _.union(research, events, comments, news, projects, learn).map(i => ({
 			_id: i._id,
-			link: i.pdf ? `/research/${i.slug}` : (i.location ? `/events/${i.slug}` : (i.summary ? `/news/${i.slug}` : (i.description ? `/project/${i.slug}` : ''))),
-			text: i.headline ? i.headline : i.text,
+			link: i.content ? `/learn/${i.slug}` : (i.pdf ? `/research/${i.slug}` : (i.location ? `/events/${i.slug}` : (i.summary ? `/news/${i.slug}` : (i.description ? `/project/${i.slug}` : '')))),
+			text: i.title ? i.title : (i.headline ? i.headline : i.text),
 			reasons: i.flags.map(j => ({
 				reason: j.reason,
 				author: ((Meteor.users.findOne({
@@ -75,7 +84,8 @@ Template.flaggedItems.helpers({
       		isEvent: !!i.location,
       		isNews: !!i.summary,
 			isProject: !!i.description,
-			isResearch: !!i.pdf
+			isResearch: !!i.pdf,
+			isLearn: !!i.content
 		}))
 	}
 })
@@ -91,7 +101,18 @@ Template.flaggedItems.events({
             showCancelButton: true
         }).then(confirmed => {
             if (confirmed.value) {
-                if (this.isEvent) {
+            	if (this.isLearn) {
+            		resolveLearningItemFlags.call({
+						learnId: this._id,
+						decision: 'ignore'
+					}, (err, data) => {
+						if (err) {
+							notify(err.reason || err.message, 'error')
+						} else {
+							notify('Successfully ignored.', 'success')
+						}
+					})
+                } else if (this.isEvent) {
 					resolveEventFlags.call({
 							  eventId: this._id,
 							  decision: 'ignore'
@@ -159,7 +180,18 @@ Template.flaggedItems.events({
             showCancelButton: true
         }).then(confirmed => {
             if (confirmed.value) {
-				if (this.isEvent) {
+            	if (this.isLearn) {
+            		resolveLearningItemFlags.call({
+						learnId: this._id,
+						decision: 'remove'
+					}, (err, data) => {
+						if (err) {
+							notify(err.reason || err.message, 'error')
+						} else {
+							notify('Successfully removed.', 'success')
+						}
+					})
+                } else if (this.isEvent) {
 					resolveEventFlags.call({
 							  eventId: this._id,
 							  decision: 'remove'
