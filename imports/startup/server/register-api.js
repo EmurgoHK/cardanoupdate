@@ -7,6 +7,12 @@ import '/imports/api/user/server/publications'
 import '/imports/api/user/server/startup'
 import '/imports/api/user/usersStats'
 
+// stats api
+import '/imports/api/stats/methods'
+import '/imports/api/stats/stats'
+import '/imports/api/stats/server/publications'
+import '/imports/api/stats/server/startup'
+
 // news api
 import '/imports/api/news/methods'
 import '/imports/api/news/server/publications'
