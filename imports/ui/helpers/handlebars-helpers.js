@@ -9,6 +9,7 @@ import CryptoJS from 'crypto-js'
 Template.registerHelper('SubsCacheReady', () => Object.keys(SubsCache.cache).map(x => SubsCache.cache[x].ready()).reduce((x1, x2) => x1 && x2, true))
 
 Template.registerHelper('isModerator', () => isModerator(Meteor.userId()))
+Template.registerHelper('LimitChars', (val) => val&&val.length>50?val.slice(0,50)+' ... ':val )
 
 Template.registerHelper('md', content => {
     return  this.innerHTML = marked(content || '')

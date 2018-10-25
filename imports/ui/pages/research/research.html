@@ -7,9 +7,9 @@
                         New research paper
                     </button>
                 </div>
-                
+
                 <h2>Research</h2>
-            
+
             </div>
         </div>
 
@@ -35,18 +35,18 @@
                             </div>
                         </div>
                     {{/if}}
-                    
+
                     <h4 class="card-title">
                         <a href="/research/{{slug}}">{{headline}}</a>
                     </h4>
                     <br>
                     <p class="card-text">
-                        {{abstract}}
+                        {{LimitChars abstract}}
                     </p>
                     <hr>
                     <a href="{{pdf}}" class="card-link"><i class="far fa-file-pdf"></i></a>
-                    <a class="flag-research float-right" href="#" title="Flag this research">
-                      <i class="icon-flag"></i>
+                    <a class="flag-research float-right" href="#" title="Report">
+                      <i class="fas fa-exclamation-triangle"></i>
                     </a>
                 </div>
             </div>
