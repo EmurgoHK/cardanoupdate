@@ -9,12 +9,14 @@ import swal from 'sweetalert2'
 
 import { notify } from '/imports/modules/notifier'
 
+import { flagDialog } from '/imports/modules/flagDialog'
+
 const CHUNK_SIZE = 3
 
 Template.projects.onCreated(function () {
     this.sort = new ReactiveVar('date-desc')
     this.searchFilter = new ReactiveVar(undefined);
-    
+
     this.autorun(() => {
         this.subscribe('projects')
     })
@@ -47,6 +49,9 @@ Template.projects.helpers({
     },
     canEdit () {
         return this.createdBy === Meteor.userId()
+    },
+    LimitChars (val) {
+        return val&&val.length>50?val.slice(0,50)+' ... ':val;
     }
 })
 
@@ -111,11 +116,11 @@ Template.projects.events({
     },
     'click #js-remove': function (event, _) {
         event.preventDefault()
-        
+
         swal({
             text: `Are you sure you want to remove this Project? This action is not reversible.`,
             type: 'warning',
-            showCancelButton: true 
+            showCancelButton: true
         }).then(confirmed => {
             if (confirmed.value) {
                 deleteProject.call({
@@ -146,26 +151,7 @@ Template.projects.events({
 
     'click .flag-project' : function (event, templateInstance){
       event.preventDefault()
-      swal({
-		  	title: 'Why are you flagging this?',
-		  	input: 'text',
-		  	showCancelButton: true,
-		  	inputValidator: (value) => {
-		    	return !value && 'You need to write a valid reason!'
-		  	}
-      }).then(data => {
-        if (data.value) {
-          flagProject.call({
-            projectId: this._id,
-            reason: data.value
-          }, (err, data) => {
-            if (err) {
-              notify(err.reason || err.message, 'error')
-            } else {
-              notify('Successfully flagged. Moderators will decide what to do next.', 'success')
-            }
-          })
-        }
-      })
+      
+      flagDialog.call(this, flagProject, 'projectId')
     }
 })

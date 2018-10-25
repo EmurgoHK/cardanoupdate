@@ -96,10 +96,7 @@ describe('Projects page', function () {
         browser.click('.flag-project')
         browser.pause(2000)
 
-        browser.setValue('.swal2-input', 'Test flag project')
-        browser.pause(1000)
-
-        browser.click('.swal2-confirm')
+        browser.click('#spam')
         browser.pause(3000)
     })
 

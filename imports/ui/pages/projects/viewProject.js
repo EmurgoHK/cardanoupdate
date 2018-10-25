@@ -12,6 +12,8 @@ import { flagProject } from '/imports/api/projects/methods'
 
 import { notify } from '/imports/modules/notifier'
 
+import { flagDialog } from '/imports/modules/flagDialog'
+
 import swal from 'sweetalert2'
 
 Template.viewProject.onCreated(function() {
@@ -101,27 +103,7 @@ Template.viewProject.events({
 			slug: FlowRouter.getParam('slug')
 		}) || {}
 
-		swal({
-		  	title: 'Why are you flagging this?',
-		  	input: 'text',
-		  	showCancelButton: true,
-		  	inputValidator: (value) => {
-		    	return !value && 'You need to write a valid reason!'
-		  	}
-		}).then(data => {
-			if (data.value) {
-				flagProject.call({
-					projectId: project._id,
-					reason: data.value
-				}, (err, data) => {
-					if (err) {
-						notify(err.reason || err.message, 'error')
-					} else {
-						notify('Successfully flagged. Moderators will decide what to do next.', 'success')
-					}
-				})
-			}
-		})
+		flagDialog.call(project, flagProject, 'projectId')
 	},
 	'click .new-cool, click .new-flag': (event, templateInstance) => {
 		event.preventDefault()

@@ -86,10 +86,7 @@ describe('Events page', function () {
         browser.click('.flag-event')
         browser.pause(2000)
 
-        browser.setValue('.swal2-input', 'Test flag event')
-        browser.pause(1000)
-
-        browser.click('.swal2-confirm')
+        browser.click('#spam')
         browser.pause(3000)
     })
 

@@ -7,9 +7,9 @@
                         Add Project
                     </button>
                 </div>
-                
+
                 <h2>Projects</h2>
-            
+
             </div>
         </div>
 
@@ -35,13 +35,13 @@
                             </div>
                         </div>
                     {{/if}}
-                    
+
                     <h4 class="card-title">
                         <a href="/projects/{{slug}}">{{headline}}</a>
                     </h4>
                     <br>
                     <p class="card-text">
-                        {{description}}
+                        {{LimitChars description}}
                     </p>
                     <hr>
                     {{#unless github_url}}
@@ -49,8 +49,8 @@
                     {{/unless}}
                     <a href="{{github_url}}" class="github card-link"><i class="fab fa-github fa-lg"></i></a>
                     <a href="{{website}}" class="website card-link"><i class="fas fa-globe fa-lg"></i></a>
-                    <a class="flag-project float-right" href="#" title="Flag this project">
-                      <i class="icon-flag"></i>
+                    <a class="flag-project float-right" href="#" title="Report">
+                      <i class="fas fa-exclamation-triangle"></i>
                     </a>
                 </div>
             </div>

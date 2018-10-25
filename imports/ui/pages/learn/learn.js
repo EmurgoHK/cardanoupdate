@@ -8,6 +8,7 @@ import { removeLearningItem, flagLearningItem } from '/imports/api/learn/methods
 import swal from 'sweetalert2'
 
 import { notify } from '/imports/modules/notifier'
+import { flagDialog } from '/imports/modules/flagDialog'
 
 const CHUNK_SIZE = 3
 
@@ -77,26 +78,7 @@ Template.learn.events({
     },
     'click .flag-learn' : function(event, templateInstance) {
         event.preventDefault()
-        swal({
-            title: 'Why are you flagging this?',
-            input: 'text',
-            showCancelButton: true,
-            inputValidator: (value) => {
-                return !value && 'You need to write a valid reason!'
-            }
-        }).then(data => {
-            if (data.value) {
-                flagLearningItem.call({
-                    learnId: this._id,
-                    reason: data.value
-                }, (err, data) => {
-                    if (err) {
-                        notify(err.reason || err.message, 'error')
-                    } else {
-                        notify('Successfully flagged. Moderators will decide what to do next.', 'success')
-                    }
-                })
-            }
-        })
+
+        flagDialog.call(this, flagLearningItem, 'learnId')
     }
 })

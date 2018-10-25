@@ -11,6 +11,7 @@ import { newComment } from '/imports/api/comments/methods'
 import { flagLearningItem } from '/imports/api/learn/methods'
 
 import { notify } from '/imports/modules/notifier'
+import { flagDialog } from '/imports/modules/flagDialog'
 
 import swal from 'sweetalert2'
 
@@ -71,27 +72,7 @@ Template.viewLearn.events({
 			slug: FlowRouter.getParam('slug')
 		}) || {}
 
-		swal({
-		  	title: 'Why are you flagging this?',
-		  	input: 'text',
-		  	showCancelButton: true,
-		  	inputValidator: (value) => {
-		    	return !value && 'You need to write a valid reason!'
-		  	}
-		}).then(data => {
-			if (data.value) {
-				flagLearningItem.call({
-					learnId: learn._id,
-					reason: data.value
-				}, (err, data) => {
-					if (err) {
-						notify(err.reason || err.message, 'error')
-					} else {
-						notify('Successfully flagged. Moderators will decide what to do next.', 'success')
-					}
-				})
-			}
-		})
+		flagDialog.call(learn, flagLearningItem, 'learnId')
 	},
 	'click .new-comment': (event, templateInstance) => {
 		event.preventDefault()

@@ -72,7 +72,7 @@ Template.flaggedItems.helpers({
 
 		return _.union(research, events, comments, news, projects, learn).map(i => ({
 			_id: i._id,
-			link: i.content ? `/learn/${i.slug}` : (i.pdf ? `/research/${i.slug}` : (i.location ? `/events/${i.slug}` : (i.summary ? `/news/${i.slug}` : (i.description ? `/project/${i.slug}` : '')))),
+			link: i.content ? `/learn/${i.slug}` : (i.pdf ? `/research/${i.slug}` : (i.location ? `/events/${i.slug}` : (i.summary ? `/news/${i.slug}` : (i.description ? `/projects/${i.slug}` : '')))),
 			text: i.title ? i.title : (i.headline ? i.headline : i.text),
 			reasons: i.flags.map(j => ({
 				reason: j.reason,
