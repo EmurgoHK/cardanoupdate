@@ -3,6 +3,7 @@ import './home.scss'
 
 import { Template } from 'meteor/templating'
 import { Projects } from '/imports/api/projects/projects'
+import { Warnings } from '/imports/api/warnings/warnings';
 import { Events } from '/imports/api/events/events'
 import { Research } from '/imports/api/research/research'
 import { Learn } from '/imports/api/learn/learn'
@@ -13,6 +14,7 @@ import moment from 'moment'
 
 import { flagResearch } from '/imports/api/research/methods'
 import { flagProject } from '/imports/api/projects/methods'
+import { flagWarning } from '/imports/api/warnings/methods'
 import { flagEvent } from '/imports/api/events/methods'
 import { flagLearningItem } from '/imports/api/learn/methods'
 
@@ -30,6 +32,7 @@ Template.home.onCreated(function () {
     this.subscribe('users')
     this.subscribe('comments')
     this.subscribe('usersStats')
+    this.subscribe('warnings')
     this.subscribe('learn')
     this.subscribe('stats')
   })
@@ -77,6 +80,20 @@ Template.home.helpers({
   projects(){
     return Projects.find({}, {limit : 5})
   },
+
+  // Warning Helpers
+  warningCount(){
+    let warning = Warnings.find({}).count()
+     if(warning){
+      return true
+    }
+    return false
+  },
+   // Return only latest 5 warnings
+  warnings(){
+    return Warnings.find({}, {limit : 5})
+  },
+
 
   // Events
   eventCount(){
@@ -159,6 +176,11 @@ Template.home.events({
     event.preventDefault()
     
     flagDialog.call(this, flagEvent, 'eventId')
+  },
+  'click .flag-warning' : function (event, templateInstance){
+    event.preventDefault()
+    
+    flagDialog.call(this, flagWarning, 'eventId')
   },
     'click .new-link': function(event, temlateInstance) {
         if ($(event.currentTarget).attr('href')) {

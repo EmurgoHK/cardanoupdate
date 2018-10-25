@@ -10,6 +10,9 @@ import '/imports/ui/pages/not-found/not-found'
 import '/imports/ui/pages/projects/projects'
 import '/imports/ui/pages/projects/projectForm'
 import '/imports/ui/pages/projects/viewProject'
+import '/imports/ui/pages/warnings/warnings'
+import '/imports/ui/pages/warnings/warningForm'
+import '/imports/ui/pages/warnings/viewWarning'
 import '/imports/ui/pages/community/socialResources'
 import '/imports/ui/pages/community/socialResourceForm'
 import '/imports/ui/pages/community/viewSocialResource'
@@ -132,6 +135,50 @@ FlowRouter.route('/projects/:slug', {
       header: 'header',
       sidebar: 'sidebar',
       main: 'viewProject'
+    })
+  }
+})
+
+FlowRouter.route('/warnings', {
+  name: 'warnings',
+  action() {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'warnings'
+    })
+  }
+})
+
+FlowRouter.route('/warnings/new', {
+  name: 'newWarning',
+  action() {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'warningForm'
+    })
+  }
+})
+
+FlowRouter.route('/warnings/:id/edit', {
+  name: 'editWarning',
+  action() {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'warningForm'
+    })
+  }
+})
+
+FlowRouter.route('/warnings/:slug', {
+  name: 'viewWarning',
+  action() {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'viewWarning'
     })
   }
 })

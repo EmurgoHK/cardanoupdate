@@ -1,0 +1,71 @@
+<template name="warningForm">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <h5><a href="/warnings" class="text-muted" style="text-decoration: underline;">Warnings</a></h5>
+          <h2>{{#if add}} New Warning {{else}} Edit Warning {{/if}}</h2>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="card">
+            <div class="card-body">
+              <form class="news-form project-form">
+                <div class="group-title">Name</div>
+                <div class="input-group">
+                  <input type="text" class="form-control" id="headline" value="{{warning.headline}}" placeholder="Headline in 100 characters or less">
+                  <div id="headlineError" class="invalid-feedback"></div>
+                </div>
+                <small><i id="headline-chars" class="text-muted"></i></small>
+                <div class="group-title">Description</div>
+                <div class="input-group">
+                  <textarea class="form-control" id="description" rows="8" value="{{warning.summary}}" placeholder="Warning description in 500 characters or less"></textarea>
+                  <span class="instructions">
+                    <i class="icon-info"></i> Please provide a very clear description of what the warning is for & what it does.
+                  </span>
+                  <div id="summaryError" class="invalid-feedback"></div>
+                </div>
+                <small><i id="description-chars" class="text-muted"></i></small>
+                <div class="group-title">Github URL</div>
+                <div class="input-group">
+                  <input type="text" class="form-control" id="github_url" value="{{warning.github_url}}" placeholder="Github link">
+                  <div id="github_urlError" class="invalid-feedback"></div>
+                </div>
+                <div class="group-title">Tags</div>
+                <div class="group-title">
+                  {{#each tags}}
+                    <button class="btn btn-dark tag-button" type="button" id={{_id}} {{tagDisabled name warning.tags}}>
+                        <span class="tag-name">{{name}}</span>
+                    </button>
+                  {{/each}}
+                </div>
+                <div class="input-group">
+                  <input type="text" class="form-control" id="tagInput" placeholder="Add a tags separated by comma(,) eg crypto,wallet"
+                    value="{{tagsAsString warning.tags}}">
+                </div>
+                <div class="group-title">Website</div>
+                <div class="input-group">
+                  <input type="text" class="form-control" id="website" value="{{warning.website}}" placeholder="Website link">
+                </div>
+                <br />
+                <div>
+                  <input type="radio" name="type" value="BUILT-FOR-CARDANO"> Built <b>for</b> Cardano
+                  <input type="radio" name="type" value="BUILT-ON-CARDANO"> Built <b>on</b> Cardano
+                  <br>
+                  <small style="display: none" class="typeExp">Is this project something <b>for</b> Cardano OR something built <b>on</b> Cardano? An example of something that's <b>for</b> Cardano is a wallet or a developer library. An example of something built <b>on</b> Cardano is Traxia.</small>
+                  <br>
+                  <div id="typeError" class="invalid-feedback"></div>
+                </div>
+              </form>
+            </div>
+            <div class="card-footer">
+              <div>
+                <button type="submit" class="btn btn-lg btn-success add-warning">Submit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>

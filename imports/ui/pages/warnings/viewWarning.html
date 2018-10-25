@@ -1,0 +1,118 @@
+<template name="viewWarning">
+    <div class="container">
+    <div class="row mx-auto mb-5">
+      <div class="col-sm-12">
+        {{#if SubsCacheReady}}
+          {{#with warning}}
+          <h5><a href="/warnings" class="text-muted" style="text-decoration: underline;">Warnings</a></h5>
+          {{#if isOwner}}<a href="/warnings/{{_id}}/edit" class="btn btn-primary btn-sm float-right"><i class="fas fa-edit"></i> Edit Warning</a>{{/if}}
+          <h1 class="card-title text-dark mt-3"><strong>{{headline}}</strong></h1>
+          <h5 class="card-subtitle mb-3 mt-3">
+              <ul class="list-inline">
+                <li class="list-inline-item">Posted by <strong><span class="name"><a href="/profile/{{createdBy}}">{{author}}</a></span></strong></li>
+                <li class="list-inline-item"><i class="icon-clock" style="vertical-align: middle"></i>&nbsp;{{showTimeAgoTimestamp createdAt}}</li>
+                <li class="list-inline-item"><i class="icon-speech" style="vertical-align: middle"></i>&nbsp;{{coolCount}}</li>
+                <li class="list-inline-item"><i class="icon-flag" style="vertical-align: middle"></i>&nbsp;{{flagCount}}</li>
+              </ul>
+            </h5>
+            <div class="card">
+              <div class="card-body">
+                <div class="row mb-5">
+                  <div class="col-sm-12 news-body pt-4 pl-3 pr-3 text-justify">
+                    {{summary}}
+                  </div>
+                </div> 
+                 {{#if tags.length}}
+                  <div class="row">
+                    <div class="col-sm-12">
+                        <div>Tags</div>
+                        {{#each tags}}
+                          <span class="badge badge-pill badge-primary">{{tagName this}}</span>
+                        {{/each}}
+                    </div>
+                  </div>
+                {{/if}}
+                <div class="row">
+                  <div class="col-sm-12">
+                      {{#unless github_url}}
+                      <a href="" class="btn btn-warning warningWarning"><i class="fas fa-exclamation-circle fa-lg"></i></a>
+                      {{/unless}}
+                      {{#if github_url}}
+                        <a href="{{github_url}}" class="new-link card-link"><i class="fab fa-github fa-lg"></i></a>
+                      {{/if}}
+                      {{#if website}}
+                        <a href="{{website}}" class="new-link card-link"><i class="fas fa-globe fa-lg"></i></a>
+                      {{/if}}
+                      <!-- <a href="{{github_url}}" class="btn btn-dark text-white github"><i class="fab fa-github fa-lg"></i></a>
+                      <a href="{{website}}" class="btn btn-secondary website"><i class="fas fa-globe fa-lg"></i></a> -->
+                      <a class="btn btn-secondary flag-warning" href="#"><i class="icon-flag"></i></a>
+                  </div>
+                </div>
+               </div>
+            </div>
+          {{/with}}
+          <div class="row">
+            <div class="col-sm-6 warning-form comments">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title text-dark mt-3">Cool stuff</h4>
+                  <div style="max-height: 500px;overflow-y: auto;">
+                  {{#each coolStuff}}
+                    {{> commentBody ident=0 comment=this _id=warning._id type="coolstuff"}}
+                  {{/each}}
+                  </div>
+                  <hr>
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="form-group">
+                        <textarea class="form-control" id="cool-comment" name="comment" rows="3" placeholder="Leave a comment ..." required></textarea>
+                      </div>
+                          
+                      <p class="text-danger">{{coolInvalidMessage}}</p>
+                          
+                      <div class="btn-group" role="group">
+                        <div class="btn-group" role="group">
+                          <button type="submit" class="btn btn-outline-primary mb-2 new-cool">Comment</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 warning-form comments">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title text-dark mt-3">Red flags</h4>
+                  <div style="max-height: 500px;overflow-y: auto;">
+                  {{#each redFlags}}
+                    {{> commentBody ident=0 comment=this _id=warning._id type="redflag"}}
+                  {{/each}}
+                  </div>
+                  <hr>
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="form-group">
+                        <textarea class="form-control" id="flag-comment" name="comment" rows="3" placeholder="Leave a comment ..." required></textarea>
+                      </div>
+                          
+                      <p class="text-danger">{{flagInvalidMessage}}</p>
+                          
+                      <div class="btn-group" role="group">
+                        <div class="btn-group" role="group">
+                          <button type="submit" class="btn btn-outline-primary mb-2 new-flag">Comment</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        {{else}}
+          {{> loader}}
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</template> 

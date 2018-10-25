@@ -1,0 +1,14 @@
+.project-form{
+  span.instructions {
+    display: none;
+    align-items: center;
+    width: 100%;
+    padding-top: 0.5em;
+    i {
+      padding-right: 0.5em;
+    }
+  }
+  #description:focus + span.instructions {
+    display: flex !important;
+  }
+} 
