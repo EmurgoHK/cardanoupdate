@@ -10,7 +10,7 @@ import SimpleMDE from 'simplemde'
 
 import './uploader.html'
 
-const replaceSelection = (cm, active, startEnd, url) => {
+export const replaceSelection = (cm, active, startEnd, url) => {
     if (/editor-preview-active/.test(cm.getWrapperElement().lastChild.className)) {
         return
     }

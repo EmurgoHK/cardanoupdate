@@ -10,6 +10,7 @@ import SimpleMDE from 'simplemde'
 import { newEvent, editEvent } from '/imports/api/events/methods'
 
 import { insertImage } from '/imports/ui/shared/uploader/uploader'
+import { insertVideo } from '/imports/ui/pages/learn/learnForm'
 
 const maxCharValue = (inputId) => {
   if (inputId === 'description') {
@@ -73,6 +74,11 @@ Template.eventForm.onRendered(function() {
       action: insertImage,
       className: 'fa fa-picture-o',
       title: 'Insert image',
+    }, {
+      name: 'insertVideo',
+      action: insertVideo,
+      className: 'fa fa-file-video-o',
+      title: 'Insert YouTube video'
     }, '|', 'preview', 'side-by-side', 'fullscreen', '|', 'guide'],
   })
 
