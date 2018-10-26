@@ -36,17 +36,23 @@ Template.projectForm.onCreated(function() {
             }
 		})
 	} else {
-    let user = Meteor.users.findOne({_id : Meteor.userId()})
-    // check if user is already hidden modal for instruction
-    if(user && _.includes(user.hidden, 'addProject')) {
-      Meteor.setTimeout(() => {
-        $('#projectInstruction').modal('hide')
-      }, 100)
-    } else {
-      Meteor.setTimeout(() => {
-        $('#projectInstruction').modal('show')
-      }, 100)
-    }
+        this.autorun(() => {
+            this.subscribe('users')
+
+            let user = Meteor.users.findOne({_id : Meteor.userId()})
+
+            console.log(user)
+            // check if user is already hidden modal for instruction
+            if(user && _.includes(user.hidden, 'addProject')) {
+                Meteor.setTimeout(() => {
+                    $('#projectInstruction').modal('hide')
+                }, 100)
+            } else if(user !== undefined) {
+                Meteor.setTimeout(() => {
+                    $('#projectInstruction').modal('show')
+                }, 100)
+            }
+        })
   }
   this.subscribe('tags')
 
@@ -62,7 +68,7 @@ Template.projectForm.helpers({
     }),
     tagsAsString: (tags) => tags == undefined || (tags !=undefined && tags.length > 0 && tags[0].id == undefined) ? [] : tags.filter(i => !/built-(for|on)-cardano/i.test(i.name)).map(t => { return t.name.toString().toUpperCase() }),
     tagDisabled: (name, tags) => {
-
+        
       if (tags != undefined) { // this will only be true for edit mode
           let tag = tags.find(t => { return name == t.name ? t : undefined });
           let newsTags = Template.instance().newsTags.get();
