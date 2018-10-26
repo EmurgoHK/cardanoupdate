@@ -7,12 +7,14 @@ import './methods'
 
 Meteor.userId = () => 'test-user' // override the meteor userId, so we can test methods that require a user
 Meteor.users.findOne = () => ({
+  _id: 'test-user', 
   profile: {
     name: 'Test User'
   },
   moderator: true
 }) // stub user data as well
 Meteor.user = () => ({
+  _id: 'test-user', 
   profile: {
     name: 'Test User'
   },
