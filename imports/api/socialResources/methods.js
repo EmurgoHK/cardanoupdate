@@ -73,7 +73,8 @@ export const editSocialResource = new ValidatedMethod({
             projectId: {
                 type: String,
                 optional: false
-            },Name: {
+            },
+            Name: {
                 type: String,
                 max: 25,
                 optional: false
