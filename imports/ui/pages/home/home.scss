@@ -16,3 +16,12 @@
     }
   }
 }
+
+// Responsive for user-stats
+@media (max-width: 576px) {
+  .user-stats{
+    .middle-item{
+      padding: 1em;
+    }
+  }
+}
