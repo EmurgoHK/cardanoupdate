@@ -38,27 +38,16 @@ describe('Warnings page', function () {
         assert(browser.execute(() => FlowRouter.current().route.name === 'warnings').value, true)
     })
 
-     // Remove if user is allowed to add data
-    /*
-    it('user can propose new data if data is missing', () => {
-        browser.click('.website')
-        browser.pause(3000)
-         browser.setValue('.swal2-input', 'https://testing.com')
-        browser.pause(1000)
-         browser.click('.swal2-confirm')
-        browser.pause(2000)
-         assert(browser.execute(() => !!testingProjects.findOne({ 'edits.0': { $exists: true } })).value, true)
-    })
-    */
-
      it('user can see warning info', () => {
-        browser.execute(() => FlowRouter.go('/warning/headline-test-1'))
+        browser.execute(() => FlowRouter.go('/warnings/headline-test'))
         browser.pause(3000)
-        assert(browser.execute(() => $('h1.card-title').text() === 'Headline Test 1').value, true)
-        assert(browser.execute(() => $('.news-body').text().trim() === 'Description Test').value, true)
+        assert(browser.execute(() => $('h1.card-title').text() === 'Headline Test').value, true)
+        assert(browser.execute(() => $('.news-body').text().trim() === 'Summary Test').value, true)
     })
 
      it('user can edit a warning he/she created', () => {
+        browser.url(`${baseUrl}/warnings`)
+        browser.pause(5000)
         browser.execute(() => $('.news-settings').find('.dropdown-menu').addClass('show'))
         browser.pause(3000)
         browser.click('#js-edit')
@@ -72,6 +61,8 @@ describe('Warnings page', function () {
     })
 
      it('user can flag a warning', () => {
+        browser.execute(() => FlowRouter.go('/warnings/headline-test-1'))
+        browser.pause(3000)
         browser.click('.flag-warning')
         browser.pause(2000)
         browser.setValue('.swal2-input', 'Test flag warning')
