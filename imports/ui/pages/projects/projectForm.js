@@ -68,30 +68,24 @@ Template.projectForm.helpers({
     }),
     tagsAsString: (tags) => tags == undefined || (tags !=undefined && tags.length > 0 && tags[0].id == undefined) ? [] : tags.filter(i => !/built-(for|on)-cardano/i.test(i.name)).map(t => { return t.name.toString().toUpperCase() }),
     tagDisabled: (name, tags) => {
-        
-      if (tags != undefined) { // this will only be true for edit mode
-          let tag = tags.find(t => { return name == t.name ? t : undefined });
-          let newsTags = Template.instance().newsTags.get();
+		if (tags !== undefined) { // this will only be true for edit mode
+			let tag = tags.find(t => { return name === t.name ? t : undefined });
+			let newsTags = Template.instance().newsTags.get();
 
-          if (tag != undefined) { // check if the tag exists in the top 10 tags
+			if (tag !== undefined) { // check if the tag exists
+                if (newsTags.some(t => { return tag.id === t.id })) { // check if the tag has already been added to newsTags
+                        newsTags.push({
+                                id: tag.id,
+                                name: tag.name
+                        });
+                        Template.instance().newsTags.set(newsTags);
+                }
+                return 'disabled';
+			}
+		}
 
-              if (newsTags.find(t => { return tag.id == t.id }) == undefined) { // check if the tag has already been added to newsTags
-
-                  newsTags.push({
-                      id: tag.id,
-                      name: tag.name
-                 })
-
-                 Template.instance().newsTags.set(newsTags)
-              }
-
-              return 'disabled'
-          }
-          return ''
-      }
-
-      return ''
-    }
+		return '';
+	}
 })
 
 Template.projectForm.events({
@@ -140,35 +134,38 @@ Template.projectForm.events({
 		$(event.currentTarget).attr('disabled', true);
 
 		let newsTags = templateInstance.newsTags.get();
-
-		newsTags.push({
-			id: event.currentTarget.id,
-			name: name.toUpperCase()
-		})
-		templateInstance.newsTags.set(newsTags)
+        if (newsTags.every(a => a.id !== event.currentTarget.id)) { // check if the tag has already been added to newsTags
+            newsTags.push({
+                id: event.currentTarget.id,
+                name: name.toUpperCase()
+            });
+            templateInstance.newsTags.set(newsTags);
+        }
 	},
 	'keyup #tagInput': function(event, templateInstance){
-		let inputs = $(event.currentTarget).val().split(',')
-		let topTags = $('.tag-name').toArray().map(t => t.innerHTML)
-		let topIds = $('.tag-name').toArray().map(t => t.parentElement.id)
+		let inputs = templateInstance.$(event.currentTarget).val().split(',').map(a => a.trim().toUpperCase());
 
-		$('.tag-button').attr('disabled', false);
+		let topTags = templateInstance.$('.tag-name').toArray().map(t => t.innerHTML)
+		let topIds = templateInstance.$('.tag-name').toArray().map(t => t.parentElement.id)
 
 		let newsTags = [];
 		inputs.forEach(input => {
 			// Add the tag to the object
-			input = input.trim();
-			if (topTags.includes(input.toUpperCase())) {
-				let addedTag = {
-					id: topIds[topTags.indexOf(input.toUpperCase())],
-					name: input.toUpperCase()
+			if (topTags.includes(input)) {
+				if (!newsTags.some(a => a.name === input)) {
+					newsTags.push({
+						id: topIds[topTags.indexOf(input)],
+						name: input,
+					});
 				}
-				$(`#${addedTag.id}`).attr('disabled', true);
-				newsTags.push(addedTag)
 			}
-		})
+		});
+		
+		topTags.forEach((tagName, ind) => { // We disable tag buttons that are included in the inputs, enable all others
+			$(`#${topIds[ind]}`).attr('disabled', inputs.includes(tagName));
+		});
 
-		templateInstance.newsTags.set(newsTags)
+		templateInstance.newsTags.set(newsTags);
 	},
     'click .add-project' (event, _tpl) {
         event.preventDefault()
@@ -188,6 +185,16 @@ Template.projectForm.events({
 			return element
         });
 
+		// Deduplicating tags by name
+		const tagsToSave = [];
+		const addedTagNames = new Set();
+		for (const tag of tags) {
+			if (!addedTagNames.has(tag.name)) {
+				addedTagNames.add(tag.name);
+				tagsToSave.push(tag);
+			}
+		}
+
         if (FlowRouter.current().route.name === 'editProject') {
             editProject.call({
     			projectId: FlowRouter.getParam('id'),
@@ -195,7 +202,7 @@ Template.projectForm.events({
 	    		description: $('#description').val(),
                 github_url: $('#github_url').val() || '',
                 website: $('#website').val() || '',
-                tags: tags,
+                tags: tagsToSave,
                 type: $('input[name="type"]:checked').val()
 	    	}, (err, _data) => {
 	    		if (!err) {
@@ -221,7 +228,7 @@ Template.projectForm.events({
             description: $('#description').val(),
             github_url: $('#github_url').val() || '',
             website: $('#website').val() || '',
-            tags: tags,
+            tags: tagsToSave,
             type: $('input[name="type"]:checked').val()
         }, (err, data) => {
             if (!err) {
