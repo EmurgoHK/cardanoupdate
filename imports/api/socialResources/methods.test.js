@@ -5,6 +5,7 @@ import { socialResources } from './socialResources'
 import { callWithPromise } from '/imports/api/utilities'
 
 import './methods'
+import { Tags } from '../tags/tags';
 
 Meteor.userId = () => 'test-user' // override the meteor userId, so we can test methods that require a user
 Meteor.users.findOne = () => ({ _id: 'test-user', profile: { name: 'Test User'}, moderator: true }) // stub user data as well
@@ -13,6 +14,27 @@ Meteor.user = () => ({ _id: 'test-user', profile: { name: 'Test User'}, moderato
 describe('social resources methods', () => {
 
     it('user can create a social resource', () => {
+        return callWithPromise('addSocialResource', {
+            Name: 'Test Resource',
+            description: 'Test Resource',
+            Resource_url: 'test',
+            tags: [{name: 'testTag'}],
+        }).then(data => {
+            let resource = socialResources.findOne({
+                _id: data
+            });
+
+            assert.ok(resource)
+            assert.equal(resource.Name, 'Test Resource');
+            assert.equal(resource.description, 'Test Resource');
+            assert.equal(resource.Resource_url, 'test');
+            assert.isArray(resource.tags);
+            assert.lengthOf(resource.tags, 1);
+            assert.equal(resource.tags[0].name, 'testTag');
+        })
+    })
+
+    it('user can create a social resource without tags', () => {
         return callWithPromise('addSocialResource', {
             Name: 'Test Resource',
             description: 'Test Resource',
@@ -37,25 +59,46 @@ describe('social resources methods', () => {
         })
     })
 
-    it('user can edit a social resource he/she created', () => {
+    it('user can edit a social resource he/she created adding new tags', () => {
         let resource = socialResources.findOne({})
+        let tags = Tags.find({}).fetch();
 
-        assert.ok(resource)
+        assert.ok(resource);
+
+        const newTags = Array.from(resource.tags);
+        newTags.push({name: 'TestTag2'});
 
         return callWithPromise('editSocialResource', {
             projectId: resource._id,
             Name: 'Test Resource 2',
             description: 'Test Resource 2',
-            Resource_url: 'test 2'
+            Resource_url: 'test 2',
+            tags: newTags,
         }).then(data =>{
             let resource2 = socialResources.findOne({
-                _id: resource._id
-            })
+                _id: resource._id,
+            });
 
-            assert.ok(resource2)
-            assert.ok(resource2.Name === 'Test Resource 2')
-            assert.ok(resource2.description === 'Test Resource 2')
-            assert.ok(resource2.Resource_url === 'test 2')
+            assert.ok(resource2);
+
+            assert.equal(resource2.Name, 'Test Resource 2');
+            assert.equal(resource2.description, 'Test Resource 2');
+            assert.equal(resource2.Resource_url, 'test 2');
+
+            assert.lengthOf(resource2.tags, 2);
+
+            // We also test that it properly adds mentions
+            let updatedTags = Tags.find({}).fetch();
+            for (const tag of resource2.tags) {
+                const oldTag = tags.find(t => t._id === tag.id);
+                const updatedTag = updatedTags.find(t => t._id === tag.id);
+                
+                if (oldTag) {
+                    assert.equal(oldTag.mentions, updatedTag.mentions);
+                } else {
+                    assert.equal(updatedTag.mentions, 1);
+                }
+            }
         })
     })
 
@@ -113,5 +156,6 @@ describe('social resources methods', () => {
 
     after(function() {
         socialResources.remove({})
+        Tags.remove({});
     })
 })
