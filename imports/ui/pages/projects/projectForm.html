@@ -68,6 +68,35 @@
         </div>
       </div>
     </div>
+    {{#unless add}}
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="changes-container">
+          {{#if changedItems.length}}
+          <div class="row ml-0 mr-0">
+            {{#each changedItems}}
+            <div class="col-sm-12 card news-item">
+              <div class="card-body">
+                <div class="actions">
+                  <a class="btn btn-sm btn-success" id="js-merge" href="#" role="button" title="Merge">
+                    <i class="icon-eye"></i>
+                  </a>
+                  <a class="btn btn-sm btn-danger" id="js-reject" href="#" role="button" title="Reject">
+                    <i class="icon-ban"></i>
+                  </a>
+                </div>
+                <a class="card-title" href="/project/{{slug}}">{{headline}}</a>
+                <h6 class="card-subtitle mb-2 text-muted">{{author}} wants to propose the following new data:</h6>
+                <p class="card-text">{{datapoint}} - {{#if link}}<a href="{{newData}}" target="_blank">{{newData}}</a>{{else}}{{newData}}{{/if}}</p>
+              </div>
+            </div>
+            {{/each}}
+          </div>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+    {{/unless}}
     <!-- Project Instruction Modal -->
     <div class="modal fade" id="projectInstruction" tabindex="-1" role="dialog" aria-labelledby="projectInstructionLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
