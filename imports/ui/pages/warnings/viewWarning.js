@@ -141,7 +141,7 @@ import { flagWarning } from '/imports/api/warnings/methods'
             input: 'text'
         }).then(val => {
             if (val.value) {
-                proposeNewData.call({
+                proposeNewDataWarning.call({
                     projectId: this._id,
                     datapoint: 'github_url',
                     newData: val.value,
@@ -167,7 +167,7 @@ import { flagWarning } from '/imports/api/warnings/methods'
             input: 'text'
         }).then(val => {
             if (val.value) {
-                proposeNewData.call({
+                proposeNewDataWarning.call({
                     projectId: this._id,
                     datapoint: 'website',
                     newData: val.value,
