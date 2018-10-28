@@ -13,12 +13,13 @@ import { Stats } from '/imports/api/stats/stats'
 import moment from 'moment'
 
 import { flagResearch } from '/imports/api/research/methods'
-import { flagProject } from '/imports/api/projects/methods'
+import { flagProject, proposeNewData } from '/imports/api/projects/methods'
 import { flagWarning } from '/imports/api/warnings/methods'
 import { flagEvent } from '/imports/api/events/methods'
 import { flagLearningItem } from '/imports/api/learn/methods'
 
 import { flagDialog } from '/imports/modules/flagDialog'
+import { notify } from '/imports/modules/notifier'
 
 import swal from 'sweetalert2'
 
