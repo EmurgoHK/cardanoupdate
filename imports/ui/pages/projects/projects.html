@@ -49,9 +49,17 @@
                     {{/unless}}
                     <a href="{{github_url}}" class="github card-link"><i class="fab fa-github fa-lg"></i></a>
                     <a href="{{website}}" class="website card-link"><i class="fas fa-globe fa-lg"></i></a>
-                    <a class="flag-project float-right" href="#" title="Report">
-                      <i class="fas fa-exclamation-triangle"></i>
-                    </a>
+                    <!-- Options for Item like reporting -->
+                    <div class="btn-group dropup float-right">
+                      <a class="dropdown-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-ellipsis-h"></i>
+                      </a>
+                      <div class="dropdown-menu">
+                        <a class="flag-project" href="#" title="Report">
+                          Report
+                        </a>
+                      </div>
+                    </div>
                 </div>
             </div>
         {{/each}}

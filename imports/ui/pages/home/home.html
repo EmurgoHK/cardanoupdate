@@ -95,9 +95,17 @@
                                   {{/unless}}
                                   <a href="{{github_url}}" class="github new-link card-link"><i class="fab fa-github fa-lg"></i></a>
                                   <a href="{{website}}" class="website new-link card-link"><i class="fas fa-globe fa-lg"></i></a>
-                                  <a class="flag-project float-right" href="#" title="Report">
-                                    <i class="fas fa-exclamation-triangle"></i>
-                                  </a>
+                                  <!-- Options for Item like reporting -->
+                                  <div class="btn-group dropup float-right">
+                                    <a class="dropdown-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      <i class="fas fa-ellipsis-h"></i>
+                                    </a>
+                                    <div class="dropdown-menu">
+                                      <a class="flag-project" href="#" title="Report">
+                                        Report
+                                      </a>
+                                    </div>
+                                  </div>
                               </div>
                           </div>
                       </div>
@@ -150,9 +158,17 @@
                                 {{#if website}}
                                   <a href="{{website}}" class="new-link card-link"><i class="fas fa-globe fa-lg"></i></a>
                                 {{/if}}
-                                <a class="flag-warning float-right" href="#" title="Flag this warning">
-                                  <i class="icon-flag"></i>
-                                </a>
+                                <!-- Options for Item like reporting -->
+                                <div class="btn-group dropup float-right">
+                                  <a class="dropdown-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                  </a>
+                                  <div class="dropdown-menu">
+                                    <a class="flag-warning" href="#" title="Report">
+                                      Report
+                                    </a>
+                                  </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -200,9 +216,17 @@
                                 <p>{{rsvp}}</p>
                                 <P>
                                   <i class="icon-location-pin"></i> {{location}}
-                                  <a class="flag-event float-right" href="#" title="Report">
-                                    <i class="fas fa-exclamation-triangle"></i>
-                                  </a>
+                                  <!-- Options for Item like reporting -->
+                                  <div class="btn-group dropup float-right">
+                                    <a class="dropdown-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      <i class="fas fa-ellipsis-h"></i>
+                                    </a>
+                                    <div class="dropdown-menu">
+                                      <a class="flag-event" href="#" title="Report">
+                                        Report
+                                      </a>
+                                    </div>
+                                  </div>
                                 </P>
                               </div>
                             </div>
@@ -248,9 +272,17 @@
                                   </p>
                                   <hr>
                                   <a href="{{pdf}}" class="card-link"><i class="far fa-file-pdf"></i></a>
-                                  <a class="flag-research float-right" href="#" title="Report">
-                                    <i class="fas fa-exclamation-triangle"></i>
-                                  </a>
+                                  <!-- Options for Item like reporting -->
+                                  <div class="btn-group dropup float-right">
+                                    <a class="dropdown-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      <i class="fas fa-ellipsis-h"></i>
+                                    </a>
+                                    <div class="dropdown-menu">
+                                      <a class="flag-research" href="#" title="Report">
+                                        Report
+                                      </a>
+                                    </div>
+                                  </div>
                               </div>
                           </div>
                       </div>
@@ -286,11 +318,19 @@
                                   {{/if}}
 
                                   <h4 class="card-title">
-                                      <a href="/learn/{{slug}}">{{title}}</a>
+                                    <a href="/learn/{{slug}}">{{title}}</a>
                                   </h4>
-                                  <a class="flag-learn float-right" href="#" title="Report">
-                                    <i class="fas fa-exclamation-triangle"></i>
-                                  </a>
+                                  <!-- Options for Item like reporting -->
+                                  <div class="btn-group dropup float-right">
+                                    <a class="dropdown-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      <i class="fas fa-ellipsis-h"></i>
+                                    </a>
+                                    <div class="dropdown-menu">
+                                      <a class="flag-learn" href="#" title="Report">
+                                        Report
+                                      </a>
+                                    </div>
+                                  </div>
                               </div>
                           </div>
                       </div>
