@@ -151,7 +151,7 @@ FlowRouter.route('/projects/:slug', {
   }
 })
 
-FlowRouter.route('/warnings', {
+FlowRouter.route('/scams', {
   name: 'warnings',
   action() {
     BlazeLayout.render('main', {
@@ -162,7 +162,7 @@ FlowRouter.route('/warnings', {
   }
 })
 
-FlowRouter.route('/warnings/new', {
+FlowRouter.route('/scams/new', {
   name: 'newWarning',
   action() {
     BlazeLayout.render('main', {
@@ -173,7 +173,7 @@ FlowRouter.route('/warnings/new', {
   }
 })
 
-FlowRouter.route('/warnings/:id/edit', {
+FlowRouter.route('/scams/:id/edit', {
   name: 'editWarning',
   action() {
     BlazeLayout.render('main', {
@@ -184,7 +184,7 @@ FlowRouter.route('/warnings/:id/edit', {
   }
 })
 
-FlowRouter.route('/warnings/:slug', {
+FlowRouter.route('/scams/:slug', {
   name: 'viewWarning',
   action() {
     BlazeLayout.render('main', {

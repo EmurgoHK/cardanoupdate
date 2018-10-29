@@ -114,7 +114,7 @@ import swal from 'sweetalert2'
     */
      'click #add-warning': (event, _) => {
         event.preventDefault()
-        FlowRouter.go('/warnings/new')
+        FlowRouter.go('/scams/new')
     },
     'click #js-remove': function (event, _) {
         event.preventDefault()

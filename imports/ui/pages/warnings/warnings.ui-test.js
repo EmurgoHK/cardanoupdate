@@ -18,7 +18,7 @@ describe('Warnings page', function () {
     })
 
      it('user can add a new warning', function () {
-        browser.url(`${baseUrl}/warnings`)
+        browser.url(`${baseUrl}/scams`)
         browser.pause(5000)
         browser.click('#add-warning')
         browser.pause(3000)
@@ -39,14 +39,14 @@ describe('Warnings page', function () {
     })
 
      it('user can see warning info', () => {
-        browser.execute(() => FlowRouter.go('/warnings/headline-test'))
+        browser.execute(() => FlowRouter.go('/scams/headline-test'))
         browser.pause(3000)
         assert(browser.execute(() => $('h1.card-title').text() === 'Headline Test').value, true)
         assert(browser.execute(() => $('.news-body').text().trim() === 'Summary Test').value, true)
     })
 
      it('user can edit a warning he/she created', () => {
-        browser.url(`${baseUrl}/warnings`)
+        browser.url(`${baseUrl}/scams`)
         browser.pause(5000)
         browser.execute(() => $('.news-settings').find('.dropdown-menu').addClass('show'))
         browser.pause(3000)
@@ -61,7 +61,7 @@ describe('Warnings page', function () {
     })
 
      it('user can flag a warning', () => {
-        browser.execute(() => FlowRouter.go('/warnings/headline-test-1'))
+        browser.execute(() => FlowRouter.go('/scams/headline-test-1'))
         browser.pause(3000)
         browser.click('.flag-warning')
         browser.pause(2000)
@@ -127,7 +127,7 @@ describe('Warnings page', function () {
     })
 
     it('user can remove a warning he/she created', () => {
-        browser.url(`${baseUrl}/warnings`)
+        browser.url(`${baseUrl}/scams`)
         browser.pause(5000)
         let count = browser.execute(() => $('.card').length).value
         browser.execute(() => $('.news-settings').find('.dropdown-menu').addClass('show'))
