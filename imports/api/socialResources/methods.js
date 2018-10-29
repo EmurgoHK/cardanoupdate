@@ -10,12 +10,12 @@ export const addSocialResource = new ValidatedMethod({
         new SimpleSchema({
             Name: {
                 type: String,
-                max: 25,
+                max: 90,
                 optional: false
             },
             description: {
                 type: String,
-                max: 500,
+                max: 260,
                 optional: false
             },
             Resource_url: {
@@ -106,12 +106,12 @@ export const editSocialResource = new ValidatedMethod({
             },
             Name: {
                 type: String,
-                max: 25,
+                max: 90,
                 optional: false
             },
             description: {
                 type: String,
-                max: 500,
+                max: 260,
                 optional: false
             },
             Resource_url: {

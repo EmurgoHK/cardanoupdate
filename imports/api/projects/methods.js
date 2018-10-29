@@ -16,12 +16,12 @@ export const addProject = new ValidatedMethod({
         new SimpleSchema({
             headline: {
                 type: String,
-                max: 25,
+                max: 90,
                 optional: false
             },
             description: {
                 type: String,
-                max: 500,
+                max: 260,
                 optional: false
             },
             github_url: {
@@ -132,12 +132,12 @@ export const editProject = new ValidatedMethod({
             },
             headline: {
                 type: String,
-                max: 25,
+                max: 90,
                 optional: false
             },
             description: {
                 type: String,
-                max: 500,
+                max: 260,
                 optional: false
             },
             github_url: {

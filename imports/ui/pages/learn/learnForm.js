@@ -42,9 +42,9 @@ export const insertVideo = editor => {
 
 const maxCharValue = (inputId) => {
   if (inputId === 'title') {
-    return 25
+    return 90
   } else if (inputId === 'summary') {
-    return 500
+    return 260
   } else {
     return 5000
   }

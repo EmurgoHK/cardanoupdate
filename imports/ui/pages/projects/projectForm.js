@@ -14,9 +14,8 @@ import { hideInstructionModal } from '/imports/api/user/methods'
 import _ from 'lodash'
 
 const maxCharValue = (inputId) => {
-    if (inputId === 'headline') { return 25 }
-
-    return 500
+  if (inputId === 'headline') { return 90 }
+  return 260
 }
 
 Template.projectForm.onCreated(function() {
