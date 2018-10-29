@@ -17,6 +17,7 @@ import '/imports/ui/pages/community/socialResources'
 import '/imports/ui/pages/community/socialResourceForm'
 import '/imports/ui/pages/community/viewSocialResource'
 
+import '/imports/ui/pages/tag/tag'
 
 import '/imports/ui/pages/research/research'
 import '/imports/ui/pages/research/researchForm'
@@ -91,6 +92,17 @@ FlowRouter.route('/', {
       header: 'header',
       sidebar: 'sidebar',
       main: 'home'
+    })
+  }
+})
+
+FlowRouter.route('/tags', {
+  name: 'tags',
+  action() {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'tags'
     })
   }
 })

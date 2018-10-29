@@ -1,0 +1,23 @@
+<template name="tags">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="input-group">
+          <input type="text" id="searchBox" class="form-control" placeholder="Search by tags" aria-label="Search by tags">
+        </div>
+      </div>
+    </div>
+
+    <h2>Projects</h2>
+    {{> projectList projects=projects}}
+
+    <h2>Warnings</h2>
+    {{> warningList warnings=warnings }}
+
+    <h2>Learning Resources</h2>
+    {{> learningResourceList learningResources=learn }}
+
+    <h2>Social Resources</h2>
+    {{> socialResourceList socialResources=socialResources }}
+  </div>
+</template>

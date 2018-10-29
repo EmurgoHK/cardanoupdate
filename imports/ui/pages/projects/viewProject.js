@@ -91,10 +91,8 @@ Template.viewProject.helpers({
 		  	type: 'redflag'
 		}).count()
 	},
-	tagName: function(tag) {
-		if (tag.name != undefined) return tag.name
-		return tag
-	}
+	tagName: (tag) => tag.name,
+	tagUrl: (tag) => `/tags?search=${encodeURIComponent(tag.name)}`,
 })
 
 Template.viewProject.events({

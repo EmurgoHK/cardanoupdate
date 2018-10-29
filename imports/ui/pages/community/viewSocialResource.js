@@ -30,6 +30,9 @@ Template.viewSocialResourceTemp.onCreated(function() {
 })
 
 Template.viewSocialResourceTemp.helpers({
+	tagName: (tag) => tag.name,
+	tagUrl: (tag) => `/tags?search=${encodeURIComponent(tag.name)}`,
+
   isOwner : function() {
     if(this.createdBy === Meteor.userId()){
       return true
