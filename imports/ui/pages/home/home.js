@@ -50,11 +50,11 @@ Template.home.helpers({
   },
 
   research(){
-    return Research.find({}, {limit : 5})
+    return Research.find({}, {limit : 6})
   },
   // Learn Helpers
   learnCount: () => !!Learn.find({}).count(),
-  learn: () => Learn.find({}, {limit : 5}),
+  learn: () => Learn.find({}, {limit : 6}),
   // socialResources Helpers
   socialResourcesCount(){
     let project = socialResources.find({}).count()
@@ -65,7 +65,7 @@ Template.home.helpers({
   },
 
   socialResources(){
-    return socialResources.find({}, {limit : 5})
+    return socialResources.find({}, {limit : 6})
   },
 
   // Project Helpers
@@ -79,7 +79,7 @@ Template.home.helpers({
 
   // Return only latest 5 projects
   projects(){
-    return Projects.find({}, {limit : 5})
+    return Projects.find({}, {limit : 6})
   },
 
   // Warning Helpers
@@ -92,7 +92,7 @@ Template.home.helpers({
   },
    // Return only latest 5 warnings
   warnings(){
-    return Warnings.find({}, {limit : 5})
+    return Warnings.find({}, {limit : 6})
   },
 
 
@@ -111,7 +111,7 @@ Template.home.helpers({
       start_date : {
         $gte : moment().toISOString()
       }
-    }, {limit : 5})
+    }, {limit : 6})
   },
 
   eventLabel() {
