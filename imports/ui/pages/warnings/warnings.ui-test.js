@@ -71,10 +71,10 @@ describe('Warnings page', function () {
         browser.pause(3000)
     })
 
-     it('user can post cool stuff', () => {
-        browser.setValue('#cool-comment', 'Test cool stuff')
+     it('user can post comments', () => {
+        browser.setValue('#comment', 'Test cool stuff')
         browser.pause(2000)
-        browser.click('.new-cool')
+        browser.click('.new-comment')
         browser.pause(3000)
         assert(browser.execute(() => Array.from($('.comments').find('.card-body span')).some(i => $(i).text().includes('Test cool stuff'))).value, true)
     })

@@ -14,7 +14,8 @@ describe('Learning items methods', () => {
     it('user can add a new learning item', () => {
         return callWithPromise('newLearningItem', {
             title: 'Test title',
-            content: 'Test content'
+            content: 'Test content',
+            summary: 'Test summary'
         }).then(data => {
             let learn = Learn.findOne({
                 _id: data
@@ -57,6 +58,7 @@ describe('Learning items methods', () => {
 
             assert.ok(l2.title === 'Test title 2')
             assert.ok(l2.content === 'Test content 2')
+            assert.ok(l2.summary === 'Test summary 2')
         })
     })
 
@@ -74,7 +76,7 @@ describe('Learning items methods', () => {
         return callWithPromise('editLearningItem', {
             learnId: learn,
             title: 'Test title 2',
-            summary: 'test summary 2',
+            summary: 'Test summary 2',
             content: 'Test content 2'
         }).then(data => {
             assert.fail('Learning item was edited by the user that didn\'t create it.')

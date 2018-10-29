@@ -70,12 +70,16 @@ describe('social resources methods', () => {
     })
 
     it('user can edit a social resource he/she created adding new tags', () => {
-        let resource = socialResources.findOne({})
+        let resource = socialResources.findOne({
+            'tags.0': {
+                $exists: true
+            }
+        })
         let tags = Tags.find({}).fetch();
 
         assert.ok(resource);
 
-        const newTags = Array.from(resource.tags);
+        const newTags = Array.from(resource.tags || []);
         newTags.push({name: 'TestTag2'});
 
         return callWithPromise('editSocialResource', {
@@ -141,7 +145,9 @@ describe('social resources methods', () => {
     })
 
     it('user can delete a social resource he/she created', () => {
-        let resource = socialResources.findOne({})
+        let resource = socialResources.findOne({
+            createdBy: Meteor.userId()
+        })
 
         assert.ok(resource)
 
