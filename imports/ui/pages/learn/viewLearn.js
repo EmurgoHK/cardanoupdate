@@ -63,7 +63,8 @@ Template.viewLearn.helpers({
 		  	newsId: this._id
 		}).count()
 	},
-	tagName: (tag) => tag.name || tag
+	tagName: (tag) => tag.name,
+	tagUrl: (tag) => `/tags?search=${encodeURIComponent(tag.name)}`,
 })
 
 Template.viewLearn.events({
