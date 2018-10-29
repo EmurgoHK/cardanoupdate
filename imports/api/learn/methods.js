@@ -16,12 +16,12 @@ export const newLearningItem = new ValidatedMethod({
         new SimpleSchema({
             title: {
                 type: String,
-                max: 25,
+                max: 90,
                 optional: false
             },
             summary : {
               type: String,
-              max: 500,
+              max: 260,
               optional: false
             },
             content: {
@@ -121,12 +121,12 @@ export const editLearningItem = new ValidatedMethod({
             },
             title: {
                 type: String,
-                max: 25,
+                max: 90,
                 optional: false
             },
             summary : {
               type: String,
-              max: 500,
+              max: 250,
               optional: false
             },
             content: {

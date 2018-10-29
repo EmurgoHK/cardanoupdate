@@ -13,7 +13,7 @@ import { getFiles } from '/imports/ui/shared/uploader/uploader'
 
 const maxCharValue = (inputId) => {
     if (inputId === 'headline') {
-    	return 25
+    	return 90
     }
 
     return 1000

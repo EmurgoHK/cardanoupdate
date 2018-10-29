@@ -10,7 +10,7 @@ export const newEvent = new ValidatedMethod({
   validate: new SimpleSchema({
     headline: {
       type: String,
-      max: 25,
+      max: 90,
       optional: false
     },
     description: {
@@ -96,7 +96,7 @@ export const editEvent = new ValidatedMethod({
     },
     headline: {
       type: String,
-      max: 25,
+      max: 90,
       optional: false
     },
     description: {

@@ -17,7 +17,7 @@ const maxCharValue = (inputId) => {
     return 1000
   }
   if (inputId === 'headline') {
-    return 25
+    return 90
   }
   return 100
 }

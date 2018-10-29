@@ -15,7 +15,7 @@ export const newResearch = new ValidatedMethod({
         new SimpleSchema({
             headline: {
                 type: String,
-                max: 25,
+                max: 90,
                 optional: false
             },
             abstract: {
@@ -91,7 +91,7 @@ export const editResearch = new ValidatedMethod({
             },
             headline: {
                 type: String,
-                max: 25,
+                max: 90,
                 optional: false
             },
             abstract: {

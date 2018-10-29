@@ -21,7 +21,7 @@ export const addWarning = new ValidatedMethod({
             },
             summary: {
                 type: String,
-                max: 500,
+                max: 260,
                 optional: false
             },
             github_url: {
@@ -137,7 +137,7 @@ export const editWarning = new ValidatedMethod({
             },
             summary: {
                 type: String,
-                max: 500,
+                max: 260,
                 optional: false
             },
             github_url: {

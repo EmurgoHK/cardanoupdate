@@ -9,8 +9,8 @@ import { notify } from '/imports/modules/notifier'
 import { hideInstructionModal } from '/imports/api/user/methods'
 import _ from 'lodash'
  const maxCharValue = (inputId) => {
-    if (inputId === 'headline') { return 100 } 
-     return 500
+    if (inputId === 'headline') { return 90 } 
+     return 260
 }
  Template.warningForm.onCreated(function() {
 	this.newsTags = new ReactiveVar([]);

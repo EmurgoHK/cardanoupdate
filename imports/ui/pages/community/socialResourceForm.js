@@ -7,9 +7,9 @@ import { socialResources } from '/imports/api/socialResources/socialResources'
 import { Tags } from '../../../api/tags/tags';
 
 const maxCharValue = (inputId) => {
-    if (inputId === 'Name') { return 25 }
+    if (inputId === 'Name') { return 90 }
 
-    return 500
+    return 260
 }
 
 Template.socialResourceFormTemp.onCreated(function() {
