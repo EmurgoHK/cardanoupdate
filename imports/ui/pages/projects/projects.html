@@ -20,10 +20,10 @@
                 </div>
             </div>
         </div>
-
         <hr>
-        <div class="card-columns">
-        {{#each projects}}
+        {{#if projectCount}}
+          <div class="card-columns">
+          {{#each projects}}
             <div class="card">
                 <div class="card-body">
                     {{#if canEdit}}
@@ -62,7 +62,10 @@
                     </div>
                 </div>
             </div>
-        {{/each}}
-        </div>
+          {{/each}}
+          </div>
+        {{else}}
+          <p>Sorry, we couldn't find anything.</p>
+        {{/if}}
     </div>
 </template>

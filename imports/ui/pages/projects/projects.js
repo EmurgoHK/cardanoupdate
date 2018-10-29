@@ -26,6 +26,26 @@ Template.projects.helpers({
     chunkSize () {
         return CHUNK_SIZE + 1
     },
+    projectCount () {
+      let projects = 0;
+      let searchText = Template.instance().searchFilter.get()
+
+      // Check if user has searched for something
+      if (searchText != undefined && searchText != '') {
+          projects = Projects.find({
+          $or: [{
+              description: new RegExp(searchText.replace(/ /g, '|'), 'ig')
+          }, {
+              headline: new RegExp(searchText.replace(/ /g, '|'), 'ig')
+          }, {
+              tags: new RegExp(searchText.replace(/ /g, '|'), 'ig')
+          }]
+      }).count()
+      } else {
+          projects = Projects.find({}).count()
+      }
+      return projects
+  },
     projects () {
         let projects = [];
         let searchText = Template.instance().searchFilter.get()

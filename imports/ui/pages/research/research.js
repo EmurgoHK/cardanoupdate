@@ -23,6 +23,22 @@ Template.research.onCreated(function () {
 
 Template.research.helpers({
     chunkSize: () => CHUNK_SIZE + 1,
+    researchCount: () => {
+      let research = 0
+      let searchText = Template.instance().searchFilter.get()
+      if (searchText) {
+        research = Research.find({
+          $or: [{
+              abstract: new RegExp(searchText.replace(/ /g, '|'), 'ig')
+          }, {
+              headline: new RegExp(searchText.replace(/ /g, '|'), 'ig')
+          }]
+        }).count()
+      } else {
+        research = Research.find({}).count()
+      }
+      return research
+    },
     research: () => {
         let research = []
         let searchText = Template.instance().searchFilter.get()
