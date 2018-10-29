@@ -12,12 +12,21 @@ Meteor.users.findOne = () => ({ _id: 'test-user', profile: { name: 'Test User'},
 Meteor.user = () => ({ _id: 'test-user', profile: { name: 'Test User'}, moderator: true })
 
 describe('social resources methods', () => {
+    let resourceIdNotOwned;
+
+    before(function () {
+        resourceIdNotOwned = socialResources.insert({
+            Name: 'Temp Resource',
+            description: 'Temp Resource',
+            createdBy: 'temp'
+        })
+    })
 
     it('user can create a social resource', () => {
         return callWithPromise('addSocialResource', {
             Name: 'Test Resource',
             description: 'Test Resource',
-            Resource_url: 'test',
+            Resource_url: 'https://gitter.im/meteor/meteor',
             tags: [{name: 'testTag'}],
         }).then(data => {
             let resource = socialResources.findOne({
@@ -27,10 +36,11 @@ describe('social resources methods', () => {
             assert.ok(resource)
             assert.equal(resource.Name, 'Test Resource');
             assert.equal(resource.description, 'Test Resource');
-            assert.equal(resource.Resource_url, 'test');
+            assert.equal(resource.Resource_url, 'https://gitter.im/meteor/meteor');
             assert.isArray(resource.tags);
             assert.lengthOf(resource.tags, 1);
             assert.equal(resource.tags[0].name, 'testTag');
+            assert.equal(resource.resourceUrlType, 'GITTER');
         })
     })
 
@@ -122,16 +132,8 @@ describe('social resources methods', () => {
     }) 
 
     it('user cannot delete a social resource he/she didn\'t create', () => {
-        let resource = socialResources.insert({
-            Name: 'Temp Resource',
-            description: 'Temp Resource',
-            createdBy: 'temp'
-        })
-
-        assert.ok(resource)
-
         return callWithPromise('deleteSocialResource', {
-            projectId: resource
+            projectId: resourceIdNotOwned
         }).then(data => {}).catch(error => {
             assert.ok(error)
         })
@@ -153,6 +155,15 @@ describe('social resources methods', () => {
             assert.notOk(resource2)
         })
     })
+
+    it('can refresh guessed social media url type', () => {
+        return callWithPromise('updateResourceUrlTypes', {}).then(() => {
+            const resource = socialResources.findOne({_id:resourceIdNotOwned});
+
+            assert.ok(resource.resourceUrlType);
+            assert.equal(resource.resourceUrlType, 'UNKNOWN');
+        });
+    });
 
     after(function() {
         socialResources.remove({})

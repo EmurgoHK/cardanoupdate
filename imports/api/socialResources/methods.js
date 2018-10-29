@@ -4,6 +4,22 @@ import SimpleSchema from 'simpl-schema'
 
 import { addTag, mentionTag } from '../tags/methods';
 
+function guessResourceType(url) {
+    if (!url) return "UNKNOWN";
+    
+    // Strip off protocol and/or www. from the start
+    url = url.replace(/^(https?:\/\/)?(www\.)?/, '');
+
+    if (url.startsWith('t.me/') || url.startsWith('telegram.me/')) return 'TELEGRAM';
+    if (url.startsWith('facebook.com/')) return 'FACEBOOK';
+    if (url.startsWith('twitter.com/')) return 'TWITTER';
+    if (url.startsWith('discord.gg/')) return 'DISCORD';
+    if (url.startsWith('slack.com/')) return 'SLACK';
+    if (url.startsWith('gitter.im/')) return 'GITTER';
+
+    return "UNKNOWN";
+}
+
 export const addSocialResource = new ValidatedMethod({
     name: 'addSocialResource',
     validate:
@@ -49,6 +65,8 @@ export const addSocialResource = new ValidatedMethod({
 
             data.createdBy = Meteor.userId()
             data.createdAt = new Date().getTime()
+
+            data.resourceUrlType = guessResourceType(data.Resource_url);
 
             if (data.tags) {
                 data.tags.forEach(tag => {
@@ -168,6 +186,8 @@ export const editSocialResource = new ValidatedMethod({
                 })
             }
 
+            data.resourceUrlType = guessResourceType(Resource_url);
+
             return socialResources.update({
                 _id: projectId
             }, {
@@ -181,4 +201,23 @@ export const editSocialResource = new ValidatedMethod({
             })
         }
     }
-})
+});
+
+
+export const updateResourceUrlTypes = new ValidatedMethod({
+    name: 'updateResourceUrlTypes',
+    validate: new SimpleSchema({}).validator({
+      clean: true
+    }),
+    run({}) {
+        const resources = socialResources.find({}).fetch();
+
+        for (const res of resources) {
+            const guessedType = guessResourceType(res.Resource_url);
+
+            if (res.resourceUrlType !== guessedType) { // Only update where necessary
+                socialResources.update({_id: res._id}, {$set: {resourceUrlType: guessedType}});
+            }
+        }
+    }
+  });
