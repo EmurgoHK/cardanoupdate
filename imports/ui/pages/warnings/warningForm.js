@@ -183,7 +183,7 @@ import _ from 'lodash'
 	    	}, (err, _data) => {
 	    		if (!err) {
 	    			notify('Successfully edited.', 'success')
-	        		FlowRouter.go('/warnings')
+	        		FlowRouter.go('/scams')
 	        		return
 	      		}
  		      	if (err.details && err.details.length >= 1) {
@@ -206,7 +206,7 @@ import _ from 'lodash'
         }, (err, data) => {
             if (!err) {
                 notify('Successfully added.', 'success')
-                FlowRouter.go('/warnings')
+                FlowRouter.go('/scams')
                 return
             }
              if (err.details === undefined && err.reason) {

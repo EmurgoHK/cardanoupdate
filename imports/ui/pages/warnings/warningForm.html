@@ -2,8 +2,8 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-12">
-          <h5><a href="/warnings" class="text-muted" style="text-decoration: underline;">Warnings</a></h5>
-          <h2>{{#if add}} New Warning {{else}} Edit Warning {{/if}}</h2>
+          <h5><a href="/scams" class="text-muted" style="text-decoration: underline;">Warnings</a></h5>
+          <h2>{{#if add}} New Scam {{else}} Edit Scam {{/if}}</h2>
         </div>
       </div>
       <hr>
@@ -22,7 +22,7 @@
                 <div class="input-group">
                   <textarea class="form-control" id="description" rows="8" value="{{warning.summary}}" placeholder="Warning description in 260 characters or less"></textarea>
                   <span class="instructions">
-                    <i class="icon-info"></i> Please provide a very clear description of what the warning is for & what it does.
+                    <i class="icon-info"></i> Please provide a very clear description of what the scam is for & what it does.
                   </span>
                   <div id="summaryError" class="invalid-feedback"></div>
                 </div>
