@@ -37,9 +37,17 @@
           <p>{{rsvp}}</p>
           <P>
             <i class="icon-location-pin"></i> {{location}}
-            <a class="flag-event float-right" href="#" title="Report">
-              <i class="fas fa-exclamation-triangle"></i>
-            </a>
+            <!-- Options for Item like reporting -->
+            <div class="btn-group dropup float-right">
+              <a class="dropdown-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-ellipsis-h"></i>
+              </a>
+              <div class="dropdown-menu">
+                <a class="flag-event" href="#" title="Report">
+                  Report
+                </a>
+              </div>
+            </div>
           </P>
         </div>
       </div>
