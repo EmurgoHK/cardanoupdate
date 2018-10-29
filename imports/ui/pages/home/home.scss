@@ -30,6 +30,10 @@
 .dropdown-link{
   cursor: pointer;
 }
+.news-settings.dropup{
+  display: flex;
+  justify-content: flex-end;
+}
 .dropdown-menu a {
   display: block;
 }
