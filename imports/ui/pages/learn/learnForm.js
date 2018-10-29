@@ -41,11 +41,13 @@ export const insertVideo = editor => {
 }
 
 const maxCharValue = (inputId) => {
-    if (inputId === 'title') {
-    	return 25
-    }
-
+  if (inputId === 'title') {
+    return 25
+  } else if (inputId === 'summary') {
+    return 500
+  } else {
     return 5000
+  }
 }
 
 Template.learnForm.onCreated(function() {
@@ -213,7 +215,8 @@ Template.learnForm.events({
 
     	if (FlowRouter.current().route.name === 'newLearn') {
 	    	newLearningItem.call({
-	    		title: $('#title').val(),
+          title: $('#title').val(),
+          summary : $('#summary').val(),
 	    		content: templateInstance.mde.value(),
 	    		tags: tagsToSave
 	    	}, (err, data) => {
@@ -240,7 +243,8 @@ Template.learnForm.events({
 
     		editLearningItem.call({
     			learnId: learn._id,
-	    		title: $('#title').val(),
+          title: $('#title').val(),
+          summary : $('#summary').val(),
 	    		content: templateInstance.mde.value(),
 	    		tags: tagsToSave
 	    	}, (err, data) => {

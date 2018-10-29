@@ -23,6 +23,7 @@ describe('Learning items methods', () => {
             assert.ok(learn)
 
             assert.ok(learn.title === 'Test title')
+            assert.ok(learn.summary === 'Test summary')
             assert.ok(learn.content === 'Test content')
         })
     })
@@ -45,6 +46,7 @@ describe('Learning items methods', () => {
         return callWithPromise('editLearningItem', {
             learnId: learn._id,
             title: 'Test title 2',
+            summary: 'Test summary 2',
             content: 'Test content 2'
         }).then(data => {
             let l2 = Learn.findOne({
@@ -61,6 +63,7 @@ describe('Learning items methods', () => {
     it('user cannot edit a learning item the he/she didn\'t create', () => {
         let learn = Learn.insert({
             title: 'a',
+            summary : 's',
             content: 'b',
             createdBy: 'not-me',
             createdAt: new Date().getTime()
@@ -71,6 +74,7 @@ describe('Learning items methods', () => {
         return callWithPromise('editLearningItem', {
             learnId: learn,
             title: 'Test title 2',
+            summary: 'test summary 2',
             content: 'Test content 2'
         }).then(data => {
             assert.fail('Learning item was edited by the user that didn\'t create it.')
@@ -114,6 +118,7 @@ describe('Learning items methods', () => {
     it('user can flag a learning item', () => {
         let learn = Learn.insert({
             title: 'a',
+            summary: 's',
             content: 'b',
             createdBy: 'not-me',
             createdAt: new Date().getTime()

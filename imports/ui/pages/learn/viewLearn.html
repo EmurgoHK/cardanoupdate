@@ -4,7 +4,7 @@
       <div class="col-sm-12">
         {{#if SubsCacheReady}}
           {{#with learn}}
-          <h5><a href="/" class="text-muted" style="text-decoration: underline;">Home</a></h5>
+          <h5><a href="/learn" class="text-muted" style="text-decoration: underline;">Learn</a></h5>
           {{#if isOwner}}<a href="/learn/{{slug}}/edit" class="btn btn-primary btn-sm float-right"><i class="fas fa-edit"></i> Edit learning resource</a>{{/if}}
           <h1 class="card-title text-dark mt-3"><strong>{{title}}</strong></h1>
           <h5 class="card-subtitle mb-3 mt-3">
@@ -17,11 +17,16 @@
             <div class="card">
               <div class="card-body">
                 <div class="row">
+                  <!-- Check for old content which doesn't have summary -->
+                  {{#if summary}}
+                    <div class="col-sm-12 summary mt-3 mb-3 text-justify">
+                      {{{md summary}}}
+                    </div>
+                  {{/if}}
                   <div class="col-sm-12 content mt-3 mb-3 text-justify">
                     {{{md content}}}
                   </div>
                 </div>
-
                 {{#if tags.length}}
                   <div class="row">
                     <div class="col-sm-12">
@@ -32,7 +37,6 @@
                     </div>
                   </div>
                 {{/if}}
-
                 <div class="row">
                   <div class="col-sm-12">
                       <a class="btn btn-secondary flag-learn" href="#" title="Report"><i class="fas fa-exclamation-triangle"></i></a>
