@@ -22,8 +22,9 @@
         </div>
 
         <hr>
-        <div class="card-columns">
-        {{#each learn}}
+        {{#if learnCount}}
+          <div class="card-columns">
+          {{#each learn}}
             <div class="card">
                 <div class="card-body">
                     {{#if canEdit}}
@@ -52,7 +53,10 @@
                     </div>
                 </div>
             </div>
-        {{/each}}
-        </div>
+          {{/each}}
+          </div>
+        {{else}}
+          <p>Sorry, we couldn't find anything.</p>
+        {{/if}}
     </div>
 </template>

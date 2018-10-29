@@ -20,26 +20,43 @@ Template.socialResourcesTemp.onCreated(function () {
 Template.socialResourcesTemp.helpers({
     chunkSize () {
         return CHUNK_SIZE + 1
-    },socialResources: () => {
-        let Resources = []
-        let searchText = Template.instance().searchFilter.get()
+    },
+    socialResources: () => {
+      let Resources = []
+      let searchText = Template.instance().searchFilter.get()
 
-        if (searchText != undefined && searchText != '') {
-            Resources = socialResources.find({
-                $or: [{
-                    description: new RegExp(searchText.replace(/ /g, '|'), 'ig')
-                }, {
-                    Name: new RegExp(searchText.replace(/ /g, '|'), 'ig')
-                }]
-            })
-        } else {
-            Resources = socialResources.find({})
-        }
+      if (searchText != undefined && searchText != '') {
+        Resources = socialResources.find({
+          $or: [{
+              description: new RegExp(searchText.replace(/ /g, '|'), 'ig')
+          }, {
+              Name: new RegExp(searchText.replace(/ /g, '|'), 'ig')
+          }]
+        })
+      } else {
+        Resources = socialResources.find({})
+      }
+      return Resources
+    },
+    socialResourcesCount: () => {
+      let Resources = 0
+      let searchText = Template.instance().searchFilter.get()
 
-        return Resources
+      if (searchText != undefined && searchText != '') {
+        Resources = socialResources.find({
+          $or: [{
+              description: new RegExp(searchText.replace(/ /g, '|'), 'ig')
+          }, {
+              Name: new RegExp(searchText.replace(/ /g, '|'), 'ig')
+          }]
+        }).count()
+      } else {
+        Resources = socialResources.find({}).count()
+      }
+      return Resources
     },
     canEdit () {
-        return this.createdBy === Meteor.userId()
+      return this.createdBy === Meteor.userId()
     }
 })
 

@@ -14,24 +14,43 @@ import swal from 'sweetalert2'
     })
 })
  Template.warnings.helpers({
+  warningCount () {
+    let warnings = 0;
+    let searchText = Template.instance().searchFilter.get()
+      // Check if user has searched for something
+    if (searchText != undefined && searchText != '') {
+      warnings = Warnings.find({
+      $or: [{
+          summary: new RegExp(searchText.replace(/ /g, '|'), 'ig')
+      }, {
+          headline: new RegExp(searchText.replace(/ /g, '|'), 'ig')
+      }, {
+          tags: new RegExp(searchText.replace(/ /g, '|'), 'ig')
+      }]
+    }).count()
+    } else {
+      warnings = Warnings.find({}).count()
+    }
+    return warnings
+  },
      warnings () {
-        let warnings = [];
-        let searchText = Template.instance().searchFilter.get()
-         // Check if user has searched for something
-        if (searchText != undefined && searchText != '') {
-            warnings = Warnings.find({
-            $or: [{
-                summary: new RegExp(searchText.replace(/ /g, '|'), 'ig')
-            }, {
-                headline: new RegExp(searchText.replace(/ /g, '|'), 'ig')
-            }, {
-                tags: new RegExp(searchText.replace(/ /g, '|'), 'ig')
-            }]
-        })
-        } else {
-            warnings = Warnings.find({})
-        }
-         return warnings
+      let warnings = [];
+      let searchText = Template.instance().searchFilter.get()
+        // Check if user has searched for something
+      if (searchText != undefined && searchText != '') {
+          warnings = Warnings.find({
+          $or: [{
+              summary: new RegExp(searchText.replace(/ /g, '|'), 'ig')
+          }, {
+              headline: new RegExp(searchText.replace(/ /g, '|'), 'ig')
+          }, {
+              tags: new RegExp(searchText.replace(/ /g, '|'), 'ig')
+          }]
+      })
+      } else {
+          warnings = Warnings.find({})
+      }
+      return warnings
     },
     canEdit () {
         return this.createdBy === Meteor.userId()
