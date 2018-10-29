@@ -363,13 +363,13 @@ export const resolveProjectDataUpdate = new ValidatedMethod({
             throw new Meteor.Error('Error.', 'You have to be logged in.')
         }
 
-        if (!isModerator(Meteor.userId())) {
-            throw new Meteor.Error('Error.', 'You have to be a moderator.')
-        }
-
         let project = Projects.findOne({
             _id: projectId
         })
+
+        if (!isModerator(Meteor.userId()) || project.createdBy !== Meteor.userId()) {
+            throw new Meteor.Error('Error.', 'You can only resolve data changes if you\'re a moderator or if you\'ve created the project.')
+        }
 
         if (!project) {
             throw new Meteor.Error('Error.', 'Project doesn\'t exist.')
