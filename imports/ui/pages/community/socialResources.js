@@ -57,7 +57,25 @@ Template.socialResourcesTemp.helpers({
     },
     canEdit () {
       return this.createdBy === Meteor.userId()
-    }
+    },
+    resourceUrlClass(resourceUrlType) {
+      switch(resourceUrlType) {
+          case 'TELEGRAM':
+            return 'fab fa-telegram';
+          case 'FACEBOOK':
+            return 'fab fa-facebook';
+          case 'TWITTER':
+            return 'fab fa-twitter';
+          case 'DISCORD':
+            return 'fab fa-discord';
+          case 'SLACK':
+            return 'fab fa-slack';
+          case 'GITTER':
+            return 'fab fa-gitter';
+          default:
+            return 'fas fa-external-link-alt';
+      }
+    },
 })
 
 

@@ -47,6 +47,7 @@ import '/imports/api/uploader/methods'
 // research api
 import '/imports/api/socialResources/methods'
 import '/imports/api/socialResources/server/publications'
+import '/imports/api/socialResources/server/startup'
 
 // learn api
 import '/imports/api/learn/methods'
