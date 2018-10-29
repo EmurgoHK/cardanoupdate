@@ -19,8 +19,7 @@ import { flagWarning } from '/imports/api/warnings/methods'
 			this.subscribe('comments.item', warning._id)
 		}
 	})
- 	this.coolMessage = new ReactiveVar('')
-	this.flagMessage = new ReactiveVar('')
+ 	this.commentMessage = new ReactiveVar('')
 })
  Template.viewWarning.helpers({
   isOwner : function() {
@@ -37,44 +36,27 @@ import { flagWarning } from '/imports/api/warnings/methods'
             _id: this.createdBy
         }) || {}).profile || {}).name || 'No name'
     },
-    coolStuff: () => {
+    comment: () => {
     	let warning = Warnings.findOne({
 			slug: FlowRouter.getParam('slug')
 		}) || {}
      	return Comments.find({
-        	parentId: warning._id,
-        	type: 'coolstuff'
+			parentId: warning._id,
+			$or: [
+				{ type: 'coolstuff' },
+				{ type: 'redflag' },
+				{ type: 'warning' },
+			]
     	}, {
     		sort: {
     			createdAt: -1
     		}
     	})
     },
-    redFlags: () => {
-    	let warning = Warnings.findOne({
-			slug: FlowRouter.getParam('slug')
-		}) || {}
-     	return Comments.find({
-        	parentId: warning._id,
-        	type: 'redflag'
-    	}, {
-    		sort: {
-    			createdAt: -1
-    		}
-    	})
-    },
-	coolInvalidMessage: () => Template.instance().coolMessage.get(),
-	flagInvalidMessage: () => Template.instance().flagMessage.get(),
-	coolCount: function () {
+	commentInvalidMessage: () => Template.instance().commentMessage.get(),
+	commentCount: function () {
 		return Comments.find({
 		  	newsId: this._id,
-		  	type: 'coolstuff'
-		}).count()
-	},
-	flagCount: function () {
-		return Comments.find({
-		  	newsId: this._id,
-		  	type: 'redflag'
 		}).count()
 	},
 	
@@ -108,24 +90,23 @@ import { flagWarning } from '/imports/api/warnings/methods'
 			}
 		})
 	},
-	'click .new-cool, click .new-flag': (event, templateInstance) => {
+	'click .new-comment': (event, templateInstance) => {
 		event.preventDefault()
 		let warning = Warnings.findOne({
 			slug: FlowRouter.getParam('slug')
 		})
- 		let cool = $(event.currentTarget).attr('class').includes('cool')
  		newComment.call({
 			parentId: warning._id,
-			text: $(`#${cool ? 'cool' : 'flag'}-comment`).val(),
+			text: templateInstance.$(`#comment`).val(),
 			newsId: warning._id,
-			type: cool ? 'coolstuff' : 'redflag'
+			type: 'warning',
 		}, (err, data) => {
-      		$(`#${cool ? 'cool' : 'flag'}-comment`).val('')
+      		templateInstance.$(`#comment`).val('')
  			if (!err) {
 				notify('Successfully commented.', 'success')
-				templateInstance[`${cool ? 'cool' : 'flag'}Message`].set('')
+				templateInstance.commentMessage.set('')
 			} else {
-				templateInstance[`${cool ? 'cool' : 'flag'}Message`].set(err.reason || err.message)
+				templateInstance.commentMessage.set(err.reason || err.message)
 			}
 		})
 	},

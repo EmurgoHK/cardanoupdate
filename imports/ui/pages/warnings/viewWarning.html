@@ -11,8 +11,7 @@
               <ul class="list-inline">
                 <li class="list-inline-item">Posted by <strong><span class="name"><a href="/profile/{{createdBy}}">{{author}}</a></span></strong></li>
                 <li class="list-inline-item"><i class="icon-clock" style="vertical-align: middle"></i>&nbsp;{{showTimeAgoTimestamp createdAt}}</li>
-                <li class="list-inline-item"><i class="icon-speech" style="vertical-align: middle"></i>&nbsp;{{coolCount}}</li>
-                <li class="list-inline-item"><i class="icon-flag" style="vertical-align: middle"></i>&nbsp;{{flagCount}}</li>
+                <li class="list-inline-item"><i class="icon-speech" style="vertical-align: middle"></i>&nbsp;{{commentCount}}</li>
               </ul>
             </h5>
             <div class="card">
@@ -51,57 +50,27 @@
                </div>
             </div>
           {{/with}}
-          <div class="row">
-            <div class="col-sm-6 warning-form comments">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title text-dark mt-3">Cool stuff</h4>
-                  <div style="max-height: 500px;overflow-y: auto;">
-                  {{#each coolStuff}}
-                    {{> commentBody ident=0 comment=this _id=warning._id type="coolstuff"}}
-                  {{/each}}
-                  </div>
-                  <hr>
-                  <div class="card">
-                    <div class="card-body">
-                      <div class="form-group">
-                        <textarea class="form-control" id="cool-comment" name="comment" rows="3" placeholder="Leave a comment ..." required></textarea>
-                      </div>
-                          
-                      <p class="text-danger">{{coolInvalidMessage}}</p>
-                          
-                      <div class="btn-group" role="group">
-                        <div class="btn-group" role="group">
-                          <button type="submit" class="btn btn-outline-primary mb-2 new-cool">Comment</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+          <div class="warning-form comments">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title text-dark mt-3">Comments</h4>
+                <div style="max-height: 500px;overflow-y: auto;">
+                {{#each comment}}
+                  {{> commentBody ident=0 comment=this _id=warning._id type="warning"}}
+                {{/each}}
                 </div>
-              </div>
-            </div>
-            <div class="col-sm-6 warning-form comments">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title text-dark mt-3">Red flags</h4>
-                  <div style="max-height: 500px;overflow-y: auto;">
-                  {{#each redFlags}}
-                    {{> commentBody ident=0 comment=this _id=warning._id type="redflag"}}
-                  {{/each}}
-                  </div>
-                  <hr>
-                  <div class="card">
-                    <div class="card-body">
-                      <div class="form-group">
-                        <textarea class="form-control" id="flag-comment" name="comment" rows="3" placeholder="Leave a comment ..." required></textarea>
-                      </div>
-                          
-                      <p class="text-danger">{{flagInvalidMessage}}</p>
-                          
+                <hr>
+                <div class="card">
+                  <div class="card-body">
+                    <div class="form-group">
+                      <textarea class="form-control" id="comment" name="comment" rows="3" placeholder="Leave a comment ..." required></textarea>
+                    </div>
+                        
+                    <p class="text-danger">{{commentInvalidMessage}}</p>
+                        
+                    <div class="btn-group" role="group">
                       <div class="btn-group" role="group">
-                        <div class="btn-group" role="group">
-                          <button type="submit" class="btn btn-outline-primary mb-2 new-flag">Comment</button>
-                        </div>
+                        <button type="submit" class="btn btn-outline-primary mb-2 new-comment">Comment</button>
                       </div>
                     </div>
                   </div>
