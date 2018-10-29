@@ -52,9 +52,6 @@ import swal from 'sweetalert2'
       }
       return warnings
     },
-    canEdit () {
-        return this.createdBy === Meteor.userId()
-    }
 })
  Template.warnings.events({
      // Remove comments if user is allowed to propose changes
@@ -116,61 +113,8 @@ import swal from 'sweetalert2'
         event.preventDefault()
         FlowRouter.go('/scams/new')
     },
-    'click #js-remove': function (event, _) {
-        event.preventDefault()
-        
-        swal({
-            text: `Are you sure you want to remove this Project? This action is not reversible.`,
-            type: 'warning',
-            showCancelButton: true 
-        }).then(confirmed => {
-            if (confirmed.value) {
-                deleteWarning.call({
-                    projectId: this._id
-                }, (err, data) => {
-                    if (err) {
-                        notify(err.reason || err.message, 'error')
-                    }
-                })
-            }
-        })
-      },
-    'click .projectWarning' (event, _tpl) {
-        event.preventDefault()
-        swal({
-            title: 'Missing source repository',
-            text: "This project does't contain any link to the source repository",
-            type: 'warning',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Okay'
-        })
-    },
     'keyup #searchBox': function (event, templateInstance) {
       event.preventDefault();
        templateInstance.searchFilter.set($('#searchBox').val())
     },
-     'click .flag-warning' : function (event, templateInstance){
-      event.preventDefault()
-      swal({
-		  	title: 'Why are you flagging this?',
-		  	input: 'text',
-		  	showCancelButton: true,
-		  	inputValidator: (value) => {
-		    	return !value && 'You need to write a valid reason!'
-		  	}
-      }).then(data => {
-        if (data.value) {
-          flagWarning.call({
-            projectId: this._id,
-            reason: data.value
-          }, (err, data) => {
-            if (err) {
-              notify(err.reason || err.message, 'error')
-            } else {
-              notify('Successfully flagged. Moderators will decide what to do next.', 'success')
-            }
-          })
-        }
-      })
-    }
 })
