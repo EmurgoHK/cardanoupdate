@@ -367,7 +367,7 @@ export const resolveProjectDataUpdate = new ValidatedMethod({
             _id: projectId
         })
 
-        if (!isModerator(Meteor.userId()) || project.createdBy !== Meteor.userId()) {
+        if (!isModerator(Meteor.userId()) && project.createdBy !== Meteor.userId()) {
             throw new Meteor.Error('Error.', 'You can only resolve data changes if you\'re a moderator or if you\'ve created the project.')
         }
 
