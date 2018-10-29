@@ -19,6 +19,11 @@ export const newLearningItem = new ValidatedMethod({
                 max: 25,
                 optional: false
             },
+            summary : {
+              type: String,
+              max: 500,
+              optional: false
+            },
             content: {
                 type: String,
                 max: 5000,
@@ -43,7 +48,7 @@ export const newLearningItem = new ValidatedMethod({
         }).validator({
             clean: true
         }),
-    run({ title, content, tags }) {
+    run({ title, summary, content, tags }) {
 		if (!Meteor.userId()) {
 			throw new Meteor.Error('Error.', 'You have to be logged in.')
 		}
@@ -61,6 +66,7 @@ export const newLearningItem = new ValidatedMethod({
 
         return Learn.insert({
             title: title,
+            summary: summary,
             content: content,
             tags: tags,
             createdAt: new Date().getTime(),
@@ -118,6 +124,11 @@ export const editLearningItem = new ValidatedMethod({
                 max: 25,
                 optional: false
             },
+            summary : {
+              type: String,
+              max: 500,
+              optional: false
+            },
             content: {
                 type: String,
                 max: 5000,
@@ -142,7 +153,7 @@ export const editLearningItem = new ValidatedMethod({
         }).validator({
             clean: true
         }),
-    run({ learnId, title, content, tags }) {
+    run({ learnId, title, summary, content, tags }) {
         let learn = Learn.findOne({
             _id: learnId
         })
@@ -175,6 +186,7 @@ export const editLearningItem = new ValidatedMethod({
         }, {
             $set: {
                 title: title,
+                summary: summary,
                 content: content,
                 tags: tags,
                 editedAt: new Date().getTime()

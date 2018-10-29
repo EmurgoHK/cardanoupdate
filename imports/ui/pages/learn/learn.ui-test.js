@@ -32,6 +32,9 @@ describe('Learn page', function () {
         browser.setValue('#title', 'Title test')
         browser.pause(1000)
 
+        browser.setValue('#summary', 'Summary test')
+        browser.pause(1000)
+
         browser.click('.new-learn')
         browser.pause(2000)
 
@@ -54,6 +57,9 @@ describe('Learn page', function () {
         browser.pause(3000)
 
         browser.setValue('#title', 'Title test 2')
+        browser.pause(1000)
+
+        browser.setValue('#summary', 'Summary test 2')
         browser.pause(1000)
 
         browser.click('.new-learn')
