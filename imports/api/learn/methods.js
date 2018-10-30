@@ -126,7 +126,7 @@ export const editLearningItem = new ValidatedMethod({
             },
             summary : {
               type: String,
-              max: 250,
+              max: 260,
               optional: false
             },
             content: {
