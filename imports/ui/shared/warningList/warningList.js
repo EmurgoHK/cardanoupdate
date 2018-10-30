@@ -1,4 +1,6 @@
 import "./warningList.html";
+import "./warningList.scss";
+
 import { Template } from "meteor/templating";
 import {
   deleteWarning,
@@ -19,7 +21,10 @@ Template.warningList.helpers({
   },
   canEdit() {
     return this.createdBy === Meteor.userId();
-  }
+  },
+  limitChars(val) {
+    return val && val.length > 50 ? val.slice(0, 50) + " ... " : val;
+  },
 });
 Template.warningList.events({
   // Remove comments if user is allowed to propose changes

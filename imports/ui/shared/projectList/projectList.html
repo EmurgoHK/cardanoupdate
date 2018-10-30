@@ -2,7 +2,7 @@
     <div class="{{containerClasses}}">
         {{#each projects}}
         <div class="{{cardWrapperClasses}}">
-            <div class="card">
+            <div class="card project">
                 <div class="card-body">
                     {{#if canEdit}}
                     <div class="news-settings float-right dropdown">
@@ -21,7 +21,7 @@
                     </h4>
                     <br>
                     <p class="card-text">
-                        {{LimitChars description}}
+                        {{limitChars description}}
                     </p>
                     <hr>
                     {{#if github_url}}

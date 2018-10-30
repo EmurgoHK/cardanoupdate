@@ -1,4 +1,5 @@
 import "./projectList.html";
+import "./projectList.scss";
 
 import { Template } from "meteor/templating";
 
@@ -23,7 +24,7 @@ Template.projectList.helpers({
   canEdit() {
     return this.createdBy === Meteor.userId();
   },
-  LimitChars(val) {
+  limitChars(val) {
     return val && val.length > 50 ? val.slice(0, 50) + " ... " : val;
   }
 });

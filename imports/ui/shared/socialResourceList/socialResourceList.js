@@ -1,4 +1,5 @@
 import "./socialResourceList.html";
+import "./socialResourceList.scss";
 
 import { Template } from "meteor/templating";
 import { deleteSocialResource } from "/imports/api/socialResources/methods";
@@ -33,7 +34,10 @@ Template.socialResourceList.helpers({
       default:
         return "fas fa-external-link-alt";
     }
-  }
+  },
+  limitChars(val) {
+    return val && val.length > 50 ? val.slice(0, 50) + " ... " : val;
+  },
 });
 
 Template.socialResourceList.events({
