@@ -152,14 +152,14 @@ Template.eventForm.events({
       location: $('#location').val(),
       rsvp: $('#rsvp').val()
     }
-    console.log('Adding data ::', data)
+
     if (FlowRouter.current().route.name === 'editEvent') {
       editEvent.call({
         eventId : FlowRouter.getParam('id'),
         headline: $('#headline').val(),
         description: _tpl.mde.value(),
-        start_date: moment(event_duration.split(' - ')[0], 'LLLL'),
-        end_date : moment(event_duration.split(' - ')[1], 'LLLL'),
+        start_date: moment(event_duration.split(' - ')[0], 'DD/MM/YYYY hh:mm A').format('YYYY-MM-DD[T]HH:mm'), // convert to mongo format
+        end_date : moment(event_duration.split(' - ')[1], 'DD/MM/YYYY hh:mm A').format('YYYY-MM-DD[T]HH:mm'), // convert to mongo format
         location: $('#location').val(),
         rsvp: $('#rsvp').val(),
         placeId: _tpl.location.get().place_id || ''
@@ -185,8 +185,8 @@ Template.eventForm.events({
     newEvent.call({
       headline: $('#headline').val(),
       description: _tpl.mde.value(),
-      start_date: new Date(event_duration.split(' - ')[0]),
-      end_date : new Date(event_duration.split(' - ')[1]),
+      start_date: moment(event_duration.split(' - ')[0], 'DD/MM/YYYY hh:mm A').format('YYYY-MM-DD[T]HH:mm'), // convert to mongo format
+      end_date : moment(event_duration.split(' - ')[0], 'DD/MM/YYYY hh:mm A').format('YYYY-MM-DD[T]HH:mm'), // convert to mongo format
       location: $('#location').val(),
       rsvp: $('#rsvp').val(),
       placeId: _tpl.location.get().place_id || ''

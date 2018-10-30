@@ -210,7 +210,7 @@
                                 </h4>
                                 <br>
                                 <p class="card-text">
-                                  <P>Starts on {{showLocalTimestamp start_date}} <br/> Ends on {{showLocalTimestamp end_date}}</P>
+                                    {{#if isEventUpcoming start_date}} <p>Starts {{showTimeAgoTimestamp start_date}}</p> {{else}} <p>Starts on {{showLocalTimestamp start_date}}</p>{{/if}}
                                 </p>
                                 <hr>
                                 <p>{{rsvp}}</p>
