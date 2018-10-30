@@ -3,6 +3,7 @@ import { FlowRouter } from 'meteor/kadira:flow-router'
 
 import { uploadImage, uploadPDF } from '/imports/api/uploader/methods'
 import { notify } from '/imports/modules/notifier'
+import { updateProfile } from '/imports/api/user/methods'
 
 import('crypto-js').then(c => window.CryptoJS = c.default)
 import swal from 'sweetalert2'
@@ -130,6 +131,7 @@ Template.uploader.helpers({
 
 Template.uploader.events({
     'change .fileInput': (event, templateInstance) => {
+        event.preventDefault();
         if ($(event.target).data('id') !== templateInstance.id) { // don't react to events that aren't yours
             return 
         }
@@ -175,10 +177,21 @@ Template.uploader.events({
                             $(`#fileUploadValue-${templateInstance.id}`).html('Change')
                             $(`#fileInputLabel-${templateInstance.id}`).removeClass('btn-primary').removeClass('btn-danger').addClass('btn-success')
                         }
+                        updateProfile.call({
+                          uId : Meteor.userId(),
+                          name : $(`#userName`).val(),
+                          email : $(`#userEmail`).val(),
+                          bio : $(`#bio`).val(),
+                          image: getFiles()[0] || ''
+                        }, (err, res) => {
+                          if(err){
+                            console.log(err)
+                          }
+                          // history.back()
+                        })
                     }
                 })
             }
-
             reader.readAsBinaryString(file)
         }
     }
