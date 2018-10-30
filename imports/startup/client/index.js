@@ -10,8 +10,10 @@ import '/imports/ui/shared/loader/loader'
 import '/imports/ui/shared/empty-result/empty-result'
 import '/imports/ui/shared/uploader/uploader'
 
+import '/imports/ui/shared/eventList/eventList';
 import '/imports/ui/shared/learningResourceList/learningResourceList';
 import '/imports/ui/shared/projectList/projectList';
+import '/imports/ui/shared/researchList/researchList';
 import '/imports/ui/shared/socialResourceList/socialResourceList';
 import '/imports/ui/shared/warningList/warningList';
 

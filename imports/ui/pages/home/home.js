@@ -12,17 +12,6 @@ import { UsersStats } from '/imports/api/user/usersStats'
 import { Stats } from '/imports/api/stats/stats'
 import moment from 'moment'
 
-import { flagResearch } from '/imports/api/research/methods'
-import { flagProject, proposeNewData } from '/imports/api/projects/methods'
-import { flagWarning } from '/imports/api/warnings/methods'
-import { flagEvent } from '/imports/api/events/methods'
-import { flagLearningItem } from '/imports/api/learn/methods'
-
-import { flagDialog } from '/imports/modules/flagDialog'
-import { notify } from '/imports/modules/notifier'
-
-import swal from 'sweetalert2'
-
 Template.home.onCreated(function () {
   this.autorun(() => {
     this.subscribe('research')
@@ -114,17 +103,6 @@ Template.home.helpers({
     }, {limit : 6})
   },
 
-  eventLabel() {
-    let now = moment()
-    if (moment(this.start_date) > now && moment(this.end_date) > now){
-      return 'upcoming-event'
-    } else if ( moment(this.start_date) <= now && now <= moment(this.end_date)) {
-      return 'ongoing-event'
-    } else {
-      return 'past-event'
-    }
-  },
-
   // User Stats
   signedUp: () => (UsersStats.findOne({
     _id: 'lastMonth'
@@ -143,18 +121,7 @@ Template.home.helpers({
 })
 
 Template.home.events({
-
   'click #add-new' (event, _tpl) {
     $('#newModal').modal('show')
-  },
-  'click .flag-research' : function(event, templateInstance) {
-    event.preventDefault()
-    
-    flagDialog.call(this, flagResearch, 'researchId')
-  },
-  'click .flag-event' : function(event, templateInstance) {
-    event.preventDefault()
-    
-    flagDialog.call(this, flagEvent, 'eventId')
   },
 })

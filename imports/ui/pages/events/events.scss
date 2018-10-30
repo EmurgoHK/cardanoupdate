@@ -21,29 +21,3 @@
     }
   }
 }
-
-// Event Labels
-.event-label{
-  position: absolute;
-  background: #20a8d8;
-  top: 0;
-  left: 0;
-  height: 1.50em;
-  width: 100%;
-  font-size: 0.8em;
-  padding: 0 0.5em;
-  color: #fff;
-  font-weight: 600;
-  &.upcoming-event{
-    background: #4dbd74;
-  }
-  &.past-event{
-    background: #f86c6b;
-  }
-}
-
-.card.event {
-  .card-text {
-    height: 3em;
-  }
-}

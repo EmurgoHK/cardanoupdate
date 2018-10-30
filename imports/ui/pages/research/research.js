@@ -5,11 +5,10 @@ import { Template } from 'meteor/templating'
 import { FlowRouter } from 'meteor/kadira:flow-router'
 import { Research } from '/imports/api/research/research'
 
-import { removeResearch, flagResearch } from '/imports/api/research/methods'
+import { removeResearch } from '/imports/api/research/methods'
 import swal from 'sweetalert2'
 
 import { notify } from '/imports/modules/notifier'
-import { flagDialog } from '/imports/modules/flagDialog'
 
 const CHUNK_SIZE = 3
 
@@ -81,34 +80,10 @@ Template.research.events({
         event.preventDefault()
         FlowRouter.go('/research/new')
     },
-    'click #js-remove': function (event, _) {
-        event.preventDefault()
-        
-        swal({
-            text: `Are you sure you want to remove this research papaer? This action is not reversible.`,
-            type: 'warning',
-            showCancelButton: true 
-        }).then(confirmed => {
-            if (confirmed.value) {
-                removeResearch.call({
-                    researchId: this._id
-                }, (err, data) => {
-                    if (err) {
-                        notify(err.reason || err.message, 'error')
-                    }
-                })
-            }
-        })
-    },
     'keyup #searchBox': function(event, templateInstance) {
         event.preventDefault()
 
         templateInstance.searchFilter.set($('#searchBox').val())
-    },
-    'click .flag-research' : function(event, templateInstance) {
-        event.preventDefault()
-        
-        flagDialog.call(this, flagResearch, 'researchId')
     },
     'click #sort-date': (event, templateInstance) => {
         event.preventDefault()
