@@ -15,7 +15,7 @@
           {{/if}}
           <p class="event-label {{eventLabel}}">{{eventLabel}}</p>
           <h4 class="card-title">
-            <a href="/events/{{slug}}">{{headline}}</a>
+            <a href="/events/{{slug}}" title="{{headline}}">{{headline}}</a>
           </h4>
           <br>
           <p class="card-text">
@@ -26,19 +26,19 @@
             {{/if}}
           </p>
           <hr>
-          <p>
+          <p class="rsvp">
             <i class="icon-check"></i> <a target="_blank" href={{rsvp}}>RSVP Link</a>
           </p>
-          <P>
+          <p class="location">
             <i class="icon-location-pin"></i> <a target="_blank" href="https://www.google.com/maps/place/{{location}}/">{{location}}</a>
-            <!-- Options for Item like reporting -->
-            <div class="news-settings dropup">
-              <i class="fas fa-ellipsis-h dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
-              <div class="dropdown-menu">
-                <a class="dropdown-item flag-event" href="#" title="Report"><i class="icon-flag"></i> Report</a>
-              </div>
+          </p>
+          <!-- Options for Item like reporting -->
+          <div class="news-settings dropup">
+            <i class="fas fa-ellipsis-h dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+            <div class="dropdown-menu">
+              <a class="dropdown-item flag-event" href="#" title="Report"><i class="icon-flag"></i> Report</a>
             </div>
-          </P>
+          </div>
         </div>
       </div>
     </div>

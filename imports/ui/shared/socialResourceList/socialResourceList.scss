@@ -1,4 +1,9 @@
 .card.socialResource {
+  .card-title {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
   .card-text {
     height: 3em;
   }
