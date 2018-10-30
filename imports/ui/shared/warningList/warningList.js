@@ -11,6 +11,12 @@ import { notify } from "/imports/modules/notifier";
 Template.warningList.onCreated(function() {
 });
 Template.warningList.helpers({
+  containerClasses() {
+    return this.containerClass || "card-columns";
+  },
+  cardWrapperClasses() {
+    return Template.parentData().cardWrapperClass || "";
+  },
   canEdit() {
     return this.createdBy === Meteor.userId();
   }

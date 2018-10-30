@@ -12,6 +12,12 @@ import { notify } from "/imports/modules/notifier";
 import { flagDialog } from "/imports/modules/flagDialog";
 
 Template.learningResourceList.helpers({
+  containerClasses() {
+    return this.containerClass || "card-columns";
+  },
+  cardWrapperClasses() {
+    return Template.parentData().cardWrapperClass || "";
+  },
   canEdit: function() {
     return this.createdBy === Meteor.userId();
   }

@@ -147,70 +147,14 @@ Template.home.events({
   'click #add-new' (event, _tpl) {
     $('#newModal').modal('show')
   },
-  'click .projectWarning' (event, _tpl) {
-    console.log('HELLO')
-      event.preventDefault()
-      swal({
-          title: 'Missing source repository',
-          text: "This project does't contain any link to the source repository",
-          type: 'warning',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Okay'
-      })
-  },
   'click .flag-research' : function(event, templateInstance) {
     event.preventDefault()
     
     flagDialog.call(this, flagResearch, 'researchId')
-  },
-  'click .flag-learn' : function(event, templateInstance) {
-    event.preventDefault()
-    
-    flagDialog.call(this, flagLearningItem, 'learnId')
-  },
-  'click .flag-project' : function(event, templateInstance) {
-    event.preventDefault()
-    
-    flagDialog.call(this, flagProject, 'projectId')
   },
   'click .flag-event' : function(event, templateInstance) {
     event.preventDefault()
     
     flagDialog.call(this, flagEvent, 'eventId')
   },
-  'click .flag-warning' : function (event, templateInstance){
-    event.preventDefault()
-    
-    flagDialog.call(this, flagWarning, 'eventId')
-  },
-    'click .new-link': function(event, temlateInstance) {
-        if ($(event.currentTarget).attr('href')) {
-            return
-        }
-
-
-        let data = $(event.currentTarget).attr('class').includes('github') ? 'github' : 'website'
-
-        swal({
-            text: `Website is not available. If you know this information, please contribute below:`,
-            type: 'warning',
-            showCancelButton: true,
-            input: 'text'
-        }).then(val => {
-            if (val.value) {
-                proposeNewData.call({
-                    projectId: this._id,
-                    datapoint: data,
-                    newData: val.value,
-                    type: 'link'
-                }, (err, data) => {
-                    if (err) {
-                        notify(err.reason || err.message, 'error')
-                    } else {
-                        notify('Successfully contributed.', 'success')
-                    }
-                })
-            }
-        })
-    },
 })
