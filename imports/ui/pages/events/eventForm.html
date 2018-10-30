@@ -18,15 +18,9 @@
                 <div id="headlineError" class="invalid-feedback"></div>
               </div>
               <small><i id="headline-chars" class="text-muted"></i></small>
-              <div class="group-title">Start Date and Time</div>
+              <div class="group-title">Event Duration</div>
               <div class="input-group">
-                <input type="datetime-local" class="form-control" id="start_date" value="{{event.start_date}}" placeholder="Start Date and Time">
-                <div id="start_dateError" class="invalid-feedback"></div>
-              </div>
-              <div class="group-title">End Date and Time</div>
-              <div class="input-group">
-                <input type="datetime-local" class="form-control" id="end_date" value="{{event.end_date}}" placeholder="End Date and Time">
-                <div id="end_dateError" class="invalid-feedback"></div>
+                <input type="text" class="form-control" id="event_duration" value="{{event.start_date}} - {{event.end_date}}">
               </div>
               <div class="group-title">Description</div>
               <div class="article-body">
