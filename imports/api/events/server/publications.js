@@ -3,7 +3,7 @@ import { Events } from '../events'
 
 Meteor.publish('events', () => Events.find({}, {
   sort: {
-    createdAt: -1
+    start_date: 1
   }
 }))
 

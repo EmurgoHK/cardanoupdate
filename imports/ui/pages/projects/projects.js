@@ -40,26 +40,39 @@ Template.projects.helpers({
       return projects
   },
     projects () {
-        let projects = [];
-        let searchText = Template.instance().searchFilter.get()
+        const tpl = Template.instance();
 
-        // Check if user has searched for something
-        if (searchText != undefined && searchText != '') {
-            projects = Projects.find({
-            $or: [{
-                description: new RegExp(searchText.replace(/ /g, '|'), 'ig')
-            }, {
-                headline: new RegExp(searchText.replace(/ /g, '|'), 'ig')
-            }, {
-                tags: new RegExp(searchText.replace(/ /g, '|'), 'ig')
-            }]
-        })
-        } else {
-            projects = Projects.find({})
+        // Constructing sorting options
+        let sort;
+        switch (tpl.sort.get()) {
+            case 'date-asc':
+                sort = {createdAt: 1};
+                break;
+            case 'date-desc':
+            default:
+                sort = {createdAt: -1}
         }
 
-        return projects
+        const searchText = tpl.searchFilter.get()
+        // Check if user has searched for something and getting data from db
+        if (searchText != undefined && searchText != '') {
+            return Projects.find({
+                $or: [{
+                    description: new RegExp(searchText.replace(/ /g, '|'), 'ig')
+                }, {
+                    headline: new RegExp(searchText.replace(/ /g, '|'), 'ig')
+                }, {
+                    tags: new RegExp(searchText.replace(/ /g, '|'), 'ig')
+                }]
+            }, {sort});
+        }
+
+        return Projects.find({}, {sort})
     },
+
+    isDateAsc() {
+        return Template.instance().sort.get() === 'date-asc'
+    }
 })
 
 Template.projects.events({
@@ -71,5 +84,13 @@ Template.projects.events({
       event.preventDefault();
 
       templateInstance.searchFilter.set($('#searchBox').val())
+    },
+    'click #sort-date': (event, templateInstance) => {
+        event.preventDefault()
+        if (templateInstance.sort.get() === 'date-desc') {
+            templateInstance.sort.set('date-asc');
+        } else {
+            templateInstance.sort.set('date-desc');
+        }
     },
 })
