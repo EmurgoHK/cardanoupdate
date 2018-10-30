@@ -23,6 +23,10 @@ Template.registerHelper('showLocalTimestamp', date => {
 	return !date ? "" : moment(date).format('LLL')
 })
 
+Template.registerHelper('isEventUpcoming', date => {
+	return !date ? "" :  (moment.duration(moment(date).diff(moment.now())).as('hours') <= 48 && moment.duration(moment(date).diff(moment.now())).as('hours') >=0 )
+})
+
 Template.registerHelper('avatarFor', (user, size) => {
 	if (user && (user.profile && user.profile.picture)) {
 		return user.profile.picture
