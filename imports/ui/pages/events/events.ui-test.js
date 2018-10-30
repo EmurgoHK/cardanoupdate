@@ -37,9 +37,6 @@ describe('Events page', function () {
         browser.execute(() => { window.mde.value('Description Test') })
         browser.pause(1000)
 
-        browser.execute(() => $('#event_duration').val('2018-12-16T12:12 - 2018-12-18T12:12'))
-        browser.pause(1000)
-
         browser.setValue('#location', 'Novi Sad, S')
         browser.pause(1000)
         browser.click('.pac-item')

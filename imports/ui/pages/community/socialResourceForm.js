@@ -6,6 +6,8 @@ import { FlowRouter } from 'meteor/kadira:flow-router'
 import { socialResources } from '/imports/api/socialResources/socialResources'
 import { Tags } from '../../../api/tags/tags';
 
+import _ from 'lodash'
+
 const maxCharValue = (inputId) => {
     if (inputId === 'Name') { return 90 }
 

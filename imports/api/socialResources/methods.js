@@ -2,7 +2,7 @@ import { socialResources } from './socialResources'
 import { ValidatedMethod } from 'meteor/mdg:validated-method'
 import SimpleSchema from 'simpl-schema'
 
-import { addTag, mentionTag } from '../tags/methods';
+import { addTag, mentionTag, removeTag } from '../tags/methods';
 
 function guessResourceType(url) {
     if (!url) return "UNKNOWN";

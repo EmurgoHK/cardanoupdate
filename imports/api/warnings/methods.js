@@ -6,7 +6,7 @@ import { Warnings } from './warnings'
 import { Comments } from '../comments/comments'
 
 import { Tags } from '/imports/api/tags/tags'
-import { addTag, mentionTag, getTag } from '/imports/api/tags/methods'
+import { addTag, mentionTag, getTag, removeTag } from '/imports/api/tags/methods'
 
 import { isModerator, userStrike } from '/imports/api/user/methods'
 
