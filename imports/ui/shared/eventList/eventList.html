@@ -1,0 +1,47 @@
+<template name="eventList">
+  <div class="{{containerClasses}}">
+    {{#each eventList}}
+    <div class="{{cardWrapperClasses}}">
+      <div class="card event">
+        <div class="card-body">
+          {{#if canEdit}}
+          <div class="news-settings float-right dropdown">
+            <i class="icon-settings dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" id="js-edit" href="/events/{{_id}}/edit"><i class="icon-pencil"></i> Edit </a>
+              <a class="dropdown-item text-danger" id="js-remove" href="#"><i class="icon-trash text-danger"></i> Delete </a>
+            </div>
+          </div>
+          {{/if}}
+          <p class="event-label {{eventLabel}}">{{eventLabel}}</p>
+          <h4 class="card-title">
+            <a href="/events/{{slug}}">{{headline}}</a>
+          </h4>
+          <br>
+          <p class="card-text">
+            {{#if isEventUpcoming start_date}} 
+              <p>Starts {{showTimeAgoTimestamp start_date}}</p> 
+            {{else}} 
+              <p>Starts on {{showLocalTimestamp start_date}}</p>
+            {{/if}}
+          </p>
+          <hr>
+          <p>
+            <i class="icon-check"></i> <a target="_blank" href={{rsvp}}>RSVP Link</a>
+          </p>
+          <P>
+            <i class="icon-location-pin"></i> <a target="_blank" href="https://www.google.com/maps/place/{{location}}/">{{location}}</a>
+            <!-- Options for Item like reporting -->
+            <div class="news-settings dropup">
+              <i class="fas fa-ellipsis-h dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+              <div class="dropdown-menu">
+                <a class="dropdown-item flag-event" href="#" title="Report"><i class="icon-flag"></i> Report</a>
+              </div>
+            </div>
+          </P>
+        </div>
+      </div>
+    </div>
+    {{/each}}
+  </div>
+</template>
