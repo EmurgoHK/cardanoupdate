@@ -67,50 +67,7 @@
                   </div>
                 </div>
                 <div class="section-content">
-                  <div class="row">
-                    {{#each projects}}
-                      <div class="col-md-4">
-                          <div class="card">
-                              <div class="card-body">
-                                  {{#if canEdit}}
-                                      <div class="news-settings float-right dropdown">
-                                          <i class="icon-settings dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
-                                          <div class="dropdown-menu">
-                                              <a class="dropdown-item" id="js-edit" href="/projects/{{_id}}/edit"><i class="icon-pencil"></i> Edit</a>
-                                              <a class="dropdown-item text-danger" id="js-remove" href="#"><i class="icon-trash text-danger"></i> Delete</a>
-                                          </div>
-                                      </div>
-                                  {{/if}}
-
-                                  <h4 class="card-title">
-                                      <a href="/projects/{{slug}}">{{headline}}</a>
-                                  </h4>
-                                  <br>
-                                  <p class="card-text">
-                                      {{LimitChars description}}
-                                  </p>
-                                  <hr>
-                                  {{#unless github_url}}
-                                      <a href="" class="card-link projectWarning text-warning"><i class="fas fa-exclamation-circle fa-lg"></i></a>
-                                  {{/unless}}
-                                  <a href="{{github_url}}" class="github new-link card-link"><i class="fab fa-github fa-lg"></i></a>
-                                  <a href="{{website}}" class="website new-link card-link" title="Go to {{website}}"><i class="fas fa-external-link-alt fa-lg"></i></a>
-                                  <!-- Options for Item like reporting -->
-                                  <div class="btn-group dropup float-right">
-                                    <a class="dropdown-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                      <i class="fas fa-ellipsis-h"></i>
-                                    </a>
-                                    <div class="dropdown-menu">
-                                      <a class="flag-project" href="#" title="Report">
-                                        Report
-                                      </a>
-                                    </div>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                    {{/each}}
-                  </div>
+                  {{> projectList projects=projects containerClass="row" cardWrapperClass="col-md-4"}}
                 </div>
               </section>
             </div>
@@ -126,54 +83,7 @@
                 </div>
               </div>
               <div class="section-content">
-                <div class="row">
-                  {{#each warnings}}
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-body">
-                                {{#if canEdit}}
-                                    <div class="news-settings float-right dropdown">
-                                        <i class="icon-settings dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" id="js-edit" href="/scams/{{_id}}/edit"><i class="icon-pencil"></i> Edit</a>
-                                            <a class="dropdown-item text-danger" id="js-remove" href="#"><i class="icon-trash text-danger"></i> Delete</a>
-                                        </div>
-                                    </div>
-                                {{/if}}
-                                
-                                <h4 class="card-title">
-                                    <a href="/scams/{{slug}}">{{headline}}</a>
-                                </h4>
-                                <br>
-                                <p class="card-text">
-                                    {{summary}}
-                                </p>
-                                <hr>
-                                {{#unless github_url}}
-                                    <a href="" class="card-link projectWarning text-warning"><i class="fas fa-exclamation-circle fa-lg"></i></a>
-                                {{/unless}}
-                                {{#if github_url}}
-                                  <a href="{{github_url}}" class="new-link card-link"><i class="fab fa-github fa-lg"></i></a>
-                                {{/if}}
-                                {{#if website}}
-                                  <a href="{{website}}" class="new-link card-link" title="Go to {{website}}"><i class="fas fa-external-link-alt fa-lg"></i></a>
-                                {{/if}}
-                                <!-- Options for Item like reporting -->
-                                <div class="btn-group dropup float-right">
-                                  <a class="dropdown-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-ellipsis-h"></i>
-                                  </a>
-                                  <div class="dropdown-menu">
-                                    <a class="flag-warning" href="#" title="Report">
-                                      Report
-                                    </a>
-                                  </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                  {{/each}}
-                </div>
+                  {{> warningList warnings=warnings containerClass="row" cardWrapperClass="col-md-4"}}
               </div>
             </section>
           </div>
@@ -303,37 +213,7 @@
                   </div>
                 </div>
                 <div class="section-content">
-                  <div class="row">
-                    {{#each learn}}
-                      <div class="col-md-4">
-                          <div class="card">
-                              <div class="card-body">
-                                  {{#if canEdit}}
-                                      <div class="news-settings float-right dropdown">
-                                          <i class="icon-settings dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
-                                          <div class="dropdown-menu">
-                                              <a class="dropdown-item" id="js-edit" href="/learn/{{slug}}/edit"><i class="icon-pencil"></i> Edit</a>
-                                          </div>
-                                      </div>
-                                  {{/if}}
-
-                                  <h4 class="card-title">
-                                    <a href="/learn/{{slug}}">{{title}}</a>
-                                  </h4>
-                                  <p>{{summary}}</p>
-                                  <hr />
-                                  <!-- Options for Item like reporting -->
-                                  <div class="news-settings dropup">
-                                    <i class="fas fa-ellipsis-h dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
-                                    <div class="dropdown-menu">
-                                      <a class="dropdown-item flag-learn" href="#" title="Report"><i class="icon-flag"></i> Report</a>
-                                    </div>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                    {{/each}}
-                  </div>
+                    {{> learningResourceList learningResources=learn containerClass="row" cardWrapperClass="col-md-4"}}
                 </div>
               </section>
             </div>
@@ -349,35 +229,7 @@
                   </div>
                 </div>
                 <div class="section-content">
-                  <div class="row">
-                    {{#each socialResources}}
-                      <div class="col-md-4">
-                          <div class="card">
-                              <div class="card-body">
-                                  {{#if canEdit}}
-                                      <div class="news-settings float-right dropdown">
-                                          <i class="icon-settings dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
-                                          <div class="dropdown-menu">
-                                              <a class="dropdown-item" id="js-edit" href="/community/{{_id}}/edit"><i class="icon-pencil"></i> Edit</a>
-                                              <a class="dropdown-item text-danger" id="js-remove" href="#"><i class="icon-trash text-danger"></i> Delete</a>
-                                          </div>
-                                      </div>
-                                  {{/if}}
-
-                                  <h4 class="card-title">
-                                      <a href="/community/{{_id}}">{{Name}}</a>
-                                  </h4>
-                                  <br>
-                                  <p class="card-text">
-                                      {{LimitChars description}}
-                                  </p>
-                                  <hr>
-                                  <a href="{{Resource_url}}" title="Go to {{Resource_url}}" class="website card-link"><i class="fas fa-external-link-alt fa-lg"></i></a>
-                              </div>
-                          </div>
-                      </div>
-                    {{/each}}
-                  </div>
+                  {{> socialResourceList socialResources=socialResources containerClass="row" cardWrapperClass="col-md-4"}}
                 </div>
               </section>
             </div>

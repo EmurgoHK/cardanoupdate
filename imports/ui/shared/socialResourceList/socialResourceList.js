@@ -6,6 +6,12 @@ import { deleteSocialResource } from "/imports/api/socialResources/methods";
 import swal from "sweetalert2";
 
 Template.socialResourceList.helpers({
+  containerClasses() {
+    return this.containerClass || "card-columns";
+  },
+  cardWrapperClasses() {
+    return Template.parentData().cardWrapperClass || "";
+  },
   canEdit() {
     return this.createdBy === Meteor.userId();
   },

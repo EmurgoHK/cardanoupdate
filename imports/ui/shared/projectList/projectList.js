@@ -14,6 +14,12 @@ import { notify } from "/imports/modules/notifier";
 import { flagDialog } from "/imports/modules/flagDialog";
 
 Template.projectList.helpers({
+  containerClasses() {
+    return this.containerClass || "card-columns";
+  },
+  cardWrapperClasses() {
+    return Template.parentData().cardWrapperClass || "";
+  },
   canEdit() {
     return this.createdBy === Meteor.userId();
   },
@@ -23,36 +29,6 @@ Template.projectList.helpers({
 });
 
 Template.projectList.events({
-  "click .github": function(event, temlateInstance) {
-    if ($(event.currentTarget).attr("href")) {
-      return;
-    }
-
-    swal({
-      text: `GitHub repo is not available. If you know this information, please contribute below:`,
-      type: "warning",
-      showCancelButton: true,
-      input: "text"
-    }).then(val => {
-      if (val.value) {
-        proposeNewData.call(
-          {
-            projectId: this._id,
-            datapoint: "github_url",
-            newData: val.value,
-            type: "link"
-          },
-          (err, data) => {
-            if (err) {
-              notify(err.reason || err.message, "error");
-            } else {
-              notify("Successfully contributed.", "success");
-            }
-          }
-        );
-      }
-    });
-  },
   "click .website": function(event, temlateInstance) {
     if ($(event.currentTarget).attr("href")) {
       return;
@@ -105,7 +81,7 @@ Template.projectList.events({
       }
     });
   },
-  "click .projectWarning"(event, _tpl) {
+  "click .no-github"(event, _tpl) {
     event.preventDefault();
     swal({
       title: "Missing source repository",

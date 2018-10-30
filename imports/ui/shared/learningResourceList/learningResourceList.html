@@ -1,26 +1,29 @@
 <template name="learningResourceList">
-    <div class="card-columns">
+    <div class="{{containerClasses}}">
         {{#each learningResources}}
-        <div class="card">
-            <div class="card-body">
-                {{#if canEdit}}
-                <div class="news-settings float-right dropdown">
-                    <i class="icon-settings dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" id="js-edit" href="/learn/{{slug}}/edit"><i class="icon-pencil"></i>
-                            Edit</a>
-                        <a class="dropdown-item text-danger" id="js-remove" href="#"><i class="icon-trash text-danger"></i>
-                            Delete</a>
+        <div class="{{cardWrapperClasses}}">
+            <div class="card">
+                <div class="card-body">
+                    {{#if canEdit}}
+                    <div class="news-settings float-right dropdown">
+                        <i class="icon-settings dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false"></i>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" id="js-edit" href="/learn/{{slug}}/edit"><i class="icon-pencil"></i>
+                                Edit</a>
+                            <a class="dropdown-item text-danger" id="js-remove" href="#"><i class="icon-trash text-danger"></i>
+                                Delete</a>
+                        </div>
                     </div>
-                </div>
-                {{/if}}
+                    {{/if}}
 
-                <h4 class="card-title">
-                    <a href="/learn/{{slug}}">{{title}}</a>
-                </h4>
-                <a class="flag-learn float-right" href="#" title="Report">
-                    <i class="fas fa-exclamation-triangle"></i>
-                </a>
+                    <h4 class="card-title">
+                        <a href="/learn/{{slug}}">{{title}}</a>
+                    </h4>
+                    <a class="flag-learn float-right" href="#" title="Report">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </a>
+                </div>
             </div>
         </div>
         {{/each}}
