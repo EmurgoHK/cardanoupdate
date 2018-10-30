@@ -1,4 +1,5 @@
 import './research.html'
+import './research.scss'
 
 import { Template } from 'meteor/templating'
 import { FlowRouter } from 'meteor/kadira:flow-router'

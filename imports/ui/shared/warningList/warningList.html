@@ -2,7 +2,7 @@
     <div class="{{containerClasses}}">
         {{#each warnings}}
         <div class="{{cardWrapperClasses}}">
-            <div class="card">
+            <div class="card warning">
                 <div class="card-body">
                     {{#if canEdit}}
                     <div class="news-settings float-right dropdown">
@@ -22,7 +22,7 @@
                     </h4>
                     <br>
                     <p class="card-text">
-                        {{summary}}
+                        {{limitChars summary}}
                     </p>
                     <hr>
                     {{#unless github_url}}

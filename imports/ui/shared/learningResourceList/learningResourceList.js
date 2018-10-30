@@ -1,4 +1,5 @@
 import "./learningResourceList.html";
+import "./learningResourceList.scss";
 
 import { Template } from "meteor/templating";
 
@@ -20,7 +21,10 @@ Template.learningResourceList.helpers({
   },
   canEdit: function() {
     return this.createdBy === Meteor.userId();
-  }
+  },
+  limitChars(val) {
+    return val && val.length > 50 ? val.slice(0, 50) + " ... " : val;
+  },
 });
 
 Template.learningResourceList.events({

@@ -2,7 +2,7 @@
     <div class="{{containerClasses}}">
         {{#each socialResources}}
         <div class="{{cardWrapperClasses}}">
-            <div class="card">
+            <div class="card socialResource">
                 <div class="card-body">
                     {{#if canEdit}}
                     <div class="news-settings float-right dropdown">
@@ -22,7 +22,7 @@
                     </h4>
                     <br>
                     <p class="card-text">
-                        {{LimitChars description}}
+                        {{limitChars description}}
                     </p>
                     <hr>
                     <a href="{{Resource_url}}" title="Go to {{Resource_url}}" class="website card-link"><i class="{{resourceUrlClass this.resourceUrlType}} fa-lg"></i></a>
