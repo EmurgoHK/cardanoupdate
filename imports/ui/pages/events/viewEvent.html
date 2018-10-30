@@ -22,10 +22,10 @@
                <i class="icon-calendar"></i> {{showLocalTimestamp start_date}} to {{showLocalTimestamp end_date}}
               </div>
               <div class="col-sm-12">
-                <i class="icon-check"></i> <a href={{rsvp}}>RSVP Link</a>
+                <i class="icon-check"></i> <a target="_blank" href={{rsvp}}>RSVP Link</a>
               </div>
               <div class="col-sm-12">
-                <i class="icon-location-pin"></i> {{location}}
+                <i class="icon-location-pin"></i> <a target="_blank" href="https://www.google.com/maps/place/{{location}}/">{{location}}</a>
               </div>
               <div class="col-sm-12 news-body pt-4 pl-3 pr-3 text-justify">
                 {{{md description}}}
