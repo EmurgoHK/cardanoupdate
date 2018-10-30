@@ -13,8 +13,6 @@ import _ from 'lodash'
      return 260
 }
  Template.warningForm.onCreated(function() {
-	this.newsTags = new ReactiveVar([]);
-    
 	if (FlowRouter.current().route.name === 'editWarning') {
 		this.autorun(() => {
 			this.subscribe('warnings.item', FlowRouter.getParam('id'))
@@ -42,6 +40,25 @@ import _ from 'lodash'
   this.subscribe('tags')
   
 })
+
+Template.warningForm.onRendered(function() {
+    this.autorun(() => {
+        let tags = (Warnings.findOne({
+            _id: FlowRouter.getParam('id')
+        }) || {}).tags || []
+
+        $('#tags').val(tags.map(i => i.name))
+        $('#tags').trigger('change')
+    })
+
+    $('#tags').select2({
+        tags: true,
+        tokenSeparators: [' ', ','],
+        allowClear: true,
+        placeholder: 'Add a tags separated by comma(,) e.g. crypto,wallet'
+    })
+})
+
  Template.warningForm.helpers({
     add: () => FlowRouter.current().route.name === 'editWarning' ? false : true,
     warning: () => Warnings.findOne({ _id: FlowRouter.getParam('id') }),
@@ -49,27 +66,7 @@ import _ from 'lodash'
         name: {
             $not: new RegExp('built-(for|on)-cardano', 'i') // dont include these tags 
         }
-    }),
-    tagsAsString: (tags) => tags == undefined || (tags !=undefined && tags.length > 0 && tags[0].id == undefined) ? [] : tags.filter(i => !/built-(for|on)-cardano/i.test(i.name)).map(t => { return t.name.toString().toUpperCase() }),
-    tagDisabled: (name, tags) => {
-		if (tags !== undefined) { // this will only be true for edit mode
-			let tag = tags.find(t => { return name === t.name ? t : undefined });
-			let newsTags = Template.instance().newsTags.get();
-
-			if (tag !== undefined) { // check if the tag exists
-                if (newsTags.some(t => { return tag.id === t.id })) { // check if the tag has already been added to newsTags
-                        newsTags.push({
-                                id: tag.id,
-                                name: tag.name
-                        });
-                        Template.instance().newsTags.set(newsTags);
-                }
-                return 'disabled';
-			}
-		}
-
-		return '';
-    }
+    })
 })
  Template.warningForm.events({
     'click input[name="type"]': (event, templateInstance) => {
@@ -102,64 +99,29 @@ import _ from 'lodash'
         }
          $(`#${inputId}`).unbind('keypress')
     },
-	'click .tag-button': (event, templateInstance) => {
-		let name = ($(event.currentTarget).find('.tag-name')[0]).innerHTML;
-		let tagString = $('#tagInput').val()
- 		tagString = (tagString === undefined || tagString === '') ? name : `${tagString},${name}`;
- 		$('#tagInput').val(tagString)
-		$(event.currentTarget).attr('disabled', true);
- 		let newsTags = templateInstance.newsTags.get();
-		
-        if (newsTags.every(a => a.id !== event.currentTarget.id)) { // check if the tag has already been added to newsTags
-            newsTags.push({
-                id: event.currentTarget.id,
-                name: name.toUpperCase()
-            });
-            templateInstance.newsTags.set(newsTags);
-        }
-	},
-	'keyup #tagInput': function(event, templateInstance){
-		let inputs = templateInstance.$(event.currentTarget).val().split(',').map(a => a.trim().toUpperCase());
-
-		let topTags = templateInstance.$('.tag-name').toArray().map(t => t.innerHTML)
-		let topIds = templateInstance.$('.tag-name').toArray().map(t => t.parentElement.id)
-
-		let newsTags = [];
-		inputs.forEach(input => {
-			// Add the tag to the object
-			if (topTags.includes(input)) {
-				if (!newsTags.some(a => a.name === input)) {
-					newsTags.push({
-						id: topIds[topTags.indexOf(input)],
-						name: input,
-					});
-				}
-			}
-		});
-		
-		topTags.forEach((tagName, ind) => { // We disable tag buttons that are included in the inputs, enable all others
-			$(`#${topIds[ind]}`).attr('disabled', inputs.includes(tagName));
-		});
-
-		templateInstance.newsTags.set(newsTags);
-	},
     'click .add-warning' (event, _tpl) {
         event.preventDefault()
-         let tags = $('#tagInput').val().split(',').map(e => e.trim()).filter(i => !!i)
-		let newsTags = _tpl.newsTags.get();
-        
-        console.log('here')
-		// convert all tags to array of objects
-		tags = tags.map(t => {
-			let element = undefined
-			
-			if (newsTags.length > 0) element = newsTags.find(n => n.name === t.toUpperCase())
- 			// add the element to the array if it not present
-			if (element === undefined) {
-				return { id: '', name: t.trim().toUpperCase()}
-			} 
-			return element	
-        });
+        let tags = $('#tags').val()
+
+    // convert all tags to array of objects
+    tags = tags.map(t => {
+      let element = Tags.findOne({
+                name: t.trim().toUpperCase()
+            })
+
+      // add the element to the array if it not present
+      if (!element) {
+        return {
+                    id: '',
+                    name: t.trim().toUpperCase()
+                }
+      }
+
+      return {
+                id: element._id,
+                name: element.name
+            }
+        })
 
 		// Deduplicating tags by name
 		const tagsToSave = [];

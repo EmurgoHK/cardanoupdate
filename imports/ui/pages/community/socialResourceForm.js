@@ -19,38 +19,34 @@ Template.socialResourceFormTemp.onCreated(function() {
 		})
     }
     
-	this.newsTags = new ReactiveVar([]);
-
 	this.autorun(() => {
 		this.subscribe('tags')
 	});
+})
+
+Template.socialResourceFormTemp.onRendered(function() {
+    this.autorun(() => {
+        let tags = (socialResources.findOne({
+            _id: FlowRouter.getParam('id')
+        }) || {}).tags || []
+
+        $('#tags').val(tags.map(i => i.name))
+        $('#tags').trigger('change')
+    })
+
+    $('#tags').select2({
+        tags: true,
+        tokenSeparators: [' ', ','],
+        allowClear: true,
+        placeholder: 'Add a tags separated by comma(,) e.g. crypto,wallet'
+    })
 })
 
 
 Template.socialResourceFormTemp.helpers({
     add: () => FlowRouter.current().route.name === 'editSocialResource' ? false : true,
     Resource: () => {return socialResources.findOne({ _id: FlowRouter.getParam('id') })},
-    tags: () =>  Tags.find({}),
-    tagsAsString: (tags) => tags === undefined || (tags !== undefined && tags.length > 0 && tags[0].id == undefined) ? [] : tags.map(t => t.name.toString().toUpperCase()),
-    tagDisabled: (name, tags) => {
-		if (tags !== undefined) { // this will only be true for edit mode
-			let tag = tags.find(t => { return name === t.name ? t : undefined });
-			let newsTags = Template.instance().newsTags.get();
-
-			if (tag !== undefined) { // check if the tag exists
-                if (newsTags.some(t => { return tag.id === t.id })) { // check if the tag has already been added to newsTags
-                        newsTags.push({
-                            id: tag.id,
-                            name: tag.name
-                        });
-                        Template.instance().newsTags.set(newsTags);
-                }
-                return 'disabled';
-			}
-		}
-
-		return '';
-	}
+    tags: () =>  Tags.find({})
 })
 
 Template.socialResourceFormTemp.events({
@@ -73,71 +69,30 @@ Template.socialResourceFormTemp.events({
 
         $(`#${inputId}`).unbind('keypress')
     },
-
-    'click .tag-button': (event, templateInstance) => {
-		let name = ($(event.currentTarget).find('.tag-name')[0]).innerHTML;
-		let tagString = $('#tagInput').val()
-
-		tagString = (tagString === undefined || tagString === '') ? name : `${tagString},${name}`;
-        
-		$('#tagInput').val(tagString)
-		$(event.currentTarget).attr('disabled', true);
-
-		let newsTags = templateInstance.newsTags.get();
-        if (newsTags.every(a => a.id !== event.currentTarget.id)) {
-            newsTags.push({
-                id: event.currentTarget.id,
-                name: name.toUpperCase(),
-            });
-            templateInstance.newsTags.set(newsTags);
-        }
-	},
-
-	'keyup #tagInput': function(event, templateInstance){
-		let inputs = templateInstance.$(event.currentTarget).val().split(',').map(a => a.trim().toUpperCase());
-
-		let topTags = templateInstance.$('.tag-name').toArray().map(t => t.innerHTML)
-		let topIds = templateInstance.$('.tag-name').toArray().map(t => t.parentElement.id)
-
-		let newsTags = [];
-		inputs.forEach(input => {
-			// Add the tag to the object
-			if (topTags.includes(input)) {
-				if (!newsTags.some(a => a.name === input)) {
-					newsTags.push({
-						id: topIds[topTags.indexOf(input)],
-						name: input,
-					});
-				}
-			}
-		});
-		
-		topTags.forEach((tagName, ind) => { // We disable tag buttons that are included in the inputs, enable all others
-			$(`#${topIds[ind]}`).attr('disabled', inputs.includes(tagName));
-		});
-
-		templateInstance.newsTags.set(newsTags)
-	},
-
     'click .add-socialResource' (event, templateInstance) {
         event.preventDefault()
         
-
-		let tags = $('#tagInput').val().split(',').map(e => e.trim()).filter(i => !!i)
-		let newsTags = templateInstance.newsTags.get()
+		let tags = $('#tags').val()
 
 		// convert all tags to array of objects
 		tags = tags.map(t => {
-			let element = undefined
+			let element = Tags.findOne({
+                name: t.trim().toUpperCase()
+            })
 
-			if (newsTags.length > 0) element = newsTags.find(n => n.name === t.toUpperCase())
  			// add the element to the array if it not present
-			if (element === undefined) {
-				return { name: t.trim().toUpperCase()}
+			if (!element) {
+				return {
+                    id: '',
+                    name: t.trim().toUpperCase()
+                }
 			}
 
-			return element
-        });
+			return {
+                id: element._id,
+                name: element.name
+            }
+        })
 
 		// Deduplicating tags by name
 		const tagsToSave = [];
@@ -179,7 +134,7 @@ Template.socialResourceFormTemp.events({
             Name: $('#Name').val(),
             description: $('#description').val(),
             Resource_url: $('#Resource_url').val() || '',
-            tagsToSave,
+            tags: tagsToSave,
         }, (err, data) => {
             if (!err) {
                 notify('Successfully added.', 'success')

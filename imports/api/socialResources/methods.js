@@ -186,7 +186,7 @@ export const editSocialResource = new ValidatedMethod({
                 })
             }
 
-            data.resourceUrlType = guessResourceType(Resource_url);
+            resourceUrlType = guessResourceType(Resource_url);
 
             return socialResources.update({
                 _id: projectId
@@ -196,6 +196,7 @@ export const editSocialResource = new ValidatedMethod({
                     description: description,
                     Resource_url: Resource_url,
                     updatedAt: new Date().getTime(),
+                    resourceUrlType: resourceUrlType,
                     tags,
                 }
             })
