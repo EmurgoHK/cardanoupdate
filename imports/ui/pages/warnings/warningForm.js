@@ -62,11 +62,17 @@ Template.warningForm.onRendered(function() {
  Template.warningForm.helpers({
     add: () => FlowRouter.current().route.name === 'editWarning' ? false : true,
     warning: () => Warnings.findOne({ _id: FlowRouter.getParam('id') }),
-    tags: () =>  Tags.find({
-        name: {
-            $not: new RegExp('built-(for|on)-cardano', 'i') // dont include these tags 
-        }
-    })
+    tags: () => { 
+
+        let tags = Array.from(Tags.find({
+            name: {
+                $not: new RegExp('built-(for|on)-cardano', 'i') // dont include these tags
+            }
+        }))
+
+        tags = _.uniqBy(tags, 'name');
+        return tags
+    }
 })
  Template.warningForm.events({
     'click input[name="type"]': (event, templateInstance) => {

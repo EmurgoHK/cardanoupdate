@@ -77,11 +77,17 @@ Template.projectForm.onRendered(function() {
 Template.projectForm.helpers({
     add: () => FlowRouter.current().route.name === 'editProject' ? false : true,
     project: () => Projects.findOne({ _id: FlowRouter.getParam('id') }),
-    tags: () =>  Tags.find({
-        name: {
-            $not: new RegExp('built-(for|on)-cardano', 'i') // dont include these tags
-        }
-    }),
+    tags: () => { 
+
+        let tags = Array.from(Tags.find({
+            name: {
+                $not: new RegExp('built-(for|on)-cardano', 'i') // dont include these tags
+            }
+        }))
+
+        tags = _.uniqBy(tags, 'name');
+        return tags
+    },
     changedItems: () => {
         let projects = Projects.find({
             'edits.status': 'open',

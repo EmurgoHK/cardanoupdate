@@ -114,7 +114,17 @@ Template.learnForm.helpers({
 		slug: FlowRouter.getParam('slug')
   	}),
 	add: () => !(FlowRouter.current().route.name === 'editLearn'),
-	tags: () =>  Tags.find({})
+	tags: () => { 
+
+        let tags = Array.from(Tags.find({
+            name: {
+                $not: new RegExp('built-(for|on)-cardano', 'i') // dont include these tags
+            }
+        }))
+
+        tags = _.uniqBy(tags, 'name');
+        return tags
+    }
 })
 
 Template.learnForm.events({

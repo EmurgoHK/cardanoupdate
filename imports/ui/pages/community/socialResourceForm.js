@@ -46,7 +46,17 @@ Template.socialResourceFormTemp.onRendered(function() {
 Template.socialResourceFormTemp.helpers({
     add: () => FlowRouter.current().route.name === 'editSocialResource' ? false : true,
     Resource: () => {return socialResources.findOne({ _id: FlowRouter.getParam('id') })},
-    tags: () =>  Tags.find({})
+    tags: () => { 
+
+        let tags = Array.from(Tags.find({
+            name: {
+                $not: new RegExp('built-(for|on)-cardano', 'i') // dont include these tags
+            }
+        }))
+
+        tags = _.uniqBy(tags, 'name');
+        return tags
+    }
 })
 
 Template.socialResourceFormTemp.events({
