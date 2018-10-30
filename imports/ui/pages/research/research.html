@@ -20,6 +20,13 @@
             </div>
         </div>
         <hr>
+        
+        <div class="float-right">
+          <button class="btn btn-link" id="sort-date">
+              Date {{#if isDateAsc }} <i class="fas fa-sort-down"></i> {{else}} <i class="fas fa-sort-up"></i> {{/if}}
+          </button>
+        </div>
+
         {{#if researchCount}}
           <div class="card-columns">
           {{#each research}}
