@@ -109,6 +109,13 @@ export const deleteSocialResource = new ValidatedMethod({
                 throw new Meteor.Error('Error.', 'You can\'t remove a project that you haven\'t added.')
             }
 
+            // remove mentions of tags & decrease the counter of each tag
+            if(project.tags) {
+                project.tags.forEach(t => {
+                    removeTag(t.id)
+                })
+            }
+            
             return socialResources.remove({ _id: projectId })
         }
     }

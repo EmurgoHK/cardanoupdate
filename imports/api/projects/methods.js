@@ -6,7 +6,7 @@ import { Projects } from './projects'
 import { Comments } from '../comments/comments'
 
 import { Tags } from '/imports/api/tags/tags'
-import { addTag, mentionTag, getTag } from '/imports/api/tags/methods'
+import { addTag, mentionTag, getTag, removeTag } from '/imports/api/tags/methods'
 
 import { isModerator, userStrike } from '/imports/api/user/methods'
 
@@ -117,6 +117,13 @@ export const deleteProject = new ValidatedMethod({
                 throw new Meteor.Error('Error.', 'You can\'t remove a project that you haven\'t added.')
             }
 
+            // remove mentions of tags & decrease the counter of each tag
+            if(project.tags) {
+                project.tags.forEach(t => {
+                    removeTag(t.id)
+                })
+            }
+
             return Projects.remove({ _id: projectId })
         }
     }
@@ -172,7 +179,7 @@ export const editProject = new ValidatedMethod({
             clean: true
         }),
     run({ projectId, headline, description, github_url, website, tags, type }) {
-        if (Meteor.isServer) {
+        if (true || Meteor.isServer) {
             let project = Projects.findOne({ _id: projectId })
 
             if (!project) {

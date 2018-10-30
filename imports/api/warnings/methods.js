@@ -117,6 +117,13 @@ export const deleteWarning = new ValidatedMethod({
                 throw new Meteor.Error('Error.', 'You can\'t remove a warning that you haven\'t added.')
             }
 
+            // remove mentions of tags & decrease the counter of each tag
+            if(warning.tags) {
+                warning.tags.forEach(t => {
+                    removeTag(t.id)
+                })
+            }
+
             return Warnings.remove({ _id: projectId })
         }
     }
