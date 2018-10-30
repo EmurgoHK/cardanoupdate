@@ -28,3 +28,14 @@ export const mentionTag = (tagId) => {
         }, 
     });
 }
+
+export const removeTag = (tagId) => {
+    return Tags.update({
+        _id : tagId
+    }, 
+    { 
+        $inc: { 
+            mentions: -1
+        }, 
+    });
+}
