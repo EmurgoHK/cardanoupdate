@@ -44,11 +44,7 @@ Template.viewProject.helpers({
 	project: () => Projects.findOne({
 		slug: FlowRouter.getParam('slug')
 	}),
-	author: function() {
-        return ((Meteor.users.findOne({
-            _id: this.createdBy
-        }) || {}).profile || {}).name || 'No name'
-    },
+	author: () => Meteor.users.findOne({_id: Template.currentData().createdBy}),
     coolStuff: () => {
     	let project = Projects.findOne({
 			slug: FlowRouter.getParam('slug')

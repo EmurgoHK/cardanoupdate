@@ -22,12 +22,7 @@ Template.commentBody.onCreated(function() {
 Template.commentBody.helpers({
 	origId: () => Template.instance().data._id,
 	type: () => Template.instance().data.type,
-	author: function() {
-        return ((Meteor.users.findOne({
-            _id: this.createdBy
-        }) || {}).profile || {}).name || 'No name'
-	},
-	user: () => Meteor.users.findOne({ _id: this.createdBy}),
+	user: () => Meteor.users.findOne({ _id: Template.currentData().createdBy}),
     canEditComment: function() {
     	return this.createdBy === Meteor.userId()
     },

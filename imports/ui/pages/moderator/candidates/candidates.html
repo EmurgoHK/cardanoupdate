@@ -16,7 +16,9 @@
                                         Promote
                                     </a>
                                 </div>
-                                <a class="card-title" href="/profile/{{_id}}">{{profile.name}}</a>
+                                <span class="card-title">
+                                    {{> userNameDisplay this}}
+                                </span>
                                 <p class="card-text">Input rating - {{fixed rating}}<br>Total input - {{totalInput}}<br>Rank - {{rank}}</p>
                             </div>
                         </div>

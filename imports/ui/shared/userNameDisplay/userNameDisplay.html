@@ -1,0 +1,6 @@
+<template name="userNameDisplay">
+  <a class="userNameDisplay" href="/profile/{{_id}}" {{log}}>
+    {{#if moderator}} <i class="fas fa-user-cog" title="Moderator"></i> {{/if}}
+    {{name}}
+  </a>
+</template>

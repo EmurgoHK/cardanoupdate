@@ -31,9 +31,9 @@ Template.changes.helpers({
 			headline: i.headline,
 			datapoint: j.datapoint,
 			newData: j.newData,
-			author: ((Meteor.users.findOne({
+			author: Meteor.users.findOne({
 				_id: j.proposedBy
-			}) || {}).profile || {}).name || 'No name',
+			}),
 			type: j.type || 'string',
 			link: j.type === 'link',
 			createdAt: j.createdAt

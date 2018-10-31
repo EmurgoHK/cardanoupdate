@@ -85,9 +85,9 @@ Template.flaggedItems.helpers({
 			text: i.title ? i.title : (i.headline ? i.headline : i.text),
 			reasons: i.flags.map(j => ({
 				reason: j.reason,
-				author: ((Meteor.users.findOne({
+				author: Meteor.users.findOne({
 					_id: j.flaggedBy
-				}) || {}).profile || {}).name || 'No name'
+				})
 			})),
 			times: `${i.flags.length} ${i.flags.length === 1 ? 'time' : 'times'}`,
       		isEvent: !!i.location,

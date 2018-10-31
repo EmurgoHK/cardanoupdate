@@ -42,11 +42,7 @@ Template.viewSocialResourceTemp.helpers({
 	socialResource: () => socialResources.findOne({
 		_id: FlowRouter.getParam('slug')
 	}),
-	author: function() {
-        return ((Meteor.users.findOne({
-            _id: this.createdBy
-        }) || {}).profile || {}).name || 'No name'
-    },
+	author: () => Meteor.users.findOne({_id: Template.currentData().createdBy}),
     coolStuff: () => {
     	let socialResource = socialResources.findOne({
 			_id: FlowRouter.getParam('slug')
