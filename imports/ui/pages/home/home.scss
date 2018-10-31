@@ -17,15 +17,6 @@
   }
 }
 
-// Responsive for user-stats
-@media (max-width: 576px) {
-  .user-stats{
-    .middle-item{
-      padding: 1em;
-    }
-  }
-}
-
 // Dropdown link for report option
 .dropdown-link{
   cursor: pointer;
@@ -36,4 +27,29 @@
 }
 .dropdown-menu a {
   display: block;
+}
+
+// Add New content modal cta
+.add-new-content{
+  position: relative;
+  float: right;
+  margin-top: 1em;
+  i{
+    margin-right: 3px;
+  }
+}
+
+// Exclusive style for small screens (mobile)
+@media (max-width: 576px) {
+  .user-stats{
+    .middle-item{
+      padding: 1em;
+    }
+  }
+  .add-new-content{
+    float: none;
+    button{
+      width: 100%;
+    }
+  }
 }
