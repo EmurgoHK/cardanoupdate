@@ -4,7 +4,6 @@ import './warnings.scss'
 import { FlowRouter } from 'meteor/kadira:flow-router'
  import { Warnings } from '/imports/api/warnings/warnings'
 import { notify } from '/imports/modules/notifier'
- import { Tags } from '/imports/api/tags/tags'
  import { addWarning, editWarning } from '/imports/api/warnings/methods'
 import { hideInstructionModal } from '/imports/api/user/methods'
 import _ from 'lodash'
@@ -19,10 +18,6 @@ import _ from 'lodash'
              let warning = Warnings.findOne({
                 _id: FlowRouter.getParam('id')
             })
-             // preselect the correct type if it's on the warning edit page
-            if (warning) {
-                $('[name=type]').val([(warning.tags.filter(i => /built-(on|for)-cardano/i.test(i.name))[0] || {}).name])
-            }
 		})
 	} else {
     let user = Meteor.users.findOne({_id : Meteor.userId()})
@@ -37,48 +32,14 @@ import _ from 'lodash'
       }, 100)
     }
   }
-  this.subscribe('tags')
   
-})
-
-Template.warningForm.onRendered(function() {
-    this.autorun(() => {
-        let tags = (Warnings.findOne({
-            _id: FlowRouter.getParam('id')
-        }) || {}).tags || []
-
-        $('#tags').val(tags.map(i => i.name))
-        $('#tags').trigger('change')
-    })
-
-    $('#tags').select2({
-        tags: true,
-        tokenSeparators: [' ', ','],
-        allowClear: true,
-        placeholder: 'Add a tags separated by comma(,) e.g. crypto,wallet'
-    })
 })
 
  Template.warningForm.helpers({
     add: () => FlowRouter.current().route.name === 'editWarning' ? false : true,
     warning: () => Warnings.findOne({ _id: FlowRouter.getParam('id') }),
-    tags: () => { 
-
-        let tags = Array.from(Tags.find({
-            name: {
-                $not: new RegExp('built-(for|on)-cardano', 'i') // dont include these tags
-            }
-        }))
-
-        tags = _.uniqBy(tags, 'name');
-        return tags
-    }
 })
  Template.warningForm.events({
-    'click input[name="type"]': (event, templateInstance) => {
-        // show the explanation for two possible choices
-        $('.typeExp').show()
-    },
   // Hide Instruction Modal
   'click .foreverHideModal' (event) {
     event.preventDefault()
@@ -107,47 +68,12 @@ Template.warningForm.onRendered(function() {
     },
     'click .add-warning' (event, _tpl) {
         event.preventDefault()
-        let tags = $('#tags').val()
-
-    // convert all tags to array of objects
-    tags = tags.map(t => {
-      let element = Tags.findOne({
-                name: t.trim().toUpperCase()
-            })
-
-      // add the element to the array if it not present
-      if (!element) {
-        return {
-                    id: '',
-                    name: t.trim().toUpperCase()
-                }
-      }
-
-      return {
-                id: element._id,
-                name: element.name
-            }
-        })
-
-		// Deduplicating tags by name
-		const tagsToSave = [];
-		const addedTagNames = new Set();
-		for (const tag of tags) {
-			if (!addedTagNames.has(tag.name)) {
-				addedTagNames.add(tag.name);
-				tagsToSave.push(tag);
-			}
-		}
         
         if (FlowRouter.current().route.name === 'editWarning') {
             editWarning.call({
     			projectId: FlowRouter.getParam('id'),
 	    		headline: $('#headline').val(),
-	    		summary: $('#description').val(),
-                github_url: $('#github_url').val() || '',
-                website: $('#website').val() || '',
-                tags: tagsToSave,
-                type: $('input[name="type"]:checked').val()
+	    		summary: $('#description').val()
 	    	}, (err, _data) => {
 	    		if (!err) {
 	    			notify('Successfully edited.', 'success')
@@ -166,11 +92,7 @@ Template.warningForm.onRendered(function() {
         }
          addWarning.call({
             headline: $('#headline').val(),
-            summary: $('#description').val(),
-            github_url: $('#github_url').val() || '',
-            website: $('#website').val() || '',
-            tags: tagsToSave,
-            type: $('input[name="type"]:checked').val()
+            summary: $('#description').val()
         }, (err, data) => {
             if (!err) {
                 notify('Successfully added.', 'success')

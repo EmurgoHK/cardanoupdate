@@ -25,15 +25,6 @@
                             {{limitChars summary}}
                         </p>
                         <hr>
-                        {{#unless github_url}}
-                        <a href="" class="card-link projectWarning text-warning"><i class="fas fa-exclamation-circle fa-lg"></i></a>
-                        {{/unless}}
-                        {{#if github_url}}
-                        <a href="{{github_url}}" class="new-link card-link"><i class="fab fa-github fa-lg"></i></a>
-                        {{/if}}
-                        {{#if website}}
-                        <a href="{{website}}" title="Go to {{website}}" class="new-link card-link"><i class="fas fa-external-link-alt fa-lg"></i></a>
-                        {{/if}}
                         {{> flagItem item="warning"}}
                     </div>
                 </div>
@@ -65,15 +56,6 @@
                                 {{limitChars summary}}
                             </p>
                             <hr>
-                            {{#unless github_url}}
-                            <a href="" class="card-link projectWarning text-warning"><i class="fas fa-exclamation-circle fa-lg"></i></a>
-                            {{/unless}}
-                            {{#if github_url}}
-                            <a href="{{github_url}}" class="new-link card-link"><i class="fab fa-github fa-lg"></i></a>
-                            {{/if}}
-                            {{#if website}}
-                            <a href="{{website}}" title="Go to {{website}}" class="new-link card-link"><i class="fas fa-external-link-alt fa-lg"></i></a>
-                            {{/if}}
                             {{> flagItem item="warning"}}
                         </div>
                     </div>

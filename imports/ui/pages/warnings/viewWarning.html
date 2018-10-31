@@ -21,29 +21,8 @@
                     {{summary}}
                   </div>
                 </div> 
-                 {{#if tags.length}}
-                  <div class="row">
-                    <div class="col-sm-12">
-                        <div>Tags</div>
-                        {{#each tags}}
-                        <a class="badge badge-pill badge-primary" href="{{tagUrl this}}">{{tagName this}}</a>
-                        {{/each}}
-                    </div>
-                  </div>
-                {{/if}}
                 <div class="row">
                   <div class="col-sm-12">
-                      {{#unless github_url}}
-                      <a href="" class="btn btn-warning warningWarning"><i class="fas fa-exclamation-circle fa-lg"></i></a>
-                      {{/unless}}
-                      {{#if github_url}}
-                        <a href="{{github_url}}" class="new-link card-link"><i class="fab fa-github fa-lg"></i></a>
-                      {{/if}}
-                      {{#if website}}
-                        <a href="{{website}}" title="Go to {{website}}" class="new-link card-link"><i class="fas fa-external-link-alt fa-lg"></i></a>
-                      {{/if}}
-                      <!-- <a href="{{github_url}}" class="btn btn-dark text-white github"><i class="fab fa-github fa-lg"></i></a>
-                      <a href="{{website}}" class="btn btn-secondary website"><i class="fas fa-external-link-alt fa-lg"></i></a> -->
                       {{> flagItem item="warning"}}
                   </div>
                 </div>

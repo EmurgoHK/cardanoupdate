@@ -5,9 +5,6 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method'
 import { Warnings } from './warnings'
 import { Comments } from '../comments/comments'
 
-import { Tags } from '/imports/api/tags/tags'
-import { addTag, mentionTag, getTag, removeTag } from '/imports/api/tags/methods'
-
 import { isModerator, userStrike } from '/imports/api/user/methods'
 
 export const addWarning = new ValidatedMethod({
@@ -23,34 +20,6 @@ export const addWarning = new ValidatedMethod({
                 type: String,
                 max: 260,
                 optional: false
-            },
-            github_url: {
-                type: String,
-                optional: true
-            },
-            website: {
-                type: String,
-                optional: true
-            },
-            tags: {
-                type: Array,
-                optional: true
-            },
-            "tags.$": {
-                type: Object,
-                optional: true
-            },
-            "tags.$.id": {
-                type: String,
-                optional: true
-            },
-            "tags.$.name": {
-                type: String,
-                optional: true
-            },
-            type: {
-                type: String,
-                optional: false
             }
         }).validator({
             clean: true
@@ -59,30 +28,6 @@ export const addWarning = new ValidatedMethod({
         if (Meteor.isServer) {
             if (!Meteor.userId()) {
                 throw new Meteor.Error('Error.', 'You have to be logged in.')
-            }
-
-            data.tags = data.tags || []
-
-            // find the type tag
-            let tag = getTag(data.type) || {}
-
-            // add it to the list of tags
-            data.tags.push({
-                name: data.type,
-                id: tag._id // this will be undefined if the tag doesn't exist yet, so it'll be added correctly
-            })
-            
-            if (data.tags != undefined) {
-                data.tags.forEach(tag => {
-                    if(tag.id && tag.id != '') {
-                        // add mention
-                        mentionTag(tag.id)
-                    } else if(tag.name && tag.name != '') {
-                        // add the tag to the list
-                        tagId = addTag(tag.name)
-                        tag.id = tagId
-                    }
-                })
             }
 
             data.createdBy = Meteor.userId()
@@ -117,13 +62,6 @@ export const deleteWarning = new ValidatedMethod({
                 throw new Meteor.Error('Error.', 'You can\'t remove a warning that you haven\'t added.')
             }
 
-            // remove mentions of tags & decrease the counter of each tag
-            if(warning.tags) {
-                warning.tags.forEach(t => {
-                    removeTag(t.id)
-                })
-            }
-
             return Warnings.remove({ _id: projectId })
         }
     }
@@ -146,34 +84,6 @@ export const editWarning = new ValidatedMethod({
                 type: String,
                 max: 260,
                 optional: false
-            },
-            github_url: {
-                type: String,
-                optional: true
-            },
-            website: {
-                type: String,
-                optional: true
-            },
-            tags: {
-                type: Array,
-                optional: true
-            },
-            "tags.$": {
-                type: Object,
-                optional: true
-            },
-            "tags.$.id": {
-                type: String,
-                optional: true
-            },
-            "tags.$.name": {
-                type: String,
-                optional: true
-            },
-            type: {
-                type: String,
-                optional: false
             }
         }).validator({
             clean: true
@@ -194,46 +104,12 @@ export const editWarning = new ValidatedMethod({
                 throw new Meteor.Error('Error.', 'You can\'t edit a warning that you haven\'t added.')
             }
 
-            tags = tags || []
-
-            // find the type tag
-            let tag = getTag(type) || {}
-
-            // check if it already has the type tag
-            if (!tags.some(i => i.name === type)) {
-                // if the type tag has changed, remove the old one
-                tags = tags.filter(i => !/built-(on|for)-cardano/i.test(i.name))
-
-                // and add the new tag
-                tags.push({
-                    name: type,
-                    id: tag._id
-                })
-            }
-
-            if (tags != undefined) {
-                tags.forEach(tag => {
-                    if(tag.id && tag.id != '') {
-                        // add mention
-                        mentionTag(tag.id)
-                    } else if(tag.name && tag.name != '') {
-                        // add the tag to the list
-                        tagId = addTag(tag.name)
-                        tag.id = tagId
-                    }
-                })
-            }
-
             return Warnings.update({
                 _id: projectId
             }, {
                 $set: {
                     headline: headline,
                     summary: summary,
-                    github_url: github_url,
-                    website: website,
-                    tags: tags,
-                    type: type,
                     updatedAt: new Date().getTime()
                 }
             })
