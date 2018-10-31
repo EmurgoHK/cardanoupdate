@@ -37,7 +37,7 @@
                       <div class="input-group">
                         <select multiple="true" name="tags[]" id="tags" class="form-control select2">
                           {{#each tags}}
-                          <option value="{{name}}">{{name}}</option>
+                          <option value="{{name}}" {{isTagIncluded project.tags _id}}>{{name}}</option>
                           {{/each}}
                         </select>
                       </div>
