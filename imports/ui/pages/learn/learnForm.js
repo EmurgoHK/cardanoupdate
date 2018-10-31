@@ -12,6 +12,8 @@ import { newLearningItem, editLearningItem } from '/imports/api/learn/methods'
 import SimpleMDE from 'simplemde'
 import swal from 'sweetalert2'
 
+import _ from 'lodash'
+
 import { insertImage, replaceSelection } from '/imports/ui/shared/uploader/uploader'
 
 export const insertVideo = editor => {
