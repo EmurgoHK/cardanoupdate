@@ -1,0 +1,12 @@
+.flagItem{
+  position: relative;
+  float: right;
+  padding-left: 1em;
+  i{
+    cursor: pointer;
+  }
+  // hide default arrow-up and down icon
+  .dropdown-toggle::after{
+    display: none !important;
+  }
+}
