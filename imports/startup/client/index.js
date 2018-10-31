@@ -16,6 +16,7 @@ import '/imports/ui/shared/projectList/projectList';
 import '/imports/ui/shared/researchList/researchList';
 import '/imports/ui/shared/socialResourceList/socialResourceList';
 import '/imports/ui/shared/warningList/warningList';
+import '/imports/ui/shared/flagItem/flagItem';
 
 import './routes'
 

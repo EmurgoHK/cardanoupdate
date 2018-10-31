@@ -32,13 +32,7 @@
             <p class="location">
               <i class="icon-location-pin"></i> <a target="_blank" href="https://www.google.com/maps/place/{{location}}/">{{location}}</a>
             </p>
-            <!-- Options for Item like reporting -->
-            <div class="news-settings dropup">
-              <i class="fas fa-ellipsis-h dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
-              <div class="dropdown-menu">
-                <a class="dropdown-item flag-event" href="#" title="Report"><i class="icon-flag"></i> Report</a>
-              </div>
-            </div>
+            {{> flagItem item="event"}}
           </div>
         </div>
       {{/each}}
@@ -76,13 +70,7 @@
                 <p class="location">
                   <i class="icon-location-pin"></i> <a target="_blank" href="https://www.google.com/maps/place/{{location}}/">{{location}}</a>
                 </p>
-                <!-- Options for Item like reporting -->
-                <div class="news-settings dropup">
-                  <i class="fas fa-ellipsis-h dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
-                  <div class="dropdown-menu">
-                    <a class="dropdown-item flag-event" href="#" title="Report"><i class="icon-flag"></i> Report</a>
-                  </div>
-                </div>
+                {{> flagItem item="event"}}
               </div>
             </div>
           </div>

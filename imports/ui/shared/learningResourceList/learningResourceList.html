@@ -22,13 +22,7 @@
                         </h4>
                         <p class="card-text">{{limitChars summary}}</p>
                         <hr />
-                        <!-- Options for Item like reporting -->
-                        <div class="news-settings dropup">
-                        <i class="fas fa-ellipsis-h dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item flag-learn" href="#" title="Report"><i class="icon-flag"></i> Report</a>
-                        </div>
-                        </div>
+                        {{> flagItem item="learn"}}
                     </div>
                 </div>
             {{/each}}
@@ -56,13 +50,7 @@
                             </h4>
                             <p class="card-text">{{limitChars summary}}</p>
                             <hr />
-                            <!-- Options for Item like reporting -->
-                            <div class="news-settings dropup">
-                            <i class="fas fa-ellipsis-h dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item flag-learn" href="#" title="Report"><i class="icon-flag"></i> Report</a>
-                            </div>
-                            </div>
+                            {{> flagItem item="learn"}}
                         </div>
                     </div>
                 </div>
