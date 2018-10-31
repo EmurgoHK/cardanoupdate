@@ -73,102 +73,15 @@
       </div>
       <div class="col-sm-12">
         <div class="row">
-          <!-- Projects -->
-          {{#if projectCount}}
-            <div class="col-sm-12">
-              <section class="content-container project">
-                <div class="section-title">
-                  Projects
-                  <div class="float-md-right pb-3">
-                    <a href="/projects">view all</a>
-                  </div>
-                </div>
-                <div class="section-content">
-                  {{> projectList projects=projects containerClass="row" cardWrapperClass="col-md-4"}}
-                </div>
-              </section>
+          <div class="section-content col-sm-12">
+            <div class="card-columns">
+                {{> projectList projects=projects containerClass="row" cardWrapperClass="col-md-4" isHome=true}}
+                {{> warningList warnings=warnings containerClass="row" cardWrapperClass="col-md-4" isHome=true}}
+                {{> eventList eventList=events containerClass="row" cardWrapperClass="col-md-4" isHome=true}}
+                {{> researchList research=research containerClass="row" cardWrapperClass="col-md-4" isHome=true}}
+                {{> learningResourceList learningResources=learn containerClass="row" cardWrapperClass="col-md-4" isHome=true}}
             </div>
-          {{/if}}
-          <!-- Warnings -->
-          {{#if warningCount}}
-          <div class="col-sm-12">
-            <section class="content-container warning">
-              <div class="section-title">
-                Scams
-                <div class="float-md-right pb-3">
-                  <a href="/scams">view all</a>
-                </div>
-              </div>
-              <div class="section-content">
-                  {{> warningList warnings=warnings containerClass="row" cardWrapperClass="col-md-4"}}
-              </div>
-            </section>
           </div>
-        {{/if}}
-          <!-- Events -->
-          {{#if eventCount}}
-            <div class="col-sm-12">
-              <section class="content-container events">
-                <div class="section-title">
-                  Upcoming Events
-                  <div class="float-md-right pb-3">
-                    <a href="/events">view all</a>
-                  </div>
-                </div>
-                <div class="section-content">
-                  {{> eventList eventList=events containerClass="row" cardWrapperClass="col-md-4"}}
-                </div>
-              </section>
-            </div>
-          {{/if}}
-          <!-- Research -->
-          {{#if researchCount}}
-            <div class="col-sm-12">
-              <section class="content-container research">
-                <div class="section-title">
-                  Research Papers
-                  <div class="float-md-right pb-3">
-                    <a href="/research">view all</a>
-                  </div>
-                </div>
-                <div class="section-content">
-                  {{> researchList research=research containerClass="row" cardWrapperClass="col-md-4"}}
-                </div>
-              </section>
-            </div>
-          {{/if}}
-          <!-- Learn -->
-          {{#if learnCount}}
-            <div class="col-sm-12">
-              <section class="content-container learn">
-                <div class="section-title">
-                  Learning resources
-                  <div class="float-md-right pb-3">
-                    <a href="/learn">view all</a>
-                  </div>
-                </div>
-                <div class="section-content">
-                  {{> learningResourceList learningResources=learn containerClass="row" cardWrapperClass="col-md-4"}}
-                </div>
-              </section>
-            </div>
-          {{/if}}
-          <!-- Social Resources -->
-          {{#if socialResourcesCount}}
-            <div class="col-sm-12">
-              <section class="content-container research">
-                <div class="section-title">
-                  Social Resources
-                  <div class="float-md-right pb-3">
-                    <a href="/community">view all</a>
-                  </div>
-                </div>
-                <div class="section-content">
-                  {{> socialResourceList socialResources=socialResources containerClass="row" cardWrapperClass="col-md-4"}}
-                </div>
-              </section>
-            </div>
-          {{/if}}
         </div>
       </div>
     </div>
