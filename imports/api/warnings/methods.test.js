@@ -15,8 +15,6 @@ describe('warning methods', () => {
         return callWithPromise('addWarning', {
             headline: 'Test headline',
             summary: 'Test summary',
-            github_url: 'test',
-            type: 'built-on-cardano'
         }).then(data => {
             let warning = Warnings.findOne({
                 _id: data
@@ -26,8 +24,6 @@ describe('warning methods', () => {
 
             assert.ok(warning.headline === 'Test headline')
             assert.ok(warning.summary === 'Test summary')
-            assert.ok(warning.github_url === 'test')
-            assert.ok(warning.type === 'built-on-cardano')
         })
     })
 
@@ -91,9 +87,6 @@ describe('warning methods', () => {
             projectId: warning._id,
             headline: 'Test headline 2',
             summary: 'Test summary 2',
-            github_url: 'test',
-            website: 'test web',
-            type: 'built-for-cardano'
         }).then(data => {
             let warning2 = Warnings.findOne({
                 _id: warning._id
@@ -103,9 +96,6 @@ describe('warning methods', () => {
 
             assert.ok(warning2.headline === 'Test headline 2')
             assert.ok(warning2.summary === 'Test summary 2')
-            assert.ok(warning2.github_url === 'test')
-            assert.ok(warning2.website === 'test web')
-            assert.ok(warning2.type === 'built-for-cardano')
         })
     })
 
@@ -122,9 +112,7 @@ describe('warning methods', () => {
         return callWithPromise('editWarning', {
             projectId: warning,
             headline: 'Test headline 2',
-            summary: 'Test summary 2',
-            github_url: 'test',
-            website: 'test web'
+            summary: 'Test summary 2'
         }).then(data => {}).catch(error => {
             assert.ok(error)
         })
@@ -164,7 +152,6 @@ describe('warning methods', () => {
         let warning = Warnings.insert({
             headline: 'a',
             summary: 'b',
-            github_url: 'c',
             createdBy: 'not-me',
             createdAt: new Date().getTime()
         })
