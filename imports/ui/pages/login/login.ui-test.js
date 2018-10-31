@@ -6,7 +6,7 @@ describe('Sign in page', () => {
         browser.url(baseUrl)
         browser.pause(6000)
 
-        ;['facebook', 'github', 'google'].forEach(i => {
+        ;['facebook'].forEach(i => {
             assert(browser.isExisting(`#js-${i}`), true)
             assert(browser.isVisible(`#js-${i}`), true)
         })

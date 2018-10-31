@@ -33,28 +33,6 @@ Template.login.events({
             }
         })
     },
-    'click #js-github': (event, templateInstance) => {
-        event.preventDefault()
-
-        Meteor.loginWithGithub({}, (err) => {
-            if (!err) {
-                FlowRouter.go(window.last || '/')
-            } else {
-                notify(err.message, 'error')
-            }
-        })
-    },
-    'click #js-google': (event, templateInstance) => {
-        event.preventDefault()
-
-        Meteor.loginWithGoogle({}, (err) => {
-            if (!err) {
-                FlowRouter.go(window.last || '/')
-            } else {
-                notify(err.message, 'error')
-            }
-        })
-    }
 })
 
 // Password Reset
