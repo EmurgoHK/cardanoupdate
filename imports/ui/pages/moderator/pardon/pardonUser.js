@@ -49,11 +49,6 @@ Template.pardonUser.helpers({
 	pardons: () => Meteor.users.find({
 		'pardon.status': 'new'
 	}),
-	username: function() {
-		return ((Meteor.users.findOne({
-			_id: this._id
-		}) || {}).profile || {}).name
-	},
 	offences: function() {
 		return this.strikes && this.strikes.map(i => ({
 			date: moment(i.time).fromNow(),

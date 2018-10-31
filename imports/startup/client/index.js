@@ -18,6 +18,8 @@ import '/imports/ui/shared/socialResourceList/socialResourceList';
 import '/imports/ui/shared/warningList/warningList';
 import '/imports/ui/shared/flagItem/flagItem';
 
+import '/imports/ui/shared/userNameDisplay/userNameDisplay';
+
 import './routes'
 
 // Blaze helpers
