@@ -32,15 +32,17 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-sm-12">
+              <div class="col-sm-6">
                 <a class="btn btn-secondary flag-event" href="#" title="Report"><i class="fas fa-exclamation-triangle"></i></a>
+              </div>
+              <div class="col-sm-6 text-right">
                 {{#if watching}}
-                <a class="btn btn-success watch-event" href="#" title="Unwatch"><i class="icon-eye"></i></a>
+                <a class="btn btn-success watch-event" href="#" title="Unfollow">Following</a>
                 {{else}}
-                <a class="btn btn-secondary watch-event" href="#" title="Watch"><i class="icon-eye"></i></a>
+                <a class="btn btn-secondary watch-event" href="#" title="Follow">Follow</a>
                 {{/if}}
+              </div>
             </div>
-          </div>
           </div>
         </div>
         {{/with}}
