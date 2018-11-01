@@ -120,6 +120,7 @@ FlowRouter.route('/projects', {
 
 FlowRouter.route('/projects/new', {
   name: 'newProject',
+  triggersEnter : [userLoginFilter], 
   action() {
     BlazeLayout.render('main', {
       header: 'header',
@@ -131,6 +132,7 @@ FlowRouter.route('/projects/new', {
 
 FlowRouter.route('/projects/:id/edit', {
   name: 'editProject',
+  triggersEnter : [userLoginFilter], 
   action() {
     BlazeLayout.render('main', {
       header: 'header',
@@ -164,6 +166,7 @@ FlowRouter.route('/scams', {
 
 FlowRouter.route('/scams/new', {
   name: 'newWarning',
+  triggersEnter : [userLoginFilter], 
   action() {
     BlazeLayout.render('main', {
       header: 'header',
@@ -175,6 +178,7 @@ FlowRouter.route('/scams/new', {
 
 FlowRouter.route('/scams/:id/edit', {
   name: 'editWarning',
+  triggersEnter : [userLoginFilter], 
   action() {
     BlazeLayout.render('main', {
       header: 'header',
@@ -208,6 +212,7 @@ FlowRouter.route('/community', {
 
 FlowRouter.route('/community/new', {
   name: 'newSocialResource',
+  triggersEnter : [userLoginFilter], 
   action() {
     BlazeLayout.render('main', {
       header: 'header',
@@ -252,6 +257,7 @@ FlowRouter.route('/research', {
 
 FlowRouter.route('/research/new', {
   name: 'newResearch',
+  triggersEnter : [userLoginFilter], 
   action() {
     BlazeLayout.render('main', {
       header: 'header',
@@ -263,6 +269,7 @@ FlowRouter.route('/research/new', {
 
 FlowRouter.route('/research/:slug/edit', {
   name: 'editResearch',
+  triggersEnter : [userLoginFilter], 
   action() {
     BlazeLayout.render('main', {
       header: 'header',
@@ -296,6 +303,7 @@ FlowRouter.route('/learn', {
 
 FlowRouter.route('/learn/new', {
   name: 'newLearn',
+  triggersEnter : [userLoginFilter], 
   action() {
     BlazeLayout.render('main', {
       header: 'header',
@@ -307,6 +315,7 @@ FlowRouter.route('/learn/new', {
 
 FlowRouter.route('/learn/:slug/edit', {
   name: 'editLearn',
+  triggersEnter : [userLoginFilter], 
   action() {
     BlazeLayout.render('main', {
       header: 'header',
@@ -340,6 +349,7 @@ FlowRouter.route('/events', {
 
 FlowRouter.route('/events/new', {
   name: 'newEvent',
+  triggersEnter : [userLoginFilter], 
   action() {
     BlazeLayout.render('main', {
       header: 'header',
@@ -351,6 +361,7 @@ FlowRouter.route('/events/new', {
 
 FlowRouter.route('/events/:id/edit', {
   name: 'editEvent',
+  triggersEnter : [userLoginFilter], 
   action() {
     BlazeLayout.render('main', {
       header: 'header',
@@ -395,6 +406,7 @@ FlowRouter.route('/uploader-test', {
 
 FlowRouter.route('/profile/:userId/edit', {
   name: 'editProfile',
+  triggersEnter : [userLoginFilter], 
   action() {
     BlazeLayout.render('main', {
       header: 'header',
@@ -519,3 +531,4 @@ FlowRouter.notFound = {
     })
   }
 }
+
