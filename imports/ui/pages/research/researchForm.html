@@ -27,9 +27,9 @@
             <li class="input-group">
               <input type="text" class="form-control linkDisplayName" data-index="{{@index}}" maxlength="25" placeholder="Display name in 25 characters or less" value={{link.displayName}} >
               <input type="text" class="form-control linkUrl" data-index="{{@index}}" placeholder="URL" value="{{link.url}}">
+              <button class="btn btn-link remove-link" data-index="{{@index}}"> <i class="fas fa-trash"></i></button>
               <div id="links_{{@index}}_urlError" class="invalid-feedback"></div>
               <div id="links_{{@index}}_displayNameError" class="invalid-feedback"></div>
-              <button class="btn btn-link remove-link"><i class="fas fa-trash"></i></button>
             </li>
           {{/each}}
           <button class="btn btn-link" id="add-link">Add</button>

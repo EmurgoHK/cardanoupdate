@@ -157,7 +157,8 @@ Template.researchForm.events({
 		event.preventDefault()
 		
 		const links = templateInstance.links.get();
-		links.splice(links.indexOf(this), 1);
+		const index = Number.parseInt(event.currentTarget.dataset["index"]);
+		links.splice(index, 1);
 		templateInstance.links.set(links);
 	}
 })
