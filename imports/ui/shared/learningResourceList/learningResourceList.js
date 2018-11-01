@@ -19,8 +19,11 @@ Template.learningResourceList.helpers({
   cardWrapperClasses() {
     return Template.parentData().cardWrapperClass || "";
   },
-  canEdit: function() {
-    return this.createdBy === Meteor.userId();
+  editURL() {
+    if(this.createdBy === Meteor.userId()){
+      return `/learn/${this.slug}/edit`
+    }
+    return false
   },
   limitChars(val) {
     return val && val.length > 50 ? val.slice(0, 50) + " ... " : val;

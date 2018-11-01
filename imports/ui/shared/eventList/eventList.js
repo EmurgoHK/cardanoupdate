@@ -20,8 +20,11 @@ Template.eventList.helpers({
   limitChars(val) {
     return val && val.length > 50 ? val.slice(0, 50) + " ... " : val;
   },
-  canEdit() {
-    return this.createdBy === Meteor.userId();
+  editURL() {
+    if(this.createdBy === Meteor.userId()){
+      return `/events/${this._id}/edit`
+    }
+    return false
   },
   eventLabel() {
     let now = moment();

@@ -19,8 +19,11 @@ Template.warningList.helpers({
   cardWrapperClasses() {
     return Template.parentData().cardWrapperClass || "";
   },
-  canEdit() {
-    return this.createdBy === Meteor.userId();
+  editURL() {
+    if(this.createdBy === Meteor.userId()){
+      return `/scams/${this._id}/edit`
+    }
+    return false
   },
   limitChars(val) {
     return val && val.length > 50 ? val.slice(0, 50) + " ... " : val;

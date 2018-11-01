@@ -1,10 +1,8 @@
 .card.warning {
   .card-title {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    font-size: 1em;
   }
   .card-text {
-    height: 3em;
+    height: 4em;
   }
 }

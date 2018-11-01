@@ -19,8 +19,11 @@ Template.researchList.helpers({
   limitChars(val) {
     return val && val.length > 50 ? val.slice(0, 50) + " ... " : val;
   },
-  canEdit: function() {
-    return this.createdBy === Meteor.userId();
+  editURL() {
+    if(this.createdBy === Meteor.userId()){
+      return `/research/${this.slug}/edit`
+    }
+    return false
   },
 });
 
