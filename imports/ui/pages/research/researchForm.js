@@ -12,11 +12,9 @@ import '/imports/ui/shared/uploader/uploader'
 import { getFiles } from '/imports/ui/shared/uploader/uploader'
 
 const maxCharValue = (inputId) => {
-    if (inputId === 'headline') {
-    	return 90
-    }
-
-    return 1000
+  if (inputId === 'headline') {
+    return 90
+  }
 }
 
 Template.researchForm.onCreated(function() {

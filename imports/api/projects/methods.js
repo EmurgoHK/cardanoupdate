@@ -21,7 +21,7 @@ export const addProject = new ValidatedMethod({
             },
             description: {
                 type: String,
-                max: 260,
+                // max: 260,
                 optional: false
             },
             github_url: {
@@ -144,7 +144,7 @@ export const editProject = new ValidatedMethod({
             },
             description: {
                 type: String,
-                max: 260,
+                // max: 260,
                 optional: false
             },
             github_url: {

@@ -9,16 +9,16 @@
         <form>
           <div class="group-title">Name</div>
           <div class="input-group">
-            <input type="text" class="form-control" id="headline" value="{{research.headline}}" placeholder="Name in 25 characters or less">
+            <input type="text" class="form-control" id="headline" value="{{research.headline}}" placeholder="Name in 90 characters or less">
             <div id="headlineError" class="invalid-feedback"></div>
           </div>
           <small><i id="headline-chars" class="text-muted"></i></small>
           <div class="group-title">Abstract</div>
           <div class="input-group">
-            <textarea class="form-control" id="abstract" rows="6" value="{{research.abstract}}" placeholder="Research paper abstract in 1000 characters or less"></textarea>
+            <textarea class="form-control" id="abstract" rows="6" value="{{research.abstract}}" placeholder="Research paper abstract"></textarea>
             <div id="abstractError" class="invalid-feedback"></div>
           </div>
-          <small><i id="abstract-chars" class="text-muted"></i></small>
+          <!-- <small><i id="abstract-chars" class="text-muted"></i></small> -->
           <div class="group-title">PDF file</div>
           {{> uploader files=pdf single=true type='pdf'}}
         </form>
