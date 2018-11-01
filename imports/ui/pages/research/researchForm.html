@@ -6,7 +6,7 @@
             {{#if add}}New research{{else}}Edit research{{/if}}
         </h2>
         <hr>
-        <form>
+        <form class="researchForm">
           <div class="group-title">Name</div>
           <div class="input-group">
             <input type="text" class="form-control" id="headline" value="{{research.headline}}" placeholder="Name in 90 characters or less">
@@ -21,6 +21,19 @@
           <!-- <small><i id="abstract-chars" class="text-muted"></i></small> -->
           <div class="group-title">PDF file</div>
           {{> uploader files=pdf single=true type='pdf'}}
+          <div class="group-title"> Links </div>
+          <ul class="added-links">
+          {{#each link in links}}
+            <li class="input-group">
+              <input type="text" class="form-control linkDisplayName" data-index="{{@index}}" maxlength="25" placeholder="Display name in 25 characters or less" value={{link.displayName}} >
+              <input type="text" class="form-control linkUrl" data-index="{{@index}}" placeholder="URL" value="{{link.url}}">
+              <div id="links_{{@index}}_urlError" class="invalid-feedback"></div>
+              <div id="links_{{@index}}_displayNameError" class="invalid-feedback"></div>
+              <button class="btn btn-link remove-link"><i class="fas fa-trash"></i></button>
+            </li>
+          {{/each}}
+          <button class="btn btn-link" id="add-link">Add</button>
+        </ul>
         </form>
       </div>
       <div class="card-footer">

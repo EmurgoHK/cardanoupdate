@@ -11,6 +11,32 @@ Meteor.users.findOne = () => ({ _id: 'test-user', profile: { name: 'Test User'},
 Meteor.user = () => ({ _id: 'test-user', profile: { name: 'Test User'}, moderator: true })
 
 describe('research methods', () => {
+    it('user can add a new research item with links', () => {
+        return callWithPromise('newResearch', {
+            headline: 'Test headline',
+            abstract: 'Test abstract',
+            pdf: '/test.pdf',
+            links: [
+                {url: 'https://google.com', displayName: 'google'},
+            ]
+        }).then(data => {
+            let research = Research.findOne({
+                _id: data
+            })
+
+            assert.ok(research)
+
+            assert.ok(research.headline === 'Test headline')
+            assert.ok(research.abstract === 'Test abstract')
+            assert.ok(research.pdf === '/test.pdf')
+
+            assert.ok(research.links);
+            assert.lengthOf(research.links, 1);
+            assert.equal(research.links[0].url, "https://google.com");
+            assert.equal(research.links[0].displayName, "google");
+        })
+    })
+
     it('user can add a new research item', () => {
         return callWithPromise('newResearch', {
             headline: 'Test headline',
