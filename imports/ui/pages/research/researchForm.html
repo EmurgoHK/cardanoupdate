@@ -21,6 +21,7 @@
           <!-- <small><i id="abstract-chars" class="text-muted"></i></small> -->
           <div class="group-title">PDF file</div>
           {{> uploader files=pdf single=true type='pdf'}}
+          <div id="pdfError" class="invalid-feedback"></div>
           <div class="group-title"> Links </div>
           <ul class="added-links">
           {{#each link in links}}
