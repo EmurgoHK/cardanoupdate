@@ -3,7 +3,6 @@ import { FlowRouter } from 'meteor/kadira:flow-router'
 
 import { uploadImage, uploadPDF } from '/imports/api/uploader/methods'
 import { notify } from '/imports/modules/notifier'
-import { updateProfile } from '/imports/api/user/methods'
 
 import('crypto-js').then(c => window.CryptoJS = c.default)
 import swal from 'sweetalert2'
@@ -109,6 +108,17 @@ export const getFiles = (id, reset) => {
     return files
 }
 
+/*
+Uploader is a shared component used on a lot of templates
+When used, it accepts the following optional parameters: 
+- files ([String]) - An array of already uploaded files to show in the preview element
+- type (String) - Type of the uploader that should be used. Currently, this can be 'image' (default value) or 'pdf'
+- id (String) - Unique id of the uploader component. This param is only used if you want to have more than one uploader component on a single page.
+- single (Boolean) - A flag that's used to denote whether the uploader should only accept one file or should it accept multiple files
+
+Only modify the uploader code below if you're modifying the uplaoder itself (e.g. extending its functionality, adding new features, etc)
+In other cases, if you want to change what's done with uploaded files, modify the template that's using the uploader and not the uploader itself
+*/
 Template.uploader.onCreated(function() {
     this.files = new ReactiveVar([])
 
@@ -131,7 +141,6 @@ Template.uploader.helpers({
 
 Template.uploader.events({
     'change .fileInput': (event, templateInstance) => {
-        event.preventDefault();
         if ($(event.target).data('id') !== templateInstance.id) { // don't react to events that aren't yours
             return 
         }
@@ -177,18 +186,6 @@ Template.uploader.events({
                             $(`#fileUploadValue-${templateInstance.id}`).html('Change')
                             $(`#fileInputLabel-${templateInstance.id}`).removeClass('btn-primary').removeClass('btn-danger').addClass('btn-success')
                         }
-                        updateProfile.call({
-                          uId : Meteor.userId(),
-                          name : $(`#userName`).val(),
-                          email : $(`#userEmail`).val(),
-                          bio : $(`#bio`).val(),
-                          image: getFiles()[0] || ''
-                        }, (err, res) => {
-                          if(err){
-                            console.log(err)
-                          }
-                          // history.back()
-                        })
                     }
                 })
             }

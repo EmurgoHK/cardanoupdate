@@ -10,23 +10,27 @@
             <div  class="group-title" for="userName">Name</div>
             <div class="input-group">
               <input type="text" class="form-control" id="userName" value={{user.name}}>
+              <div id="nameError" class="invalid-feedback"></div>
             </div>
             <div  class="group-title" for="userEmail">Email address</div>
             <div class="input-group">
               <input type="text" class="form-control" id="userEmail" value={{user.email}}>
+              <div id="emailError" class="invalid-feedback"></div>
             </div>
             <div  class="group-title" for="bio">About Me</div>
             <div class="input-group">
               <textarea class="form-control" id="bio" rows="3">{{user.bio}}</textarea>
+              <div id="bioError" class="invalid-feedback"></div>
             </div>
             <div  class="group-title" for="bio">Profile image</div>
             <div class="input-group">
               {{> uploader files=images single=true}}
+              <div id="imageError" class="invalid-feedback"></div>
             </div>
       </div>
       <div class="card-footer">
         <div class="input-group">
-          <button type="submit" class="btn btn-success btn-lg">Save changes</button>
+          <button type="submit" class="btn btn-success btn-lg save-changes">Save changes</button>
         </div>
       </div>
     </form>

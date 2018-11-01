@@ -79,8 +79,8 @@ describe('Learn page', function () {
     })
 
     it('user can flag a learning resource', () => {
-        browser.execute(() => $('.news-settings').find('.dropdown-menu').addClass('show'))
-        browser.pause(3000)
+        browser.execute(() => $('.dropdown-toggle').trigger('click'))
+        browser.pause(2000)
 
         browser.click('.flag-learn')
         browser.pause(2000)

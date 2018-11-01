@@ -93,6 +93,9 @@ describe('Projects page', function () {
     })
 
     it('user can flag a project', () => {
+        browser.execute(() => $('.dropdown-toggle').trigger('click'))
+        browser.pause(2000)
+        
         browser.click('.flag-project')
         browser.pause(2000)
 

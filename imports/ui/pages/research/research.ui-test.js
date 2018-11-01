@@ -81,8 +81,8 @@ describe('Research page', function () {
     })
 
     it('user can flag research', () => {
-        browser.execute(() => $('.news-settings').find('.dropdown-menu').addClass('show'))
-        browser.pause(3000)
+        browser.execute(() => $('.dropdown-toggle').trigger('click'))
+        browser.pause(2000)
 
         browser.click('.flag-research')
         browser.pause(2000)
