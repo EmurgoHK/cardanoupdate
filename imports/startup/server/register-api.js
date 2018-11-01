@@ -53,6 +53,9 @@ import '/imports/api/socialResources/server/startup'
 import '/imports/api/learn/methods'
 import '/imports/api/learn/server/publications'
 
+// search api
+import '/imports/api/search/search'
+
 
 // tags
 import '/imports/api/tags/methods'

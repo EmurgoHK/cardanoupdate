@@ -14,6 +14,7 @@
     "assert": "^1.4.1",
     "bcrypt": "^3.0.1",
     "bootstrap": "^4.1.1",
+    "core-js": "^2.5.7",
     "crypto-js": "^3.1.9-1",
     "daterangepicker": "^3.0.3",
     "fibers": "^1.0.15",

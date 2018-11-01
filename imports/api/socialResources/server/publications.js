@@ -18,3 +18,20 @@ Meteor.publish('socialResources.item', (id) => socialResources.find({
 		createdAt: -1
 	}
 }))
+
+ Meteor.publish('socialResources.search', (q) => socialResources.find(        {
+          $or: [{
+            Name: {
+              $regex: new RegExp(q, "i")
+            }
+          }, {
+            description: {
+              $regex: new RegExp(q, "i")
+            }
+          }
+          ]
+        }, {
+  sort: {
+    createdAt: -1
+  }
+}))

@@ -30,6 +30,19 @@
       </li>
     </ul>
     <ul class="nav navbar-nav ml-auto  mr-3">
+                  <li class="nav-item">
+               <form class="form-inline center">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text d-none d-sm-block" style="border: none; background: #e4e7ea">
+                                <i class="nav-icon icon-magnifier" style="cursor: pointer;" id="searchButton"></i>
+                            </div>
+                        </div>
+                        <input autocomplete="false" class="form-control mr-sm-2 mr-3 searchHeader d-none d-md-block" type="search" id="searchHeader" placeholder="Search here.." aria-label="Search" required>
+                        
+                    </div>
+                </form>
+      </li>
       <li class="nav-item d-md-down-none">
         <a class="nav-link" target="blank" style="padding-top : 2px;" href="https://github.com/EmurgoHK/cardanoupdate">
           <i class="nav-icon icon-social-github"></i>
@@ -41,6 +54,7 @@
           {{#if notificationsCount}}<span class="badge badge-pill badge-danger">{{notificationsCount}}</span>{{/if}}
         </a>
       </li>
+
       <li class="nav-item dropdown">
         {{#if currentUser}}
         <a class="nav-link dropdown-toggle d-none d-sm-block" href="#" id="dropdownMenu2" data-toggle="dropdown" aria-expanded="true">

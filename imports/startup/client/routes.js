@@ -41,6 +41,8 @@ import '/imports/ui/pages/moderator/pardon/pardon'
 import '/imports/ui/pages/moderator/pardon/pardonUser'
 import '/imports/ui/pages/addNewModal/addNewModal'
 
+import '/imports/ui/pages/search/search'
+
 const userLoginFilter = (context, redirect, _stop) => {
   let oldRoute = '/'
   let authRoutes = ['/login', '/signup']
@@ -465,6 +467,16 @@ FlowRouter.route('/signup', {
   action() {
     BlazeLayout.render('auth', {
       main: 'signup'
+    })
+  }
+})
+FlowRouter.route('/search', {
+  name: 'search',
+  action() {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'search'
     })
   }
 })
