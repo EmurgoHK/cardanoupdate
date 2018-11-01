@@ -67,7 +67,7 @@ describe('Projects page', function () {
     })
 
     it('user can edit a project he/she created', () => {
-        browser.execute(() => $('.news-settings').find('.dropdown-menu').addClass('show'))
+        browser.execute(() => $($('.fa-ellipsis-h').get(0)).trigger('click'))
         browser.pause(3000)
 
         browser.click('#js-edit')
@@ -90,17 +90,6 @@ describe('Projects page', function () {
 
         assert(browser.execute(() => $('h1.card-title').text() === 'Headline Test 2').value, true)
         assert(browser.execute(() => $('.news-body').text().trim() === 'Description Test').value, true)
-    })
-
-    it('user can flag a project', () => {
-        browser.execute(() => $('.dropdown-toggle').trigger('click'))
-        browser.pause(2000)
-        
-        browser.click('.flag-project')
-        browser.pause(2000)
-
-        browser.click('#spam')
-        browser.pause(3000)
     })
 
     it('user can post cool stuff', () => {
@@ -183,7 +172,7 @@ describe('Projects page', function () {
 
         let count = browser.execute(() => $('.card').length).value
 
-        browser.execute(() => $('.news-settings').find('.dropdown-menu').addClass('show'))
+        browser.execute(() => $($('.fa-ellipsis-h').get(0)).trigger('click'))
         browser.pause(1000)
 
         browser.click('#js-remove')
