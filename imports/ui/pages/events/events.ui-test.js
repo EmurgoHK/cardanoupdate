@@ -77,6 +77,9 @@ describe('Events page', function () {
     })
 
     it('user can flag a event', () => {
+        browser.execute(() => $('.dropdown-toggle').trigger('click'))
+        browser.pause(2000)
+        
         browser.click('.flag-event')
         browser.pause(2000)
 

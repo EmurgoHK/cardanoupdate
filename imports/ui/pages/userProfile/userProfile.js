@@ -5,6 +5,8 @@ import { Research } from '/imports/api/research/research'
 import { updateProfile } from '/imports/api/user/methods'
 import { FlowRouter } from 'meteor/kadira:flow-router'
 
+import { notify } from '/imports/modules/notifier'
+
 import './viewProfile.html'
 import './editProfile.html'
 import './userProfile.scss'
@@ -105,19 +107,35 @@ Template.editProfile.helpers({
 })
 
 Template.editProfile.events({
-  'submit #editProfileForm'(event){
+  'click .save-changes': (event, templateInstance) => {
     event.preventDefault()
     updateProfile.call({
       uId : Meteor.userId(),
-      name : event.target.userName.value,
-      email : event.target.userEmail.value,
-      bio : event.target.bio.value,
+      name : $('#userName').val(),
+      email : $('#userEmail').val(),
+      bio : $('#bio').val(),
       image: getFiles()[0] || ''
     }, (err, res) => {
-      if(err){
-        console.log(err)
+      if (!err) {
+        notify('Successfully updated.')
+
+        history.back()
+
+        return
       }
-      history.back()
+
+      if (err.details === undefined && err.reason) {
+        notify(err.reason, 'error')
+        return
+      }
+
+      if (err.details && err.details.length >= 1) {
+        err.details.forEach(e => {
+          $(`#${e.name}`).addClass('is-invalid')
+          $(`#${e.name}Error`).show()
+          $(`#${e.name}Error`).text(e.message)
+        })
+      }
     })
   },
 })
