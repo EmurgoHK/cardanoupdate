@@ -17,7 +17,6 @@ import 'select2'
 
 const maxCharValue = (inputId) => {
   if (inputId === 'headline') { return 90 }
-  return 260
 }
 
 Template.projectForm.onCreated(function() {
