@@ -1,0 +1,97 @@
+<template name="search">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row justify-content-center">
+                    <div class="col-12 col-md-10 col-lg-8">
+                        <form class="card card-sm">
+                            <div class="card-body row no-gutters align-items-center">
+                                <div class="col-auto">
+                                    <i class="fas fa-search h4 text-body"></i>
+                                </div>
+                                <div class="col">
+                                    <input class="form-control form-control-lg form-control-borderless searchInput" type="search" placeholder="Search for anything!" value="{{query}}" autocomplete="false" required>
+                                </div>
+                                <div class="col-auto">
+                                    <button class="btn btn-lg purpleButton" id="searchButton" type="button">Search</button>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+            Found {{recordsFound}} records
+              <br />
+        <hr>
+        <div class="card">
+            <div class="card-body">
+
+             {{#unless recordsFound}}
+             <h2>Ermahgerd!! no records found</h2>
+             {{/unless}}
+
+                <!-- PROJECTS -->
+                {{#each projects}}
+                <a href="/projects/{{slug}}">{{headline}}</a> <br />
+                {{description}} <br />
+                <span class="badge badge-secondary">PROJECT</span>
+                <div class="float-right">{{showLocalTimestamp createdAt}}</div>
+                <br />
+                <hr>
+                {{/each}}
+
+                <!-- EVENT -->
+                {{#each events}}
+                <a href="/events/{{slug}}">{{headline}}</a> <br />
+                {{description}} <br />
+                <span class="badge badge-secondary">EVENT</span>
+                <div class="float-right">{{showLocalTimestamp createdAt}}</div>
+                <br />
+                <hr>
+                {{/each}}
+
+                <!-- LEARN -->
+                {{#each learn}}
+                <a href="/learn/{{slug}}">{{title}}</a> <br />
+                {{summary}} <br />
+                <span class="badge badge-secondary">LEARN</span>
+                <div class="float-right">{{showLocalTimestamp createdAt}}</div>
+                <br />
+                <hr>
+                {{/each}}
+
+                 <!-- RESEARCH -->
+                {{#each research}}
+                <a href="/research/{{slug}}">{{headline}}</a> <br />
+                {{abstract}} <br />
+                <span class="badge badge-secondary">RESEARCH</span>
+                <div class="float-right">{{showLocalTimestamp createdAt}}</div>
+                <br />
+                <hr>
+                {{/each}}
+
+                 <!-- WARNING -->
+                {{#each warnings}}
+                <a href="/scams/{{slug}}">{{headline}}</a> <br />
+                {{summary}} <br />
+                <span class="badge badge-secondary">SCAMS</span>
+                <div class="float-right">{{showLocalTimestamp createdAt}}</div>
+                <br />
+                <hr>
+                {{/each}}
+
+                 <!-- SOCIAL RESOURCES -->
+                {{#each socialResources}}
+                <a href="/community/{{slug}}">{{Name}}</a> <br />
+                {{description}} <br />
+                <span class="badge badge-secondary">COMMUNITY</span>
+                <div class="float-right">{{showLocalTimestamp createdAt}}</div>
+                <br />
+                <hr>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</template>

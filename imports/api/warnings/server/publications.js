@@ -16,3 +16,20 @@ import { Warnings } from '../warnings'
 		createdAt: -1
 	}
 })) 
+
+ Meteor.publish('warnings.search', (q) => Warnings.find(        {
+          $or: [{
+            headline: {
+              $regex: new RegExp(q, "i")
+            }
+          }, {
+            summary: {
+              $regex: new RegExp(q, "i")
+            }
+          }
+          ]
+        }, {
+  sort: {
+    createdAt: -1
+  }
+}))
