@@ -135,7 +135,7 @@ Template.tags.events({
       .map(txt => txt.trim().toUpperCase())
       .filter(a => a.length > 0);
 
-    FlowRouter.setParams({ searchText: inputTags.join(",") });
+    FlowRouter.setQueryParams({ search: inputTags.join(",") });
 
     templateInstance.searchFilter.set(inputTags);
   }
