@@ -21,8 +21,11 @@ Template.projectList.helpers({
   cardWrapperClasses() {
     return Template.parentData().cardWrapperClass || "";
   },
-  canEdit() {
-    return this.createdBy === Meteor.userId();
+  editURL() {
+    if(this.createdBy === Meteor.userId()){
+      return `/projects/${this._id}/edit`
+    }
+    return false
   },
   limitChars(val) {
     return val && val.length > 50 ? val.slice(0, 50) + " ... " : val;
@@ -62,7 +65,6 @@ Template.projectList.events({
   },
   "click #js-remove": function(event, _) {
     event.preventDefault();
-
     swal({
       text: `Are you sure you want to remove this Project? This action is not reversible.`,
       type: "warning",
