@@ -62,24 +62,27 @@
           </div>
         </div>
       </div>
-      <!-- Add New Content -->
-      <div class="col-sm-12">
+      <!-- <div class="col-sm-12">
         <div class="add-new-content">
           <button class="btn btn-outline-primary mb-3" id="add-new">
             <i class="fa fa-plus"></i>
             NEW
           </button>
         </div>
-      </div>
+      </div> -->
       <div class="col-sm-12">
         <div class="row">
           <div class="section-content col-sm-12">
             <div class="card-columns">
-                {{> projectList projects=projects containerClass="row" cardWrapperClass="col-md-4" isHome=true}}
-                {{> warningList warnings=warnings containerClass="row" cardWrapperClass="col-md-4" isHome=true}}
-                {{> eventList eventList=events containerClass="row" cardWrapperClass="col-md-4" isHome=true}}
-                {{> researchList research=research containerClass="row" cardWrapperClass="col-md-4" isHome=true}}
-                {{> learningResourceList learningResources=learn containerClass="row" cardWrapperClass="col-md-4" isHome=true}}
+              <!-- Add New Content -->
+              <div class="card add-new-content btn btn-outline-primary">
+                <a id="add-new"> <i class="fa fa-plus"></i> Add new content</a>
+              </div>
+              {{> projectList projects=projects containerClass="row" cardWrapperClass="col-md-4" isHome=true}}
+              {{> warningList warnings=warnings containerClass="row" cardWrapperClass="col-md-4" isHome=true}}
+              {{> eventList eventList=events containerClass="row" cardWrapperClass="col-md-4" isHome=true}}
+              {{> researchList research=research containerClass="row" cardWrapperClass="col-md-4" isHome=true}}
+              {{> learningResourceList learningResources=learn containerClass="row" cardWrapperClass="col-md-4" isHome=true}}
             </div>
           </div>
         </div>
