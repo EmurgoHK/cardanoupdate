@@ -18,7 +18,7 @@
                                 <h4><a class="card-title" href="{{link}}">{{text}}</a></h4> 
                                 <h6 class="card-subtitle mt-2 mb-2 text-muted"><strong>Flagged {{times}}, because:</strong></h6>
                                 {{#each reasons}}
-                                    <p class="card-text">{{reason}} by {{author}}</p>
+                                    <p class="card-text">{{reason}} by {{> userNameDisplay author}}</p>
                                 {{/each}}
                             </div>
 

@@ -43,11 +43,7 @@ Template.viewEvent.helpers({
   event: () => Events.findOne({
     slug: FlowRouter.getParam('slug')
   }),
-  author: function () {
-    return ((Meteor.users.findOne({
-      _id: this.createdBy
-    }) || {}).profile || {}).name || 'No name'
-  },
+  author: () =>Meteor.users.findOne({_id: Template.currentData().createdBy}),
   comments: () => {
     let event = Events.findOne({
     slug: FlowRouter.getParam('slug')

@@ -8,7 +8,7 @@ import { Projects } from '/imports/api/projects/projects'
 import { Comments } from '/imports/api/comments/comments'
 
 import { newComment } from '/imports/api/comments/methods' 
-import { flagProject } from '/imports/api/projects/methods'
+import { flagProject, proposeNewData } from '/imports/api/projects/methods'
 
 import { notify } from '/imports/modules/notifier'
 
@@ -44,11 +44,7 @@ Template.viewProject.helpers({
 	project: () => Projects.findOne({
 		slug: FlowRouter.getParam('slug')
 	}),
-	author: function() {
-        return ((Meteor.users.findOne({
-            _id: this.createdBy
-        }) || {}).profile || {}).name || 'No name'
-    },
+	author: () => Meteor.users.findOne({_id: Template.currentData().createdBy}),
     coolStuff: () => {
     	let project = Projects.findOne({
 			slug: FlowRouter.getParam('slug')
@@ -91,10 +87,8 @@ Template.viewProject.helpers({
 		  	type: 'redflag'
 		}).count()
 	},
-	tagName: function(tag) {
-		if (tag.name != undefined) return tag.name
-		return tag
-	}
+	tagName: (tag) => tag.name,
+	tagUrl: (tag) => `/tags?search=${encodeURIComponent(tag.name)}`,
 })
 
 Template.viewProject.events({

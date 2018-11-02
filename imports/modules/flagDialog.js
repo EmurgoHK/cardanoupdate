@@ -7,7 +7,7 @@ import { notify } from '/imports/modules/notifier'
 // fcn is the function that's called when an item is flagged (i.e. flagProject)
 // field represents the field name for _id in method call (i.e. projectId)
 // msg is a custom message that will be displayed to the user on successfull flagging
-export const flagDialog = function(fcn, field, msg) {
+export const flagDialog = function(fnc, field, msg) {
     swal({
         title: 'Why are you reporting this?',
         html: `<div class="p-3"><span id="spam" class="flag-action btn btn-warning p-3" style="width: 40%">This is spam</span>
@@ -21,7 +21,7 @@ export const flagDialog = function(fcn, field, msg) {
     })
 
     $(document).on('click', '.flag-action', (event) => {
-        fcn.call({
+        fnc.call({
             [field]: this._id,
             reason: $(event.currentTarget).text().trim()
         }, (err, data) => {

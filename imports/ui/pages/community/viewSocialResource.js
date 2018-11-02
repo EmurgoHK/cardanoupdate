@@ -30,6 +30,9 @@ Template.viewSocialResourceTemp.onCreated(function() {
 })
 
 Template.viewSocialResourceTemp.helpers({
+	tagName: (tag) => tag.name,
+	tagUrl: (tag) => `/tags?search=${encodeURIComponent(tag.name)}`,
+
   isOwner : function() {
     if(this.createdBy === Meteor.userId()){
       return true
@@ -39,11 +42,7 @@ Template.viewSocialResourceTemp.helpers({
 	socialResource: () => socialResources.findOne({
 		_id: FlowRouter.getParam('slug')
 	}),
-	author: function() {
-        return ((Meteor.users.findOne({
-            _id: this.createdBy
-        }) || {}).profile || {}).name || 'No name'
-    },
+	author: () => Meteor.users.findOne({_id: Template.currentData().createdBy}),
     coolStuff: () => {
     	let socialResource = socialResources.findOne({
 			_id: FlowRouter.getParam('slug')
@@ -85,7 +84,25 @@ Template.viewSocialResourceTemp.helpers({
 		  	newsId: this._id,
 		  	type: 'redflag'
 		}).count()
-	}
+	},
+	resourceUrlClass(resourceUrlType) {
+		switch(resourceUrlType) {
+				case 'TELEGRAM':
+					return 'fab fa-telegram';
+				case 'FACEBOOK':
+					return 'fab fa-facebook';
+				case 'TWITTER':
+					return 'fab fa-twitter';
+				case 'DISCORD':
+					return 'fab fa-discord';
+				case 'SLACK':
+					return 'fab fa-slack';
+				case 'GITTER':
+					return 'fab fa-gitter';
+				default:
+					return 'fas fa-globe';
+		}
+	},
 })
 
 

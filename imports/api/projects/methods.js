@@ -6,7 +6,7 @@ import { Projects } from './projects'
 import { Comments } from '../comments/comments'
 
 import { Tags } from '/imports/api/tags/tags'
-import { addTag, mentionTag, getTag } from '/imports/api/tags/methods'
+import { addTag, mentionTag, getTag, removeTag } from '/imports/api/tags/methods'
 
 import { isModerator, userStrike } from '/imports/api/user/methods'
 
@@ -16,12 +16,12 @@ export const addProject = new ValidatedMethod({
         new SimpleSchema({
             headline: {
                 type: String,
-                max: 25,
+                max: 90,
                 optional: false
             },
             description: {
                 type: String,
-                max: 500,
+                // max: 260,
                 optional: false
             },
             github_url: {
@@ -117,6 +117,13 @@ export const deleteProject = new ValidatedMethod({
                 throw new Meteor.Error('Error.', 'You can\'t remove a project that you haven\'t added.')
             }
 
+            // remove mentions of tags & decrease the counter of each tag
+            if(project.tags) {
+                project.tags.forEach(t => {
+                    removeTag(t.id)
+                })
+            }
+
             return Projects.remove({ _id: projectId })
         }
     }
@@ -132,12 +139,12 @@ export const editProject = new ValidatedMethod({
             },
             headline: {
                 type: String,
-                max: 25,
+                max: 90,
                 optional: false
             },
             description: {
                 type: String,
-                max: 500,
+                // max: 260,
                 optional: false
             },
             github_url: {
@@ -172,7 +179,7 @@ export const editProject = new ValidatedMethod({
             clean: true
         }),
     run({ projectId, headline, description, github_url, website, tags, type }) {
-        if (Meteor.isServer) {
+        if (true || Meteor.isServer) {
             let project = Projects.findOne({ _id: projectId })
 
             if (!project) {
@@ -363,13 +370,13 @@ export const resolveProjectDataUpdate = new ValidatedMethod({
             throw new Meteor.Error('Error.', 'You have to be logged in.')
         }
 
-        if (!isModerator(Meteor.userId())) {
-            throw new Meteor.Error('Error.', 'You have to be a moderator.')
-        }
-
         let project = Projects.findOne({
             _id: projectId
         })
+
+        if (!isModerator(Meteor.userId()) && project.createdBy !== Meteor.userId()) {
+            throw new Meteor.Error('Error.', 'You can only resolve data changes if you\'re a moderator or if you\'ve created the project.')
+        }
 
         if (!project) {
             throw new Meteor.Error('Error.', 'Project doesn\'t exist.')

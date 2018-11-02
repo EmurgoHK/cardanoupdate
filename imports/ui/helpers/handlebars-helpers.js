@@ -9,6 +9,7 @@ import CryptoJS from 'crypto-js'
 Template.registerHelper('SubsCacheReady', () => Object.keys(SubsCache.cache).map(x => SubsCache.cache[x].ready()).reduce((x1, x2) => x1 && x2, true))
 
 Template.registerHelper('isModerator', () => isModerator(Meteor.userId()))
+Template.registerHelper('LimitChars', (val) => val&&val.length>100?val.slice(0,100)+' ... ':val )
 
 Template.registerHelper('md', content => {
     return  this.innerHTML = marked(content || '')
@@ -22,6 +23,10 @@ Template.registerHelper('showLocalTimestamp', date => {
 	return !date ? "" : moment(date).format('LLL')
 })
 
+Template.registerHelper('isEventUpcoming', date => {
+	return !date ? "" :  (moment.duration(moment(date).diff(moment.now())).as('hours') <= 48 && moment.duration(moment(date).diff(moment.now())).as('hours') >=0 )
+})
+
 Template.registerHelper('avatarFor', (user, size) => {
 	if (user && (user.profile && user.profile.picture)) {
 		return user.profile.picture
@@ -33,3 +38,6 @@ Template.registerHelper('avatarFor', (user, size) => {
 
 	return gravatarUrl
 })
+
+// checks if tag id is included in the resource tags 
+Template.registerHelper('isTagIncluded',(tags, tagId) => tags != [] && _.find(tags, (tag) => tag.id ===  tagId ) ? 'selected' : '')

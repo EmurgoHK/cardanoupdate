@@ -1,0 +1,40 @@
+<template name="warningForm">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <h5><a href="/scams" class="text-muted" style="text-decoration: underline;">Warnings</a></h5>
+          <h2>{{#if add}} New Scam {{else}} Edit Scam {{/if}}</h2>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="card">
+            <div class="card-body">
+              <form class="news-form project-form">
+                <div class="group-title">Name</div>
+                <div class="input-group">
+                  <input type="text" class="form-control" id="headline" value="{{warning.headline}}" placeholder="Headline in 90 characters or less">
+                  <div id="headlineError" class="invalid-feedback"></div>
+                </div>
+                <small><i id="headline-chars" class="text-muted"></i></small>
+                <div class="group-title">Description</div>
+                <div class="input-group">
+                  <textarea class="form-control" id="description" rows="8" value="{{warning.summary}}" placeholder="Warning description in 260 characters or less"></textarea>
+                  <span class="instructions">
+                    <i class="icon-info"></i> Please provide a very clear description of what the scam is for & what it does.
+                  </span>
+                  <div id="summaryError" class="invalid-feedback"></div>
+                </div>
+              </form>
+            </div>
+            <div class="card-footer">
+              <div>
+                <button type="submit" class="btn btn-lg btn-success add-warning">Submit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>

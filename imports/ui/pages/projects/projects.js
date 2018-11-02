@@ -4,13 +4,6 @@ import { Template } from 'meteor/templating'
 import { FlowRouter } from 'meteor/kadira:flow-router'
 import { Projects } from '/imports/api/projects/projects'
 
-import { deleteProject, proposeNewData, flagProject } from '/imports/api/projects/methods'
-import swal from 'sweetalert2'
-
-import { notify } from '/imports/modules/notifier'
-
-import { flagDialog } from '/imports/modules/flagDialog'
-
 const CHUNK_SIZE = 3
 
 Template.projects.onCreated(function () {
@@ -26,132 +19,78 @@ Template.projects.helpers({
     chunkSize () {
         return CHUNK_SIZE + 1
     },
-    projects () {
-        let projects = [];
-        let searchText = Template.instance().searchFilter.get()
+    projectCount () {
+      let projects = 0;
+      let searchText = Template.instance().searchFilter.get()
 
-        // Check if user has searched for something
-        if (searchText != undefined && searchText != '') {
-            projects = Projects.find({
-            $or: [{
-                description: new RegExp(searchText.replace(/ /g, '|'), 'ig')
-            }, {
-                headline: new RegExp(searchText.replace(/ /g, '|'), 'ig')
-            }, {
-                tags: new RegExp(searchText.replace(/ /g, '|'), 'ig')
-            }]
-        })
-        } else {
-            projects = Projects.find({})
+      // Check if user has searched for something
+      if (searchText != undefined && searchText != '') {
+          projects = Projects.find({
+          $or: [{
+              description: new RegExp(searchText.replace(/ /g, '|'), 'ig')
+          }, {
+              headline: new RegExp(searchText.replace(/ /g, '|'), 'ig')
+          }, {
+              tags: new RegExp(searchText.replace(/ /g, '|'), 'ig')
+          }]
+      }).count()
+      } else {
+          projects = Projects.find({}).count()
+      }
+      return projects
+  },
+    projects () {
+        const tpl = Template.instance();
+
+        // Constructing sorting options
+        let sort;
+        switch (tpl.sort.get()) {
+            case 'date-asc':
+                sort = {createdAt: 1};
+                break;
+            case 'date-desc':
+            default:
+                sort = {createdAt: -1}
         }
 
-        return projects
+        const searchText = tpl.searchFilter.get()
+        // Check if user has searched for something and getting data from db
+        if (searchText != undefined && searchText != '') {
+            return Projects.find({
+                $or: [{
+                    description: new RegExp(searchText.replace(/ /g, '|'), 'ig')
+                }, {
+                    headline: new RegExp(searchText.replace(/ /g, '|'), 'ig')
+                }, {
+                    tags: new RegExp(searchText.replace(/ /g, '|'), 'ig')
+                }]
+            }, {sort});
+        }
+
+        return Projects.find({}, {sort})
     },
-    canEdit () {
-        return this.createdBy === Meteor.userId()
-    },
-    LimitChars (val) {
-        return val&&val.length>50?val.slice(0,50)+' ... ':val;
+
+    isDateAsc() {
+        return Template.instance().sort.get() === 'date-asc'
     }
 })
 
 Template.projects.events({
-    'click .github': function(event, temlateInstance) {
-        if ($(event.currentTarget).attr('href')) {
-            return
-        }
-
-        swal({
-            text: `GitHub repo is not available. If you know this information, please contribute below:`,
-            type: 'warning',
-            showCancelButton: true,
-            input: 'text'
-        }).then(val => {
-            if (val.value) {
-                proposeNewData.call({
-                    projectId: this._id,
-                    datapoint: 'github_url',
-                    newData: val.value,
-                    type: 'link'
-                }, (err, data) => {
-                    if (err) {
-                        notify(err.reason || err.message, 'error')
-                    } else {
-                        notify('Successfully contributed.', 'success')
-                    }
-                })
-            }
-        })
-    },
-    'click .website': function(event, temlateInstance) {
-        if ($(event.currentTarget).attr('href')) {
-            return
-        }
-
-        swal({
-            text: `Website is not available. If you know this information, please contribute below:`,
-            type: 'warning',
-            showCancelButton: true,
-            input: 'text'
-        }).then(val => {
-            if (val.value) {
-                proposeNewData.call({
-                    projectId: this._id,
-                    datapoint: 'website',
-                    newData: val.value,
-                    type: 'link'
-                }, (err, data) => {
-                    if (err) {
-                        notify(err.reason || err.message, 'error')
-                    } else {
-                        notify('Successfully contributed.', 'success')
-                    }
-                })
-            }
-        })
-    },
     'click #add-project': (event, _) => {
         event.preventDefault()
         FlowRouter.go('/projects/new')
-    },
-    'click #js-remove': function (event, _) {
-        event.preventDefault()
-
-        swal({
-            text: `Are you sure you want to remove this Project? This action is not reversible.`,
-            type: 'warning',
-            showCancelButton: true
-        }).then(confirmed => {
-            if (confirmed.value) {
-                deleteProject.call({
-                    projectId: this._id
-                }, (err, data) => {
-                    if (err) {
-                        notify(err.reason || err.message, 'error')
-                    }
-                })
-            }
-        })
-      },
-    'click .projectWarning' (event, _tpl) {
-        event.preventDefault()
-        swal({
-            title: 'Missing source repository',
-            text: "This project does't contain any link to the source repository",
-            type: 'warning',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Okay'
-        })
     },
     'keyup #searchBox': function (event, templateInstance) {
       event.preventDefault();
 
       templateInstance.searchFilter.set($('#searchBox').val())
     },
-
-    'click .flag-project' : function (event, templateInstance){
-      event.preventDefault()
-      
-      flagDialog.call(this, flagProject, 'projectId')
-    }
+    'click #sort-date': (event, templateInstance) => {
+        event.preventDefault()
+        if (templateInstance.sort.get() === 'date-desc') {
+            templateInstance.sort.set('date-asc');
+        } else {
+            templateInstance.sort.set('date-desc');
+        }
+    },
 })

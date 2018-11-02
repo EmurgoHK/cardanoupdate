@@ -1,0 +1,13 @@
+<template name="flagItem">
+  <div class="dropup flagItem">
+    <i class="fas fa-ellipsis-h dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+    <div class="dropdown-menu">
+      {{#if edit}}
+        <a class="dropdown-item" id="js-edit" href={{edit}}><i class="icon-pencil"></i>Edit</a>
+        <a class="dropdown-item text-danger" id="js-remove" href="#"><i class="icon-trash text-danger"></i>Delete</a>
+      {{else}}
+        <a class="dropdown-item flag-{{item}}" href="#" title="Report"><i class="icon-flag"></i> Report</a>
+      {{/if}}
+    </div>
+  </div>
+</template>

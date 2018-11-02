@@ -36,10 +36,9 @@ reactive-dict
 momentjs:moment
 cfs:graphicsmagick
 accounts-facebook
-accounts-github
-accounts-google
 service-configuration
 random
 littledata:synced-cron
 pauldowman:dotenv
 socialize:user-presence
+easy:search

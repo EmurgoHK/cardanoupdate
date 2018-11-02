@@ -10,7 +10,7 @@ import SimpleMDE from 'simplemde'
 
 import './uploader.html'
 
-const replaceSelection = (cm, active, startEnd, url) => {
+export const replaceSelection = (cm, active, startEnd, url) => {
     if (/editor-preview-active/.test(cm.getWrapperElement().lastChild.className)) {
         return
     }
@@ -108,6 +108,17 @@ export const getFiles = (id, reset) => {
     return files
 }
 
+/*
+Uploader is a shared component used on a lot of templates
+When used, it accepts the following optional parameters: 
+- files ([String]) - An array of already uploaded files to show in the preview element
+- type (String) - Type of the uploader that should be used. Currently, this can be 'image' (default value) or 'pdf'
+- id (String) - Unique id of the uploader component. This param is only used if you want to have more than one uploader component on a single page.
+- single (Boolean) - A flag that's used to denote whether the uploader should only accept one file or should it accept multiple files
+
+Only modify the uploader code below if you're modifying the uplaoder itself (e.g. extending its functionality, adding new features, etc)
+In other cases, if you want to change what's done with uploaded files, modify the template that's using the uploader and not the uploader itself
+*/
 Template.uploader.onCreated(function() {
     this.files = new ReactiveVar([])
 
@@ -161,6 +172,10 @@ Template.uploader.events({
                 }, (err, data) => {
                     if (err) {
                         notify(err.reason || err.message, 'error')
+
+                        // If any error generated while uploading image then
+                        // Following line rever back button to original.
+                        $(`#fileUploadValue-${templateInstance.id}`).html('<span id="fileUploadValue-{{id}}">Upload</span>');
                     } else {
                         if (!templateInstance.data.single) {
                             let files = templateInstance.files.get()
@@ -178,7 +193,6 @@ Template.uploader.events({
                     }
                 })
             }
-
             reader.readAsBinaryString(file)
         }
     }

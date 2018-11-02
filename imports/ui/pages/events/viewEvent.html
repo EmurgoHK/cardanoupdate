@@ -9,9 +9,8 @@
         <h1 class="card-title text-dark mt-3"><strong>{{headline}}</strong></h1>
         <h5 class="card-subtitle mb-3 mt-3">
           <ul class="list-inline">
-            <li class="list-inline-item">Added by <strong><span class="name"><a href="/profile/{{createdBy}}">{{author}}</a></span></strong></li>
-            <li class="list-inline-item"><i class="icon-clock" style="vertical-align: middle"></i>&nbsp;{{showTimeAgoTimestamp
-              createdAt}}</li>
+            <li class="list-inline-item">Added by <strong><span class="name">{{> userNameDisplay author}}</span></strong></li>
+            <li class="list-inline-item"><i class="icon-clock" style="vertical-align: middle"></i>&nbsp;{{showTimeAgoTimestamp createdAt}}</li>
             <li class="list-inline-item"><i class="icon-speech" style="vertical-align: middle"></i>&nbsp;{{commentCount}}</li>
           </ul>
         </h5>
@@ -21,39 +20,38 @@
               <div class="col-sm-12">
                <i class="icon-calendar"></i> {{showLocalTimestamp start_date}} to {{showLocalTimestamp end_date}}
               </div>
-              <div class="col-sm-12">{{rsvp}}</div>
               <div class="col-sm-12">
-                <i class="icon-location-pin"></i> {{location}}
+                <i class="icon-check"></i> <a target="_blank" href={{rsvp}}>RSVP Link</a>
+              </div>
+              <div class="col-sm-12">
+                <i class="icon-location-pin"></i> <a target="_blank" href="https://www.google.com/maps/place/{{location}}/">{{location}}</a>
               </div>
               <div class="col-sm-12 news-body pt-4 pl-3 pr-3 text-justify">
                 {{{md description}}}
               </div>
             </div>
             <div class="row">
-              <div class="col-sm-12">
-                <a class="btn btn-secondary flag-event" href="#" title="Report"><i class="fas fa-exclamation-triangle"></i></a>
+              <div class="col-sm-12 text-right">
                 {{#if watching}}
-                <a class="btn btn-success watch-event" href="#" title="Unwatch"><i class="icon-eye"></i></a>
+                <a class="btn btn-success watch-event" href="#" title="Unfollow">Following</a>
                 {{else}}
-                <a class="btn btn-secondary watch-event" href="#" title="Watch"><i class="icon-eye"></i></a>
+                <a class="btn btn-secondary watch-event" href="#" title="Follow">Follow</a>
                 {{/if}}
+                {{> flagItem item="event"}}
+              </div>
             </div>
-          </div>
           </div>
         </div>
         {{/with}}
         <hr class="mb-5 mt-5">
-
           <div class="row">
             <div class="col-sm-12 event-form">
               <div class="card">
                 <div class="card-body">
                   <div class="form-group">
                     <textarea class="form-control" id="comments" name="comment" rows="3" placeholder="Leave a comment ..." required></textarea>
-                  </div>
-                  
+                  </div>          
                   <p class="text-danger">{{commentInvalidMessage}}</p>
-                  
                   <div class="btn-group" role="group">
                     <div class="btn-group" role="group">
                       <button type="submit" class="btn btn-outline-primary mb-2 new-comment">Comment</button>

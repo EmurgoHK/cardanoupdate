@@ -1,0 +1,64 @@
+<template name="socialResourceList">
+        {{#if isHome}}
+            {{#each socialResources}}
+                <div class="card socialResource">
+                    <p class="home-label bg-info">Community</p>
+                    <div class="card-body">
+                        {{#if canEdit}}
+                        <div class="news-settings float-right dropdown">
+                            <i class="icon-settings dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false"></i>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" id="js-edit" href="/community/{{_id}}/edit"><i class="icon-pencil"></i>
+                                    Edit</a>
+                                <a class="dropdown-item text-danger" id="js-remove" href="#"><i class="icon-trash text-danger"></i>
+                                    Delete</a>
+                            </div>
+                        </div>
+                        {{/if}}
+    
+                        <h4 class="card-title">
+                            <a href="/community/{{_id}}" title="{{Name}}">{{Name}}</a>
+                        </h4>
+                        <p class="card-text">
+                            {{limitChars description}}
+                        </p>
+                        <hr>
+                        <a href="{{Resource_url}}" title="Go to {{Resource_url}}" class="website card-link"><i class="{{resourceUrlClass this.resourceUrlType}} fa-lg"></i></a>
+                    </div>
+                </div>
+            {{/each}}
+        {{else}}
+            <div class="{{containerClasses}}">
+                {{#each socialResources}}
+                <div class="{{cardWrapperClasses}}">
+                    <div class="card socialResource">
+                        <div class="card-body">
+                            {{#if canEdit}}
+                            <div class="news-settings float-right dropdown">
+                                <i class="icon-settings dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false"></i>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" id="js-edit" href="/community/{{_id}}/edit"><i class="icon-pencil"></i>
+                                        Edit</a>
+                                    <a class="dropdown-item text-danger" id="js-remove" href="#"><i class="icon-trash text-danger"></i>
+                                        Delete</a>
+                                </div>
+                            </div>
+                            {{/if}}
+        
+                            <h4 class="card-title">
+                                <a href="/community/{{_id}}" title="{{Name}}">{{Name}}</a>
+                            </h4>
+                            <p class="card-text">
+                                {{limitChars description}}
+                            </p>
+                            <hr>
+                            <a href="{{Resource_url}}" title="Go to {{Resource_url}}" class="website card-link"><i class="{{resourceUrlClass this.resourceUrlType}} fa-lg"></i></a>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        {{/if}}
+    </template>

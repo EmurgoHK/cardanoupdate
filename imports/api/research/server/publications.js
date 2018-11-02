@@ -20,6 +20,24 @@ Meteor.publish('research.item', (id) => Research.find({
 	}
 }))
 
+Meteor.publish('research.search', (q) => Research.find(        {
+          $or: [{
+            headline: {
+              $regex: new RegExp(q, "i")
+            }
+          }, {
+            abstract: {
+              $regex: new RegExp(q, "i")
+            }
+          }
+          ]
+        }, {
+  sort: {
+    createdAt: -1
+  }
+}))
+
+
 Meteor.publish('research.flagged', () => {
 	return Research.find({
 		'flags.0': {

@@ -21,6 +21,10 @@ import '/imports/api/news/server/publications'
 import '/imports/api/projects/methods'
 import '/imports/api/projects/server/publications'
 
+// warnings api
+import '/imports/api/warnings/methods'
+import '/imports/api/warnings/server/publications'
+
 // events api
 import '/imports/api/events/methods'
 import '/imports/api/events/server/publications'
@@ -43,10 +47,14 @@ import '/imports/api/uploader/methods'
 // research api
 import '/imports/api/socialResources/methods'
 import '/imports/api/socialResources/server/publications'
+import '/imports/api/socialResources/server/startup'
 
 // learn api
 import '/imports/api/learn/methods'
 import '/imports/api/learn/server/publications'
+
+// search api
+import '/imports/api/search/search'
 
 
 // tags

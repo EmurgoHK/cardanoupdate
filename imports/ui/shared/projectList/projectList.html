@@ -1,0 +1,50 @@
+<template name="projectList">
+  {{#if isHome}}
+    {{#each projects}}
+      <div class="card project">
+        <p class="home-label bg-primary">Project</p>
+        <div class="card-body">
+          <h4 class="card-title">
+            <a href="/projects/{{slug}}" title="{{headline}}">{{headline}}</a>
+          </h4>
+          <p class="card-text">
+            {{limitChars description}}
+          </p>
+          <hr>
+          {{#if github_url}}
+            <a href="{{github_url}}" class="github card-link"><i class="fab fa-github fa-lg"></i></a>
+          {{else}}
+            <a href="#" class="no-github card-link"><img style="max-width: 1.5em; margin-top: -.125em;" src="/img/no-github.png" alt="no github repo"></a>
+          {{/if}}
+          <a href="{{website}}" title="Go to {{website}}" class="website card-link"><i class="fas fa-external-link-alt fa-lg"></i></a>
+          {{> flagItem item="project" edit=editURL _id=this._id}}
+        </div>
+      </div>
+    {{/each}}
+    {{else}}
+      <div class="{{containerClasses}}">
+        {{#each projects}}
+          <div class="{{cardWrapperClasses}}">
+            <div class="card project">
+              <div class="card-body">
+                <h4 class="card-title">
+                  <a href="/projects/{{slug}}" title="{{headline}}">{{headline}}</a>
+                </h4>
+                <p class="card-text">
+                  {{limitChars description}}
+                </p>
+                <hr>
+                {{#if github_url}}
+                <a href="{{github_url}}" class="github card-link"><i class="fab fa-github fa-lg"></i></a>
+                {{else}}
+                <a href="#" class="no-github card-link"><img style="max-width: 1.5em; margin-top: -.125em;" src="/img/no-github.png" alt="no github repo"></a>
+                {{/if}}
+                <a href="{{website}}" title="Go to {{website}}" class="website card-link"><i class="fas fa-external-link-alt fa-lg"></i></a>
+                {{> flagItem item="project" edit=editURL _id=this._id}}
+              </div>
+            </div>
+          </div>
+        {{/each}}
+      </div>
+  {{/if}}
+</template>

@@ -1,0 +1,34 @@
+<template name="learningResourceList">
+  {{#if isHome}}
+    {{#each learningResources}}
+      <div class="card learningResource">
+        <p class="home-label bg-success">Learn</p>
+        <div class="card-body">
+          <h4 class="card-title">
+            <a href="/learn/{{slug}}" title="{{title}}">{{title}}</a>
+          </h4>
+          <p class="card-text">{{limitChars summary}}</p>
+          <hr />
+          {{> flagItem item="learn" edit=editURL _id=this._id}}
+        </div>
+      </div>
+    {{/each}}
+  {{else}}
+    <div class="{{containerClasses}}">
+      {{#each learningResources}}
+        <div class="{{cardWrapperClasses}}">
+          <div class="card learningResource">
+            <div class="card-body">
+              <h4 class="card-title">
+                <a href="/learn/{{slug}}" title="{{title}}">{{title}}</a>
+              </h4>
+              <p class="card-text">{{limitChars summary}}</p>
+              <hr />
+              {{> flagItem item="learn" edit=editURL _id=this._id}}
+            </div>
+          </div>
+        </div>
+      {{/each}}
+    </div>
+  {{/if}}
+</template>

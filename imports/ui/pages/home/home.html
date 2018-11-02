@@ -1,18 +1,10 @@
 <template name="home">
   <div class="container">
     <div class="row mx-auto">
-      <div class="col-sm-12">
-        <div class="float-right">
-          <button class="btn btn-outline-primary mb-3" id="add-new">
-            <i class="fa fa-plus" style="margin-right: 3px;"></i>
-            NEW
-          </button>
-        </div>
-      </div>
       <!-- User Stats -->
-      <div class="col-sm-12">
-        <div class="row">
-          <div class="col sm-4">
+      <div class="col-sm-12 user-stats">
+        <div class="row d-none d-lg-flex">
+          <div class="col-sm-4">
             <div class="card text-white bg-success m-0 h-100">
               <div class="card-body">
                 <h5 class="text-right">
@@ -21,12 +13,11 @@
                   </div>
                   <i class="icon-people"></i>
                 </h5>
-
                 <span class="text-muted text-uppercase font-weight-bold h6">Users Online</span>
               </div>
             </div>
           </div>
-          <div class="col sm-4">
+          <div class="col-sm-4 middle-item">
             <div class="card text-white bg-info m-0 h-100">
               <div class="card-body">
                 <h5 class="text-right">
@@ -39,7 +30,7 @@
               </div>
             </div>
           </div>
-          <div class="col sm-4">
+          <div class="col-sm-4">
             <div class="card text-white bg-dark m-0 h-100">
               <div class="card-body">
                 <h5 class="text-right">
@@ -53,242 +44,47 @@
             </div>
           </div>
         </div>
+        <!-- User stats on mobile -->
+        <div class="brand-card d-lg-none">
+          <div class="brand-card-body">
+            <div>
+              <div class="text-value">{{onlineUsers}} / {{totalUsers}}</div>
+              <div class="text-uppercase text-muted small">Users Online</div>
+            </div>
+            <div>
+              <div class="text-value">{{signedUp}}</div>
+              <div class="text-uppercase text-muted small">New users this month</div>
+            </div>
+            <div>
+              <div class="text-value">{{commentsLastMonth}}</div>
+              <div class="text-uppercase text-muted small">Content this month</div>
+            </div>
+          </div>
+        </div>
       </div>
+      <!-- <div class="col-sm-12">
+        <div class="add-new-content">
+          <button class="btn btn-outline-primary mb-3" id="add-new">
+            <i class="fa fa-plus"></i>
+            NEW
+          </button>
+        </div>
+      </div> -->
       <div class="col-sm-12">
         <div class="row">
-          <!-- Projects -->
-          {{#if projectCount}}
-            <div class="col-sm-12">
-              <section class="content-container project">
-                <div class="section-title">
-                  Projects
-                  <div class="float-md-right pb-3">
-                    <a href="/projects">view all</a>
-                  </div>
-                </div>
-                <div class="section-content">
-                  <div class="row">
-                    {{#each projects}}
-                      <div class="col-md-4">
-                          <div class="card">
-                              <div class="card-body">
-                                  {{#if canEdit}}
-                                      <div class="news-settings float-right dropdown">
-                                          <i class="icon-settings dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
-                                          <div class="dropdown-menu">
-                                              <a class="dropdown-item" id="js-edit" href="/projects/{{_id}}/edit"><i class="icon-pencil"></i> Edit</a>
-                                              <a class="dropdown-item text-danger" id="js-remove" href="#"><i class="icon-trash text-danger"></i> Delete</a>
-                                          </div>
-                                      </div>
-                                  {{/if}}
-
-                                  <h4 class="card-title">
-                                      <a href="/projects/{{slug}}">{{headline}}</a>
-                                  </h4>
-                                  <br>
-                                  <p class="card-text">
-                                      {{description}}
-                                  </p>
-                                  <hr>
-                                  {{#unless github_url}}
-                                      <a href="" class="card-link projectWarning text-warning"><i class="fas fa-exclamation-circle fa-lg"></i></a>
-                                  {{/unless}}
-                                  <a href="{{github_url}}" class="github new-link card-link"><i class="fab fa-github fa-lg"></i></a>
-                                  <a href="{{website}}" class="website new-link card-link"><i class="fas fa-globe fa-lg"></i></a>
-                                  <a class="flag-project float-right" href="#" title="Report">
-                                    <i class="fas fa-exclamation-triangle"></i>
-                                  </a>
-                              </div>
-                          </div>
-                      </div>
-                    {{/each}}
-                  </div>
-                </div>
-              </section>
+          <div class="section-content col-sm-12">
+            <div class="card-columns">
+              <!-- Add New Content -->
+              <div class="card add-new-content btn btn-outline-primary">
+                <a id="add-new"> <i class="fa fa-plus"></i> Add new content</a>
+              </div>
+              {{> projectList projects=projects containerClass="row" cardWrapperClass="col-md-4" isHome=true}}
+              {{> warningList warnings=warnings containerClass="row" cardWrapperClass="col-md-4" isHome=true}}
+              {{> eventList eventList=events containerClass="row" cardWrapperClass="col-md-4" isHome=true}}
+              {{> researchList research=research containerClass="row" cardWrapperClass="col-md-4" isHome=true}}
+              {{> learningResourceList learningResources=learn containerClass="row" cardWrapperClass="col-md-4" isHome=true}}
             </div>
-          {{/if}}
-          <!-- Events -->
-          {{#if eventCount}}
-            <div class="col-sm-12">
-              <section class="content-container events">
-                <div class="section-title">
-                  Active Events
-                  <div class="float-md-right pb-3">
-                    <a href="/events">view all</a>
-                  </div>
-                </div>
-                <div class="section-content">
-                  <div class="row">
-                    {{#each events}}
-                      <div class="col-md-4">
-                          <div class="card">
-                              <div class="card-body">
-                                  {{#if canEdit}}
-                                    <div class="news-settings float-right dropdown">
-                                      <i class="icon-settings dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
-                                      <div class="dropdown-menu">
-                                        <a class="dropdown-item" id="js-edit" href="/events/{{_id}}/edit"><i class="icon-pencil"></i> Edit</a>
-                                        <a class="dropdown-item text-danger" id="js-remove" href="#"><i class="icon-trash text-danger"></i>
-                                          Delete</a>
-                                      </div>
-                                    </div>
-                                  {{/if}}
-                                <p class="event-label {{eventLabel}}">{{eventLabel}}</p>
-                                <h4 class="card-title">
-                                  <a href="/events/{{slug}}">{{headline}}</a>
-                                </h4>
-                                <br>
-                                <p class="card-text">
-                                  <P>Starts on {{showLocalTimestamp start_date}} <br/> Ends on {{showLocalTimestamp end_date}}</P>
-                                </p>
-                                <hr>
-                                <p>{{rsvp}}</p>
-                                <P>
-                                  <i class="icon-location-pin"></i> {{location}}
-                                  <a class="flag-event float-right" href="#" title="Report">
-                                    <i class="fas fa-exclamation-triangle"></i>
-                                  </a>
-                                </P>
-                              </div>
-                            </div>
-                      </div>
-                    {{/each}}
-                  </div>
-                </div>
-              </section>
-            </div>
-          {{/if}}
-          <!-- Research -->
-          {{#if researchCount}}
-            <div class="col-sm-12">
-              <section class="content-container research">
-                <div class="section-title">
-                  Research Papers
-                  <div class="float-md-right pb-3">
-                    <a href="/research">view all</a>
-                  </div>
-                </div>
-                <div class="section-content">
-                  <div class="row">
-                    {{#each research}}
-                      <div class="col-md-4">
-                          <div class="card">
-                              <div class="card-body">
-                                  {{#if canEdit}}
-                                      <div class="news-settings float-right dropdown">
-                                          <i class="icon-settings dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
-                                          <div class="dropdown-menu">
-                                              <a class="dropdown-item" id="js-edit" href="/research/{{slug}}/edit"><i class="icon-pencil"></i> Edit</a>
-                                              <a class="dropdown-item text-danger" id="js-remove" href="#"><i class="icon-trash text-danger"></i> Delete</a>
-                                          </div>
-                                      </div>
-                                  {{/if}}
-
-                                  <h4 class="card-title">
-                                      <a href="/research/{{slug}}">{{headline}}</a>
-                                  </h4>
-                                  <br>
-                                  <p class="card-text">
-                                      {{abstract}}
-                                  </p>
-                                  <hr>
-                                  <a href="{{pdf}}" class="card-link"><i class="far fa-file-pdf"></i></a>
-                                  <a class="flag-research float-right" href="#" title="Report">
-                                    <i class="fas fa-exclamation-triangle"></i>
-                                  </a>
-                              </div>
-                          </div>
-                      </div>
-                    {{/each}}
-                  </div>
-                </div>
-              </section>
-            </div>
-          {{/if}}
-          <!-- Learn -->
-          {{#if learnCount}}
-            <div class="col-sm-12">
-              <section class="content-container learn">
-                <div class="section-title">
-                  Learning resources
-                  <div class="float-md-right pb-3">
-                    <a href="/learn">view all</a>
-                  </div>
-                </div>
-                <div class="section-content">
-                  <div class="row">
-                    {{#each learn}}
-                      <div class="col-md-4">
-                          <div class="card">
-                              <div class="card-body">
-                                  {{#if canEdit}}
-                                      <div class="news-settings float-right dropdown">
-                                          <i class="icon-settings dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
-                                          <div class="dropdown-menu">
-                                              <a class="dropdown-item" id="js-edit" href="/learn/{{slug}}/edit"><i class="icon-pencil"></i> Edit</a>
-                                          </div>
-                                      </div>
-                                  {{/if}}
-
-                                  <h4 class="card-title">
-                                      <a href="/learn/{{slug}}">{{title}}</a>
-                                  </h4>
-                                  <a class="flag-learn float-right" href="#" title="Report">
-                                    <i class="fas fa-exclamation-triangle"></i>
-                                  </a>
-                              </div>
-                          </div>
-                      </div>
-                    {{/each}}
-                  </div>
-                </div>
-              </section>
-            </div>
-          {{/if}}
-          <!-- Social Resources -->
-          {{#if socialResourcesCount}}
-            <div class="col-sm-12">
-              <section class="content-container research">
-                <div class="section-title">
-                  Social Resources
-                  <div class="float-md-right pb-3">
-                    <a href="/community">view all</a>
-                  </div>
-                </div>
-                <div class="section-content">
-                  <div class="row">
-                    {{#each socialResources}}
-                      <div class="col-md-4">
-                          <div class="card">
-                              <div class="card-body">
-                                  {{#if canEdit}}
-                                      <div class="news-settings float-right dropdown">
-                                          <i class="icon-settings dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
-                                          <div class="dropdown-menu">
-                                              <a class="dropdown-item" id="js-edit" href="/community/{{_id}}/edit"><i class="icon-pencil"></i> Edit</a>
-                                              <a class="dropdown-item text-danger" id="js-remove" href="#"><i class="icon-trash text-danger"></i> Delete</a>
-                                          </div>
-                                      </div>
-                                  {{/if}}
-
-                                  <h4 class="card-title">
-                                      <a href="/community/{{_id}}">{{Name}}</a>
-                                  </h4>
-                                  <br>
-                                  <p class="card-text">
-                                      {{description}}
-                                  </p>
-                                  <hr>
-                                  <a href="{{Resource_url}}" class="website card-link"><i class="fas fa-globe fa-lg"></i></a>
-                              </div>
-                          </div>
-                      </div>
-                    {{/each}}
-                  </div>
-                </div>
-              </section>
-            </div>
-          {{/if}}
+          </div>
         </div>
       </div>
     </div>

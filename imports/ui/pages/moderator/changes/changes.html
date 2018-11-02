@@ -20,7 +20,7 @@
                                     </a>
                                 </div>
                                 <a class="card-title" href="/project/{{slug}}">{{headline}}</a>
-                                <h6 class="card-subtitle mb-2 text-muted">{{author}} wants to propose the following new data:</h6>
+                                <h6 class="card-subtitle mb-2 text-muted">{{> userNameDisplay author}} wants to propose the following new data:</h6>
                                 <p class="card-text">{{datapoint}} - {{#if link}}<a href="{{newData}}" target="_blank">{{newData}}</a>{{else}}{{newData}}{{/if}}</p>
                             </div>
                         </div>

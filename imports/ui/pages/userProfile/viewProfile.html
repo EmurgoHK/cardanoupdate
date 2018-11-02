@@ -7,7 +7,8 @@
             <div class="media">
                 <img src="{{avatarFor user '100'}}" alt=""  height="100" width="100" class="mr-3 rounded">
                 <div class="media-body">
-                  <h4 class="mt-0"><strong>{{name}}</strong></h4>
+                  <h4 class="mt-0"><strong>{{name}}</strong> {{#if isModerator}}<span class="badge badge-primary">moderator</span>{{/if}}</h4>
+                  {{#if rank}}<p class="h6 text-muted"><strong>Rank : {{rank}}</strong></p>{{/if}}
                   <p class="h6 text-muted"><strong>About</strong></p>
                   <p>{{bio}}</p>
                 </div>
@@ -42,7 +43,7 @@
                 {{#each projects}} 
                   <div class="card">
                     <div class="card-body">
-                    <div ><a href="/projects/{{headline}}" class="card-title" >{{headline}}</a> Created {{showTimeAgoTimestamp createdAt}}</div>
+                    <div ><a href="/projects/{{slug}}" class="card-title" >{{headline}}</a> Created {{showTimeAgoTimestamp createdAt}}</div>
                     <p class="card-text">{{description}}</p>              
                     </div>
                   </div>
@@ -51,15 +52,15 @@
                 {{/each}}
               </div>
               <div class="tab-pane fade" id="research" role="tabpanel" aria-labelledby="research-tab">
-                  {{#each projects}} 
+                  {{#each research}} 
                     <div class="card">
                       <div class="card-body">
-                      <div ><a href="/projects/{{headline}}" class="card-title" >{{headline}}</a> Posted {{showTimeAgoTimestamp createdAt}}</div>
+                      <div ><a href="/research/{{slug}}" class="card-title" >{{headline}}</a> Posted {{showTimeAgoTimestamp createdAt}}</div>
                       <p class="card-text">{{abstract}}</p>              
                       </div>
                     </div>
                   {{else}}
-                    User has not added any project yet.
+                    User has not added any research yet.
                   {{/each}}
                 </div>
               <div class="tab-pane fade" id="comment" role="tabpanel" aria-labelledby="comment-tab">

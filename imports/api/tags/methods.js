@@ -19,15 +19,23 @@ export const getTag = (name) => {
 }
 
 export const mentionTag = (tagId) => {
-    let tag = Tags.findOne({ _id : tagId });
-    tag.mentions = parseInt(tag.mentions) + 1
-
     return Tags.update({
         _id : tagId
     }, 
     { 
-        $set: { 
-            mentions : tag.mentions
-        } 
-    })
+        $inc: { 
+            mentions: 1
+        }, 
+    });
+}
+
+export const removeTag = (tagId) => {
+    return Tags.update({
+        _id : tagId
+    }, 
+    { 
+        $inc: { 
+            mentions: -1
+        }, 
+    });
 }

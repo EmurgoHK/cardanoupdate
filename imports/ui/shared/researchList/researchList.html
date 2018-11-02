@@ -1,0 +1,46 @@
+<template name="researchList">
+  {{#if isHome}}
+    {{#each research}}
+      <div class="card research">
+        <p class="home-label bg-info">Research</p>
+        <div class="card-body">
+          <h4 class="card-title">
+            <a href="/research/{{slug}}">{{headline}}</a>
+          </h4>
+          <p class="card-text">
+            {{LimitChars abstract}}
+          </p>
+          <hr>
+          <a href="{{pdf}}" class="card-link"><i class="far fa-file-pdf"></i></a>
+          {{#each link in links}}
+              <a href="{{link.url}}" class="card-link"><i class="fas fa-external-link-alt"></i></a>
+          {{/each}}
+          {{> flagItem item="research" edit=editURL _id=this._id}}
+        </div>
+      </div>
+    {{/each}}
+  {{else}}
+    <div class="{{containerClasses}}">
+      {{#each research}}
+        <div class="{{cardWrapperClasses}}">
+          <div class="card research">
+            <div class="card-body">
+              <h4 class="card-title">
+                <a href="/research/{{slug}}">{{headline}}</a>
+              </h4>
+              <p class="card-text">
+                {{LimitChars abstract}}
+              </p>
+              <hr>
+              <a href="{{pdf}}" class="card-link"><i class="far fa-file-pdf"></i></a>
+              {{#each link in links}}
+                  <a href="{{link.url}}" class="card-link"><i class="fas fa-external-link-alt"></i></a>
+              {{/each}}
+              {{> flagItem item="research" edit=editURL _id=this._id}}
+            </div>
+          </div>
+        </div>
+      {{/each}}
+    </div>
+  {{/if}}
+</template>

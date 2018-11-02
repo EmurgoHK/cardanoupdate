@@ -10,10 +10,14 @@ import '/imports/ui/pages/not-found/not-found'
 import '/imports/ui/pages/projects/projects'
 import '/imports/ui/pages/projects/projectForm'
 import '/imports/ui/pages/projects/viewProject'
+import '/imports/ui/pages/warnings/warnings'
+import '/imports/ui/pages/warnings/warningForm'
+import '/imports/ui/pages/warnings/viewWarning'
 import '/imports/ui/pages/community/socialResources'
 import '/imports/ui/pages/community/socialResourceForm'
 import '/imports/ui/pages/community/viewSocialResource'
 
+import '/imports/ui/pages/tag/tag'
 
 import '/imports/ui/pages/research/research'
 import '/imports/ui/pages/research/researchForm'
@@ -36,6 +40,8 @@ import '/imports/ui/pages/moderator/candidates/candidates'
 import '/imports/ui/pages/moderator/pardon/pardon'
 import '/imports/ui/pages/moderator/pardon/pardonUser'
 import '/imports/ui/pages/addNewModal/addNewModal'
+
+import '/imports/ui/pages/search/search'
 
 const userLoginFilter = (context, redirect, _stop) => {
   let oldRoute = '/'
@@ -92,6 +98,17 @@ FlowRouter.route('/', {
   }
 })
 
+FlowRouter.route('/tags', {
+  name: 'tags',
+  action() {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'tags'
+    })
+  }
+})
+
 FlowRouter.route('/projects', {
   name: 'projects',
   action() {
@@ -105,6 +122,7 @@ FlowRouter.route('/projects', {
 
 FlowRouter.route('/projects/new', {
   name: 'newProject',
+  triggersEnter : [userLoginFilter], 
   action() {
     BlazeLayout.render('main', {
       header: 'header',
@@ -116,6 +134,7 @@ FlowRouter.route('/projects/new', {
 
 FlowRouter.route('/projects/:id/edit', {
   name: 'editProject',
+  triggersEnter : [userLoginFilter], 
   action() {
     BlazeLayout.render('main', {
       header: 'header',
@@ -136,6 +155,52 @@ FlowRouter.route('/projects/:slug', {
   }
 })
 
+FlowRouter.route('/scams', {
+  name: 'warnings',
+  action() {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'warnings'
+    })
+  }
+})
+
+FlowRouter.route('/scams/new', {
+  name: 'newWarning',
+  triggersEnter : [userLoginFilter], 
+  action() {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'warningForm'
+    })
+  }
+})
+
+FlowRouter.route('/scams/:id/edit', {
+  name: 'editWarning',
+  triggersEnter : [userLoginFilter], 
+  action() {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'warningForm'
+    })
+  }
+})
+
+FlowRouter.route('/scams/:slug', {
+  name: 'viewWarning',
+  action() {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'viewWarning'
+    })
+  }
+})
+
 FlowRouter.route('/community', {
   name: 'socialResources',
   action() {
@@ -149,6 +214,7 @@ FlowRouter.route('/community', {
 
 FlowRouter.route('/community/new', {
   name: 'newSocialResource',
+  triggersEnter : [userLoginFilter], 
   action() {
     BlazeLayout.render('main', {
       header: 'header',
@@ -193,6 +259,7 @@ FlowRouter.route('/research', {
 
 FlowRouter.route('/research/new', {
   name: 'newResearch',
+  triggersEnter : [userLoginFilter], 
   action() {
     BlazeLayout.render('main', {
       header: 'header',
@@ -204,6 +271,7 @@ FlowRouter.route('/research/new', {
 
 FlowRouter.route('/research/:slug/edit', {
   name: 'editResearch',
+  triggersEnter : [userLoginFilter], 
   action() {
     BlazeLayout.render('main', {
       header: 'header',
@@ -237,6 +305,7 @@ FlowRouter.route('/learn', {
 
 FlowRouter.route('/learn/new', {
   name: 'newLearn',
+  triggersEnter : [userLoginFilter], 
   action() {
     BlazeLayout.render('main', {
       header: 'header',
@@ -248,6 +317,7 @@ FlowRouter.route('/learn/new', {
 
 FlowRouter.route('/learn/:slug/edit', {
   name: 'editLearn',
+  triggersEnter : [userLoginFilter], 
   action() {
     BlazeLayout.render('main', {
       header: 'header',
@@ -281,6 +351,7 @@ FlowRouter.route('/events', {
 
 FlowRouter.route('/events/new', {
   name: 'newEvent',
+  triggersEnter : [userLoginFilter], 
   action() {
     BlazeLayout.render('main', {
       header: 'header',
@@ -292,6 +363,7 @@ FlowRouter.route('/events/new', {
 
 FlowRouter.route('/events/:id/edit', {
   name: 'editEvent',
+  triggersEnter : [userLoginFilter], 
   action() {
     BlazeLayout.render('main', {
       header: 'header',
@@ -336,6 +408,7 @@ FlowRouter.route('/uploader-test', {
 
 FlowRouter.route('/profile/:userId/edit', {
   name: 'editProfile',
+  triggersEnter : [userLoginFilter], 
   action() {
     BlazeLayout.render('main', {
       header: 'header',
@@ -394,6 +467,16 @@ FlowRouter.route('/signup', {
   action() {
     BlazeLayout.render('auth', {
       main: 'signup'
+    })
+  }
+})
+FlowRouter.route('/search', {
+  name: 'search',
+  action() {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'search'
     })
   }
 })
@@ -460,3 +543,4 @@ FlowRouter.notFound = {
     })
   }
 }
+

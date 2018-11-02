@@ -7,6 +7,22 @@ Meteor.publish('projects', () => Projects.find({}, {
 	}
 }))
 
+Meteor.publish('projects.search', (q) => Projects.find(        {
+          $or: [{
+            headline: {
+              $regex: new RegExp(q, "i")
+            }
+          }, {
+            description: {
+              $regex: new RegExp(q, "i")
+            }
+          }]
+        }, {
+	sort: {
+		createdAt: -1
+	}
+}))
+
 Meteor.publish('projects.item', (id) => Projects.find({
 	$or: [{
 		_id: id

@@ -13,6 +13,12 @@
             <div id="titleError" class="invalid-feedback"></div>
           </div>
           <small><i id="title-chars" class="text-muted"></i></small>
+          <div class="group-title">Summary</div>
+          <div class="input-group">
+            <textarea class="form-control" id="summary" rows="8" value="{{learn.summary}}" placeholder="Learning resource summary in 260 characters or less"></textarea>
+            <div id="summaryError" class="invalid-feedback"></div>
+          </div>
+          <small><i id="summary-chars" class="text-muted"></i></small>
           <div class="group-title">Content</div>
           <div class="article-body">
             <textarea class="form-control" id="content" rows="6" value="{{learn.content}}" placeholder="Learning resource content in 5000 characters or less"></textarea>
@@ -20,16 +26,12 @@
           </div>
           <small><i id="content-chars" class="text-muted"></i></small>
           <div class="group-title">Tags</div>
-              <div class="group-title">
-                {{#each tags}}
-                  <button class="btn btn-dark tag-button" type="button" id={{_id}} {{tagDisabled name project.tags}}>
-                      <span class="tag-name">{{name}}</span>
-                  </button>
-                {{/each}}
-              </div>
-              <div class="input-group">
-                <input type="text" class="form-control" id="tagInput" placeholder="Add a tags separated by comma(,) eg crypto,wallet"
-                  value="{{tagsAsString learn.tags}}">
+            <div class="input-group">
+                <select multiple="true" name="tags[]" id="tags" class="form-control select2">
+                  {{#each tags}}
+                  <option value="{{name}}" {{isTagIncluded project.tags _id}}>{{name}}</option>
+                  {{/each}}
+                </select>
               </div>
         </form>
       </div>

@@ -10,15 +10,46 @@ import { notify } from '/imports/modules/notifier'
 import { newLearningItem, editLearningItem } from '/imports/api/learn/methods'
 
 import SimpleMDE from 'simplemde'
+import swal from 'sweetalert2'
 
-import { insertImage } from '/imports/ui/shared/uploader/uploader'
+import _ from 'lodash'
+
+import { insertImage, replaceSelection } from '/imports/ui/shared/uploader/uploader'
+
+export const insertVideo = editor => {
+    const cm = editor.codemirror
+
+    const state = SimpleMDE.prototype.getState.call(editor)
+    const options = editor.options
+
+    swal({
+		title: 'Please provide YouTube video link',
+		input: 'text',
+		showCancelButton: true,
+		inputValidator: (value) => {
+		  	return !/youtu(\.|)be/.test(value) && 'Invalid YouTube video link!'
+		}
+	}).then(data => {
+		if (data.value) {
+			let videoId = data.value.match(/(youtu\.be\/|youtube\.com\/(watch\?(.*&)?v=|(embed|v)\/))([^\?&"'>]+)/)[5] // fairly complex regex that extracts video id from the youtube link
+
+			if (videoId && /[0-9A-Za-z_-]{10}[048AEIMQUYcgkosw]/.test(videoId)) { // videoId has certain constrains so we can check if it's valid
+				replaceSelection(cm, state.video, ['<iframe width="560" height="315" ', 'src="#url#" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>'], `https://www.youtube.com/embed/${videoId}`)
+			} else {
+				notify('Invalid YouTube video.', 'error')
+			}
+		}
+	})
+}
 
 const maxCharValue = (inputId) => {
-    if (inputId === 'title') {
-    	return 25
-    }
-
+  if (inputId === 'title') {
+    return 90
+  } else if (inputId === 'summary') {
+    return 260
+  } else {
     return 5000
+  }
 }
 
 Template.learnForm.onCreated(function() {
@@ -28,11 +59,27 @@ Template.learnForm.onCreated(function() {
 		})
 	}
 
-	this.newsTags = new ReactiveVar([])
-
 	this.autorun(() => {
 		this.subscribe('tags')
 	})
+})
+
+Template.learnForm.onRendered(function() {
+    this.autorun(() => {
+        let tags = (Learn.findOne({
+            slug: FlowRouter.getParam('slug')
+        }) || {}).tags || []
+
+        $('#tags').val(tags.map(i => i.name))
+        $('#tags').trigger('change')
+    })
+
+    $('#tags').select2({
+        tags: true,
+        tokenSeparators: [' ', ','],
+        allowClear: true,
+        placeholder: 'Add a tags separated by comma(,) e.g. crypto,wallet'
+    })
 })
 
 Template.learnForm.onRendered(function() {
@@ -42,7 +89,12 @@ Template.learnForm.onRendered(function() {
       		name: 'insertImage',
       		action: insertImage,
       		className: 'fa fa-picture-o',
-      		title: 'Insert image',
+      		title: 'Insert image'
+    	}, {
+    		name: 'insertVideo',
+    		action: insertVideo,
+    		className: 'fa fa-file-video-o',
+    		title: 'Insert YouTube video'
     	}, '|', 'preview', 'side-by-side', 'fullscreen', '|', 'guide'],
   	})
 
@@ -63,33 +115,17 @@ Template.learnForm.helpers({
 	learn: () => Learn.findOne({
 		slug: FlowRouter.getParam('slug')
   	}),
-  	add: () => !(FlowRouter.current().route.name === 'editLearn'),
-  	tags: () =>  Tags.find({}),
-    tagsAsString: (tags) => tags == undefined || (tags !=undefined && tags.length > 0 && tags[0].id == undefined) ? [] : tags.map(t => { return t.name.toString().toUpperCase() }),
-    tagDisabled: (name, tags) => {
+	add: () => !(FlowRouter.current().route.name === 'editLearn'),
+	tags: () => { 
 
-      if (tags != undefined) { // this will only be true for edit mode
-          let tag = tags.find(t => { return name == t.name ? t : undefined });
-          let newsTags = Template.instance().newsTags.get();
+        let tags = Array.from(Tags.find({
+            name: {
+                $not: new RegExp('built-(for|on)-cardano', 'i') // dont include these tags
+            }
+        }))
 
-          if (tag != undefined) { // check if the tag exists in the top 10 tags
-
-              if (newsTags.find(t => { return tag.id == t.id }) == undefined) { // check if the tag has already been added to newsTags
-
-                  newsTags.push({
-                      id: tag.id,
-                      name: tag.name
-                 })
-
-                 Template.instance().newsTags.set(newsTags)
-              }
-
-              return 'disabled'
-          }
-          return ''
-      }
-
-      return ''
+        tags = _.uniqBy(tags, 'name');
+        return tags
     }
 })
 
@@ -110,73 +146,51 @@ Template.learnForm.events({
           	$(`#${inputId}`).keypress((e) => { return !!~specialCodes.indexOf(e.keyCode) })
           	return true
         }
-
+        // Remove validation error, if exists
+        $(`#${inputId}`).removeClass('is-invalid')
         $(`#${inputId}`).unbind('keypress')
     },
-    'click .tag-button': (event, templateInstance) => {
-		let name = ($(event.currentTarget).find('.tag-name')[0]).innerHTML;
-		let tagString = $('#tagInput').val()
-
-		tagString = (tagString === undefined || tagString === '') ? name : `${tagString},${name}`;
-
-		$('#tagInput').val(tagString)
-		$(event.currentTarget).attr('disabled', true);
-
-		let newsTags = templateInstance.newsTags.get();
-
-		newsTags.push({
-			id: event.currentTarget.id,
-			name: name.toUpperCase()
-		})
-		templateInstance.newsTags.set(newsTags)
-	},
-	'keyup #tagInput': function(event, templateInstance){
-		let inputs = $(event.currentTarget).val().split(',')
-		let topTags = $('.tag-name').toArray().map(t => t.innerHTML)
-		let topIds = $('.tag-name').toArray().map(t => t.parentElement.id)
-
-		$('.tag-button').attr('disabled', false);
-
-		let newsTags = [];
-		inputs.forEach(input => {
-			// Add the tag to the object
-			input = input.trim();
-			if (topTags.includes(input.toUpperCase())) {
-				let addedTag = {
-					id: topIds[topTags.indexOf(input.toUpperCase())],
-					name: input.toUpperCase()
-				}
-				$(`#${addedTag.id}`).attr('disabled', true);
-				newsTags.push(addedTag)
-			}
-		})
-
-		templateInstance.newsTags.set(newsTags)
-	},
     'click .new-learn': function(event, templateInstance) {
 		event.preventDefault()
 
-		let tags = $('#tagInput').val().split(',').map(e => e.trim()).filter(i => !!i)
-		let newsTags = templateInstance.newsTags.get()
+		let tags = $('#tags').val()
 
 		// convert all tags to array of objects
 		tags = tags.map(t => {
-			let element = undefined
+			let element = Tags.findOne({
+                name: t.trim().toUpperCase()
+            })
 
-			if (newsTags.length > 0) element = newsTags.find(n => n.name === t.toUpperCase())
  			// add the element to the array if it not present
-			if (element === undefined) {
-				return { id: '', name: t.trim().toUpperCase()}
+			if (!element) {
+				return {
+                    id: '',
+                    name: t.trim().toUpperCase()
+                }
 			}
 
-			return element
+			return {
+                id: element._id,
+                name: element.name
+            }
         })
+
+		// Deduplicating tags by name
+		const tagsToSave = [];
+		const addedTagNames = new Set();
+		for (const tag of tags) {
+			if (!addedTagNames.has(tag.name)) {
+				addedTagNames.add(tag.name);
+				tagsToSave.push(tag);
+			}
+		}
 
     	if (FlowRouter.current().route.name === 'newLearn') {
 	    	newLearningItem.call({
-	    		title: $('#title').val(),
+          title: $('#title').val(),
+          summary : $('#summary').val(),
 	    		content: templateInstance.mde.value(),
-	    		tags: tags
+	    		tags: tagsToSave
 	    	}, (err, data) => {
 	    		if (!err) {
 	    			notify('Successfully added.', 'success')
@@ -201,9 +215,10 @@ Template.learnForm.events({
 
     		editLearningItem.call({
     			learnId: learn._id,
-	    		title: $('#title').val(),
+          title: $('#title').val(),
+          summary : $('#summary').val(),
 	    		content: templateInstance.mde.value(),
-	    		tags: tags
+	    		tags: tagsToSave
 	    	}, (err, data) => {
 	    		if (!err) {
 	    			notify('Successfully edited.', 'success')

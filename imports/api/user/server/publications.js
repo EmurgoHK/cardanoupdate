@@ -12,7 +12,8 @@ Meteor.publish(null, () => Meteor.users.find({
 		pardon: 1,
 		strikes: 1,
 		mod: 1,
-		emails: 1
+		emails: 1,
+		hidden: 1
 	}
 }))
 
@@ -25,7 +26,8 @@ Meteor.publish('users', () => Meteor.users.find({}, {
 		pardon: 1,
 		strikes: 1,
 		mod: 1,
-		emails: 1
+		emails: 1,
+		hidden: 1
 	}
 }))
 

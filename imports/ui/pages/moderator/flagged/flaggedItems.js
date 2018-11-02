@@ -6,11 +6,13 @@ import { FlowRouter } from 'meteor/kadira:flow-router'
 import { News } from '/imports/api/news/news'
 import { Comments } from '/imports/api/comments/comments'
 import { Projects } from '/imports/api/projects/projects'
+import { Warnings } from '/imports/api/warnings/warnings'
 import { Events } from '/imports/api/events/events'
 import { Research } from '/imports/api/research/research'
 import { Learn } from '/imports/api/learn/learn'
 import { notify } from '/imports/modules/notifier'
 
+import { resolveWarningFlags } from '/imports/api/warnings/methods'
 import { resolveNewsFlags } from '/imports/api/news/methods'
 import { resolveCommentFlags } from '/imports/api/comments/methods'
 import { resolveProjectFlags } from '/imports/api/projects/methods'
@@ -25,7 +27,8 @@ Template.flaggedItems.onCreated(function() {
 		this.subscribe('comments.flagged')
 		this.subscribe('news')
 		this.subscribe('users')
-    	this.subscribe('projects')
+		this.subscribe('projects')
+		this.subscribe('warnings')
     	this.subscribe('events')
     	this.subscribe('research')
     	this.subscribe('learn')
@@ -52,6 +55,12 @@ Template.flaggedItems.helpers({
 			}
 		}).fetch()
 
+		let warnings = Warnings.find({
+			'flags.0': {
+				$exists: true
+			}
+		}).fetch()
+
 	    let events = Events.find({
 	      'flags.0': {
 					$exists: true
@@ -70,19 +79,19 @@ Template.flaggedItems.helpers({
 			}
 		}).fetch()
 
-		return _.union(research, events, comments, news, projects, learn).map(i => ({
+		return _.union(research, events, comments, news, projects, learn, warnings).map(i => ({
 			_id: i._id,
-			link: i.content ? `/learn/${i.slug}` : (i.pdf ? `/research/${i.slug}` : (i.location ? `/events/${i.slug}` : (i.summary ? `/news/${i.slug}` : (i.description ? `/projects/${i.slug}` : '')))),
+			link: i.content ? `/learn/${i.slug}` : (i.pdf ? `/research/${i.slug}` : (i.location ? `/events/${i.slug}` : (i.summary ? `/warnings/${i.slug}` : (i.description ? `/projects/${i.slug}` : '')))),
 			text: i.title ? i.title : (i.headline ? i.headline : i.text),
 			reasons: i.flags.map(j => ({
 				reason: j.reason,
-				author: ((Meteor.users.findOne({
+				author: Meteor.users.findOne({
 					_id: j.flaggedBy
-				}) || {}).profile || {}).name || 'No name'
+				})
 			})),
 			times: `${i.flags.length} ${i.flags.length === 1 ? 'time' : 'times'}`,
       		isEvent: !!i.location,
-      		isNews: !!i.summary,
+      		isWarning: !!i.summary,
 			isProject: !!i.description,
 			isResearch: !!i.pdf,
 			isLearn: !!i.content
@@ -123,9 +132,9 @@ Template.flaggedItems.events({
 								  notify('Successfully ignored.', 'success')
 							  }
 						  })
-				} else if (this.isNews) {
-					resolveNewsFlags.call({
-						newsId: this._id,
+				} else if (this.isWarning) {
+					resolveWarningFlags.call({
+						projectId: this._id,
 						decision: 'ignore'
 					}, (err, data) => {
 						if (err) {
@@ -202,9 +211,9 @@ Template.flaggedItems.events({
 								  notify('Successfully removed.', 'success')
 							  }
 						  })
-				} else if (this.isNews) {
-					resolveNewsFlags.call({
-						newsId: this._id,
+				} else if (this.isWarning) {
+					resolveWarningFlags.call({
+						projectId: this._id,
 						decision: 'remove'
 					}, (err, data) => {
 						if (err) {

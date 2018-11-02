@@ -1,0 +1,28 @@
+<template name="warnings">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="float-right">
+                <button class="btn btn-outline-primary" id="add-warning">
+                  Add Scam
+                </button>
+              </div>  
+              <h2>Scams</h2>
+              <p class="section-intro">Scam websites, wallets etc. Anything that people should be wary about.</p>
+            </div>
+            </div>
+             <div class="row">
+                <div class="col-sm-12">
+                    <div class="input-group">
+                        <input type="text" id="searchBox" class="form-control" placeholder="Search Scams" aria-label="Search Scams">
+                    </div>
+                </div>
+            </div>
+            <hr>
+            {{#if warningCount}}
+              {{> warningList warnings=warnings }}
+            {{else}}
+              <p>Sorry, we couldn't find anything.</p>
+            {{/if}}
+        </div>
+    </template> 

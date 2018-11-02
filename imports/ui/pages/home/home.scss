@@ -16,3 +16,57 @@
     }
   }
 }
+
+// Dropdown link for report option
+.dropdown-link{
+  cursor: pointer;
+}
+.news-settings.dropup{
+  display: flex;
+  justify-content: flex-end;
+}
+.dropdown-menu a {
+  display: block;
+}
+
+// labels for resources
+.home-label {
+  position: absolute;
+  margin: 0;
+  top: 0;
+  left: 0;
+  height: 1.50em;
+  width: 100%;
+  font-size: 0.8em;
+  padding: 0 0.5em;
+  color: #fff;
+  font-weight: 600;
+}
+ .section-content {
+  margin-top: 2em;
+}
+
+// Add New content modal cta
+.add-new-content{
+  position: relative;
+  background-color: #fff;
+  a{
+    display: block;
+    height: 100%;
+    width: 100%;
+    font-size: 1.125em;
+    font-weight: 800;
+  }
+  i{
+    margin-right: 3px;
+  }
+}
+
+// Exclusive style for small screens (mobile)
+@media (max-width: 576px) {
+  .user-stats{
+    .middle-item{
+      padding: 1em;
+    }
+  }
+}

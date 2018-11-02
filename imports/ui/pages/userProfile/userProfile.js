@@ -5,6 +5,8 @@ import { Research } from '/imports/api/research/research'
 import { updateProfile } from '/imports/api/user/methods'
 import { FlowRouter } from 'meteor/kadira:flow-router'
 
+import { notify } from '/imports/modules/notifier'
+
 import './viewProfile.html'
 import './editProfile.html'
 import './userProfile.scss'
@@ -28,17 +30,39 @@ Template.viewProfile.helpers({
     })
     if(user){
       return {
-      id : user._id,
-      name : user.profile.name ? user.profile.name : 'No Name',
-      bio : user.profile.bio ? user.profile.bio : '',
-      picture: user.profile.picture || '',
-      profile: user.profile,
-      emails: user.emails
-      // email : user.emails[0].address,
-      // verifiedEmail : user.emails[0].verified,
-    }
+        id : user._id,
+        name : user.profile.name ? user.profile.name : 'No Name',
+        bio : user.profile.bio ? user.profile.bio : '',
+        picture: user.profile.picture || '',
+        profile: user.profile,
+        emails: user.emails
+        // email : user.emails[0].address,
+        // verifiedEmail : user.emails[0].verified,
+      }
     }
   },
+
+  isModerator () {
+    let user = Meteor.users.findOne({
+      _id: FlowRouter.getParam('userId')
+    })
+    if (user.moderator) {
+      return true
+    }
+    return false
+  },
+
+  rank () {
+    let user = Meteor.users.findOne({
+      _id: FlowRouter.getParam('userId')
+    })
+    let totalUsers = Meteor.users.find({}).count()
+    if (user.mod) {
+      return `${user.mod.data.rank} out of ${totalUsers} users, based on comments and contributions.`
+    }
+    return false
+  },
+
   contentCount(){
     let news = News.find({createdBy : FlowRouter.getParam('userId')}).count()
     let comments = Comments.find({createdBy : FlowRouter.getParam('userId')}).count()
@@ -105,19 +129,35 @@ Template.editProfile.helpers({
 })
 
 Template.editProfile.events({
-  'submit #editProfileForm'(event){
+  'click .save-changes': (event, templateInstance) => {
     event.preventDefault()
     updateProfile.call({
       uId : Meteor.userId(),
-      name : event.target.userName.value,
-      email : event.target.userEmail.value,
-      bio : event.target.bio.value,
+      name : $('#userName').val(),
+      email : $('#userEmail').val(),
+      bio : $('#bio').val(),
       image: getFiles()[0] || ''
     }, (err, res) => {
-      if(err){
-        console.log(err)
+      if (!err) {
+        notify('Successfully updated.')
+
+        history.back()
+
+        return
       }
-      history.back()
+
+      if (err.details === undefined && err.reason) {
+        notify(err.reason, 'error')
+        return
+      }
+
+      if (err.details && err.details.length >= 1) {
+        err.details.forEach(e => {
+          $(`#${e.name}`).addClass('is-invalid')
+          $(`#${e.name}Error`).show()
+          $(`#${e.name}Error`).text(e.message)
+        })
+      }
     })
   },
 })

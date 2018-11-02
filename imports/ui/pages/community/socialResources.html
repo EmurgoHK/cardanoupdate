@@ -1,53 +1,29 @@
 <template name="socialResourcesTemp">
   <div class="container">
       <div class="row">
-          <div class="col-sm-12">
-              <div class="float-right">
-                  <button class="btn btn-outline-primary" id="add-Resource">
-                      Add Community
-                  </button>
-              </div>
-
-              <h2>Community</h2>
-
+        <div class="col-sm-12">
+          <div class="float-right">
+            <button class="btn btn-outline-primary" id="add-Resource">
+              Add Community
+            </button>
           </div>
+          <h2>Community</h2>
+          <p class="section-intro">Telegram groups, meetup groups, facebook groups, forums, etc.</p>
+        </div>
       </div>
-
       <div class="row">
           <div class="col-sm-12">
               <div class="input-group">
-                  <input type="text" id="searchBox" class="form-control" placeholder="Search Social Resources" aria-label="Search Social Resources">
+                  <input type="text" id="searchBox" class="form-control" placeholder="Search Social Resources" aria-label="Search Communities">
               </div>
           </div>
       </div>
 
       <hr>
-      <div class="card-columns">
-      {{#each socialResources}}
-          <div class="card">
-              <div class="card-body">
-                  {{#if canEdit}}
-                      <div class="news-settings float-right dropdown">
-                          <i class="icon-settings dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
-                          <div class="dropdown-menu">
-                              <a class="dropdown-item" id="js-edit" href="/community/{{_id}}/edit"><i class="icon-pencil"></i> Edit</a>
-                              <a class="dropdown-item text-danger" id="js-remove" href="#"><i class="icon-trash text-danger"></i> Delete</a>
-                          </div>
-                      </div>
-                  {{/if}}
-
-                  <h4 class="card-title">
-                      <a href="/community/{{_id}}">{{Name}}</a>
-                  </h4>
-                  <br>
-                  <p class="card-text">
-                      {{description}}
-                  </p>
-                  <hr>
-                  <a href="{{Resource_url}}" class="website card-link"><i class="fas fa-globe fa-lg"></i></a>
-              </div>
-          </div>
-      {{/each}}
-      </div>
+      {{#if socialResourcesCount}}
+        {{> socialResourceList socialResources=socialResources }}
+      {{else}}
+        <p>Sorry, we couldn't find anything.</p>
+      {{/if}}
   </div>
 </template>

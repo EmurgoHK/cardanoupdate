@@ -39,11 +39,7 @@ Template.viewLearn.helpers({
 	learn: () => Learn.findOne({
 		slug: FlowRouter.getParam('slug')
 	}),
-	author: function() {
-        return ((Meteor.users.findOne({
-            _id: this.createdBy
-        }) || {}).profile || {}).name || 'No name'
-    },
+	author: () => Meteor.users.findOne({_id: Template.currentData().createdBy}),
     comments: () => {
     	let learn = Learn.findOne({
 			slug: FlowRouter.getParam('slug')
@@ -63,7 +59,8 @@ Template.viewLearn.helpers({
 		  	newsId: this._id
 		}).count()
 	},
-	tagName: (tag) => tag.name || tag
+	tagName: (tag) => tag.name,
+	tagUrl: (tag) => `/tags?search=${encodeURIComponent(tag.name)}`,
 })
 
 Template.viewLearn.events({

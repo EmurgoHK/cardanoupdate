@@ -4,19 +4,20 @@ import { Template } from 'meteor/templating'
 import { FlowRouter } from 'meteor/kadira:flow-router'
 import { Events } from '/imports/api/events/events'
 import { notify } from '/imports/modules/notifier'
-
+import daterangepicker from 'daterangepicker'
 import SimpleMDE from 'simplemde'
-
+import moment from 'moment'
 import { newEvent, editEvent } from '/imports/api/events/methods'
-
+import '../../../../node_modules/daterangepicker/daterangepicker.css';
 import { insertImage } from '/imports/ui/shared/uploader/uploader'
+import { insertVideo } from '/imports/ui/pages/learn/learnForm'
 
 const maxCharValue = (inputId) => {
   if (inputId === 'description') {
     return 1000
   }
   if (inputId === 'headline') {
-    return 25
+    return 90
   }
   return 100
 }
@@ -41,7 +42,16 @@ const geolocate = (autocomplete) => {
 
 Template.eventForm.onCreated(function () {
   this.location = new ReactiveVar({})
-
+  Meteor.setTimeout(() => {
+    $('input#event_duration').daterangepicker({
+      timePicker: true,
+      startDate: moment().startOf('hour'),
+      endDate: moment().startOf('hour').add(32, 'hour'),
+      locale: {
+        format: 'DD/MM/YYYY hh:mm A'
+      }
+    })
+  })
   if (FlowRouter.current().route.name === 'editEvent') {
     this.autorun(() => {
       this.subscribe('events.item', FlowRouter.getParam('id'))
@@ -73,6 +83,11 @@ Template.eventForm.onRendered(function() {
       action: insertImage,
       className: 'fa fa-picture-o',
       title: 'Insert image',
+    }, {
+      name: 'insertVideo',
+      action: insertVideo,
+      className: 'fa fa-file-video-o',
+      title: 'Insert YouTube video'
     }, '|', 'preview', 'side-by-side', 'fullscreen', '|', 'guide'],
   })
 
@@ -107,7 +122,6 @@ Template.eventForm.events({
   },
   'keyup .form-control'(event, _tpl) {
     event.preventDefault()
-
     let inputId = event.target.id
     let inputValue = event.target.value
     let inputMaxChars = maxCharValue(inputId) - parseInt(inputValue.length)
@@ -123,28 +137,30 @@ Template.eventForm.events({
       })
       return true
     }
-
+    // Remove validation error, if exists
+    $(`#${inputId}`).removeClass('is-invalid')
     $(`#${inputId}`).unbind('keypress')
   },
 
   'submit #event_form'(event, _tpl) {
     event.preventDefault()
-
+    let event_duration = $('#event_duration').val()
     let data = {
       headline: $('#headline').val(),
       description: _tpl.mde.value(),
-      start_date: $('#start_date').val(),
-      end_date : $('#end_date').val(),
+      start_date: event_duration.split(' - ')[0],
+      end_date : event_duration.split(' - ')[1],
       location: $('#location').val(),
       rsvp: $('#rsvp').val()
     }
+
     if (FlowRouter.current().route.name === 'editEvent') {
       editEvent.call({
         eventId : FlowRouter.getParam('id'),
         headline: $('#headline').val(),
         description: _tpl.mde.value(),
-        start_date: $('#start_date').val(),
-        end_date : $('#end_date').val(),
+        start_date: moment(event_duration.split(' - ')[0], 'DD/MM/YYYY hh:mm A').format('YYYY-MM-DD[T]HH:mm'), // convert to mongo format
+        end_date : moment(event_duration.split(' - ')[1], 'DD/MM/YYYY hh:mm A').format('YYYY-MM-DD[T]HH:mm'), // convert to mongo format
         location: $('#location').val(),
         rsvp: $('#rsvp').val(),
         placeId: _tpl.location.get().place_id || ''
@@ -170,8 +186,8 @@ Template.eventForm.events({
     newEvent.call({
       headline: $('#headline').val(),
       description: _tpl.mde.value(),
-      start_date: $('#start_date').val(),
-      end_date : $('#end_date').val(),
+      start_date: moment(event_duration.split(' - ')[0], 'DD/MM/YYYY hh:mm A').format('YYYY-MM-DD[T]HH:mm'), // convert to mongo format
+      end_date : moment(event_duration.split(' - ')[1], 'DD/MM/YYYY hh:mm A').format('YYYY-MM-DD[T]HH:mm'), // convert to mongo format
       location: $('#location').val(),
       rsvp: $('#rsvp').val(),
       placeId: _tpl.location.get().place_id || ''
