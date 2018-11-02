@@ -12,12 +12,15 @@ import './search.scss'
 
 Template.search.onCreated(function() {
     this.autorun(() => {
-        this.subscribe('projects.search', FlowRouter.getQueryParam('q'))
-        this.subscribe('events.search', FlowRouter.getQueryParam('q'))
-        this.subscribe('learn.search', FlowRouter.getQueryParam('q'))
-        this.subscribe('research.search', FlowRouter.getQueryParam('q'))
-        this.subscribe('warnings.search', FlowRouter.getQueryParam('q'))
-        this.subscribe('socialResources.search', FlowRouter.getQueryParam('q'))
+
+        let q = FlowRouter.getQueryParam('q');
+
+        this.subscribe('projects.search', q)
+        this.subscribe('events.search', q)
+        this.subscribe('learn.search', q)
+        this.subscribe('research.search', q)
+        this.subscribe('warnings.search', q)
+        this.subscribe('socialResources.search', q)
     })
 })
 
@@ -56,9 +59,23 @@ Template.search.helpers({
 })
 
 Template.search.events({
-    'click #add-event': (event, _) => {
-        event.preventDefault()
-
+    'click #projectCheckbox': (event, _) => {
+        $(".projectsContainer").fadeToggle();
+    },
+    'click #eventsCheckbox': (event, _) => {
+        $(".eventsContainer").fadeToggle();
+    },
+    'click #learnCheckbox': (event, _) => {
+        $(".learnContainer").fadeToggle();
+    },
+    'click #researchCheckbox': (event, _) => {
+        $(".researchContainer").fadeToggle();
+    },
+    'click #scamsCheckbox': (event, _) => {
+        $(".scamsContainer").fadeToggle();
+    },
+    'click #communityCheckbox': (event, _) => {
+        $(".communityContainer").fadeToggle();
     },
     'click #searchButton, submit': (event, templateInstance) => {
         event.preventDefault();

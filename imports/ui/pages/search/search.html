@@ -15,34 +15,64 @@
                                 <div class="col-auto">
                                     <button class="btn btn-lg purpleButton" id="searchButton" type="button">Search</button>
                                 </div>
-
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-            Found {{recordsFound}} records
-              <br />
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row justify-content-center">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="projectCheckbox" value="option1" checked>
+                        <label class="form-check-label" for="projectCheckbox">Projects</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="eventsCheckbox" value="option2" checked>
+                        <label class="form-check-label" for="eventsCheckbox">Events</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="researchCheckbox" value="option2" checked>
+                        <label class="form-check-label" for="researchCheckbox">Research</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="learnCheckbox" value="option2" checked>
+                        <label class="form-check-label" for="learnCheckbox">Learn</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="communityCheckbox" value="option2" checked>
+                        <label class="form-check-label" for="communityCheckbox">Community</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="scamsCheckbox" value="option2" checked>
+                        <label class="form-check-label" for="scamsCheckbox">Scams</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        Found {{recordsFound}} records
+        <br />
         <hr>
         <div class="card">
             <div class="card-body">
-
-             {{#unless recordsFound}}
-             <h2>Ermahgerd!! no records found</h2>
-             {{/unless}}
-
+                {{#unless recordsFound}}
+                <h2>Ermahgerd!! no records found</h2>
+                {{/unless}}
                 <!-- PROJECTS -->
-                {{#each projects}}
-                <a href="/projects/{{slug}}">{{headline}}</a> <br />
-                {{description}} <br />
-                <span class="badge badge-secondary">PROJECT</span>
-                <div class="float-right">{{showLocalTimestamp createdAt}}</div>
-                <br />
-                <hr>
-                {{/each}}
-
+                <div class="projectsContainer">
+                    {{#each projects}}
+                    <a href="/projects/{{slug}}">{{headline}}</a> <br />
+                    {{description}} <br />
+                    <span class="badge badge-secondary">PROJECT</span>
+                    <div class="float-right">{{showLocalTimestamp createdAt}}</div>
+                    <br />
+                    <hr>
+                    {{/each}}
+                </div>
                 <!-- EVENT -->
+                <div class="eventsContainer">
                 {{#each events}}
                 <a href="/events/{{slug}}">{{headline}}</a> <br />
                 {{description}} <br />
@@ -51,8 +81,9 @@
                 <br />
                 <hr>
                 {{/each}}
-
+              </div>
                 <!-- LEARN -->
+                <div class="learnContainer">
                 {{#each learn}}
                 <a href="/learn/{{slug}}">{{title}}</a> <br />
                 {{summary}} <br />
@@ -61,8 +92,9 @@
                 <br />
                 <hr>
                 {{/each}}
-
-                 <!-- RESEARCH -->
+              </div>
+                <!-- RESEARCH -->
+                <div class="researchContainer">
                 {{#each research}}
                 <a href="/research/{{slug}}">{{headline}}</a> <br />
                 {{abstract}} <br />
@@ -71,8 +103,9 @@
                 <br />
                 <hr>
                 {{/each}}
-
-                 <!-- WARNING -->
+              </div>
+                <!-- WARNING -->
+                <div class="scamsContainer">
                 {{#each warnings}}
                 <a href="/scams/{{slug}}">{{headline}}</a> <br />
                 {{summary}} <br />
@@ -81,8 +114,9 @@
                 <br />
                 <hr>
                 {{/each}}
-
-                 <!-- SOCIAL RESOURCES -->
+              </div>
+                <!-- SOCIAL RESOURCES -->
+                <div class="communityContainer">
                 {{#each socialResources}}
                 <a href="/community/{{slug}}">{{Name}}</a> <br />
                 {{description}} <br />
@@ -91,6 +125,7 @@
                 <br />
                 <hr>
                 {{/each}}
+              </div>
             </div>
         </div>
     </div>
