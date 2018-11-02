@@ -63,8 +63,8 @@
                 <!-- PROJECTS -->
                 <div class="projectsContainer">
                     {{#each projects}}
-                    <a href="/projects/{{slug}}">{{headline}}</a> <br />
-                    {{description}} <br />
+                    <a href="/projects/{{slug}}">{{SearchMarker headline}}</a> <br />
+                    {{SearchMarker description}} <br />
                     <span class="badge badge-secondary">PROJECT</span>
                     <div class="float-right">{{showLocalTimestamp createdAt}}</div>
                     <br />
@@ -74,8 +74,8 @@
                 <!-- EVENT -->
                 <div class="eventsContainer">
                 {{#each events}}
-                <a href="/events/{{slug}}">{{headline}}</a> <br />
-                {{description}} <br />
+                <a href="/events/{{slug}}">{{SearchMarker headline}}</a> <br />
+                {{SearchMarker description}} <br />
                 <span class="badge badge-secondary">EVENT</span>
                 <div class="float-right">{{showLocalTimestamp createdAt}}</div>
                 <br />
@@ -85,8 +85,8 @@
                 <!-- LEARN -->
                 <div class="learnContainer">
                 {{#each learn}}
-                <a href="/learn/{{slug}}">{{title}}</a> <br />
-                {{summary}} <br />
+                <a href="/learn/{{slug}}">{{SearchMarker title}}</a> <br />
+                {{SearchMarker summary}} <br />
                 <span class="badge badge-secondary">LEARN</span>
                 <div class="float-right">{{showLocalTimestamp createdAt}}</div>
                 <br />
@@ -96,8 +96,8 @@
                 <!-- RESEARCH -->
                 <div class="researchContainer">
                 {{#each research}}
-                <a href="/research/{{slug}}">{{headline}}</a> <br />
-                {{abstract}} <br />
+                <a href="/research/{{slug}}">{{SearchMarker headline}}</a> <br />
+                {{SearchMarker abstract}} <br />
                 <span class="badge badge-secondary">RESEARCH</span>
                 <div class="float-right">{{showLocalTimestamp createdAt}}</div>
                 <br />
@@ -107,8 +107,8 @@
                 <!-- WARNING -->
                 <div class="scamsContainer">
                 {{#each warnings}}
-                <a href="/scams/{{slug}}">{{headline}}</a> <br />
-                {{summary}} <br />
+                <a href="/scams/{{slug}}">{{SearchMarker headline}}</a> <br />
+                {{SearchMarker summary}} <br />
                 <span class="badge badge-secondary">SCAMS</span>
                 <div class="float-right">{{showLocalTimestamp createdAt}}</div>
                 <br />
@@ -118,8 +118,8 @@
                 <!-- SOCIAL RESOURCES -->
                 <div class="communityContainer">
                 {{#each socialResources}}
-                <a href="/community/{{slug}}">{{Name}}</a> <br />
-                {{description}} <br />
+                <a href="/community/{{slug}}">{{SearchMarker Name}}</a> <br />
+                {{SearchMarker description}} <br />
                 <span class="badge badge-secondary">COMMUNITY</span>
                 <div class="float-right">{{showLocalTimestamp createdAt}}</div>
                 <br />
