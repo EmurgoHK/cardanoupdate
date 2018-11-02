@@ -64,7 +64,9 @@ import _ from 'lodash'
           	$(`#${inputId}`).keypress((e) => { return !!~specialCodes.indexOf(e.keyCode) })
           	return true
         }
-         $(`#${inputId}`).unbind('keypress')
+        // Remove validation error, if exists
+        $(`#${inputId}`).removeClass('is-invalid')
+        $(`#${inputId}`).unbind('keypress')
     },
     'click .add-warning' (event, _tpl) {
         event.preventDefault()
