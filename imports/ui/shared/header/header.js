@@ -2,6 +2,7 @@ import './header.html'
 import './header.scss'
 import { Notifications } from '/imports/api/notifications/notifications'
 import { FlowRouter } from 'meteor/kadira:flow-router'
+import { Session } from 'meteor/session'
 
 Template.header.onCreated(function () {
   this.autorun(() => {
@@ -27,6 +28,30 @@ Template.header.events({
     event.preventDefault()
 
     FlowRouter.go('/add')
+  },
+   'click #searchButton, submit': (event, templateInstance) => {
+       event.preventDefault();
+
+       let q = $('#searchHeader').val();
+
+       if(q){
+        history.replaceState(null, '', `/home/?q=${q}`)
+       }
+       FlowRouter.go('/search')
+
+       
+       let queryParam = { q: q }
+       let path = FlowRouter.path('/search', {}, queryParam)
+       Session.set('searchQuery', queryParam)
+
+       FlowRouter.go(path)
+
+   },
+     'click .backdrop': (event, templateInstance) => {
+    event.preventDefault()
+    //open search modal when clicked
+    $(".searchModal").fadeOut();
+    $(".backdrop").fadeOut();
   },
 })
 

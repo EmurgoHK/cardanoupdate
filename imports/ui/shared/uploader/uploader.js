@@ -172,6 +172,10 @@ Template.uploader.events({
                 }, (err, data) => {
                     if (err) {
                         notify(err.reason || err.message, 'error')
+
+                        // If any error generated while uploading image then
+                        // Following line rever back button to original.
+                        $(`#fileUploadValue-${templateInstance.id}`).html('<span id="fileUploadValue-{{id}}">Upload</span>');
                     } else {
                         if (!templateInstance.data.single) {
                             let files = templateInstance.files.get()

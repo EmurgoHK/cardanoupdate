@@ -8,6 +8,28 @@ Meteor.publish('learn', () => Learn.find({}, {
 	}
 }))
 
+Meteor.publish('learn.search', (q) => Learn.find(        {
+          $or: [{
+            title: {
+              $regex: new RegExp(q, "i")
+            }
+          }, {
+            summary: {
+              $regex: new RegExp(q, "i")
+            }
+          },
+           {
+            content: {
+              $regex: new RegExp(q, "i")
+            }
+          }
+          ]
+        }, {
+  sort: {
+    createdAt: -1
+  }
+}))
+
 Meteor.publish('learn.item', (id) => Learn.find({
 	$or: [{
 		_id: id

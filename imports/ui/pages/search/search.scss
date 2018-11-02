@@ -1,0 +1,15 @@
+.form-control-borderless {
+    border: none;
+}
+
+.form-control-borderless:hover, .form-control-borderless:active, .form-control-borderless:focus {
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+
+.purpleButton{
+	background-color: #392557;
+	color: #fff;
+	border:none;
+}

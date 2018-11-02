@@ -52,7 +52,7 @@ describe('Events page', function () {
     })
 
     it('user can edit a event he/she created', () => {
-        browser.execute(() => $('.news-settings').find('.dropdown-menu').addClass('show'))
+        browser.execute(() => $($('.fa-ellipsis-h').get(0)).trigger('click'))
         browser.pause(3000)
 
         browser.click('#js-edit')
@@ -74,17 +74,6 @@ describe('Events page', function () {
         browser.pause(3000)
 
         assert(browser.execute(() => $('h1.card-title').text() === 'Headline Test 2').value, true)
-    })
-
-    it('user can flag a event', () => {
-        browser.execute(() => $('.dropdown-toggle').trigger('click'))
-        browser.pause(2000)
-        
-        browser.click('.flag-event')
-        browser.pause(2000)
-
-        browser.click('#spam')
-        browser.pause(3000)
     })
 
     it('user can comment', () => {
@@ -167,7 +156,7 @@ describe('Events page', function () {
 
         let count = browser.execute(() => $('.card').length).value
 
-        browser.execute(() => $('.news-settings').find('.dropdown-menu').addClass('show'))
+        browser.execute(() => $($('.fa-ellipsis-h').get(0)).trigger('click'))
         browser.pause(2000)
 
         browser.click('#js-remove')

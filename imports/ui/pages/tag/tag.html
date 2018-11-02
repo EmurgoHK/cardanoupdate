@@ -8,16 +8,28 @@
       </div>
     </div>
 
+    {{#unless hasAny}}
+    <p class="mt-5">Sorry, we couldn't find anything.</p>
+    {{/unless}}
+
+    {{#if hasProjects }}
     <h2>Projects</h2>
     {{> projectList projects=projects}}
+    {{/if}}
 
+    {{#if hasWarnings }}
     <h2>Warnings</h2>
     {{> warningList warnings=warnings }}
+    {{/if}}
 
+    {{#if hasLearn }}
     <h2>Learning Resources</h2>
     {{> learningResourceList learningResources=learn }}
+    {{/if}}
 
+    {{#if hasSocialResources }}
     <h2>Social Resources</h2>
     {{> socialResourceList socialResources=socialResources }}
+    {{/if}}
   </div>
 </template>

@@ -25,15 +25,14 @@ export const addWarning = new ValidatedMethod({
             clean: true
         }),
     run(data) {
-        if (Meteor.isServer) {
-            if (!Meteor.userId()) {
-                throw new Meteor.Error('Error.', 'You have to be logged in.')
-            }
-
-            data.createdBy = Meteor.userId()
-            data.createdAt = new Date().getTime()
-            return Warnings.insert(data)
+        if (!Meteor.userId()) {
+            throw new Meteor.Error('Error.', 'You have to be logged in.')
         }
+
+        data.createdBy = Meteor.userId()
+        data.createdAt = new Date().getTime()
+
+        return Warnings.insert(data)
     }
 })
 
@@ -88,7 +87,7 @@ export const editWarning = new ValidatedMethod({
         }).validator({
             clean: true
         }),
-    run({ projectId, headline, summary, github_url, website, tags, type }) {
+    run({ projectId, headline, summary }) {
         if (Meteor.isServer) {
             let warning = Warnings.findOne({ _id: projectId })
 

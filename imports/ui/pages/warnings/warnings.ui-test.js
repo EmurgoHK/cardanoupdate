@@ -14,7 +14,7 @@ describe('Warnings page', function () {
 
         browser.execute(() => Meteor.loginWithPassword('testing', 'testing'))
 
-        browser.pause(10000)
+        browser.pause(5000)
     })
 
      it('user can add a new warning', function () {
@@ -30,7 +30,9 @@ describe('Warnings page', function () {
         browser.setValue('#description', 'Summary Test')
         browser.pause(2000)
         browser.click('.add-warning')
-        browser.pause(3000)
+        browser.pause(500)
+        browser.click('.add-warning')
+        browser.pause(7000)
         assert(browser.execute(() => FlowRouter.current().route.name === 'warnings').value, true)
     })
 
@@ -44,7 +46,7 @@ describe('Warnings page', function () {
      it('user can edit a warning he/she created', () => {
         browser.url(`${baseUrl}/scams`)
         browser.pause(5000)
-        browser.execute(() => $('.news-settings').find('.dropdown-menu').addClass('show'))
+        browser.execute(() => $($('.fa-ellipsis-h').get(0)).trigger('click'))
         browser.pause(3000)
         browser.click('#js-edit')
         browser.pause(3000)
@@ -52,24 +54,13 @@ describe('Warnings page', function () {
         browser.pause(1000)
         browser.click('.add-warning')
         browser.pause(3000)
-         assert(browser.execute(() => FlowRouter.current().route.name === 'warnings').value, true)
-         assert(browser.execute(() => Array.from($('.card-title a')).some(i => $(i).text().trim() === 'Headline Test 2')).value, true)
-    })
-
-     it('user can flag a warning', () => {
-        browser.execute(() => FlowRouter.go('/scams/headline-test-1'))
-        browser.pause(3000)
-        browser.execute(() => $('.dropdown-toggle').trigger('click'))
-        browser.pause(2000)
-        browser.click('.flag-warning')
-        browser.pause(2000)
-        browser.setValue('.swal2-input', 'Test flag warning')
-        browser.pause(1000)
-        browser.click('.swal2-confirm')
-        browser.pause(3000)
+        assert(browser.execute(() => FlowRouter.current().route.name === 'warnings').value, true)
+        assert(browser.execute(() => Array.from($('.card-title a')).some(i => $(i).text().trim() === 'Headline Test 2')).value, true)
     })
 
      it('user can post comments', () => {
+        browser.execute(() => FlowRouter.go('/scams/headline-test-1'))
+        browser.pause(5000)
         browser.setValue('#comment', 'Test cool stuff')
         browser.pause(2000)
         browser.click('.new-comment')
@@ -128,7 +119,7 @@ describe('Warnings page', function () {
         browser.url(`${baseUrl}/scams`)
         browser.pause(5000)
         let count = browser.execute(() => $('.card').length).value
-        browser.execute(() => $('.news-settings').find('.dropdown-menu').addClass('show'))
+        browser.execute(() => $($('.fa-ellipsis-h').get(0)).trigger('click'))
         browser.pause(1000)
         browser.click('#js-remove')
         browser.pause(2000)

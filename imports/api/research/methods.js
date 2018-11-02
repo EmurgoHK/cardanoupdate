@@ -26,21 +26,39 @@ export const newResearch = new ValidatedMethod({
             pdf: {
                 type: String,
                 optional: false
-            }
+            },
+            
+            links: {
+                type: Array,
+                optional: true
+            },
+            'links.$': {
+                type: Object,
+                optional: true
+            },
+            'links.$.url': {
+                type: String,
+                optional: false
+            },
+            'links.$.displayName': {
+                type: String,
+                optional: false
+            },
         }).validator({
             clean: true
         }),
-    run({ headline, abstract, pdf }) {
+    run({ headline, abstract, pdf, links }) {
 		if (!Meteor.userId()) {
 			throw new Meteor.Error('Error.', 'You have to be logged in.')
-		}
+        }
 
         return Research.insert({
             headline: headline,
             abstract: abstract,
             pdf: pdf,
             createdAt: new Date().getTime(),
-            createdBy: Meteor.userId()
+            createdBy: Meteor.userId(),
+            links,
         })
     }
 })
@@ -102,11 +120,29 @@ export const editResearch = new ValidatedMethod({
             pdf: {
                 type: String,
                 optional: false
-            }
+            },
+            
+            links: {
+                type: Array,
+                optional: true
+            },
+            'links.$': {
+                type: Object,
+                optional: true
+            },
+            'links.$.url': {
+                type: String,
+                optional: false
+            },
+            'links.$.displayName': {
+                type: String,
+                max: 25,
+                optional: false
+            },
         }).validator({
             clean: true
         }),
-    run({ researchId, headline, abstract, pdf }) {
+    run({ researchId, headline, abstract, pdf, links }) {
         let research = Research.findOne({
             _id: researchId
         })
@@ -130,7 +166,8 @@ export const editResearch = new ValidatedMethod({
                 headline: headline,
                 abstract: abstract,
                 pdf: pdf,
-                editedAt: new Date().getTime()
+                editedAt: new Date().getTime(),
+                links,
             }
         })
     }

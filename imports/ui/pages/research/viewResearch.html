@@ -22,10 +22,16 @@
                   </div>
                 </div>
 
-                <div class="row mb-5">
-                  <div class="col-sm-12 pdf pt-4 pl-5 pr-5">
+                <div class="row pt-4">
+                  <h6 class="col-sm-2">External resources:</h6>
+                  <div class="col-sm-2 pdf">
                     <a href="{{pdf}}" target="_blank">Download PDF</a>
                   </div>
+                  {{#each link in links}}
+                    <div class="col-sm-2 link">
+                      <a href="{{link.url}}" target="_blank">{{link.displayName}}</a>
+                    </div>
+                  {{/each}}
                 </div>
 
                 <div class="row">

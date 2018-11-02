@@ -12,6 +12,9 @@
           </p>
           <hr>
           <a href="{{pdf}}" class="card-link"><i class="far fa-file-pdf"></i></a>
+          {{#each link in links}}
+              <a href="{{link.url}}" class="card-link"><i class="fas fa-external-link-alt"></i></a>
+          {{/each}}
           {{> flagItem item="research" edit=editURL _id=this._id}}
         </div>
       </div>
@@ -30,6 +33,9 @@
               </p>
               <hr>
               <a href="{{pdf}}" class="card-link"><i class="far fa-file-pdf"></i></a>
+              {{#each link in links}}
+                  <a href="{{link.url}}" class="card-link"><i class="fas fa-external-link-alt"></i></a>
+              {{/each}}
               {{> flagItem item="research" edit=editURL _id=this._id}}
             </div>
           </div>

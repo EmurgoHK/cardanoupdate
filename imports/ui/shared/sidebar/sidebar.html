@@ -3,26 +3,25 @@
     <nav class="sidebar-nav">
       <ul class="nav">
         <li class="nav-item">
-          <a class="nav-link" href="/">
+          <a class="nav-link {{activeClass 'home'}}" href="/">
             <i class="nav-icon icon-home"></i> Home
           </a>
-          <a class="nav-link" href="/projects">
+          <a class="nav-link {{activeClass 'projects'}}" href="/projects">
             <i class="nav-icon icon-notebook"></i> Projects
           </a>
-          <a class="nav-link" href="/events">
+          <a class="nav-link {{activeClass 'events'}}" href="/events">
             <i class="nav-icon icon-calendar"></i> Events
           </a>
-          <a class="nav-link" href="/research">
+          <a class="nav-link {{activeClass 'research'}}" href="/research">
             <i class="nav-icon far fa-copy"></i> Research papers
           </a>
-          <a class="nav-link" href="/learn">
+          <a class="nav-link {{activeClass 'learn'}}" href="/learn">
             <i class="nav-icon fas fa-graduation-cap"></i> Learn
           </a>
-
-          <a class="nav-link" href="/community">
+          <a class="nav-link {{activeClass 'socialResources'}}" href="/community">
             <i class="nav-icon fab fa-creative-commons-by"></i> Community
           </a>
-                    <a class="nav-link  text-danger" href="/scams">
+          <a class="nav-link  text-danger {{activeClass 'warnings'}}" href="/scams">
             <i class="nav-icon fas fa-exclamation-triangle"></i> Scams
           </a>
           <a class="nav-link" target="blank" href="https://github.com/EmurgoHK/cardanoupdate">
@@ -36,22 +35,22 @@
           </a>
           <ul class="nav-dropdown-items">
             <li class="nav-item">
-              <a class="nav-link" href="/moderator/flagged">
+              <a class="nav-link {{activeClass 'flaggedItems'}}" href="/moderator/flagged">
                 <i class="nav-icon icon-flag"></i> Flagged items
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/moderator/pardon">
+              <a class="nav-link {{activeClass 'pardon'}}" href="/moderator/pardon">
                 <i class="nav-icon icon-flag"></i> Pardon requests
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/moderator/changes">
+              <a class="nav-link {{activeClass 'changes'}}" href="/moderator/changes">
                 <i class="nav-icon icon-flag"></i> Proposed changes
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/moderator/candidates">
+              <a class="nav-link {{activeClass 'candidates'}}" href="/moderator/candidates">
                 <i class="nav-icon fas fa-users"></i> Candidates
               </a>
             </li>

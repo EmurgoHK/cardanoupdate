@@ -50,7 +50,7 @@ describe('Learn page', function () {
     })
 
     it('user can edit a learning resource he/she created', () => {
-        browser.execute(() => $('.news-settings').find('.dropdown-menu').addClass('show'))
+        browser.execute(() => $($('.fa-ellipsis-h').get(0)).trigger('click'))
         browser.pause(3000)
 
         browser.click('#js-edit')
@@ -76,17 +76,6 @@ describe('Learn page', function () {
 
         assert(browser.execute(() => $('h1.card-title').text() === 'Title test 2').value, true)
         assert(browser.execute(() => $('.content').text().trim() === 'Content test').value, true)
-    })
-
-    it('user can flag a learning resource', () => {
-        browser.execute(() => $('.dropdown-toggle').trigger('click'))
-        browser.pause(2000)
-
-        browser.click('.flag-learn')
-        browser.pause(2000)
-
-        browser.click('#spam')
-        browser.pause(3000)
     })
 
     it('user can comment', () => {
@@ -169,7 +158,7 @@ describe('Learn page', function () {
 
         let count = browser.execute(() => $('.card').length).value
 
-        browser.execute(() => $('.news-settings').find('.dropdown-menu').addClass('show'))
+        browser.execute(() => $($('.fa-ellipsis-h').get(0)).trigger('click'))
         browser.pause(3000)
 
         browser.click('#js-remove')

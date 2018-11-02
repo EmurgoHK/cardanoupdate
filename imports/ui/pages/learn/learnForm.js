@@ -146,7 +146,8 @@ Template.learnForm.events({
           	$(`#${inputId}`).keypress((e) => { return !!~specialCodes.indexOf(e.keyCode) })
           	return true
         }
-
+        // Remove validation error, if exists
+        $(`#${inputId}`).removeClass('is-invalid')
         $(`#${inputId}`).unbind('keypress')
     },
     'click .new-learn': function(event, templateInstance) {
