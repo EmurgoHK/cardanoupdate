@@ -55,7 +55,7 @@ describe('Research page', function () {
     })
 
     it('user can edit research he/she created', () => {
-        browser.execute(() => $('.news-settings').find('.dropdown-menu').addClass('show'))
+        browser.execute(() => $($('.fa-ellipsis-h').get(0)).trigger('click'))
         browser.pause(3000)
 
         browser.click('#js-edit')
@@ -78,17 +78,6 @@ describe('Research page', function () {
 
         assert(browser.execute(() => $('h1.card-title').text() === 'Headline Test 2').value, true)
         assert(browser.execute(() => $('.abstract').text().trim() === 'Abstract Test').value, true)
-    })
-
-    it('user can flag research', () => {
-        browser.execute(() => $('.dropdown-toggle').trigger('click'))
-        browser.pause(2000)
-
-        browser.click('.flag-research')
-        browser.pause(2000)
-
-        browser.click('#spam')
-        browser.pause(3000)
     })
 
     it('user can comment', () => {
@@ -171,7 +160,7 @@ describe('Research page', function () {
 
         let count = browser.execute(() => $('.card').length).value
 
-        browser.execute(() => $('.news-settings').find('.dropdown-menu').addClass('show'))
+        browser.execute(() => $($('.fa-ellipsis-h').get(0)).trigger('click'))
         browser.pause(3000)
 
         browser.click('#js-remove')

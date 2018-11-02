@@ -37,7 +37,7 @@ describe('Candidates page', function () {
     it('moderator can promote candidates', function () {
         let count = browser.execute(() => $('.news-item').length).value
 
-        let _id = browser.execute(() => $('.card-title').attr('href').split('/')[2]).value
+        let _id = browser.execute(() => $('.card-title').find('a').attr('href').split('/')[2]).value
 
         browser.click('#js-promote')
         browser.pause(2000)
