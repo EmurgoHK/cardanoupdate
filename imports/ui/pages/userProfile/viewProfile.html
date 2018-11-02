@@ -43,7 +43,7 @@
                 {{#each projects}} 
                   <div class="card">
                     <div class="card-body">
-                    <div ><a href="/projects/{{headline}}" class="card-title" >{{headline}}</a> Created {{showTimeAgoTimestamp createdAt}}</div>
+                    <div ><a href="/projects/{{slug}}" class="card-title" >{{headline}}</a> Created {{showTimeAgoTimestamp createdAt}}</div>
                     <p class="card-text">{{description}}</p>              
                     </div>
                   </div>
@@ -55,7 +55,7 @@
                   {{#each research}} 
                     <div class="card">
                       <div class="card-body">
-                      <div ><a href="/research/{{headline}}" class="card-title" >{{headline}}</a> Posted {{showTimeAgoTimestamp createdAt}}</div>
+                      <div ><a href="/research/{{slug}}" class="card-title" >{{headline}}</a> Posted {{showTimeAgoTimestamp createdAt}}</div>
                       <p class="card-text">{{abstract}}</p>              
                       </div>
                     </div>
