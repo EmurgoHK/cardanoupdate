@@ -137,7 +137,8 @@ Template.eventForm.events({
       })
       return true
     }
-
+    // Remove validation error, if exists
+    $(`#${inputId}`).removeClass('is-invalid')
     $(`#${inputId}`).unbind('keypress')
   },
 

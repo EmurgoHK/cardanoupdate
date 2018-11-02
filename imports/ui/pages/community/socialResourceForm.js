@@ -78,7 +78,8 @@ Template.socialResourceFormTemp.events({
           	$(`#${inputId}`).keypress((e) => { return !!~specialCodes.indexOf(e.keyCode) })
           	return true
         }
-
+        // Remove validation error, if exists
+        $(`#${inputId}`).removeClass('is-invalid')
         $(`#${inputId}`).unbind('keypress')
     },
     'click .add-socialResource' (event, templateInstance) {
