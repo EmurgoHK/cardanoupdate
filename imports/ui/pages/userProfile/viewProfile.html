@@ -7,7 +7,8 @@
             <div class="media">
                 <img src="{{avatarFor user '100'}}" alt=""  height="100" width="100" class="mr-3 rounded">
                 <div class="media-body">
-                  <h4 class="mt-0"><strong>{{name}}</strong></h4>
+                  <h4 class="mt-0"><strong>{{name}}</strong> {{#if isModerator}}<span class="badge badge-primary">moderator</span>{{/if}}</h4>
+                  {{#if rank}}<p class="h6 text-muted"><strong>Rank : {{rank}}</strong></p>{{/if}}
                   <p class="h6 text-muted"><strong>About</strong></p>
                   <p>{{bio}}</p>
                 </div>

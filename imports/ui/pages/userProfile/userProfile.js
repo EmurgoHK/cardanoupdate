@@ -30,17 +30,39 @@ Template.viewProfile.helpers({
     })
     if(user){
       return {
-      id : user._id,
-      name : user.profile.name ? user.profile.name : 'No Name',
-      bio : user.profile.bio ? user.profile.bio : '',
-      picture: user.profile.picture || '',
-      profile: user.profile,
-      emails: user.emails
-      // email : user.emails[0].address,
-      // verifiedEmail : user.emails[0].verified,
-    }
+        id : user._id,
+        name : user.profile.name ? user.profile.name : 'No Name',
+        bio : user.profile.bio ? user.profile.bio : '',
+        picture: user.profile.picture || '',
+        profile: user.profile,
+        emails: user.emails
+        // email : user.emails[0].address,
+        // verifiedEmail : user.emails[0].verified,
+      }
     }
   },
+
+  isModerator () {
+    let user = Meteor.users.findOne({
+      _id: FlowRouter.getParam('userId')
+    })
+    if (user.moderator) {
+      return true
+    }
+    return false
+  },
+
+  rank () {
+    let user = Meteor.users.findOne({
+      _id: FlowRouter.getParam('userId')
+    })
+    let totalUsers = Meteor.users.find({}).count()
+    if (user.mod) {
+      return `${user.mod.data.rank} out of ${totalUsers} users, based on comments and contributions.`
+    }
+    return false
+  },
+
   contentCount(){
     let news = News.find({createdBy : FlowRouter.getParam('userId')}).count()
     let comments = Comments.find({createdBy : FlowRouter.getParam('userId')}).count()
