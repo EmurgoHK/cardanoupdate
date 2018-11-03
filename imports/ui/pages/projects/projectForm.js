@@ -23,16 +23,7 @@ Template.projectForm.onCreated(function() {
 	if (FlowRouter.current().route.name === 'editProject') {
 		this.autorun(() => {
 			this.subscribe('projects.item', FlowRouter.getParam('id'))
-
-            let project = Projects.findOne({
-                _id: FlowRouter.getParam('id')
-            })
-
-            // preselect the correct type if it's on the project edit page
-            if (project) {
-                $('[name=type]').val([(project.tags.filter(i => /built-(on|for)-cardano/i.test(i.name))[0] || {}).name])
-            }
-		})
+        })
 	} else {
         this.autorun(() => {
             this.subscribe('users')
@@ -63,6 +54,17 @@ Template.projectForm.onRendered(function() {
 
         $('#tags').val(tags.map(i => i.name))
         $('#tags').trigger('change')
+    })
+
+    this.autorun(() => {
+        let project = Projects.findOne({
+            _id: FlowRouter.getParam('id')
+        })
+
+        // preselect the correct type if it's on the project edit page
+        if (project) {
+            $('[name=type]').val([(project.tags.filter(i => /built-(on|for)-cardano/i.test(i.name))[0] || {}).name])
+        }
     })
 
     $('#tags').select2({

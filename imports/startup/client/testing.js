@@ -5,6 +5,7 @@ import { Projects } from '/imports/api/projects/projects'
 import { Events } from '/imports/api/events/events'
 import { Research } from '/imports/api/research/research'
 import { Tags } from '/imports/api/tags/tags'
+import { FastRender } from 'meteor/staringatlights:fast-render'
 
 const collections = {
 	News: News,
@@ -28,3 +29,5 @@ Object.keys(collections).forEach(a => {
 		}
 	}
 })
+
+window.FastRender = FastRender

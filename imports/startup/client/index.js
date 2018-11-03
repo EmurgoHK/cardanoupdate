@@ -20,8 +20,6 @@ import '/imports/ui/shared/flagItem/flagItem';
 
 import '/imports/ui/shared/userNameDisplay/userNameDisplay';
 
-import './routes'
-
 // Blaze helpers
 import '/imports/ui/helpers/handlebars-helpers'
 
