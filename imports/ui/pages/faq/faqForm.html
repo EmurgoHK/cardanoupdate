@@ -1,0 +1,32 @@
+<template name="faqForm">
+    <div class="event-form container">
+      <div class="card mb-5">
+        <div class="card-body">
+          <h5><a href="/faqs" class="text-muted" style="text-decoration: underline;">FAQs</a></h5>
+          <h2 class="card-title">
+            {{#if add}}New{{else}}Edit{{/if}} FAQ
+          </h2>
+          <hr>
+          <form>
+            <div class="group-title">Question</div>
+            <div class="input-group">
+              <input type="text" class="form-control" id="question" value="{{faq.question}}" placeholder="FAQ question in 90 chars or less">
+              <div id="questionError" class="invalid-feedback"></div>
+            </div>
+            <small><i id="title-chars" class="text-muted"></i></small>
+            <div class="group-title">Answer</div>
+            <div class="input-group">
+              <textarea class="form-control" id="answer" rows="8" value="{{faq.answer}}" placeholder="FAQ answer in 260 characters or less"></textarea>
+              <div id="answerError" class="invalid-feedback"></div>
+            </div>
+          </form>
+        </div>
+        <div class="card-footer">
+          <div>
+            <button type="submit" class="btn btn-lg btn-success new-faq">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+  

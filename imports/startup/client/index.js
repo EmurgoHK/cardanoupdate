@@ -19,7 +19,6 @@ import '/imports/ui/shared/warningList/warningList';
 import '/imports/ui/shared/flagItem/flagItem';
 
 import '/imports/ui/shared/userNameDisplay/userNameDisplay';
-
 // Blaze helpers
 import '/imports/ui/helpers/handlebars-helpers'
 
