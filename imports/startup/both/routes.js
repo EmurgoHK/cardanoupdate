@@ -20,6 +20,8 @@ if (Meteor.isClient) {
   import '/imports/ui/pages/community/viewSocialResource'
 
   import '/imports/ui/pages/tag/tag'
+  import '/imports/ui/pages/faq/faq'
+  import '/imports/ui/pages/faq/faqForm'
 
   import '/imports/ui/pages/research/research'
   import '/imports/ui/pages/research/researchForm'
@@ -110,6 +112,50 @@ FlowRouter.route('/', {
       header: 'header',
       sidebar: 'sidebar',
       main: 'home'
+    })
+  }
+})
+
+FlowRouter.route('/faqs', {
+  name: 'faqs',
+  subscriptions: function(params, queryParams) {
+    this.register('faq', Meteor.subscribe('faq'))
+  },
+  action: () => {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'faqPage'
+    })
+  }
+})
+
+FlowRouter.route('/faqs/new', {
+  name: 'newFaq',
+  triggersEnter: [userLoginFilter], 
+  subscriptions: function(params, queryParams) {
+    this.register('users', Meteor.subscribe('users'))
+  },
+  action: () => {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'faqForm'
+    })
+  }
+})
+
+FlowRouter.route('/faqs/:id/edit', {
+  name: 'editFaq',
+  triggersEnter: [userLoginFilter],
+  subscriptions: function(params, queryParams) {
+    this.register('faq.item', Meteor.subscribe('faq.item', params.id))
+  },
+  action: () => {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'faqForm'
     })
   }
 })
