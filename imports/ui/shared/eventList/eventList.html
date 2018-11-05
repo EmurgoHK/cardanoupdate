@@ -9,11 +9,11 @@
               <a href="/events/{{slug}}" title="{{headline}}">{{headline}}</a>
             </h4>
             <p class="card-text">
-              {{#if isEventUpcoming start_date}} 
-                <p>Starts {{showTimeAgoTimestamp start_date}}</p> 
+              {{#unless isEventUpcoming start_date timezone.zoneName}} 
+                <p>Started {{showTimeAgoTimestamp start_date timezone.zoneName}}</p> 
               {{else}} 
-                <p>Starts on {{showLocalTimestamp start_date}}</p>
-              {{/if}}
+                <p>Starts on {{showLocalTimestamp start_date timezone.zoneName}}</p>
+              {{/unless}}
             </p>
             <hr>
             <p class="rsvp">
@@ -37,11 +37,11 @@
                   <a href="/events/{{slug}}" title="{{headline}}">{{headline}}</a>
                 </h4>
                 <p class="card-text">
-                  {{#if isEventUpcoming start_date}} 
-                    <p>Starts {{showTimeAgoTimestamp start_date}}</p> 
+                  {{#unless isEventUpcoming start_date timezone.zoneName}} 
+                    <p>Started {{showTimeAgoTimestamp start_date timezone.zoneName}}</p> 
                   {{else}} 
-                    <p>Starts on {{showLocalTimestamp start_date}}</p>
-                  {{/if}}
+                    <p>Starts on {{showLocalTimestamp start_date timezone.zoneName}}</p>
+                  {{/unless}}
                 </p>
                 <hr>
                 <p class="rsvp">

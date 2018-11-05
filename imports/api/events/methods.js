@@ -38,6 +38,22 @@ export const newEvent = new ValidatedMethod({
     rsvp: {
       type: String,
       optional: false
+    },
+    timezone: {
+      type: Object,
+      optional: true
+    },
+    'timezone.abbreviation': {
+      type: String
+    },
+    'timezone.zoneName': {
+      type: String
+    },
+    'timezone.gmtOffset': {
+      type: String
+    },
+    'timezone.dst': {
+      type: String
     }
   }).validator({
     clean: true
@@ -124,6 +140,22 @@ export const editEvent = new ValidatedMethod({
     rsvp: {
       type: String,
       optional: false
+    },
+    timezone: {
+      type: Object,
+      optional: true
+    },
+    'timezone.abbreviation': {
+      type: String
+    },
+    'timezone.zoneName': {
+      type: String
+    },
+    'timezone.gmtOffset': {
+      type: String
+    },
+    'timezone.dst': {
+      type: String
     }
   }).validator({
     clean: true
@@ -136,7 +168,8 @@ export const editEvent = new ValidatedMethod({
     end_date,
     location,
     placeId,
-    rsvp
+    rsvp,
+    timezone
   }) {
     if (Meteor.isServer) {
       let event = Events.findOne({
@@ -166,6 +199,7 @@ export const editEvent = new ValidatedMethod({
           location: location,
           rsvp:rsvp,
           placeId: placeId,
+          timezone: timezone,
           updatedAt: new Date().getTime()
         }
       })
