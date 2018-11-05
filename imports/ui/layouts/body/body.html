@@ -1,25 +1,34 @@
 <template name="main">
-  {{> Template.dynamic template=header}}
-  <div class="app-body">
-    {{> Template.dynamic template=sidebar}}
-    <main class="main">
-      <section class="home-tagline d-none d-sm-block">
-        <div class="container">
-          <div class="row mx-auto">
-            <div class="col-sm-12 pr-0 pl-0 pb-5">
-              <!-- <span class="header-title">Cardano Update Space</span> probably don't a heading, let's see how it looks without it-->
-              <h2>Everything about Cardano.</h2>
-              <h2>Accurate up to the minute.</h2>
-            </div>
-          </div>
-        </div>
-      </section>
-      {{> Template.dynamic template=main}}
-    </main>
-  </div>
-  {{> AddNewModal}}
+    {{> Template.dynamic template=header}}
+    <div class="app-body">
+        {{> Template.dynamic template=sidebar}}
+        <main class="main">
+            <section class="home-tagline d-none d-sm-block">
+                <div class="container">
+                    <div class="row mx-auto">
+                        <div class="col-sm-12 pr-0 pl-0 pb-5">
+                            <h2>Everything about Cardano.</h2>
+                            <h2>Accurate up to the minute.</h2>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="/">Home</a> / 
+                        {{#each breadcrumbs}}
+                        <a href="{{url}}">{{text}}</a>
+                        {{#if notLast}} / {{/if}}
+                        {{/each}}
+                    </li>
+                </ol>
+            </nav>
+            {{> Template.dynamic template=main}}
+        </main>
+    </div>
+    {{> AddNewModal}}
 </template>
-
 <!-- added title -->
 
 <body class="app header-fixed sidebar-fixed aside-menu-fixed pace-done pace-done">
