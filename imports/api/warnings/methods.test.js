@@ -15,6 +15,7 @@ describe('warning methods', () => {
         return callWithPromise('addWarning', {
             headline: 'Test headline',
             summary: 'Test summary',
+            captcha:'_test_captcha_'
         }).then(data => {
             let warning = Warnings.findOne({
                 _id: data
@@ -30,53 +31,12 @@ describe('warning methods', () => {
     it('user cannot add a new warning if data is missing', () => {
         return callWithPromise('addWarning', {
             headline: 'Test headline',
-            summary: ''
+            summary: '',
+            captcha:'_test_captcha_'
         }).then(data => {}).catch(error => {
             assert.ok(error)
         })
     })
-
-    // Remove the comments if user is allowed to propose data
-    /*
-    it('user can propose new data', () => {
-        let project = Warnings.findOne({})
-        assert.ok(project)
-        return callWithPromise('proposeNewDataWarning', {
-            projectId: project._id,
-            datapoint: 'website',
-            newData: 'test',
-            type: 'link'
-        }).then(data => {
-            let p2 = Warnings.findOne({
-                _id: project._id
-            })
-            assert.ok(p2.edits.length > 0)
-            assert.ok(p2.edits[0].type === 'link')
-            assert.ok(p2.edits[0].newData === 'test')
-            assert.ok(p2.edits[0].datapoint === 'website')            
-        })
-    })
-    
-    it('moderator can approve proposed data', () => {
-        let warning = Warnings.findOne({
-            'edits.0': {
-                $exists: true
-            }
-        })
-        assert.ok(warning)
-        return callWithPromise('resolveProjectDataUpdate', {
-            projectId: warning._id,
-            editId: warning.edits[0]._id,
-            decision: 'merge'
-        }).then(data => {
-            let w2 = Warnings.findOne({
-                _id: warning._id
-            })
-            assert.ok(w2.edits[0].status === 'merged')
-            assert.ok(w2[w2.edits[0].datapoint] === w2.edits[0].newData)
-        })
-    })
-    */
    
     it('user can edit a warning', () => {
         let warning = Warnings.findOne({})
@@ -87,6 +47,7 @@ describe('warning methods', () => {
             projectId: warning._id,
             headline: 'Test headline 2',
             summary: 'Test summary 2',
+            captcha:'_test_captcha_'
         }).then(data => {
             let warning2 = Warnings.findOne({
                 _id: warning._id
@@ -112,7 +73,8 @@ describe('warning methods', () => {
         return callWithPromise('editWarning', {
             projectId: warning,
             headline: 'Test headline 2',
-            summary: 'Test summary 2'
+            summary: 'Test summary 2',
+            captcha:'_test_captcha_'
         }).then(data => {}).catch(error => {
             assert.ok(error)
         })

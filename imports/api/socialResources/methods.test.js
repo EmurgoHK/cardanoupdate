@@ -28,6 +28,7 @@ describe('social resources methods', () => {
             description: 'Test Resource',
             Resource_url: 'https://gitter.im/meteor/meteor',
             tags: [{name: 'testTag'}],
+            captcha:'_test_captcha_'
         }).then(data => {
             let resource = socialResources.findOne({
                 _id: data
@@ -48,7 +49,8 @@ describe('social resources methods', () => {
         return callWithPromise('addSocialResource', {
             Name: 'Test Resource',
             description: 'Test Resource',
-            Resource_url: 'test'
+            Resource_url: 'test',
+            captcha:'_test_captcha_'
         }).then(data => {
             let resource = socialResources.findOne({
                 _id: data
@@ -64,6 +66,7 @@ describe('social resources methods', () => {
     it('user cannot add a social resource if data is missing', () => {
         return callWithPromise('addSocialResource', {
             Name: 'Test Resource',
+            captcha:'_test_captcha_'
         }).then(data => {}).catch(error => {
             assert.ok(error)
         })
@@ -88,6 +91,7 @@ describe('social resources methods', () => {
             description: 'Test Resource 2',
             Resource_url: 'test 2',
             tags: newTags,
+            captcha:'_test_captcha_'
         }).then(data =>{
             let resource2 = socialResources.findOne({
                 _id: resource._id,
@@ -120,7 +124,8 @@ describe('social resources methods', () => {
         let resource = socialResources.insert({
             Name: 'Temp Resource',
             description: 'Temp Resource',
-            createdBy: 'temp'
+            createdBy: 'temp',
+            captcha:'_test_captcha_'
         })
 
         assert.ok(resource)
@@ -137,7 +142,8 @@ describe('social resources methods', () => {
 
     it('user cannot delete a social resource he/she didn\'t create', () => {
         return callWithPromise('deleteSocialResource', {
-            projectId: resourceIdNotOwned
+            projectId: resourceIdNotOwned,
+            captcha:'_test_captcha_'
         }).then(data => {}).catch(error => {
             assert.ok(error)
         })

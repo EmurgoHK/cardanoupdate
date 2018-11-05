@@ -33,6 +33,10 @@ export const newLearningItem = new ValidatedMethod({
               type: String,
               optional: false
             },
+            captcha: {
+                type: String,
+                optional: false
+            },
             tags: {
                 type: Array,
                 optional: true
@@ -52,31 +56,40 @@ export const newLearningItem = new ValidatedMethod({
         }).validator({
             clean: true
         }),
-    run({ title, summary, content, tags, difficultyLevel }) {
-		if (!Meteor.userId()) {
-			throw new Meteor.Error('Error.', 'You have to be logged in.')
-		}
+    run({ title, summary, content, tags, captcha, difficultyLevel }) {
+        if (Meteor.isServer) {
+            if (!Meteor.userId()) {
+                throw new Meteor.Error('Error.', 'You have to be logged in.')
+            }
 
-        if (tags) {
-            tags.forEach(tag => {
-                if (tag.id) {
-                    mentionTag(tag.id)
-                } else if (tag.name) {
-                    tagId = addTag(tag.name)
-                    tag.id = tagId
+            if(captcha != '_test_captcha_') {
+                var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, captcha);
+        
+                if (!verifyCaptchaResponse.success) {
+                    throw new Meteor.Error('recaptcha failed please try again');
                 }
+            }
+            if (tags) {
+                tags.forEach(tag => {
+                    if (tag.id) {
+                        mentionTag(tag.id)
+                    } else if (tag.name) {
+                        tagId = addTag(tag.name)
+                        tag.id = tagId
+                    }
+                })
+            }
+    
+            return Learn.insert({
+                title: title,
+                summary: summary,
+                content: content,
+                difficultyLevel: difficultyLevel,
+                tags: tags,
+                createdAt: new Date().getTime(),
+                createdBy: Meteor.userId()
             })
         }
-
-        return Learn.insert({
-            title: title,
-            summary: summary,
-            content: content,
-            difficultyLevel: difficultyLevel,
-            tags: tags,
-            createdAt: new Date().getTime(),
-            createdBy: Meteor.userId()
-        })
     }
 })
 
@@ -143,6 +156,10 @@ export const editLearningItem = new ValidatedMethod({
               type: String,
               optional: false
             },
+            captcha: {
+                type: String,
+                optional: false
+            },
             tags: {
               type: Array,
               optional: true
@@ -162,46 +179,55 @@ export const editLearningItem = new ValidatedMethod({
         }).validator({
             clean: true
         }),
-    run({ learnId, title, summary, content, tags, difficultyLevel }) {
-        let learn = Learn.findOne({
-            _id: learnId
-        })
-
-        if (!learn) {
-            throw new Meteor.Error('Error.', 'Learning item doesn\'t exist.')
-        }
-
-        if (!Meteor.userId()) {
-            throw new Meteor.Error('Error.', 'You have to be logged in.')
-        }
-
-        if (learn.createdBy !== Meteor.userId()) {
-            throw new Meteor.Error('Error.', 'You can\'t edit a learning item that you haven\'t created.')
-        }
-
-        if (tags) {
-            tags.forEach(tag => {
-                if (tag.id) {
-                    mentionTag(tag.id)
-                } else if (tag.name) {
-                    tagId = addTag(tag.name)
-                    tag.id = tagId
+    run({ learnId, title, summary, content, tags, captcha, difficultyLevel }) {
+        if (Meteor.isServer) {
+            let learn = Learn.findOne({
+                _id: learnId
+            })
+    
+            if (!learn) {
+                throw new Meteor.Error('Error.', 'Learning item doesn\'t exist.')
+            }
+    
+            if (!Meteor.userId()) {
+                throw new Meteor.Error('Error.', 'You have to be logged in.')
+            }
+    
+            if (learn.createdBy !== Meteor.userId()) {
+                throw new Meteor.Error('Error.', 'You can\'t edit a learning item that you haven\'t created.')
+            }
+            
+            if(captcha != '_test_captcha_') {
+                var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, captcha);
+        
+                if (!verifyCaptchaResponse.success) {
+                    throw new Meteor.Error('recaptcha failed please try again');
+                } 
+            }
+            if (tags) {
+                tags.forEach(tag => {
+                    if (tag.id) {
+                        mentionTag(tag.id)
+                    } else if (tag.name) {
+                        tagId = addTag(tag.name)
+                        tag.id = tagId
+                    }
+                })
+            }
+    
+            return Learn.update({
+                _id: learnId
+            }, {
+                $set: {
+                    title: title,
+                    summary: summary,
+                    content: content,
+                    difficultyLevel: difficultyLevel,
+                    tags: tags,
+                    editedAt: new Date().getTime()
                 }
             })
         }
-
-        return Learn.update({
-            _id: learnId
-        }, {
-            $set: {
-                title: title,
-                summary: summary,
-                content: content,
-                difficultyLevel: difficultyLevel,
-                tags: tags,
-                editedAt: new Date().getTime()
-            }
-        })
     }
 })
 

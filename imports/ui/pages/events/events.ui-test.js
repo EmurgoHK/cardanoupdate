@@ -45,6 +45,9 @@ describe('Events page', function () {
         browser.setValue('#rsvp', 'test')
         browser.pause(1000)
 
+        browser.click('.recaptcha-checkbox')
+        browser.pause(8000)
+
         browser.click('.add-event')
         browser.pause(3000)
 
@@ -61,6 +64,9 @@ describe('Events page', function () {
         browser.setValue('#headline', 'Headline Test 2')
         browser.pause(1000)
 
+        browser.click('.recaptcha-checkbox')
+        browser.pause(8000)
+        
         browser.click('.add-event')
         browser.pause(3000)
 

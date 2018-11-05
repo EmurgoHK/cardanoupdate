@@ -162,6 +162,8 @@ Template.eventForm.events({
     event.preventDefault()
     let event_duration = $('#event_duration').val()
 
+    var captchaData = grecaptcha.getResponse();
+
     if (FlowRouter.current().route.name === 'editEvent') {
       editEvent.call({
         eventId : FlowRouter.getParam('id'),
@@ -171,6 +173,7 @@ Template.eventForm.events({
         end_date : moment.tz(event_duration.split(' - ')[1], 'DD/MM/YYYY hh:mm A', _tpl.timezone.get().zoneName).utc().format('YYYY-MM-DD[T]HH:mm'), // convert to mongo format, save in UTC
         location: $('#location').val(),
         rsvp: $('#rsvp').val(),
+        captcha: captchaData,
         placeId: _tpl.location.get().place_id || '',
         timezone: {
           abbreviation: _tpl.timezone.get().abbreviation,
@@ -204,6 +207,7 @@ Template.eventForm.events({
       end_date : moment.tz(event_duration.split(' - ')[1], 'DD/MM/YYYY hh:mm A', _tpl.timezone.get().zoneName).utc().format('YYYY-MM-DD[T]HH:mm'), // convert to mongo format, save in UTC
       location: $('#location').val(),
       rsvp: $('#rsvp').val(),
+      captcha: captchaData,
       placeId: _tpl.location.get().place_id || '',
       timezone: {
         abbreviation: _tpl.timezone.get().abbreviation,

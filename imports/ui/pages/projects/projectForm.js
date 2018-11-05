@@ -30,7 +30,6 @@ Template.projectForm.onCreated(function() {
 
             let user = Meteor.users.findOne({_id : Meteor.userId()})
 
-            console.log(user)
             // check if user is already hidden modal for instruction
             if(user && _.includes(user.hidden, 'addProject')) {
                 Meteor.setTimeout(() => {
@@ -153,6 +152,8 @@ Template.projectForm.events({
     'click .add-project' (event, _tpl) {
         event.preventDefault()
 
+        var captchaData = grecaptcha.getResponse();
+
         let tags = $('#tags').val()
 
 		// convert all tags to array of objects
@@ -194,6 +195,7 @@ Template.projectForm.events({
 	    		description: $('#description').val(),
                 github_url: $('#github_url').val() || '',
                 website: $('#website').val() || '',
+                captcha: captchaData,
                 tags: tagsToSave,
                 type: $('input[name="type"]:checked').val()
 	    	}, (err, _data) => {
@@ -220,6 +222,7 @@ Template.projectForm.events({
             description: $('#description').val(),
             github_url: $('#github_url').val() || '',
             website: $('#website').val() || '',
+            captcha: captchaData,
             tags: tagsToSave,
             type: $('input[name="type"]:checked').val()
         }, (err, data) => {

@@ -20,19 +20,33 @@ export const addWarning = new ValidatedMethod({
                 type: String,
                 max: 260,
                 optional: false
-            }
+            },
+            captcha: {
+                type: String,
+                optional: false
+            },
         }).validator({
             clean: true
         }),
     run(data) {
-        if (!Meteor.userId()) {
-            throw new Meteor.Error('Error.', 'You have to be logged in.')
+        if (Meteor.isServer) {
+            if (!Meteor.userId()) {
+                throw new Meteor.Error('Error.', 'You have to be logged in.')
+            }
+    
+            if(data.captcha != '_test_captcha_') {
+                var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, data.captcha);
+        
+                if (!verifyCaptchaResponse.success) {
+                    throw new Meteor.Error('recaptcha failed please try again');
+                } else
+                    console.log('reCAPTCHA verification passed!');
+            }
+            data.createdBy = Meteor.userId()
+            data.createdAt = new Date().getTime()
+    
+            return Warnings.insert(data)
         }
-
-        data.createdBy = Meteor.userId()
-        data.createdAt = new Date().getTime()
-
-        return Warnings.insert(data)
     }
 })
 
@@ -83,11 +97,15 @@ export const editWarning = new ValidatedMethod({
                 type: String,
                 max: 260,
                 optional: false
+            },
+            captcha: {
+                type: String,
+                optional: false
             }
         }).validator({
             clean: true
         }),
-    run({ projectId, headline, summary }) {
+    run({ projectId, headline, summary, captcha }) {
         if (Meteor.isServer) {
             let warning = Warnings.findOne({ _id: projectId })
 
@@ -101,6 +119,16 @@ export const editWarning = new ValidatedMethod({
 
             if (warning.createdBy !== Meteor.userId()) {
                 throw new Meteor.Error('Error.', 'You can\'t edit a warning that you haven\'t added.')
+            }
+
+            // tests will have captcha `_test_captcha_`
+            if(captcha != '_test_captcha_') {
+                var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, captcha);
+
+                if (!verifyCaptchaResponse.success) {
+                    throw new Meteor.Error('recaptcha failed please try again');
+                } else
+                    console.log('reCAPTCHA verification passed!');
             }
 
             return Warnings.update({
@@ -162,138 +190,6 @@ export const flagWarning = new ValidatedMethod({
         })
     } 
 })
-
-
-// Remove comments if the user is allowed to propose changes
-
-/*
-export const proposeNewDataWarning = new ValidatedMethod({
-    name: 'proposeNewDataWarning',
-    validate: 
-        new SimpleSchema({
-            projectId: {
-                type: String,
-                optional: false
-            },
-            datapoint: {
-                type: String,
-                optional: false
-            },
-            newData: {
-                type: String,
-                optional: false
-            },
-            type: {
-                type: String,
-                optional: true
-            }
-        }).validator({
-            clean: true
-        }),
-    run({ projectId, datapoint, newData, type }) {
-        if (!Meteor.userId()) {
-            throw new Meteor.Error('Error.', 'You have to be logged in.')
-        }
-        
-        let warning = Warnings.findOne({
-            _id: projectId
-        })
-        if (!warning) {
-            throw new Meteor.Error('Error.', 'Project doesn\'t exist.')
-        }
-        if (warning[datapoint]) {
-            throw new Meteor.Error('Error.', 'Data already exists.')
-        }
-        console.log('here')
-        Warnings.update({
-            _id: warning._id
-        }, {
-            $push: {
-                edits: {
-                    _id: Random.id(10),
-                    proposedBy: Meteor.userId(),
-                    datapoint: datapoint,
-                    newData: newData,
-                    createdAt: new Date().getTime(),
-                    status: 'open',
-                    type: type || 'string'
-                }
-            }
-        })
-    }
-})
-export const resolveWarningDataUpdate = new ValidatedMethod({
-    name: 'resolveWarningDataUpdate',
-    validate:
-        new SimpleSchema({
-            projectId: {
-                type: String,
-                optional: false
-            },
-            editId: {
-                type: String,
-                optional: false
-            },
-            decision: {
-                type: String,
-                optional: false
-            }
-        }).validator({
-            clean: true
-        }),
-    run({ projectId, editId, decision }) {
-        if (!Meteor.userId()) {
-            throw new Meteor.Error('Error.', 'You have to be logged in.')
-        }
-        if (!isModerator(Meteor.userId())) {
-            throw new Meteor.Error('Error.', 'You have to be a moderator.')
-        }
-        let project = Warnings.findOne({
-            _id: projectId
-        })
-        if (!project) {
-            throw new Meteor.Error('Error.', 'Warning doesn\'t exist.')
-        }
-        if (decision === 'merge') {
-            let edits = project.edits || []
-            let edit = {}
-            edits.forEach(i => {
-                if (i._id === editId) {
-                    edit = i
-                    i.mergedAt =  new Date().getTime()
-                    i.status = 'merged'
-                }
-            })
-            if (!edit) {
-                throw new Meteor.Error('Error.', 'Edit doesn\'t exist.')
-            }
-            return Warnings.update({
-                _id: project._id
-            }, {
-                $set: {
-                    edits: edits,
-                    [edit.datapoint]: edit.newData
-                }
-            })
-        } else {
-            let edits = project.edits || []
-            edits.forEach(i => {
-                if (i._id === editId) {
-                    i.rejectedAt =  new Date().getTime()
-                    i.status = 'rejected'
-                }
-            })
-            return Warnings.update({
-                _id: project._id
-            }, {
-                $set: {
-                    edits: edits
-                }
-            })
-        }
-    }
-})
-*/
 
 export const resolveWarningFlags = new ValidatedMethod({
     name: 'resolveWarningFlags',

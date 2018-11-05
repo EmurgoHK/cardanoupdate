@@ -157,6 +157,8 @@ Template.learnForm.events({
     'click .new-learn': function(event, templateInstance) {
 		event.preventDefault()
 
+        var captchaData = grecaptcha.getResponse();
+
 		let tags = $('#tags').val()
 
 		// convert all tags to array of objects
@@ -193,7 +195,8 @@ Template.learnForm.events({
 	    	newLearningItem.call({
           title: $('#title').val(),
           summary : $('#summary').val(),
-	    		content: templateInstance.mde.value(),
+		  content: templateInstance.mde.value(),
+		  captcha: captchaData,
           tags: tagsToSave,
           difficultyLevel : $('input[name="difficultyLevel"]:checked').val()
 	    	}, (err, data) => {
@@ -222,7 +225,8 @@ Template.learnForm.events({
     			learnId: learn._id,
           title: $('#title').val(),
           summary : $('#summary').val(),
-	    		content: templateInstance.mde.value(),
+				content: templateInstance.mde.value(),
+				captcha: captchaData,
           tags: tagsToSave,
           difficultyLevel : $('input[name="difficultyLevel"]:checked').val()
 	    	}, (err, data) => {
