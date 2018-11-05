@@ -4,7 +4,6 @@
       <div class="col-sm-12">
         {{#if SubsCacheReady}}
           {{#with project}}
-          <h5><a href="/projects" class="text-muted" style="text-decoration: underline;">Projects</a></h5>
           {{#if isOwner}}<a href="/projects/{{_id}}/edit" class="btn btn-primary btn-sm float-right"><i class="fas fa-edit"></i> Edit Project</a>{{/if}}
           <h1 class="card-title text-dark mt-3"><strong>{{headline}}</strong></h1>
           <h5 class="card-subtitle mb-3 mt-3">
