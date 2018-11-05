@@ -1,8 +1,10 @@
 import { FlowRouter } from 'meteor/kadira:flow-router'
 import { BlazeLayout } from 'meteor/kadira:blaze-layout'
+import { Session } from 'meteor/session'
 
 if (Meteor.isClient) {
   import { notify } from '/imports/modules/notifier'
+  
 
   // Import needed templates
   import '/imports/ui/pages/home/home'
@@ -78,6 +80,13 @@ Accounts.onLogout((user) => {
 })
 
 // FlowRouter.triggers.enter([userLoginFilter], { except: ['home', 'projects'] })
+FlowRouter.triggers.enter([function(options) {
+
+    let breadcrumb = options.route.options.breadcrumb || {};
+    breadcrumb.urls = breadcrumb.urls || []
+
+    Session.set('breadcrumbs', breadcrumb)
+}])
 
 FlowRouter.triggers.enter([() => {
   	Tracker.autorun(() => {
@@ -94,6 +103,7 @@ FlowRouter.triggers.enter([() => {
 // Set up all routes in the app
 FlowRouter.route('/', {
   name: 'home',
+  
   subscriptions: function(params, queryParams) {
   	this.register('research', Meteor.subscribe('research'))
     this.register('socialResources', Meteor.subscribe('socialResources'))
@@ -118,6 +128,10 @@ FlowRouter.route('/', {
 
 FlowRouter.route('/faqs', {
   name: 'faqs',
+        breadcrumb: {
+        text: 'FAQ',
+        urls: ['/faqs']
+    },
   subscriptions: function(params, queryParams) {
     this.register('faq', Meteor.subscribe('faq'))
   },
@@ -132,6 +146,10 @@ FlowRouter.route('/faqs', {
 
 FlowRouter.route('/faqs/new', {
   name: 'newFaq',
+          breadcrumb: {
+        text: 'FAQ / New',
+        urls: ['/faqs']
+    },
   triggersEnter: [userLoginFilter], 
   subscriptions: function(params, queryParams) {
     this.register('users', Meteor.subscribe('users'))
@@ -147,6 +165,10 @@ FlowRouter.route('/faqs/new', {
 
 FlowRouter.route('/faqs/:id/edit', {
   name: 'editFaq',
+          breadcrumb: {
+        text: 'FAQ / Edit',
+        urls: ['/faqs']
+    },
   triggersEnter: [userLoginFilter],
   subscriptions: function(params, queryParams) {
     this.register('faq.item', Meteor.subscribe('faq.item', params.id))
@@ -179,6 +201,10 @@ FlowRouter.route('/tags', {
 
 FlowRouter.route('/projects', {
   name: 'projects',
+        breadcrumb: {
+        text: 'Projects',
+        urls: ['/projects']
+    },
   subscriptions: function(params, queryParams) {
     this.register('projects', Meteor.subscribe('projects'))
   },
@@ -193,6 +219,10 @@ FlowRouter.route('/projects', {
 
 FlowRouter.route('/projects/new', {
   name: 'newProject',
+        breadcrumb: {
+        text: 'Projects / New',
+        urls: ['/projects']
+    },
   triggersEnter: [userLoginFilter], 
   subscriptions: function(params, queryParams) {
     this.register('users', Meteor.subscribe('users'))
@@ -209,6 +239,10 @@ FlowRouter.route('/projects/new', {
 
 FlowRouter.route('/projects/:id/edit', {
   name: 'editProject',
+          breadcrumb: {
+        text: 'Projects / Edit',
+        urls: ['/projects']
+    },
   triggersEnter: [userLoginFilter],
   subscriptions: function(params, queryParams) {
     this.register('projects.item', Meteor.subscribe('projects.item', params.id))
@@ -225,6 +259,10 @@ FlowRouter.route('/projects/:id/edit', {
 
 FlowRouter.route('/projects/:slug', {
   name: 'viewProject',
+          breadcrumb: {
+        text: 'Projects / View',
+        urls: ['/projects']
+    },
   subscriptions: function(params, queryParams) {
     this.register('projects.item', Meteor.subscribe('projects.item', params.slug))
     this.register('users', Meteor.subscribe('users'))
@@ -240,6 +278,10 @@ FlowRouter.route('/projects/:slug', {
 
 FlowRouter.route('/scams', {
   name: 'warnings',
+          breadcrumb: {
+        text: 'Scams',
+        urls: ['/scams']
+    },
   subscriptions: function(params, queryParams) {
     this.register('warnings', Meteor.subscribe('warnings'))
   },
@@ -254,6 +296,10 @@ FlowRouter.route('/scams', {
 
 FlowRouter.route('/scams/new', {
   name: 'newWarning',
+        breadcrumb: {
+        text: 'Scams / New',
+        urls: ['/scams']
+    },
   triggersEnter: [userLoginFilter],
   action: () => {
     BlazeLayout.render('main', {
@@ -266,6 +312,10 @@ FlowRouter.route('/scams/new', {
 
 FlowRouter.route('/scams/:id/edit', {
   name: 'editWarning',
+          breadcrumb: {
+        text: 'Scams / Edit',
+        urls: ['/scams']
+    },
   triggersEnter: [userLoginFilter],
   subscriptions: function(params, queryParams) {
     this.register('warnings.item', Meteor.subscribe('warnings.item', params.id))
@@ -281,6 +331,10 @@ FlowRouter.route('/scams/:id/edit', {
 
 FlowRouter.route('/scams/:slug', {
   name: 'viewWarning',
+          breadcrumb: {
+        text: 'Scams / View',
+        urls: ['/scams']
+    },
   subscriptions: function(params, queryParams) {
     this.register('warnings.item', Meteor.subscribe('warnings.item', params.slug))
     this.register('users', Meteor.subscribe('users'))
@@ -296,6 +350,10 @@ FlowRouter.route('/scams/:slug', {
 
 FlowRouter.route('/community', {
   name: 'socialResources',
+          breadcrumb: {
+        text: 'Community',
+        urls: ['/community']
+    },
   subscriptions: function(params, queryParams) {
     this.register('socialResources', Meteor.subscribe('socialResources'))
   },
@@ -310,6 +368,10 @@ FlowRouter.route('/community', {
 
 FlowRouter.route('/community/new', {
   name: 'newSocialResource',
+          breadcrumb: {
+        text: 'Community / New',
+        urls: ['/community']
+    },
   triggersEnter: [userLoginFilter], 
   subscriptions: function(params, queryParams) {
     this.register('tags', Meteor.subscribe('tags'))
@@ -325,6 +387,10 @@ FlowRouter.route('/community/new', {
 
 FlowRouter.route('/community/:id/edit', {
   name: 'editSocialResource',
+      breadcrumb: {
+        text: 'Community / Edit',
+        urls: ['/community']
+    },
   subscriptions: function(params, queryParams) {
     this.register('socialResources.item', Meteor.subscribe('socialResources.item', params.id))
   },
@@ -339,6 +405,10 @@ FlowRouter.route('/community/:id/edit', {
 
 FlowRouter.route('/community/:slug', {
   name: 'viewSocialResource',
+       breadcrumb: {
+        text: 'Community / View',
+        urls: ['/community']
+    },
   subscriptions: function(params, queryParams) {
     this.register('socialResources.item', Meteor.subscribe('socialResources.item', params.slug))
     this.register('users', Meteor.subscribe('users'))
@@ -354,6 +424,10 @@ FlowRouter.route('/community/:slug', {
 
 FlowRouter.route('/research', {
   name: 'research',
+       breadcrumb: {
+        text: 'Research',
+        urls: ['/research']
+    },
   subscriptions: function(params, queryParams) {
     this.register('research', Meteor.subscribe('research'))
   },
@@ -368,6 +442,10 @@ FlowRouter.route('/research', {
 
 FlowRouter.route('/research/new', {
   name: 'newResearch',
+      breadcrumb: {
+        text: 'Research / New',
+        urls: ['/research']
+    },
   triggersEnter: [userLoginFilter], 
   action: () => {
     BlazeLayout.render('main', {
@@ -380,6 +458,10 @@ FlowRouter.route('/research/new', {
 
 FlowRouter.route('/research/:slug/edit', {
   name: 'editResearch',
+          breadcrumb: {
+        text: 'Research / Edit',
+        urls: ['/research']
+    },
   triggersEnter: [userLoginFilter], 
   subscriptions: function(params, queryParams) {
     this.register('research.item', Meteor.subscribe('research.item', params.slug))
@@ -395,6 +477,10 @@ FlowRouter.route('/research/:slug/edit', {
 
 FlowRouter.route('/research/:slug', {
   name: 'viewResearch',
+         breadcrumb: {
+        text: 'Research / View',
+        urls: ['/research']
+    },
   subscriptions: function(params, queryParams) {
     this.register('research.item', Meteor.subscribe('research.item', params.slug))
     this.register('users', Meteor.subscribe('users'))
@@ -410,6 +496,10 @@ FlowRouter.route('/research/:slug', {
 
 FlowRouter.route('/learn', {
   name: 'learn',
+         breadcrumb: {
+        text: 'Learn',
+        urls: ['/learn']
+    },
   subscriptions: function(params, queryParams) {
     this.register('learn', Meteor.subscribe('learn'))
   },
@@ -424,6 +514,10 @@ FlowRouter.route('/learn', {
 
 FlowRouter.route('/learn/new', {
   name: 'newLearn',
+            breadcrumb: {
+        text: 'Learn / New',
+        urls: ['/learn']
+    },
   triggersEnter: [userLoginFilter], 
   subscriptions: function(params, queryParams) {
     this.register('tags', Meteor.subscribe('tags'))
@@ -439,6 +533,10 @@ FlowRouter.route('/learn/new', {
 
 FlowRouter.route('/learn/:slug/edit', {
   name: 'editLearn',
+          breadcrumb: {
+        text: 'Learn / Edit',
+        urls: ['/learn']
+    },
   triggersEnter: [userLoginFilter],
   subscriptions: function(params, queryParams) {
     this.register('learn.item', Meteor.subscribe('learn.item', params.slug))
@@ -455,6 +553,10 @@ FlowRouter.route('/learn/:slug/edit', {
 
 FlowRouter.route('/learn/:slug', {
   name: 'viewLearn',
+         breadcrumb: {
+        text: 'Learn / View',
+        urls: ['/learn']
+    },
   subscriptions: function(params, queryParams) {
     this.register('learn.item', Meteor.subscribe('learn.item', params.slug))
     this.register('users', Meteor.subscribe('users'))
@@ -470,6 +572,10 @@ FlowRouter.route('/learn/:slug', {
 
 FlowRouter.route('/events', {
   name: 'events',
+          breadcrumb: {
+        text: 'Events',
+        urls: ['/events']
+    },
   subscriptions: function(params, queryParams) {
     this.register('events', Meteor.subscribe('events'))
   },
@@ -484,6 +590,10 @@ FlowRouter.route('/events', {
 
 FlowRouter.route('/events/new', {
   name: 'newEvent',
+        breadcrumb: {
+        text: 'Events / New',
+        urls: ['/events']
+    },
   triggersEnter: [userLoginFilter], 
   action: () => {
     BlazeLayout.render('main', {
@@ -496,6 +606,10 @@ FlowRouter.route('/events/new', {
 
 FlowRouter.route('/events/:id/edit', {
   name: 'editEvent',
+      breadcrumb: {
+        text: 'Events / Edit',
+        urls: ['/events']
+    },
   triggersEnter: [userLoginFilter], 
   subscriptions: function(params, queryParams) {
     this.register('events.item', Meteor.subscribe('events.item', params.id))
@@ -511,6 +625,10 @@ FlowRouter.route('/events/:id/edit', {
 
 FlowRouter.route('/events/:slug', {
   name: 'viewEvent',
+    breadcrumb: {
+        text: 'Events / View',
+        urls: ['/events']
+    },
   subscriptions: function(params, queryParams) {
     this.register('events.item', Meteor.subscribe('events.item', params.slug))
     this.register('users', Meteor.subscribe('users'))
@@ -526,6 +644,10 @@ FlowRouter.route('/events/:slug', {
 
 FlowRouter.route('/profile/:userId', {
   name: 'userProfile',
+      breadcrumb: {
+        text: 'Profile',
+        urls: ['/profile']
+    },
   subscriptions: function(params, queryParams) {
     this.register('projects', Meteor.subscribe('projects'))
     this.register('users', Meteor.subscribe('users'))
@@ -554,6 +676,10 @@ FlowRouter.route('/uploader-test', {
 
 FlowRouter.route('/profile/:userId/edit', {
   name: 'editProfile',
+          breadcrumb: {
+        text: 'Profile / Edit',
+        urls: ['/profile/']
+    },
   triggersEnter: [userLoginFilter], 
   subscriptions: function(params, queryParams) {
     this.register('users', Meteor.subscribe('users'))
@@ -569,6 +695,10 @@ FlowRouter.route('/profile/:userId/edit', {
 
 FlowRouter.route('/suspended', {
   	name: 'suspended',
+            breadcrumb: {
+        text: 'Suspended',
+        urls: ['/suspended']
+    },
   	action: () => {
   		let user = Meteor.userId() && Meteor.users.findOne({
       		_id: Meteor.userId()
@@ -584,6 +714,10 @@ FlowRouter.route('/suspended', {
 
 FlowRouter.route('/notifications', {
   	name: 'notifications',
+               breadcrumb: {
+        text: 'Notifications',
+        urls: ['/notifications']
+    },
   	subscriptions: function(params, queryParams) {
     	this.register('notifications', Meteor.subscribe('notifications'))
   	},
@@ -607,6 +741,10 @@ FlowRouter.route('/login', {
 
 FlowRouter.route('/password-reset', {
   name: 'resetPassword',
+        breadcrumb: {
+        text: 'Reset Password',
+        urls: ['/password-reset']
+    },
   action: () => {
     BlazeLayout.render('auth', {
       main: 'passwordReset'
@@ -625,6 +763,10 @@ FlowRouter.route('/signup', {
 
 FlowRouter.route('/search', {
   name: 'search',
+               breadcrumb: {
+        text: 'Search',
+        urls: ['/search']
+    },
   subscriptions: function(params, queryParams) {
     this.register('projects.search', Meteor.subscribe('projects.search', queryParams.q))
     this.register('events.search', Meteor.subscribe('events.search', queryParams.q))
@@ -680,6 +822,10 @@ modRoutes.route('/changes', {
 
 modRoutes.route('/candidates', {
 	name: 'candidates',
+        breadcrumb: {
+        text: 'Candidates',
+        urls: ['/candidates']
+    },
 	subscriptions: function(params, queryParams) {
     	this.register('users', Meteor.subscribe('users'))
   	},
@@ -708,6 +854,10 @@ modRoutes.route('/pardon/:id', {
 
 modRoutes.route('/pardon', {
 	name: 'pardon',
+        breadcrumb: {
+        text: 'Cardon',
+        urls: ['/pardon']
+    },
 	subscriptions: function(params, queryParams) {
     	this.register('users', Meteor.subscribe('users'))
   	},

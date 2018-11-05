@@ -30,6 +30,7 @@ Template.main.helpers({
     breadcrumbs: () => {
         let bc = Session.get('breadcrumbs') || {}
 
+
         let crumbs = bc.text.split('/')
         bc.urls = bc.urls || []
         bc.urls.push(FlowRouter.current().path)
