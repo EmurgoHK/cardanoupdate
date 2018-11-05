@@ -28,6 +28,19 @@ Template.learningResourceList.helpers({
   limitChars(val) {
     return val && val.length > 50 ? val.slice(0, 50) + " ... " : val;
   },
+  learningLevel () {
+    let level = this.difficultyLevel
+    if(level){
+      if(level == 'beginner'){
+        return `<span class="text-success" title="Difficulty Level"><i class="fa fa-circle"></i> ${level}</span>`
+      } else if (level == 'intermediate') {
+        return `<span class="text-warning" title="Difficulty Level"><i class="fa fa-circle"></i> ${level}</span>`
+      } else {
+        return `<span class="text-danger" title="Difficulty Level"><i class="fa fa-circle"></i> ${level}</span>`
+      }
+    }
+    return false
+  }
 });
 
 Template.learningResourceList.events({

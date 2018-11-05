@@ -38,6 +38,10 @@
                 {{/if}}
                 <div class="row">
                   <div class="col-sm-12">
+                    <!-- Check for old content which doesn't have difficultyLevel -->
+                    {{#if learningLevel}}
+                      Difficulty Level : &nbsp;{{{learningLevel}}}
+                    {{/if}}
                     {{> flagItem item="learn"}}
                   </div>
                 </div>
