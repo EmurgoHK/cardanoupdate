@@ -38,6 +38,10 @@
                 <input type="text" class="form-control" id="rsvp" value="{{event.rsvp}}" placeholder="Where should people RSVP if they want to attend this event?">
                 <div id="rsvpError" class="invalid-feedback"></div>
               </div>
+              <div class="input-group">
+                  {{> reCAPTCHA}}
+                  <div id="captchaError" class="invalid-feedback"></div>
+              </div>
             </form>
           </div>
           <div class="card-footer">

@@ -38,6 +38,10 @@ export const addSocialResource = new ValidatedMethod({
                 type: String,
                 optional: true
             },
+            captcha: {
+                type: String,
+                optional: false
+            },
             tags: {
                 type: Array,
                 optional: true
@@ -62,6 +66,15 @@ export const addSocialResource = new ValidatedMethod({
             if (!Meteor.userId()) {
                 throw new Meteor.Error('Error.', 'You have to be logged in.')
             }
+
+            if(data.captcha != '_test_captcha_') {
+                var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, data.captcha);
+
+                if (!verifyCaptchaResponse.success) {
+                    throw new Meteor.Error('recaptcha failed please try again');
+                } else
+                    console.log('reCAPTCHA verification passed!');
+            }   
 
             data.createdBy = Meteor.userId()
             data.createdAt = new Date().getTime()
@@ -143,6 +156,10 @@ export const editSocialResource = new ValidatedMethod({
                 type: String,
                 optional: true
             },
+            captcha: {
+                type: String,
+                optional: false
+            },
             tags: {
                 type: Array,
                 optional: true
@@ -162,7 +179,7 @@ export const editSocialResource = new ValidatedMethod({
         }).validator({
             clean: true
         }),
-    run({ projectId, Name, description, Resource_url, tags }) {
+    run({ projectId, Name, description, Resource_url, captcha, tags }) {
         if (Meteor.isServer) {
             let project = socialResources.findOne({ _id: projectId })
 
@@ -177,7 +194,15 @@ export const editSocialResource = new ValidatedMethod({
             if (project.createdBy !== Meteor.userId()) {
                 throw new Meteor.Error('Error.', 'You can\'t edit a project that you haven\'t added.')
             }
-            
+
+            if(captcha != '_test_captcha_') {
+                var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, captcha);
+
+                if (!verifyCaptchaResponse.success) {
+                    throw new Meteor.Error('recaptcha failed please try again');
+                } else
+                    console.log('reCAPTCHA verification passed!');
+            }
             if (tags) {
                 tags.filter(tag => // We filter out tags that are already on the resource to make edit not increase mentions.
                         !tag.id || // If we didn't get an id it's a new tag

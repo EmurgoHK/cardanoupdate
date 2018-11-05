@@ -39,6 +39,10 @@ export const newEvent = new ValidatedMethod({
       type: String,
       optional: false
     },
+    captcha: {
+      type: String,
+      optional: false
+    },
     timezone: {
       type: Object,
       optional: true
@@ -59,12 +63,22 @@ export const newEvent = new ValidatedMethod({
     clean: true
   }),
   run(data) {
-    if (!Meteor.userId()) {
-      throw new Meteor.Error('Error.', 'You have to be logged in.')
+    if(Meteor.isServer) {
+      if (!Meteor.userId()) {
+        throw new Meteor.Error('Error.', 'You have to be logged in.')
+      }
+
+      if(data.captcha != '_test_captcha_') {
+        var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, data.captcha);
+
+        if (!verifyCaptchaResponse.success) {
+            throw new Meteor.Error('recaptcha failed please try again');
+        }
+      }
+      data.createdBy = Meteor.userId()
+      data.createdAt = new Date().getTime()
+      return Events.insert(data)
     }
-    data.createdBy = Meteor.userId()
-    data.createdAt = new Date().getTime()
-    return Events.insert(data)
   }
 })
 
@@ -141,6 +155,10 @@ export const editEvent = new ValidatedMethod({
       type: String,
       optional: false
     },
+    captcha: {
+      type: String,
+      optional: false
+    },
     timezone: {
       type: Object,
       optional: true
@@ -169,6 +187,7 @@ export const editEvent = new ValidatedMethod({
     location,
     placeId,
     rsvp,
+    captcha,
     timezone
   }) {
     if (Meteor.isServer) {
@@ -187,7 +206,15 @@ export const editEvent = new ValidatedMethod({
       if (event.createdBy !== Meteor.userId()) {
         throw new Meteor.Error('Error.', 'You can\'t edit a event that you haven\'t added.')
       }
+      
+      if(captcha != '_test_captcha_') {
+        var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, captcha);
 
+        if (!verifyCaptchaResponse.success) {
+            throw new Meteor.Error('recaptcha failed please try again');
+        } else
+            console.log('reCAPTCHA verification passed!');
+      }
       return Events.update({
         _id: eventId
       }, {

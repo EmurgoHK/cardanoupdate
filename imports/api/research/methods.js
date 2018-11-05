@@ -27,7 +27,10 @@ export const newResearch = new ValidatedMethod({
                 type: String,
                 optional: false
             },
-            
+            captcha: {
+                type: String,
+                optional: false
+            },
             links: {
                 type: Array,
                 optional: true
@@ -47,19 +50,29 @@ export const newResearch = new ValidatedMethod({
         }).validator({
             clean: true
         }),
-    run({ headline, abstract, pdf, links }) {
-		if (!Meteor.userId()) {
-			throw new Meteor.Error('Error.', 'You have to be logged in.')
+    run({ headline, abstract, pdf, captcha, links }) {
+        if(Meteor.isServer) {
+            if (!Meteor.userId()) {
+                throw new Meteor.Error('Error.', 'You have to be logged in.')
+            }
+    
+            if(captcha != '_test_captcha_') {
+                var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, captcha);
+    
+                if (!verifyCaptchaResponse.success) {
+                    throw new Meteor.Error('recaptcha failed please try again');
+                }
+            }
+            
+            return Research.insert({
+                headline: headline,
+                abstract: abstract,
+                pdf: pdf,
+                createdAt: new Date().getTime(),
+                createdBy: Meteor.userId(),
+                links,
+            })
         }
-
-        return Research.insert({
-            headline: headline,
-            abstract: abstract,
-            pdf: pdf,
-            createdAt: new Date().getTime(),
-            createdBy: Meteor.userId(),
-            links,
-        })
     }
 })
 
@@ -121,7 +134,10 @@ export const editResearch = new ValidatedMethod({
                 type: String,
                 optional: false
             },
-            
+            captcha: {
+                type: String,
+                optional: false
+            },
             links: {
                 type: Array,
                 optional: true
@@ -142,34 +158,44 @@ export const editResearch = new ValidatedMethod({
         }).validator({
             clean: true
         }),
-    run({ researchId, headline, abstract, pdf, links }) {
-        let research = Research.findOne({
-            _id: researchId
-        })
-
-        if (!research) {
-            throw new Meteor.Error('Error.', 'Research doesn\'t exist.')
-        }
-
-        if (!Meteor.userId()) {
-            throw new Meteor.Error('Error.', 'You have to be logged in.')
-        }
-
-        if (research.createdBy !== Meteor.userId()) {
-            throw new Meteor.Error('Error.', 'You can\'t edit research that you haven\'t posted.')
-        }
-
-        return Research.update({
-            _id: researchId
-        }, {
-            $set: {
-                headline: headline,
-                abstract: abstract,
-                pdf: pdf,
-                editedAt: new Date().getTime(),
-                links,
+    run({ researchId, headline, abstract, pdf, captcha, links }) {
+        if(Meteor.isServer) {
+            let research = Research.findOne({
+                _id: researchId
+            })
+    
+            if (!research) {
+                throw new Meteor.Error('Error.', 'Research doesn\'t exist.')
             }
-        })
+    
+            if (!Meteor.userId()) {
+                throw new Meteor.Error('Error.', 'You have to be logged in.')
+            }
+    
+            if (research.createdBy !== Meteor.userId()) {
+                throw new Meteor.Error('Error.', 'You can\'t edit research that you haven\'t posted.')
+            }
+    
+            if(captcha != '_test_captcha_') {
+                var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, captcha);
+        
+                if (!verifyCaptchaResponse.success) {
+                    throw new Meteor.Error('recaptcha failed please try again');
+                }
+            }
+    
+            return Research.update({
+                _id: researchId
+            }, {
+                $set: {
+                    headline: headline,
+                    abstract: abstract,
+                    pdf: pdf,
+                    editedAt: new Date().getTime(),
+                    links,
+                }
+            })
+        }
     }
 })
 

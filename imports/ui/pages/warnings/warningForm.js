@@ -70,11 +70,13 @@ import _ from 'lodash'
     },
     'click .add-warning' (event, _tpl) {
         event.preventDefault()
+        var captchaData = grecaptcha.getResponse();
         
         if (FlowRouter.current().route.name === 'editWarning') {
             editWarning.call({
     			projectId: FlowRouter.getParam('id'),
-	    		headline: $('#headline').val(),
+                headline: $('#headline').val(),
+                captcha: captchaData,
 	    		summary: $('#description').val()
 	    	}, (err, _data) => {
 	    		if (!err) {
@@ -94,6 +96,7 @@ import _ from 'lodash'
         }
          addWarning.call({
             headline: $('#headline').val(),
+            captcha: captchaData,
             summary: $('#description').val()
         }, (err, data) => {
             if (!err) {

@@ -30,7 +30,8 @@ describe('event methods', () => {
       end_date: 'test2',
       location: 'test loc',
       placeId: 'tt',
-      rsvp: 'test rsvp'
+      rsvp: 'test rsvp',
+      captcha:'_test_captcha_'
     }).then(data => {
       let event = Events.findOne({
         _id: data
@@ -51,7 +52,8 @@ describe('event methods', () => {
   it('user cannot add a new event if data is missing', () => {
     return callWithPromise('newEvent', {
       headline: 'Test headline',
-      description: ''
+      description: '',
+      captcha:'_test_captcha_'
     }).then(data => {}).catch(error => {
       assert.ok(error)
     })
@@ -70,7 +72,8 @@ describe('event methods', () => {
       end_date : 'test',
       location: 'test web',
       rsvp:'test',
-      placeId: 'ttt'
+      placeId: 'ttt',
+      captcha:'_test_captcha_'
     }).then(data => {
       let event2 = Events.findOne({
         _id: event._id
@@ -111,6 +114,7 @@ describe('event methods', () => {
       end_date : 'test',
       location : 'test',
       rsvp : 'test',
+      captcha:'_test_captcha_'
     }).then(data => {}).catch(error => {
       assert.ok(error)
     })

@@ -63,3 +63,6 @@ import '/imports/api/tags/server/publications'
 // FAQs
 import '/imports/api/faq/methods'
 import '/imports/api/faq/server/publications' 
+
+// config
+import '/imports/api/config/server/publications' 

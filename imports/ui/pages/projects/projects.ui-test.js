@@ -33,6 +33,9 @@ describe('Projects page', function () {
         browser.setValue('#headline', 'Headline Test')
         browser.pause(1000)
 
+        browser.click('.recaptcha-checkbox')
+        browser.pause(8000)
+
         browser.click('.add-project')
         browser.pause(2000)
 
@@ -75,6 +78,9 @@ describe('Projects page', function () {
 
         browser.setValue('#headline', 'Headline Test 2')
         browser.pause(1000)
+
+        browser.click('.recaptcha-checkbox')
+        browser.pause(8000)
 
         browser.click('.add-project')
         browser.pause(3000)

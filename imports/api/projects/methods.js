@@ -32,6 +32,10 @@ export const addProject = new ValidatedMethod({
                 type: String,
                 optional: true
             },
+            captcha: {
+                type: String,
+                optional: false
+            },
             tags: {
                 type: Array,
                 optional: true
@@ -61,6 +65,13 @@ export const addProject = new ValidatedMethod({
                 throw new Meteor.Error('Error.', 'You have to be logged in.')
             }
 
+            if(data.captcha != '_test_captcha_') {
+                var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, data.captcha);
+
+                if (!verifyCaptchaResponse.success) {
+                    throw new Meteor.Error('recaptcha failed please try again');
+                }
+            }   
             data.tags = data.tags || []
 
             // find the type tag
@@ -155,6 +166,10 @@ export const editProject = new ValidatedMethod({
                 type: String,
                 optional: true
             },
+            captcha: {
+                type: String,
+                optional: false
+            },
             tags: {
                 type: Array,
                 optional: true
@@ -178,8 +193,8 @@ export const editProject = new ValidatedMethod({
         }).validator({
             clean: true
         }),
-    run({ projectId, headline, description, github_url, website, tags, type }) {
-        if (true || Meteor.isServer) {
+    run({ projectId, headline, description, github_url, website, captcha, tags, type }) {
+        if (Meteor.isServer) {
             let project = Projects.findOne({ _id: projectId })
 
             if (!project) {
@@ -192,6 +207,14 @@ export const editProject = new ValidatedMethod({
 
             if (project.createdBy !== Meteor.userId()) {
                 throw new Meteor.Error('Error.', 'You can\'t edit a project that you haven\'t added.')
+            }
+
+            if(captcha != '_test_captcha_') {
+                var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, captcha);
+
+                if (!verifyCaptchaResponse.success) {
+                    throw new Meteor.Error('recaptcha failed please try again');
+                }
             }
 
             tags = tags || []

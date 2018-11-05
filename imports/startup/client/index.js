@@ -19,7 +19,14 @@ import '/imports/ui/shared/warningList/warningList';
 import '/imports/ui/shared/flagItem/flagItem';
 
 import '/imports/ui/shared/userNameDisplay/userNameDisplay';
+
 // Blaze helpers
 import '/imports/ui/helpers/handlebars-helpers'
 
 import "bootstrap"
+
+Meteor.startup(() => {
+    reCAPTCHA.config({
+        publickey: Meteor.settings.public.RECAPTCHA_CLIENT
+    });
+})
