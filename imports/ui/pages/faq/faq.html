@@ -1,0 +1,57 @@
+<template name="faqPage">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="float-right">
+          {{#if currentUser}}
+            <button class="btn btn-outline-primary" id="new-faq">
+              New FAQ
+            </button>
+          {{/if}}
+        </div>
+        <h2>FAQs</h2>
+        <p class="section-intro">Frequentry asked questions on Cardano Update Space</p>
+      </div>
+      <hr>
+      {{#if faqCount}}
+      <div class="col-sm-12">
+        <div class="accordion faq-home" id="faqList">
+          {{#each faqs}}
+            {{> faqItem}}
+          {{/each}}
+        </div>
+      </div>
+      {{else}}
+        <p>Sorry, we couldn't find anything.</p>
+      {{/if}}
+    </div>
+  </div>
+</template>
+
+<!-- Single FAQ Item -->
+<template name="faqItem">
+  <div class="card">
+    <div class="card-header" id="faq-{{_id}}">
+      <h5 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="faq-{{_id}}-body" aria-expanded="true" aria-controls="faq-{{_id}}-body">
+          {{question}}
+        </button>
+        {{#if canEdit}}
+        <div class="float-right">
+          <button class="btn btn-success edit-faq">
+            <span class="icon-pencil"></span> Edit
+          </button>
+          <button class="btn btn-danger delete-faq" type="button">
+            <span class="icon-trash"></span> Delete
+          </button>
+        </div>
+        {{/if}}
+      </h5>
+    </div>
+    <div id="faq-{{_id}}-body" class="collapse show" aria-labelledby="faq-{{_id}}" data-parent="#faqList">
+      <div class="card-body">
+        {{answer}}
+      </div>
+    </div>
+  </div>
+</template>

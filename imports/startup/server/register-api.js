@@ -56,7 +56,10 @@ import '/imports/api/learn/server/publications'
 // search api
 import '/imports/api/search/search'
 
-
 // tags
 import '/imports/api/tags/methods'
 import '/imports/api/tags/server/publications' 
+
+// FAQs
+import '/imports/api/faq/methods'
+import '/imports/api/faq/server/publications' 

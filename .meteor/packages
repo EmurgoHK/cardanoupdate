@@ -42,3 +42,5 @@ littledata:synced-cron
 pauldowman:dotenv
 socialize:user-presence
 easy:search
+staringatlights:fast-render@3.0.3
+session

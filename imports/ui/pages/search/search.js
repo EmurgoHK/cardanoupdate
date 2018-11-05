@@ -56,6 +56,8 @@ Template.search.helpers({
     query() {
         return FlowRouter.getQueryParam('q')
     },
+    SearchMarker(text){let searchVal = FlowRouter.getQueryParam('q');
+      return searchVal&&text?new Handlebars.SafeString(text.replace(RegExp('('+ searchVal.split(" ").join('|') + ')', 'img'), '<span class="SearchMarker" >$1</span>')):text;}
 })
 
 Template.search.events({

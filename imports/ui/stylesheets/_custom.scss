@@ -52,11 +52,11 @@ body {
 
     @extend .shadow-lg;
     @extend .mb-5;
-  
+
     p {
         font-weight: 600;
         font-style: italic;
-        @extend .lead; 
+        @extend .lead;
 
 
         &:last-child{
@@ -78,7 +78,7 @@ body {
 }
 
 .bg-dark {
-    
+
     color: #fff;
 }
 
@@ -128,15 +128,15 @@ header {
     }
 
     button.navbar-toggler {
-        color: #fff; 
+        color: #fff;
 
         &:hover {
             color: $theme-primary;
-            outline: 0; 
+            outline: 0;
         }
 
         &:focus {
-            outline: 0; 
+            outline: 0;
         }
     }
 
@@ -220,12 +220,14 @@ button {
     }
 }
 
+.SearchMarker{background-color: lightblue}
+
 .wizard {
     .steps {
         margin: 25px auto;
 
         ol {
-            @extend .nav; 
+            @extend .nav;
             @extend .nav-tabs;
             @extend .nav-justified;
 

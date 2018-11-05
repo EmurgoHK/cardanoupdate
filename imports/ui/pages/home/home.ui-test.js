@@ -39,7 +39,7 @@ describe('Home page', function () {
     })
 
     it('new button lets you add all content types', () => {
-        browser.click('#add-new')
+        browser.click('.add-new-content')
         browser.pause(2000)
 
         let types = browser.execute(() => Array.from($('.list-group-item')).filter(i => !!$(i).find('a').attr('href')).map(i => $(i).text().replace('New', '').trim())).value
