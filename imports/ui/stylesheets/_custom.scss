@@ -277,3 +277,25 @@ button {
         }
     }
 }
+
+.select2.select2-container--default {
+  .select2-selection--multiple {
+    border-color: #e4e7ea;
+
+    .select2-selection__rendered { vertical-align: middle; }
+    .select2-selection__choice { margin: 5px 5px 5px 0px; background-color: #f1f1f1; }
+    .select2-selection__clear { font-size: 20px; margin-right: 8px; margin-top: 4px; }
+  }
+
+  .select2-search--inline .select2-search__field { margin: 6px 0px 6px; font-size: 14px; padding: 0px 6px; }
+  &.select2-container--focus {
+    .select2-selection--multiple {
+      border-color: #8ad4ee;
+      outline: 0;
+      box-shadow: 0 0 0 0.2rem rgba(32, 168, 216, 0.25);
+    }
+  }
+}
+body .select2-dropdown {
+  border-color: #8ad4ee;
+}
