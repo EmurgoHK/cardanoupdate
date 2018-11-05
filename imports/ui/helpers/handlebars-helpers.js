@@ -3,7 +3,7 @@ import { Template } from 'meteor/templating'
 import { isModerator } from '/imports/api/user/methods'
 
 import marked from 'marked'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import CryptoJS from 'crypto-js'
 
 Template.registerHelper('SubsCacheReady', () => Object.keys(SubsCache.cache).map(x => SubsCache.cache[x].ready()).reduce((x1, x2) => x1 && x2, true))
@@ -15,16 +15,44 @@ Template.registerHelper('md', content => {
     return  this.innerHTML = marked(content || '')
 })
 
-Template.registerHelper('showTimeAgoTimestamp', date => {
-	return !date ? "" : moment(date).fromNow()
+Template.registerHelper('showTimeAgoTimestamp', (date, timezone) => {
+	if (!date) {
+		return ''
+	}
+
+	if (timezone && typeof timezone === 'string') {
+		return moment.tz(date, 'UTC').tz(timezone).fromNow()
+	}
+
+	return moment(date).fromNow()
 })
 
-Template.registerHelper('showLocalTimestamp', date => {
-	return !date ? "" : moment(date).format('LLL')
+Template.registerHelper('showLocalTimestamp', (date, timezone) => {
+	if (!date) {
+		return ''
+	}
+
+	if (timezone && typeof timezone === 'string') {
+		return moment.tz(date, 'UTC').tz(timezone).format('LLL z')
+	}
+
+	return moment(date).format('LLL')
 })
 
-Template.registerHelper('isEventUpcoming', date => {
-	return !date ? "" :  (moment.duration(moment(date).diff(moment.now())).as('hours') <= 48 && moment.duration(moment(date).diff(moment.now())).as('hours') >=0 )
+Template.registerHelper('isEventUpcoming', (date, timezone) => {
+	if (!date) {
+		return ''
+	}
+
+	let mDate = moment(date)
+	let now = moment.now()
+
+	if (timezone && typeof timezone === 'string') {
+		mDate = moment.tz(date, 'UTC').tz(timezone)
+		now = moment.tz(timezone)
+	}
+
+	return (moment.duration(mDate.diff(now)).as('hours') <= 48 && moment.duration(mDate.diff(now)).as('hours') >= 0)
 })
 
 Template.registerHelper('avatarFor', (user, size) => {

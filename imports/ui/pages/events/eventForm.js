@@ -6,7 +6,7 @@ import { Events } from '/imports/api/events/events'
 import { notify } from '/imports/modules/notifier'
 import daterangepicker from 'daterangepicker'
 import SimpleMDE from 'simplemde'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import { newEvent, editEvent } from '/imports/api/events/methods'
 import '../../../../node_modules/daterangepicker/daterangepicker.css';
 import { insertImage } from '/imports/ui/shared/uploader/uploader'
@@ -42,6 +42,7 @@ const geolocate = (autocomplete) => {
 
 Template.eventForm.onCreated(function () {
   this.location = new ReactiveVar({})
+  this.timezone = new ReactiveVar({})
   Meteor.setTimeout(() => {
     $('input#event_duration').daterangepicker({
       timePicker: true,
@@ -64,6 +65,8 @@ Template.eventForm.onCreated(function () {
         this.location.set({
           place_id: event.placeId
         })
+
+        this.timezone.set(event.timezone)
       }
     })
   }
@@ -74,7 +77,20 @@ Template.eventForm.onRendered(function() {
     types: ['geocode']
   })
 
-  this.autocomplete.addListener('place_changed', () => this.location.set(this.autocomplete.getPlace()))
+  this.autocomplete.addListener('place_changed', () => {
+    let place = this.autocomplete.getPlace()
+
+    let lng = place.geometry.location.lng()
+    let lat = place.geometry.location.lat()
+
+    let timestamp = $('#event_duration').val().split(' - ')
+
+    HTTP.get(`https://api.timezonedb.com/v2.1/get-time-zone?key=5S42VGHOV6HK&format=json&by=position&lat=${lat}&lng=${lng}&time=${new Date(timestamp[0] || timestamp[1] || Date.now()).getTime() / 1000}`, (err, data) => {
+      this.timezone.set(data.data)
+    })
+
+    this.location.set(place)
+  })
 
   this.mde = new SimpleMDE({
     element: $("#description")[0],
@@ -145,25 +161,23 @@ Template.eventForm.events({
   'submit #event_form'(event, _tpl) {
     event.preventDefault()
     let event_duration = $('#event_duration').val()
-    let data = {
-      headline: $('#headline').val(),
-      description: _tpl.mde.value(),
-      start_date: event_duration.split(' - ')[0],
-      end_date : event_duration.split(' - ')[1],
-      location: $('#location').val(),
-      rsvp: $('#rsvp').val()
-    }
 
     if (FlowRouter.current().route.name === 'editEvent') {
       editEvent.call({
         eventId : FlowRouter.getParam('id'),
         headline: $('#headline').val(),
         description: _tpl.mde.value(),
-        start_date: moment(event_duration.split(' - ')[0], 'DD/MM/YYYY hh:mm A').format('YYYY-MM-DD[T]HH:mm'), // convert to mongo format
-        end_date : moment(event_duration.split(' - ')[1], 'DD/MM/YYYY hh:mm A').format('YYYY-MM-DD[T]HH:mm'), // convert to mongo format
+        start_date: moment.tz(event_duration.split(' - ')[0], 'DD/MM/YYYY hh:mm A', _tpl.timezone.get().zoneName).utc().format('YYYY-MM-DD[T]HH:mm'), // convert to mongo format, save in UTC
+        end_date : moment.tz(event_duration.split(' - ')[1], 'DD/MM/YYYY hh:mm A', _tpl.timezone.get().zoneName).utc().format('YYYY-MM-DD[T]HH:mm'), // convert to mongo format, save in UTC
         location: $('#location').val(),
         rsvp: $('#rsvp').val(),
-        placeId: _tpl.location.get().place_id || ''
+        placeId: _tpl.location.get().place_id || '',
+        timezone: {
+          abbreviation: _tpl.timezone.get().abbreviation,
+          zoneName: _tpl.timezone.get().zoneName,
+          gmtOffset: _tpl.timezone.get().gmtOffset + '',
+          dst: _tpl.timezone.get().dst
+        }
       }, (err, _data) => {
         if (!err) {
           notify('Successfully edited.', 'success')
@@ -186,11 +200,17 @@ Template.eventForm.events({
     newEvent.call({
       headline: $('#headline').val(),
       description: _tpl.mde.value(),
-      start_date: moment(event_duration.split(' - ')[0], 'DD/MM/YYYY hh:mm A').format('YYYY-MM-DD[T]HH:mm'), // convert to mongo format
-      end_date : moment(event_duration.split(' - ')[1], 'DD/MM/YYYY hh:mm A').format('YYYY-MM-DD[T]HH:mm'), // convert to mongo format
+      start_date: moment.tz(event_duration.split(' - ')[0], 'DD/MM/YYYY hh:mm A', _tpl.timezone.get().zoneName).utc().format('YYYY-MM-DD[T]HH:mm'), // convert to mongo format, save in UTC
+      end_date : moment.tz(event_duration.split(' - ')[1], 'DD/MM/YYYY hh:mm A', _tpl.timezone.get().zoneName).utc().format('YYYY-MM-DD[T]HH:mm'), // convert to mongo format, save in UTC
       location: $('#location').val(),
       rsvp: $('#rsvp').val(),
-      placeId: _tpl.location.get().place_id || ''
+      placeId: _tpl.location.get().place_id || '',
+      timezone: {
+        abbreviation: _tpl.timezone.get().abbreviation,
+        zoneName: _tpl.timezone.get().zoneName,
+        gmtOffset: _tpl.timezone.get().gmtOffset + '',
+        dst: _tpl.timezone.get().dst
+      }
     }, (err, data) => {
       if (!err) {
         notify('Successfully added.', 'success')
