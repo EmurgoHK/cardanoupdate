@@ -35,6 +35,9 @@ describe('Learn page', function () {
         browser.setValue('#summary', 'Summary test')
         browser.pause(1000)
 
+        browser.click('input[name="difficultyLevel"]')
+        browser.pause(2000)
+
         browser.click('.new-learn')
         browser.pause(2000)
 

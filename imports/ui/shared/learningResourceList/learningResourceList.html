@@ -9,6 +9,9 @@
           </h4>
           <p class="card-text">{{limitChars summary}}</p>
           <hr />
+          {{#if learningLevel}}
+            {{{learningLevel}}}
+          {{/if}}
           {{> flagItem item="learn" edit=editURL _id=this._id}}
         </div>
       </div>
@@ -24,6 +27,9 @@
               </h4>
               <p class="card-text">{{limitChars summary}}</p>
               <hr />
+              {{#if learningLevel}}
+                {{{learningLevel}}}
+              {{/if}}
               {{> flagItem item="learn" edit=editURL _id=this._id}}
             </div>
           </div>

@@ -3,7 +3,7 @@
     <div class="card mb-5">
       <div class="card-body">
         <h2 class="card-title">
-            {{#if add}}New{{else}}Edit{{/if}} learning resource
+          {{#if add}}New{{else}}Edit{{/if}} learning resource
         </h2>
         <hr>
         <form>
@@ -25,14 +25,21 @@
             <div id="contentError" class="invalid-feedback"></div>
           </div>
           <small><i id="content-chars" class="text-muted"></i></small>
+          <div class="group-title">Difficulty level</div>
+          <div>
+            <input type="radio" name="difficultyLevel" value="beginner"> Beginner
+            <input type="radio" name="difficultyLevel" value="intermediate"> Intermediate
+            <input type="radio" name="difficultyLevel" value="advanced"> Advanced
+            <div id="typeError" class="invalid-feedback"></div>
+          </div>
           <div class="group-title">Tags</div>
-            <div class="input-group">
-                <select multiple="true" name="tags[]" id="tags" class="form-control select2">
-                  {{#each tags}}
-                  <option value="{{name}}" {{isTagIncluded project.tags _id}}>{{name}}</option>
-                  {{/each}}
-                </select>
-              </div>
+          <div class="input-group">
+            <select multiple="true" name="tags[]" id="tags" class="form-control select2">
+              {{#each tags}}
+              <option value="{{name}}" {{isTagIncluded project.tags _id}}>{{name}}</option>
+              {{/each}}
+            </select>
+          </div>
         </form>
       </div>
       <div class="card-footer">

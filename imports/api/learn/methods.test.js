@@ -26,6 +26,7 @@ describe('Learning items methods', () => {
             assert.ok(learn.title === 'Test title')
             assert.ok(learn.summary === 'Test summary')
             assert.ok(learn.content === 'Test content')
+            assert.ok(learn.difficultyLevel === 'Test level')
         })
     })
 
@@ -59,6 +60,7 @@ describe('Learning items methods', () => {
             assert.ok(l2.title === 'Test title 2')
             assert.ok(l2.content === 'Test content 2')
             assert.ok(l2.summary === 'Test summary 2')
+            assert.ok(l2.difficultyLevel === 'Test level 2')
         })
     })
 
@@ -77,7 +79,8 @@ describe('Learning items methods', () => {
             learnId: learn,
             title: 'Test title 2',
             summary: 'Test summary 2',
-            content: 'Test content 2'
+            content: 'Test content 2',
+            difficultyLevel: 'Test level 2'
         }).then(data => {
             assert.fail('Learning item was edited by the user that didn\'t create it.')
         }).catch(error => {
@@ -122,6 +125,7 @@ describe('Learning items methods', () => {
             title: 'a',
             summary: 's',
             content: 'b',
+            difficultyLevel : 'x',
             createdBy: 'not-me',
             createdAt: new Date().getTime()
         })

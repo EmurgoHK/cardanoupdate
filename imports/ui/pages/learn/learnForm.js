@@ -102,11 +102,16 @@ Template.learnForm.onRendered(function() {
 
   	this.autorun(() => {
     	let learn = Learn.findOne({
-      		slug: FlowRouter.getParam('slug')
+      	slug: FlowRouter.getParam('slug')
     	})
 
     	if (learn) {
-      		this.mde.value(learn.content)
+        this.mde.value(learn.content)
+        
+        // If dificulty level exist on editing
+        if(learn.difficultyLevel){
+          this.$('input[name="difficultyLevel"]').val(learn.difficultyLevel)
+        }
     	}
   	})
 })
@@ -137,7 +142,6 @@ Template.learnForm.events({
         let inputValue = event.target.value
         let inputMaxChars = maxCharValue(inputId) - parseInt(inputValue.length)
         let charsLeftText = `${inputMaxChars} characters left`
-
         $(`#${inputId}-chars`).text(charsLeftText)
 
         let specialCodes = [8, 46, 37, 39] // backspace, delete, left, right
@@ -190,7 +194,8 @@ Template.learnForm.events({
           title: $('#title').val(),
           summary : $('#summary').val(),
 	    		content: templateInstance.mde.value(),
-	    		tags: tagsToSave
+          tags: tagsToSave,
+          difficultyLevel : $('input[name="difficultyLevel"]:checked').val()
 	    	}, (err, data) => {
 	    		if (!err) {
 	    			notify('Successfully added.', 'success')
@@ -218,7 +223,8 @@ Template.learnForm.events({
           title: $('#title').val(),
           summary : $('#summary').val(),
 	    		content: templateInstance.mde.value(),
-	    		tags: tagsToSave
+          tags: tagsToSave,
+          difficultyLevel : $('input[name="difficultyLevel"]:checked').val()
 	    	}, (err, data) => {
 	    		if (!err) {
 	    			notify('Successfully edited.', 'success')

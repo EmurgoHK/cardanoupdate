@@ -15,9 +15,9 @@ export const newLearningItem = new ValidatedMethod({
     validate:
         new SimpleSchema({
             title: {
-                type: String,
-                max: 90,
-                optional: false
+              type: String,
+              max: 90,
+              optional: false
             },
             summary : {
               type: String,
@@ -25,9 +25,13 @@ export const newLearningItem = new ValidatedMethod({
               optional: false
             },
             content: {
-                type: String,
-                max: 5000,
-                optional: false
+              type: String,
+              max: 5000,
+              optional: false
+            },
+            difficultyLevel: {
+              type: String,
+              optional: false
             },
             tags: {
                 type: Array,
@@ -48,7 +52,7 @@ export const newLearningItem = new ValidatedMethod({
         }).validator({
             clean: true
         }),
-    run({ title, summary, content, tags }) {
+    run({ title, summary, content, tags, difficultyLevel }) {
 		if (!Meteor.userId()) {
 			throw new Meteor.Error('Error.', 'You have to be logged in.')
 		}
@@ -68,6 +72,7 @@ export const newLearningItem = new ValidatedMethod({
             title: title,
             summary: summary,
             content: content,
+            difficultyLevel: difficultyLevel,
             tags: tags,
             createdAt: new Date().getTime(),
             createdBy: Meteor.userId()
@@ -130,30 +135,34 @@ export const editLearningItem = new ValidatedMethod({
               optional: false
             },
             content: {
-                type: String,
-                max: 5000,
-                optional: false
+              type: String,
+              max: 5000,
+              optional: false
+            },
+            difficultyLevel: {
+              type: String,
+              optional: false
             },
             tags: {
-                type: Array,
-                optional: true
+              type: Array,
+              optional: true
             },
             'tags.$': {
-                type: Object,
-                optional: true
+              type: Object,
+              optional: true
             },
             'tags.$.id': {
-                type: String,
-                optional: true
+              type: String,
+              optional: true
             },
             'tags.$.name': {
-                type: String,
-                optional: true
+              type: String,
+              optional: true
             }
         }).validator({
             clean: true
         }),
-    run({ learnId, title, summary, content, tags }) {
+    run({ learnId, title, summary, content, tags, difficultyLevel }) {
         let learn = Learn.findOne({
             _id: learnId
         })
@@ -188,6 +197,7 @@ export const editLearningItem = new ValidatedMethod({
                 title: title,
                 summary: summary,
                 content: content,
+                difficultyLevel: difficultyLevel,
                 tags: tags,
                 editedAt: new Date().getTime()
             }
