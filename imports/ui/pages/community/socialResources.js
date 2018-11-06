@@ -65,4 +65,7 @@ Template.socialResourcesTemp.events({
 
     templateInstance.searchFilter.set($('#searchBox').val())
   },
+  'blur #searchBox': function (event, templateInstance) {
+    templateInstance.searchFilter.set($('#searchBox').val())
+  },
 })
