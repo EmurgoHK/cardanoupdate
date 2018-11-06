@@ -16,6 +16,7 @@ body {
 
 .container {
     max-width: 960px;
+    padding-top: 1rem !important;
     @extend .pt-5
 }
 
