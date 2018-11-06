@@ -48,8 +48,19 @@
         </div>
     </div>
     {{/if}}
-    {{#each childComments}}
-    	{{> commentBody ident=newIdent comment=this _id=origId type=type}}
-    {{/each}}
+    {{#if childCommentCount}}
+        {{#if showReplies}}
+        {{#each childComments}}
+            {{> commentBody ident=newIdent comment=this _id=origId type=type}}
+        {{/each}}
+            <div style="margin-left: {{ident}}px;" class="row mb-4">
+                <button class="btn btn-link btn-primary hideReplies" data-id="{{_id}}">Hide replies</button><br>
+            </div>
+        {{else}}
+            <div style="margin-left: {{ident}}px;" class="row mb-4">
+                <button class="btn btn-link btn-primary showReplies" data-id="{{_id}}">Show replies</button><br>
+            </div>
+        {{/if}}
+    {{/if}}
     {{/with}}
 </template>
