@@ -74,6 +74,17 @@ Template.learnForm.onRendered(function() {
         $('#tags').trigger('change')
     })
 
+    this.autorun(() => {
+        let learn = Learn.findOne({
+            slug: FlowRouter.getParam('slug')
+        })
+
+        // preselect the correct type if it's on the project edit page
+        if (learn) {
+            $('[name=difficultyLevel]').val([learn.difficultyLevel])
+        }
+    })
+
     $('#tags').select2({
         tags: true,
         tokenSeparators: [' ', ','],
