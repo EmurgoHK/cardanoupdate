@@ -117,4 +117,7 @@ import swal from 'sweetalert2'
       event.preventDefault();
        templateInstance.searchFilter.set($('#searchBox').val())
     },
+    'blur #searchBox': function (event, templateInstance) {
+        templateInstance.searchFilter.set($('#searchBox').val())
+    },
 })

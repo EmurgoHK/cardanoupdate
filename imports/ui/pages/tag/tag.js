@@ -138,5 +138,16 @@ Template.tags.events({
     FlowRouter.setQueryParams({ search: inputTags.join(",") });
 
     templateInstance.searchFilter.set(inputTags);
-  }
+  },
+  "blur #searchBox": function(event, templateInstance) {
+    const searchText = templateInstance.$("#searchBox").val();
+    const inputTags = searchText
+      .split(",")
+      .map(txt => txt.trim().toUpperCase())
+      .filter(a => a.length > 0);
+
+    FlowRouter.setQueryParams({ search: inputTags.join(",") });
+
+    templateInstance.searchFilter.set(inputTags);
+  },
 });

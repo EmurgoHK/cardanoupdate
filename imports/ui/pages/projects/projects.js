@@ -85,6 +85,9 @@ Template.projects.events({
 
       templateInstance.searchFilter.set($('#searchBox').val())
     },
+    'blur #searchBox': function (event, templateInstance) {
+      templateInstance.searchFilter.set($('#searchBox').val())
+    },
     'click #sort-date': (event, templateInstance) => {
         event.preventDefault()
         if (templateInstance.sort.get() === 'date-desc') {
