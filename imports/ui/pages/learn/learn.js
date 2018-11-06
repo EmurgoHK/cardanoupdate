@@ -67,4 +67,7 @@ Template.learn.events({
 
         templateInstance.searchFilter.set($('#searchBox').val())
     },
+    'blur #searchBox': (event, templateInstance) => {
+        templateInstance.searchFilter.set($('#searchBox').val())
+    },
 })
