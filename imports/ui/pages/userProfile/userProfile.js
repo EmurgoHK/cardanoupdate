@@ -18,7 +18,7 @@ import './userProfile.scss'
 import '/imports/ui/shared/uploader/uploader'
 import { getFiles } from '/imports/ui/shared/uploader/uploader'
 
-Template.viewProfile.onCreated(function(){
+Template.viewProfile.onCreated(function() {
   this.autorun(() => {
     this.subscribe('users')
     this.subscribe('comments')
@@ -78,7 +78,7 @@ Template.viewProfile.helpers({
 
     return news + comments
   },
-  userContent(){
+  userContent() {
     let content = []
     let comments = Comments.find({createdBy : FlowRouter.getParam('userId')})
     if(news){
@@ -161,6 +161,10 @@ Template.viewProfile.helpers({
   }),
   projects: () => Projects.find({createdBy : FlowRouter.getParam('userId')}),
   research: () => Research.find({createdBy : FlowRouter.getParam('userId')}),
+  events: () => Events.find({createdBy : FlowRouter.getParam('userId')}),
+  community: () => socialResources.find({createdBy : FlowRouter.getParam('userId')}),
+  learn: () => Learn.find({createdBy : FlowRouter.getParam('userId')}),
+  scams: () => Warnings.find({createdBy : FlowRouter.getParam('userId')}),
 })
 
 Template.editProfile.onCreated(function(){
