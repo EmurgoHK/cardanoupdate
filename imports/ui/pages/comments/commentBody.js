@@ -17,6 +17,8 @@ Template.commentBody.onCreated(function() {
 	this.replies = new ReactiveDict()
 
 	this.message = new ReactiveVar('')
+
+	this.showReplies = new ReactiveVar(false);
 })
 
 Template.commentBody.helpers({
@@ -44,7 +46,17 @@ Template.commentBody.helpers({
 				createdAt: -1
 			}
 		})
-	}
+	},
+	childCommentCount: function() {
+		return Comments.find({
+			parentId: this._id
+		}, {
+			sort: {
+				createdAt: -1
+			}
+		}).count();
+	},
+	showReplies: () => Template.instance().showReplies.get(),
 })
 
 Template.commentBody.events({
@@ -97,6 +109,7 @@ Template.commentBody.events({
 				templateInstance.message.set('')
 
 				templateInstance.replies.set(this._id, false)
+				templateInstance.showReplies.set(true);
 			} else {
 				templateInstance.message.set(err.reason || err.message)
 			}
@@ -146,7 +159,7 @@ Template.commentBody.events({
                 notify(err.reason || err.message, 'error')
             } else {
             	notify('Successfully edited.', 'success')
-            	templateInstance.edits.set(this._id, false)
+							templateInstance.edits.set(this._id, false)
             }
 		})
 	},
@@ -155,5 +168,19 @@ Template.commentBody.events({
 		event.stopImmediatePropagation()
 
 		templateInstance.edits.set(this._id, false)
-	}
+	},
+	'click .showReplies': (event, templateInstance) => {
+		event.preventDefault();
+
+		// Check if the button was clicked for this comment and not in a child
+		if (templateInstance.data.comment._id === event.target.getAttribute('data-id'))
+			templateInstance.showReplies.set(true);
+	},
+	'click .hideReplies': (event, templateInstance) => {
+		event.preventDefault();
+
+		// Check if the button was clicked for this comment and not in a child
+		if (templateInstance.data.comment._id === event.target.getAttribute('data-id'))
+			templateInstance.showReplies.set(false);
+	},
 })
