@@ -2,6 +2,10 @@ import { News } from '/imports/api/news/news'
 import { Comments } from '/imports/api/comments/comments'
 import { Projects } from '/imports/api/projects/projects'
 import { Research } from '/imports/api/research/research'
+import { Learn } from '/imports/api/learn/learn'
+import { socialResources } from '/imports/api/socialResources/socialResources'
+import { Warnings } from '/imports/api/warnings/warnings'
+import { Events } from '/imports/api/events/events'
 import { updateProfile } from '/imports/api/user/methods'
 import { FlowRouter } from 'meteor/kadira:flow-router'
 
@@ -16,10 +20,15 @@ import { getFiles } from '/imports/ui/shared/uploader/uploader'
 
 Template.viewProfile.onCreated(function(){
   this.autorun(() => {
-    this.subscribe('projects')
     this.subscribe('users')
     this.subscribe('comments')
-    this.subscribe('research')
+
+    this.subscribe('research');
+    this.subscribe('projects')
+    this.subscribe('learn');
+    this.subscribe('socialResources');
+    this.subscribe('warnings');
+    this.subscribe('events');
   })
 })
 
@@ -94,9 +103,64 @@ Template.viewProfile.helpers({
     }
     return content
   },
-  comments: () => Comments.find({createdBy : FlowRouter.getParam('userId')}),
+  comments: () => Comments.find({createdBy : FlowRouter.getParam('userId')}).map(comment => { 
+    // We are adding extra data to the comment depending on the content it was made on.
+    
+    // Fetching the project if the comment was made on one
+    const project = Projects.findOne({_id: comment.newsId});
+    if (project) {
+      comment.contentTitle = project.headline;
+      comment.contentUrl = `/projects/${project.slug}`;
+      return comment;
+    } 
+    
+    // Fetching the research if the comment was made on one
+    const research = Research.findOne({_id: comment.newsId});
+    if (research) {
+      comment.contentTitle = research.headline;
+      comment.contentUrl = `/research/${research.slug}`;
+      return comment;
+    }
+    
+    // Fetching the learning resource if the comment was made on one
+    const learn = Learn.findOne({_id: comment.newsId});
+    if (learn) {
+      comment.contentTitle = learn.title;
+      comment.contentUrl = `/learn/${learn.slug}`;
+      return comment;
+    }
+    
+    // Fetching the scam if the comment was made on one
+    const warning = Warnings.findOne({_id: comment.newsId});
+    if (warning) {
+      comment.contentTitle = warning.headline;
+      comment.contentUrl = `/scams/${warning.slug}`;
+      return comment;
+    }
+    
+    // Fetching the social resource if the comment was made on one
+    const socialResource = socialResources.findOne({_id: comment.newsId});
+    if (socialResource) {
+      comment.contentTitle = socialResource.Name;
+      comment.contentUrl = `/community/${socialResource._id}`;
+      return comment;
+    }
+
+    // Fetching the event if the comment was made on one
+    const event = Events.findOne({_id: comment.newsId});
+    if (event) {
+      comment.contentTitle = event.headline;
+      comment.contentUrl = `/events/${event.slug}`;
+      return comment;
+    }
+    
+    comment.contentTitle = 'Unknown';
+    comment.contentUrl = '#';
+
+    return comment;
+  }),
   projects: () => Projects.find({createdBy : FlowRouter.getParam('userId')}),
-  research: () => Research.find({createdBy : FlowRouter.getParam('userId')})
+  research: () => Research.find({createdBy : FlowRouter.getParam('userId')}),
 })
 
 Template.editProfile.onCreated(function(){
