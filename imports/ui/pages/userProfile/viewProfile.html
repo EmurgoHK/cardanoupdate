@@ -32,10 +32,22 @@
                 <a class="nav-link active" id="project-tab" data-toggle="tab" href="#project" role="tab" aria-controls="home" aria-selected="true">Projects</a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link" id="contact-tab" data-toggle="tab" href="#research" role="tab" aria-controls="research" aria-selected="false">Research</a>
-                </li>
+                <a class="nav-link" id="events-tab" data-toggle="tab" href="#events" role="tab" aria-controls="events" aria-selected="false">Events</a>
+              </li>
               <li class="nav-item">
-                <a class="nav-link" id="comment-tab" data-toggle="tab" href="#comment" role="tab" aria-controls="profile" aria-selected="false">Comments</a>
+                <a class="nav-link" id="research-tab" data-toggle="tab" href="#research" role="tab" aria-controls="research" aria-selected="false">Research</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="learn-tab" data-toggle="tab" href="#learn" role="tab" aria-controls="learn" aria-selected="false">Learn</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="community-tab" data-toggle="tab" href="#community" role="tab" aria-controls="community" aria-selected="false">Community</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="scam-tab" data-toggle="tab" href="#scam" role="tab" aria-controls="scam" aria-selected="false">Scams</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="comment-tab" data-toggle="tab" href="#comment" role="tab" aria-controls="comments" aria-selected="false">Comments</a>
               </li>
             </ul>
             <div class="tab-content" id="myTabContent">
@@ -51,18 +63,62 @@
                   User has not added any project yet.
                 {{/each}}
               </div>
-              <div class="tab-pane fade" id="research" role="tabpanel" aria-labelledby="research-tab">
-                  {{#each research}} 
-                    <div class="card">
-                      <div class="card-body">
-                      <div ><a href="/research/{{slug}}" class="card-title" >{{headline}}</a> Posted {{showTimeAgoTimestamp createdAt}}</div>
-                      <p class="card-text">{{abstract}}</p>              
-                      </div>
+              <div class="tab-pane fade" id="events" role="tabpanel" aria-labelledby="events-tab">
+                {{#each events}} 
+                  <div class="card">
+                    <div class="card-body">
+                    <div ><a href="/events/{{slug}}" class="card-title" >{{headline}}</a> Created {{showTimeAgoTimestamp createdAt}}</div>
                     </div>
-                  {{else}}
-                    User has not added any research yet.
-                  {{/each}}
-                </div>
+                  </div>
+                {{else}}
+                  User has not added any event yet.
+                {{/each}}
+              </div>
+              <div class="tab-pane fade" id="research" role="tabpanel" aria-labelledby="research-tab">
+                {{#each research}} 
+                  <div class="card">
+                    <div class="card-body">
+                    <div ><a href="/research/{{slug}}" class="card-title" >{{headline}}</a> Posted {{showTimeAgoTimestamp createdAt}}</div>
+                    <p class="card-text">{{abstract}}</p>              
+                    </div>
+                  </div>
+                {{else}}
+                  User has not added any research yet.
+                {{/each}}
+              </div>
+              <div class="tab-pane fade" id="learn" role="tabpanel" aria-labelledby="learn-tab">
+                {{#each learn}} 
+                  <div class="card">
+                    <div class="card-body">
+                    <div ><a href="/research/{{slug}}" class="card-title" >{{title}}</a> Added {{showTimeAgoTimestamp createdAt}}</div>
+                    </div>
+                  </div>
+                {{else}}
+                  User has not added any learning resource yet.
+                {{/each}}
+              </div>
+              <div class="tab-pane fade" id="community" role="tabpanel" aria-labelledby="community-tab">
+                {{#each community}} 
+                  <div class="card">
+                    <div class="card-body">
+                    <div ><a href="/research/{{slug}}" class="card-title" >{{Name}}</a> Created {{showTimeAgoTimestamp createdAt}}</div>
+                    </div>
+                  </div>
+                {{else}}
+                  User has not added any community yet.
+                {{/each}}
+              </div>
+              <div class="tab-pane fade" id="scam" role="tabpanel" aria-labelledby="scam-tab">
+                {{#each scams}} 
+                  <div class="card">
+                    <div class="card-body">
+                    <div ><a href="/research/{{slug}}" class="card-title" >{{headline}}</a> Created {{showTimeAgoTimestamp createdAt}}</div>
+                    </div>
+                  </div>
+                {{else}}
+                  User has not reported any scam yet.
+                {{/each}}
+              </div>
               <div class="tab-pane fade" id="comment" role="tabpanel" aria-labelledby="comment-tab">
                 {{#each comments}} 
                   <div class="card">
