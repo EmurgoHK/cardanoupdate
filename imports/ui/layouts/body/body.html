@@ -14,13 +14,13 @@
                 </div>
             </section>
             <nav class="container">
-                <li class="breadcrumb-item">
+                <!-- <li class="breadcrumb-item"> -->
                     <a href="/">Home</a> / 
                     {{#each breadcrumbs}}
                     <a href="{{url}}">{{text}}</a>
                     {{#if notLast}} / {{/if}}
                     {{/each}}
-                </li>
+                <!-- </li> -->
             </nav>
             {{> Template.dynamic template=main}}
         </main>
