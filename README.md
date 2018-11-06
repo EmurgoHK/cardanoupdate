@@ -195,3 +195,4 @@ This license ensures that:
 3. No one can change the above, without explicit written permission from _all_ contributors, which is essentially impossible to get. That means even the founder of this project cannot ever relicense and sell Cardanoupdate and its code. It belongs to everyone who contributed to it (and it always will).
 
 It is not permissible to use _any_ code from this codebase in _anything_ that isn't using a _share-alike_ license. Violations of the license will absolutely not be tolerated, and the terms of this license will be _brutally_ enforced through a variety of _very_ creative methods.
+
