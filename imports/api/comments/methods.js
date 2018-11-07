@@ -3,11 +3,11 @@ import SimpleSchema from 'simpl-schema'
 import { ValidatedMethod } from 'meteor/mdg:validated-method'
 
 import { Comments } from './comments'
-import { News } from '/imports/api/news/news'
+import { Learn } from '/imports/api/learn/learn'
 
 import { isModerator, userStrike } from '/imports/api/user/methods'
 
-import { addToSubscribers, sendToSubscribers } from '/imports/api/news/methods'
+import { addToSubscribers, sendToSubscribers } from '/imports/api/learn/methods'
 
 export const newComment = new ValidatedMethod({
     name: 'newComment',
@@ -38,7 +38,7 @@ export const newComment = new ValidatedMethod({
 			throw new Meteor.Error('Error.', 'You have to be logged in.')
 		}
 
-        if (News.findOne({
+        if (Learn.findOne({
             _id: newsId
         })) {
             addToSubscribers(newsId, Meteor.userId())

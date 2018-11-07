@@ -2,7 +2,6 @@ import { Meteor } from 'meteor/meteor'
 import { ValidatedMethod } from 'meteor/mdg:validated-method'
 import SimpleSchema from 'simpl-schema'
 import { Projects } from '../projects/projects'
-import { News } from '../news/news'
 import { Comments } from '../comments/comments'
 export const isModerator = userId => {
   let user = Meteor.users.findOne({
@@ -214,18 +213,14 @@ export const possibleModerators = new ValidatedMethod({
         let projects = Projects.find({
           createdBy: i._id
         }).count()
-
-        let news = News.find({
-          createdBy: i._id
-        }).count()
-
+        
         let comments = Comments.find({
           createdBy: i._id
         }).count()
 
         possible.push({
           _id: i._id,
-          totalInput: projects + news + comments,
+          totalInput: projects + comments,
         })
       }
     })

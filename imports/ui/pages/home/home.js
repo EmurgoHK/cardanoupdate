@@ -18,7 +18,6 @@ Template.home.onCreated(function () {
     this.subscribe('socialResources')
     this.subscribe('projects')
     this.subscribe('events')
-    this.subscribe('news')
     this.subscribe('users')
     this.subscribe('comments')
     this.subscribe('usersStats')

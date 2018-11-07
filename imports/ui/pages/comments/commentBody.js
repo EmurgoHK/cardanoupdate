@@ -3,7 +3,6 @@ import './commentBody.html'
 import { Template } from 'meteor/templating'
 import { FlowRouter } from 'meteor/kadira:flow-router'
 
-import { News } from '/imports/api/news/news'
 import { Comments } from '/imports/api/comments/comments'
 
 import { newComment, editComment, removeComment, flagComment } from '/imports/api/comments/methods'
