@@ -11,6 +11,7 @@ import { newEvent, editEvent } from '/imports/api/events/methods'
 import '../../../../node_modules/daterangepicker/daterangepicker.css';
 import { insertImage } from '/imports/ui/shared/uploader/uploader'
 import { insertVideo } from '/imports/ui/pages/learn/learnForm'
+import { Config } from '/imports/api/config/config'
 
 const maxCharValue = (inputId) => {
   if (inputId === 'description') {
@@ -35,12 +36,57 @@ const geolocate = (autocomplete) => {
         radius: position.coords.accuracy
       })
 
-      autocomplete.setBounds(circle.getBounds())
+      if (autocomplete) {
+        autocomplete.setBounds(circle.getBounds())
+      }
     })
   }
 }
 
+const initLocationSearch = function() {
+  this.autocomplete = new google.maps.places.Autocomplete($('#location').get(0), {
+    types: ['geocode']
+  })
+
+  this.autocomplete.addListener('place_changed', () => {
+    let place = this.autocomplete.getPlace()
+
+    let lng = place.geometry.location.lng()
+    let lat = place.geometry.location.lat()
+
+    let timestamp = $('#event_duration').val().split(' - ')
+
+    HTTP.get(`https://api.timezonedb.com/v2.1/get-time-zone?key=5S42VGHOV6HK&format=json&by=position&lat=${lat}&lng=${lng}&time=${new Date(timestamp[0] || timestamp[1] || Date.now()).getTime() / 1000}`, (err, data) => {
+      this.timezone.set(data.data)
+    })
+
+    this.location.set(place)
+  })
+
+  this.loaded.set(true)
+}
+
 Template.eventForm.onCreated(function () {
+  this.loaded = new ReactiveVar(false)
+
+  this.autorun(() => {
+    this.subscribe('config')
+
+    let config = Config.findOne({
+      _id: 'google-maps-api'
+    })
+
+    if (config && !this.loaded.get()) {
+      $.getScript(`https://maps.googleapis.com/maps/api/js?key=${config.key}&libraries=places`).done(() => {
+        if ($('#location').get(0) && !this.loaded.get()) { // initialize the location search if the page has rendered already
+          initLocationSearch.call(this)
+        }
+      }).fail(() => {
+        console.log('Invalid Google Maps API key!')
+      })
+    }
+  })
+
   this.location = new ReactiveVar({})
   this.timezone = new ReactiveVar({})
   Meteor.setTimeout(() => {
@@ -73,24 +119,9 @@ Template.eventForm.onCreated(function () {
 })
 
 Template.eventForm.onRendered(function() {
-  this.autocomplete = new google.maps.places.Autocomplete($('#location').get(0), {
-    types: ['geocode']
-  })
-
-  this.autocomplete.addListener('place_changed', () => {
-    let place = this.autocomplete.getPlace()
-
-    let lng = place.geometry.location.lng()
-    let lat = place.geometry.location.lat()
-
-    let timestamp = $('#event_duration').val().split(' - ')
-
-    HTTP.get(`https://api.timezonedb.com/v2.1/get-time-zone?key=5S42VGHOV6HK&format=json&by=position&lat=${lat}&lng=${lng}&time=${new Date(timestamp[0] || timestamp[1] || Date.now()).getTime() / 1000}`, (err, data) => {
-      this.timezone.set(data.data)
-    })
-
-    this.location.set(place)
-  })
+  if (window.google && google && google.maps && !this.loaded.get()) { // initialize the location search if the script has loaded already
+    initLocationSearch.call(this)
+  }
 
   this.mde = new SimpleMDE({
     element: $("#description")[0],

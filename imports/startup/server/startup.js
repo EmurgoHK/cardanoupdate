@@ -4,7 +4,9 @@ import { Config } from '/imports/api/config/config'
 Meteor.startup(() => {
 	SyncedCron.start()
 
-	let config = Config.findOne({}) || {}
+	let config = Config.findOne({
+		_id: 'recaptcha'
+	}) || {}
 
 	Meteor.settings.public.RECAPTCHA_CLIENT = config.publicKey || ''
 

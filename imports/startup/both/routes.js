@@ -89,9 +89,13 @@ Accounts.onLogout((user) => {
 
 // FlowRouter.triggers.enter([userLoginFilter], { except: ['home', 'projects'] })
 FlowRouter.triggers.enter([function(options) {
-    let breadcrumb = options.route.options.breadcrumb(options.params) || {};
-    breadcrumb.urls = breadcrumb.urls || [];
-    Session.set('breadcrumbs', breadcrumb)
+    if (options.route.options && options.route.options.breadcrumb) {
+      let breadcrumb = options.route.options.breadcrumb(options.params) || {};
+      breadcrumb.urls = breadcrumb.urls || [];
+      Session.set('breadcrumbs', breadcrumb)
+    } else {
+      Session.set('breadcrumbs', {})
+    }
 }])
 
 FlowRouter.triggers.enter([() => {
@@ -673,7 +677,10 @@ FlowRouter.route('/events/new', {
       urls: ['/events']
     })
   },
-  triggersEnter: [userLoginFilter], 
+  triggersEnter: [userLoginFilter],
+  subscriptions: function(params, queryParams) {
+    this.register('config', Meteor.subscribe('config'))
+  },
   action: () => {
     BlazeLayout.render('main', {
       header: 'header',
@@ -693,6 +700,7 @@ FlowRouter.route('/events/:id/edit', {
   },
   triggersEnter: [userLoginFilter], 
   subscriptions: function(params, queryParams) {
+    this.register('config', Meteor.subscribe('config'))
     this.register('events.item', Meteor.subscribe('events.item', params.id))
   },
   action: () => {
