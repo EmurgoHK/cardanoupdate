@@ -132,38 +132,7 @@
                 {{/each}}
               </div>
             </div>
-           
-            <!-- <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                {{#if contentCount}}
-                {{#each userContent}}
-                  <h6 class="mb-3 mt-3">
-                    {{#if isComment}} 
-                      <i class="far fa-comments" style="vertical-align: middle"></i>&nbsp;Commented on 
-                    {{else}} 
-                      <i class="far fa-edit" style="vertical-align: middle"></i>&nbsp;Posted 
-                    {{/if}}
-
-                    <strong><a href="/news/{{link}}">{{title}}</a></strong>&nbsp;&nbsp;<small class="text-muted"><i class="icon-clock" style="vertical-align: middle"></i>&nbsp;{{showTimeAgoTimestamp createdAt}}</small> 
-                  </h6>
-                {{/each}}
-              {{else}}
-                User doesn't have any activity.
-              {{/if}}
-            </div> -->
           </div>
-          <!-- <div class="user-content">
-            <h4>{{#if ownProfile}}Your Content{{else}}{{user.name}}'s Activity{{/if}}</h4>
-            {{#if contentCount}}
-              {{#each userContent}}
-                <div class="card">
-                  {{#if isComment}} <i class="icon-speech"></i>&nbsp;Commented on {{else}} <i class="icon-pencil"></i>&nbsp;Posted {{/if}}
-                  <a href="/news/{{link}}">{{title}}</a>, <i class="icon-clock" style="vertical-align: middle"></i>&nbsp;{{showTimeAgoTimestamp createdAt}}
-                </div>
-              {{/each}}
-            {{else}}
-              User doesn't have any activity.
-            {{/if}}
-          </div> -->
         </div>
       </div>
     </div>

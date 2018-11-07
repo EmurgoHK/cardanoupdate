@@ -13,10 +13,6 @@ import '/imports/api/stats/stats'
 import '/imports/api/stats/server/publications'
 import '/imports/api/stats/server/startup'
 
-// news api
-import '/imports/api/news/methods'
-import '/imports/api/news/server/publications'
-
 // projects api
 import '/imports/api/projects/methods'
 import '/imports/api/projects/server/publications'

@@ -124,7 +124,6 @@ FlowRouter.route('/', {
     this.register('socialResources', Meteor.subscribe('socialResources'))
     this.register('projects', Meteor.subscribe('projects'))
     this.register('events', Meteor.subscribe('events'))
-    this.register('news', Meteor.subscribe('news'))
     this.register('users', Meteor.subscribe('users'))
     this.register('comments', Meteor.subscribe('comments'))
     this.register('usersStats', Meteor.subscribe('usersStats'))
@@ -894,7 +893,6 @@ modRoutes.route('/flagged', {
 	name: 'flaggedItems',
 	subscriptions: function(params, queryParams) {
 		this.register('comments.flagged', Meteor.subscribe('comments.flagged'))
-		this.register('news', Meteor.subscribe('news'))
 		this.register('projects', Meteor.subscribe('projects'))
 		this.register('warnings', Meteor.subscribe('warnings'))
 		this.register('events', Meteor.subscribe('events'))

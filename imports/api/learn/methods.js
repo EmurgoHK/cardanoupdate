@@ -10,6 +10,35 @@ import { addTag, mentionTag, getTag } from '/imports/api/tags/methods'
 
 import { sendNotification } from '/imports/api/notifications/methods'
 
+export const addToSubscribers = (newsId, userId) => {
+  let learn = Learn.findOne({
+    _id: newsId
+  })
+
+  Learn.update({
+      _id: newsId
+  }, {
+      $addToSet: {
+          subscribers: userId
+      }
+  })
+}
+
+export const sendToSubscribers = (newsId, authorId, message) => {
+  let learn = Learn.findOne({
+      _id: newsId
+  })
+
+  if (learn && learn.subscribers && learn.subscribers.length) {
+    learn.subscribers.forEach(i => {
+          if (i !== authorId) { // don't notify yourself
+            sendNotification(i, message, 'System', `/learn/${learn.slug}`)
+          }
+      })
+  }
+  return learn.subscribers
+}
+
 export const newLearningItem = new ValidatedMethod({
     name: 'newLearningItem',
     validate:

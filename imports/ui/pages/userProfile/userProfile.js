@@ -1,4 +1,3 @@
-import { News } from '/imports/api/news/news'
 import { Comments } from '/imports/api/comments/comments'
 import { Projects } from '/imports/api/projects/projects'
 import { Research } from '/imports/api/research/research'
@@ -73,7 +72,6 @@ Template.viewProfile.helpers({
   },
 
   contentCount(){
-    let news = News.find({createdBy : FlowRouter.getParam('userId')}).count()
     let comments = Comments.find({createdBy : FlowRouter.getParam('userId')}).count()
 
     return news + comments
@@ -229,14 +227,3 @@ Template.editProfile.events({
     })
   },
 })
-
-
-const newsTitle = (newsID) => {
-  let news = News.findOne({_id : newsID})
-  return news && news.headline || ''
-}
-
-const newsUrl = (newsID, commentID) => {
-  let news = News.findOne({_id : newsID})
-  return news ? `${news.slug}#comment-${commentID}` : ''
-}
