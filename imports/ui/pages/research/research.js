@@ -72,21 +72,22 @@ Template.research.helpers({
 
     isDateAsc() {
         return Template.instance().sort.get() === 'date-asc'
-    }
+    },
+
+    searchArgs() {
+        const instance = Template.instance();
+        return {
+            placeholder:"Search research",
+            type: 'research',
+            onChange: (newTerm) => instance.searchFilter.set(newTerm),
+        }
+    },
 })
 
 Template.research.events({
     'click #new-research': (event, _) => {
         event.preventDefault()
         FlowRouter.go('/research/new')
-    },
-    'keyup #searchBox': function(event, templateInstance) {
-        event.preventDefault()
-
-        templateInstance.searchFilter.set($('#searchBox').val())
-    },
-    'blur #searchBox': function(event, templateInstance) {
-        templateInstance.searchFilter.set($('#searchBox').val())
     },
     'click #sort-date': (event, templateInstance) => {
         event.preventDefault()

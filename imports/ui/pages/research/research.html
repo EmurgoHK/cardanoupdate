@@ -12,13 +12,8 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="input-group">
-                    <input type="text" id="searchBox" class="form-control" placeholder="Search research" aria-label="Search research">
-                </div>
-            </div>
-        </div>
+        {{> searchBar searchArgs }}
+
         <hr>
         
         <div class="float-right">
@@ -26,9 +21,11 @@
               Date {{#if isDateAsc }} <i class="fas fa-sort-down"></i> {{else}} <i class="fas fa-sort-up"></i> {{/if}}
           </button>
         </div>
-        <div class="clearfix"></div>
-
+        
         {{#if researchCount}}
+            <p>Found {{researchCount}} researches</p>
+            <div class="clearfix"></div>
+
             {{> researchList research=research }}
         {{else}}
           <p>Sorry, we couldn't find anything.</p>
