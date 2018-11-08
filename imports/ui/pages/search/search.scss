@@ -13,3 +13,17 @@
 	color: #fff;
 	border:none;
 }
+
+.resultContainer {
+    transition: max-height 0.3s ease;
+    max-height: 500px;
+    opacity: 1;
+    overflow: hidden;
+}
+
+.shrinkToHidden {
+    transition: max-height 0.3s ease;
+    max-height: 0;
+    opacity: 1;
+    overflow: hidden;
+}
