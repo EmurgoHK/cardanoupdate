@@ -12,16 +12,10 @@
           </div>
         </div>
 
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="input-group">
-                    <input type="text" id="searchBox" class="form-control" placeholder="Search learning resources" aria-label="Search learning resources">
-                </div>
-            </div>
-        </div>
-
+        {{> searchBar searchArgs }}
         <hr>
         {{#if learnCount}}
+          <p>Found {{learnCount}} learning resources</p>
           {{> learningResourceList learningResources=learn }}
         {{else}}
           <p>Sorry, we couldn't find anything.</p>

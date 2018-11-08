@@ -53,7 +53,16 @@ Template.learn.helpers({
     },
     canEdit: function() {
         return this.createdBy === Meteor.userId()
-    }
+    },
+
+    searchArgs() {
+        const instance = Template.instance();
+        return {
+            placeholder:"Search learning resources",
+            type: 'learn',
+            onChange: (newTerm) => instance.searchFilter.set(newTerm),
+        }
+    },
 })
 
 Template.learn.events({
@@ -61,13 +70,5 @@ Template.learn.events({
         event.preventDefault()
 
         FlowRouter.go('/learn/new')
-    },
-    'keyup #searchBox': (event, templateInstance) => {
-        event.preventDefault()
-
-        templateInstance.searchFilter.set($('#searchBox').val())
-    },
-    'blur #searchBox': (event, templateInstance) => {
-        templateInstance.searchFilter.set($('#searchBox').val())
     },
 })

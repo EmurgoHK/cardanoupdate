@@ -52,6 +52,15 @@ import swal from 'sweetalert2'
       }
       return warnings
     },
+
+    searchArgs() {
+        const instance = Template.instance();
+        return {
+            placeholder:"Search scams",
+            type: 'warnings',
+            onChange: (newTerm) => instance.searchFilter.set(newTerm),
+        }
+    },
 })
  Template.warnings.events({
      // Remove comments if user is allowed to propose changes
@@ -112,12 +121,5 @@ import swal from 'sweetalert2'
      'click #add-warning': (event, _) => {
         event.preventDefault()
         FlowRouter.go('/scams/new')
-    },
-    'keyup #searchBox': function (event, templateInstance) {
-      event.preventDefault();
-       templateInstance.searchFilter.set($('#searchBox').val())
-    },
-    'blur #searchBox': function (event, templateInstance) {
-        templateInstance.searchFilter.set($('#searchBox').val())
     },
 })

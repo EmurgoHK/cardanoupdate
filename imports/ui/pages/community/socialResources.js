@@ -52,6 +52,15 @@ Template.socialResourcesTemp.helpers({
       }
       return Resources
     },
+
+    searchArgs() {
+        const instance = Template.instance();
+        return {
+            placeholder:"Search communities",
+            type: 'socialResources',
+            onChange: (newTerm) => instance.searchFilter.set(newTerm),
+        }
+    },
 })
 
 
@@ -59,13 +68,5 @@ Template.socialResourcesTemp.events({
   'click #add-Resource': (event, _) => {
       event.preventDefault()
       FlowRouter.go('/community/new')
-  },
-  'keyup #searchBox': function (event, templateInstance) {
-    event.preventDefault();
-
-    templateInstance.searchFilter.set($('#searchBox').val())
-  },
-  'blur #searchBox': function (event, templateInstance) {
-    templateInstance.searchFilter.set($('#searchBox').val())
   },
 })
