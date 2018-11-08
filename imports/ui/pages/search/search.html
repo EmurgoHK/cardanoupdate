@@ -25,27 +25,27 @@
             <div class="col-sm-12">
                 <div class="row justify-content-center">
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="projectCheckbox" value="option1" checked>
+                        <input class="form-check-input" type="checkbox" id="projectCheckbox" value="option1" checked={{showProjects}}>
                         <label class="form-check-label" for="projectCheckbox">Projects</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="eventsCheckbox" value="option2" checked>
+                        <input class="form-check-input" type="checkbox" id="eventsCheckbox" value="option2" checked={{showEvents}}>
                         <label class="form-check-label" for="eventsCheckbox">Events</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="researchCheckbox" value="option2" checked>
+                        <input class="form-check-input" type="checkbox" id="researchCheckbox" value="option2" checked={{showResearch}}>
                         <label class="form-check-label" for="researchCheckbox">Research</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="learnCheckbox" value="option2" checked>
+                        <input class="form-check-input" type="checkbox" id="learnCheckbox" value="option2" checked={{showLearn}}>
                         <label class="form-check-label" for="learnCheckbox">Learn</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="communityCheckbox" value="option2" checked>
+                        <input class="form-check-input" type="checkbox" id="communityCheckbox" value="option2" checked={{showSocialResources}}>
                         <label class="form-check-label" for="communityCheckbox">Community</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="scamsCheckbox" value="option2" checked>
+                        <input class="form-check-input" type="checkbox" id="scamsCheckbox" value="option2" checked={{showWarnings}}>
                         <label class="form-check-label" for="scamsCheckbox">Scams</label>
                     </div>
                 </div>
@@ -61,7 +61,7 @@
                 <h2>Ermahgerd!! no records found</h2>
                 {{/unless}}
                 <!-- PROJECTS -->
-                <div class="projectsContainer">
+                <div class="{{projectsContainerClass}}">
                     {{#each projects}}
                     <a href="/projects/{{slug}}">{{SearchMarker headline}}</a> <br />
                     {{SearchMarker description}} <br />
@@ -72,7 +72,7 @@
                     {{/each}}
                 </div>
                 <!-- EVENT -->
-                <div class="eventsContainer">
+                <div class="{{eventsContainerClass}}">
                 {{#each events}}
                 <a href="/events/{{slug}}">{{SearchMarker headline}}</a> <br />
                 {{SearchMarker description}} <br />
@@ -83,7 +83,7 @@
                 {{/each}}
               </div>
                 <!-- LEARN -->
-                <div class="learnContainer">
+                <div class="{{learnContainerClass}}">
                 {{#each learn}}
                 <a href="/learn/{{slug}}">{{SearchMarker title}}</a> <br />
                 {{SearchMarker summary}} <br />
@@ -94,7 +94,7 @@
                 {{/each}}
               </div>
                 <!-- RESEARCH -->
-                <div class="researchContainer">
+                <div class="{{researchContainerClass}}">
                 {{#each research}}
                 <a href="/research/{{slug}}">{{SearchMarker headline}}</a> <br />
                 {{SearchMarker abstract}} <br />
@@ -105,7 +105,7 @@
                 {{/each}}
               </div>
                 <!-- WARNING -->
-                <div class="scamsContainer">
+                <div class="{{warningsContainerClass}}">
                 {{#each warnings}}
                 <a href="/scams/{{slug}}">{{SearchMarker headline}}</a> <br />
                 {{SearchMarker summary}} <br />
@@ -116,7 +116,7 @@
                 {{/each}}
               </div>
                 <!-- SOCIAL RESOURCES -->
-                <div class="communityContainer">
+                <div class="{{socialResourcesContainerClass}}">
                 {{#each socialResources}}
                 <a href="/community/{{slug}}">{{SearchMarker Name}}</a> <br />
                 {{SearchMarker description}} <br />
