@@ -95,7 +95,8 @@ import { flagWarning } from '/imports/api/warnings/methods'
 			parentId: warning._id,
 			text: templateInstance.$(`#comment`).val(),
 			newsId: warning._id,
-			type: 'warning',
+      type: 'warning',
+      postType : 'scam'
 		}, (err, data) => {
       		templateInstance.$(`#comment`).val('')
  			if (!err) {

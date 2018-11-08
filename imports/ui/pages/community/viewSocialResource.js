@@ -121,6 +121,7 @@ Template.viewSocialResourceTemp.events({
     parentId: socialResource._id,
     text: $(`#${cool ? 'cool' : 'flag'}-comment`).val(),
     newsId: socialResource._id,
+    postType : 'community',
     type: cool ? 'coolstuff' : 'redflag'
   }, (err, data) => {
         $(`#${cool ? 'cool' : 'flag'}-comment`).val('')
