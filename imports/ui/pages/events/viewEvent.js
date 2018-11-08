@@ -78,7 +78,8 @@ Template.viewEvent.events({
 		newComment.call({
 			parentId: event._id,
 			text: $('#comments').val(),
-			newsId: event._id
+      newsId: event._id,
+      postType : 'event'
 		}, (err, data) => {
       $('#comments').val('')
 			if (!err) {

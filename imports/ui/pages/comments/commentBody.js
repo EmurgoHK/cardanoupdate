@@ -99,7 +99,8 @@ Template.commentBody.events({
 			parentId: this._id,
 			text: $(`.rep-comment-${this._id}`).val(),
 			newsId: templateInstance.data._id,
-			type: templateInstance.data.type
+      type: templateInstance.data.type,
+      postType: 'reply'
 		}, (err, data) => {
       		$(`.rep-comment-${this._id}`).val('')
 

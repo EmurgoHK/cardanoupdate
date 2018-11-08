@@ -79,7 +79,8 @@ Template.viewResearch.events({
 		newComment.call({
 			parentId: research._id,
 			text: $('#comments').val(),
-			newsId: research._id
+      newsId: research._id,
+      postType : 'research'
 		}, (err, data) => {
       		$('#comments').val('')
 			

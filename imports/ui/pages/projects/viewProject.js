@@ -110,7 +110,8 @@ Template.viewProject.events({
 		newComment.call({
 			parentId: project._id,
 			text: $(`#${cool ? 'cool' : 'flag'}-comment`).val(),
-			newsId: project._id,
+      newsId: project._id,
+      postType : 'project',
 			type: cool ? 'coolstuff' : 'redflag'
 		}, (err, data) => {
       		$(`#${cool ? 'cool' : 'flag'}-comment`).val('')

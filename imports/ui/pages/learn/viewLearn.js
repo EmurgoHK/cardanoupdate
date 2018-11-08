@@ -69,7 +69,7 @@ Template.viewLearn.helpers({
 	commentInvalidMessage: () => Template.instance().message.get(),
 	commentCount: function () {
 		return Comments.find({
-		  	newsId: this._id
+		  newsId: this._id
 		}).count()
 	},
 	tagName: (tag) => tag.name,
@@ -94,7 +94,8 @@ Template.viewLearn.events({
 		newComment.call({
 			parentId: learn._id,
 			text: $('#comments').val(),
-			newsId: learn._id
+      newsId: learn._id,
+      postType : 'learn'
 		}, (err, data) => {
       		$('#comments').val('')
 			
