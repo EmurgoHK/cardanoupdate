@@ -2,11 +2,12 @@ import './searchBar.html';
 import './searchBar.scss';
 
 Template.searchBar.onCreated(function() {
-  this.searchTerm = new ReactiveVar([]);
+  this.searchTerm = new ReactiveVar(this.data.searchTerm);
 });
 
 Template.searchBar.helpers({
   placeholder: () => Template.currentData().placeholder,
+  searchTerm: () => Template.instance().searchTerm.get(),
   advancedSearchUrl: () => {
     const term = Template.instance().searchTerm.get();
 
