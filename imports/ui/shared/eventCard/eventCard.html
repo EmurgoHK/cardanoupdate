@@ -3,7 +3,7 @@
     <div class="card-body">
       <p class="event-label {{eventLabel}}">{{eventLabel}}</p>
       <h4 class="card-title">
-        <a href="/events/{{event.slug}}" title="{{event.headline}}">{{event.headline}}</a>
+        <a href="/events/{{event.slug}}" title="{{event.headline}}">{{transform event.headline}}</a>
       </h4>
       <p class="card-text">
         {{#unless isEventUpcoming event.start_date event.timezone.zoneName}} 
@@ -17,7 +17,7 @@
         <i class="icon-check"></i> <a target="_blank" href={{event.rsvp}}>RSVP Link</a>
       </p>
       <p class="location">
-        <i class="icon-location-pin"></i> <a target="_blank" href="https://www.google.com/maps/place/{{event.location}}/">{{event.location}}</a>
+        <i class="icon-location-pin"></i> <a target="_blank" href="https://www.google.com/maps/place/{{event.location}}/">{{transform event.location}}</a>
       </p>
       {{> flagItem item="event" edit=editURL _id=event._id}}
     </div>

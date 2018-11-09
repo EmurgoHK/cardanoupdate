@@ -18,10 +18,9 @@
       </div>
       {{/if}}
       <h4 class="card-title">
-        <a href="/community/{{socialResource._id}}" title="{{socialResource.Name}}">{{socialResource.Name}}</a>
+        <a href="/community/{{socialResource._id}}" title="{{socialResource.Name}}">{{transform socialResource.Name}}</a>
       </h4>
       <p class="card-text">
-        {{socialResource.createdAt}}
         {{limitChars socialResource.description}}
       </p>
       <hr>

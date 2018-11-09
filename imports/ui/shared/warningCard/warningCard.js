@@ -19,7 +19,14 @@ Template.warningCard.helpers({
     return false
   },
   limitChars(val) {
-    return val && val.length > 50 ? val.slice(0, 50) + " ... " : val;
+    const limitedText = val && val.length > 50 ? val.slice(0, 50) + " ... " : val;
+    const transformer = Template.currentData().textTransformer;
+    if (transformer) return transformer(limitedText);
+    return limitedText;
+  },
+  transform(text) {
+    const transformer = Template.currentData().textTransformer;
+    return transformer ? transformer(text) : text;
   },
 });
 Template.warningCard.events({
@@ -123,9 +130,6 @@ Template.warningCard.events({
         return !value && "You need to write a valid reason!";
       }
     }).then(data => {
-      console.log(
-        warning._id
-      )
       if (data.value) {
         flagWarning.call(
           {

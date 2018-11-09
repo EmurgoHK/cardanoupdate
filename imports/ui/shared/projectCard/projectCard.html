@@ -5,7 +5,7 @@
     {{/if}}
     <div class="card-body">
       <h4 class="card-title">
-        <a href="/projects/{{project.slug}}" title="{{project.headline}}">{{project.headline}}</a>
+        <a href="/projects/{{project.slug}}" title="{{project.headline}}">{{transform project.headline}}</a>
       </h4>
       <p class="card-text">
         {{limitChars project.description}}

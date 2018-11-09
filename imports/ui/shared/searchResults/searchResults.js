@@ -127,7 +127,16 @@ Template.searchResults.helpers({
 
   isDateAsc() {
     return Template.instance().sort.get() === "date-asc";
-  }
+  },
+  
+  highlighter(){
+    let searchVal = Template.currentData().searchTerm;
+    return (text) => {
+      return searchVal && text ? 
+        new Handlebars.SafeString(text.replace(RegExp('('+ searchVal.split(" ").join('|') + ')', 'img'), '<span class="SearchMarker" >$1</span>')) :
+        text;
+    };
+  },
 });
 
 Template.searchResults.events({

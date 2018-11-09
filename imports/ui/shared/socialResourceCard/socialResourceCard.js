@@ -30,7 +30,15 @@ Template.socialResourceCard.helpers({
     }
   },
   limitChars(val) {
-    return val && val.length > 50 ? val.slice(0, 50) + " ... " : val;
+    const limitedText = val && val.length > 50 ? val.slice(0, 50) + " ... " : val;
+    const transformer = Template.currentData().textTransformer;
+    console.log(Template.currentData(), transformer(limitedText));
+    if (transformer) return transformer(limitedText);
+    return limitedText;
+  },
+  transform(text) {
+    const transformer = Template.currentData().textTransformer;
+    return transformer ? transformer(text) : text;
   },
 });
 
