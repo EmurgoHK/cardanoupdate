@@ -1,5 +1,5 @@
-import "./researchList.html";
-import "./researchList.scss";
+import "./researchCard.html";
+import "./researchCard.scss";
 
 import { Template } from "meteor/templating";
 
@@ -9,28 +9,24 @@ import swal from "sweetalert2";
 import { notify } from "/imports/modules/notifier";
 import { flagDialog } from "/imports/modules/flagDialog";
 
-Template.researchList.helpers({
-  containerClasses() {
-    return this.containerClass || "card-columns";
-  },
-  cardWrapperClasses() {
-    return Template.parentData().cardWrapperClass || "";
-  },
+Template.researchCard.helpers({
   limitChars(val) {
     return val && val.length > 50 ? val.slice(0, 50) + " ... " : val;
   },
   editURL() {
-    if(this.createdBy === Meteor.userId()){
-      return `/research/${this.slug}/edit`
+    const research = Template.currentData().research;
+    if (research.createdBy === Meteor.userId()) {
+      return `/research/${research.slug}/edit`;
     }
-    return false
-  },
+    return false;
+  }
 });
 
-Template.researchList.events({
+Template.researchCard.events({
   "click #js-remove": function(event, _) {
     event.preventDefault();
 
+    const research = Template.currentData().research;
     swal({
       text: `Are you sure you want to remove this research papaer? This action is not reversible.`,
       type: "warning",
@@ -39,7 +35,7 @@ Template.researchList.events({
       if (confirmed.value) {
         removeResearch.call(
           {
-            researchId: this._id
+            researchId: research._id
           },
           (err, data) => {
             if (err) {
@@ -53,6 +49,10 @@ Template.researchList.events({
   "click .flag-research": function(event, templateInstance) {
     event.preventDefault();
 
-    flagDialog.call(this, flagResearch, "researchId");
+    flagDialog.call(
+      Template.currentData().research,
+      flagResearch,
+      "researchId"
+    );
   }
 });

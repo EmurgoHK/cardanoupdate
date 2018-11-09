@@ -13,22 +13,7 @@
         </div>
 
         {{> searchBar searchArgs }}
-
         <hr>
-        
-        <div class="float-right">
-          <button class="btn btn-link" id="sort-date">
-              Date {{#if isDateAsc }} <i class="fas fa-sort-down"></i> {{else}} <i class="fas fa-sort-up"></i> {{/if}}
-          </button>
-        </div>
-        
-        {{#if researchCount}}
-            <p>Found {{researchCount}} researches</p>
-            <div class="clearfix"></div>
-
-            {{> researchList research=research }}
-        {{else}}
-          <p>Sorry, we couldn't find anything.</p>
-        {{/if}}
+        {{> searchResults resultArgs}}
     </div>
 </template>

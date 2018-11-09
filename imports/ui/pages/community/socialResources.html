@@ -11,14 +11,9 @@
           <p class="section-intro">Telegram groups, meetup groups, facebook groups, forums, etc.</p>
         </div>
       </div>
-      {{> searchBar searchArgs}}
 
+      {{> searchBar searchArgs}}
       <hr>
-      {{#if socialResourcesCount}}
-        <p>Found {{socialResourcesCount}} communities</p>
-        {{> socialResourceList socialResources=socialResources }}
-      {{else}}
-        <p>Sorry, we couldn't find anything.</p>
-      {{/if}}
+      {{> searchResults resultArgs }}
   </div>
 </template>

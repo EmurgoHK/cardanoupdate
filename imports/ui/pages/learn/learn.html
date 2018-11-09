@@ -14,11 +14,6 @@
 
         {{> searchBar searchArgs }}
         <hr>
-        {{#if learnCount}}
-          <p>Found {{learnCount}} learning resources</p>
-          {{> learningResourceList learningResources=learn }}
-        {{else}}
-          <p>Sorry, we couldn't find anything.</p>
-        {{/if}}
+        {{> searchResults resultArgs}}
     </div>
 </template>
