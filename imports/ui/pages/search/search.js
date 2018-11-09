@@ -2,16 +2,12 @@ import './search.html'
 
 import { Template } from 'meteor/templating'
 import { FlowRouter } from 'meteor/kadira:flow-router'
-import { Projects } from '/imports/api/projects/projects'
-import { Events } from '/imports/api/events/events'
-import { Research } from '/imports/api/research/research'
-import { Learn } from '/imports/api/learn/learn'
-import { socialResources } from '/imports/api/socialResources/socialResources'
-import { Warnings } from '/imports/api/warnings/warnings'
 import './search.scss'
 
 Template.search.onCreated(function() {
     this.filters= new ReactiveVar([]);
+    this.searchTerm = new ReactiveVar("");
+    
     this.autorun(() => {
         const typeParam = FlowRouter.getQueryParam('type');
         let filters =  typeParam !== undefined ? typeParam.split('-') : [
@@ -22,7 +18,7 @@ Template.search.onCreated(function() {
             'warnings',
             'socialResources',
         ];
-
+        this.searchTerm.set(FlowRouter.getQueryParam('q'));
         this.filters.set(filters);
     });
 })
@@ -40,15 +36,24 @@ Template.search.helpers({
     
     showSocialResources: () => Template.instance().filters.get().indexOf('socialResources') !== -1,
 
-    resultArgs: () => {
+    searchArgs() {
+        const instance = Template.instance();
         return {
-            searchTerm: FlowRouter.getQueryParam('q'),
-            types: Template.instance().filters.get(),
-            displayTypeLabel: true,
+            placeholder:"Search anything!",
+            searchTerm: instance.searchTerm.get(),
+            onChange: (newTerm) => {
+                FlowRouter.setQueryParams({q: newTerm}); 
+                instance.searchTerm.set(newTerm);
+            },
         }
     },
-    query() {
-        return FlowRouter.getQueryParam('q')
+    resultArgs: () => {
+        const instance = Template.instance();
+        return {
+            searchTerm: instance.searchTerm.get(),
+            types: instance.filters.get(),
+            displayTypeLabel: true,
+        }
     },
     SearchMarker(text){let searchVal = FlowRouter.getQueryParam('q');
       return searchVal&&text?new Handlebars.SafeString(text.replace(RegExp('('+ searchVal.split(" ").join('|') + ')', 'img'), '<span class="SearchMarker" >$1</span>')):text;}
@@ -72,20 +77,7 @@ Template.search.events({
     },
     'click #communityCheckbox': (event, templateInstance) => {
         toggleFilter(templateInstance, 'socialResources');
-    },
-    'click #searchButton, submit': (event, templateInstance) => {
-        event.preventDefault();
-
-        let searchQ = $('.searchInput').val()
-        $('#searchHeader').val(searchQ);
-
-
-        let queryParam = { q: searchQ }
-        let path = FlowRouter.path('/search', {}, queryParam)
-
-        FlowRouter.go(path)
-
-    },
+    }
 })
 
 function toggleFilter(templateInstance, filter) {

@@ -2,9 +2,11 @@
   <div class="row searchBar">
     <div class="col-sm-12">
         <div class="input-group">
-            <input type="text" id="searchBox" class="form-control" placeholder="{{ placeholder }}" aria-label="{{ placeholder }}">
+            <input type="text" id="searchBox" class="form-control" placeholder="{{ placeholder }}" aria-label="{{ placeholder }}" value="{{searchTerm}}">
         </div>
+        {{#if type}}
         <a class="advancedSearchLink" href="{{ advancedSearchUrl }}">Advanced search &#x25c0;</a>
+        {{/if}}
     </div>
   </div>
 </template>

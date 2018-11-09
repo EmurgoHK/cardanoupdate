@@ -1,26 +1,6 @@
 <template name="search">
     <div class="container">
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="row justify-content-center">
-                    <div class="col-12 col-md-10 col-lg-8">
-                        <form class="card card-sm">
-                            <div class="card-body row no-gutters align-items-center">
-                                <div class="col-auto">
-                                    <i class="fas fa-search h4 text-body"></i>
-                                </div>
-                                <div class="col">
-                                    <input class="form-control form-control-lg form-control-borderless searchInput" type="search" placeholder="Search for anything!" value="{{query}}" autocomplete="false" required>
-                                </div>
-                                <div class="col-auto">
-                                    <button class="btn btn-lg purpleButton" id="searchButton" type="button">Search</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+        {{> searchBar searchArgs }}
         <div class="row">
             <div class="col-sm-12">
                 <div class="row justify-content-center">
