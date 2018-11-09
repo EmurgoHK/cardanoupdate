@@ -35,7 +35,12 @@
 
               <div class="row">
                 <div class="col-sm-12">
-                  <a href="{{Resource_url}}" title="Go to {{Resource_url}}" class="btn btn-secondary website" target="_blank"><i class="{{resourceUrlClass this.resourceUrlType}} fa-lg"></i></a>
+                  <a href="{{Resource_url}}" 
+                    title="{{#if Resource_url }}Go to {{Resource_url}} {{else}} Suggest a website {{/if}}" 
+                    class="btn btn-secondary website" 
+                    target="_blank">
+                    <i class="{{resourceUrlClass this.resourceUrlType}} fa-lg"></i>
+                  </a>
                 </div>
               </div>
             </div>
