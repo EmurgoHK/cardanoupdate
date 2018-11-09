@@ -13,8 +13,6 @@ import './search.scss'
 Template.search.onCreated(function() {
     this.filters= new ReactiveVar([]);
     this.autorun(() => {
-        let q = FlowRouter.getQueryParam('q');
-
         const typeParam = FlowRouter.getQueryParam('type');
         let filters =  typeParam !== undefined ? typeParam.split('-') : [
             'projects',
@@ -25,64 +23,30 @@ Template.search.onCreated(function() {
             'socialResources',
         ];
 
-        this.subscribe('projects.search', q)
-        this.subscribe('events.search', q);
-        this.subscribe('learn.search', q);
-        this.subscribe('research.search', q);
-        this.subscribe('warnings.search', q);
-        this.subscribe('socialResources.search', q);
-       
         this.filters.set(filters);
-    })
+    });
 })
 
 Template.search.helpers({
-    recordsFound() {
-        let events = Template.instance().filters.get().indexOf('events') !== -1 ? Events.find({}).count() : 0;
-        let projects = Template.instance().filters.get().indexOf('projects') !== -1 ? Projects.find({}).count() : 0;
-        let learn = Template.instance().filters.get().indexOf('learn') !== -1 ? Learn.find({}).count() : 0;
-        let research = Template.instance().filters.get().indexOf('research') !== -1 ? Research.find({}).count() : 0;
-        let socialResourcesCount = Template.instance().filters.get().indexOf('socialResources') !== -1 ? socialResources.find({}).count() : 0;
-        let warnings = Template.instance().filters.get().indexOf('warnings') !== -1 ? Warnings.find({}).count() : 0;
-
-        return events + projects + learn + research + socialResourcesCount + warnings;
-    },
-    events() {
-        return Events.find({})
-    },
-    projects() {
-        return Projects.find({})
-    },
-    learn() {
-        return Learn.find({})
-    },
-    research() {
-        return Research.find({})
-    },
-    socialResources() {
-        return socialResources.find({})
-    },
-    warnings() {
-        return Warnings.find({})
-    },
     showProjects: () => Template.instance().filters.get().indexOf('projects') !== -1,
-    projectsContainerClass: () => Template.instance().filters.get().indexOf('projects') !== -1 ? 'resultContainer' : 'shrinkToHidden',
     
     showEvents: () => Template.instance().filters.get().indexOf('events') !== -1,
-    eventsContainerClass: () => Template.instance().filters.get().indexOf('events') !== -1 ? 'resultContainer' : 'shrinkToHidden',
     
     showLearn: () => Template.instance().filters.get().indexOf('learn') !== -1,
-    learnContainerClass: () => Template.instance().filters.get().indexOf('learn') !== -1 ? 'resultContainer' : 'shrinkToHidden',
     
     showResearch: () => Template.instance().filters.get().indexOf('research') !== -1,
-    researchContainerClass: () => Template.instance().filters.get().indexOf('research') !== -1 ? 'resultContainer' : 'shrinkToHidden',
     
     showWarnings: () => Template.instance().filters.get().indexOf('warnings') !== -1,
-    warningsContainerClass: () => Template.instance().filters.get().indexOf('warnings') !== -1 ? 'resultContainer' : 'shrinkToHidden',
     
     showSocialResources: () => Template.instance().filters.get().indexOf('socialResources') !== -1,
-    socialResourcesContainerClass: () => Template.instance().filters.get().indexOf('socialResources') !== -1 ? 'resultContainer' : 'shrinkToHidden',
 
+    resultArgs: () => {
+        return {
+            searchTerm: FlowRouter.getQueryParam('q'),
+            types: Template.instance().filters.get(),
+            displayTypeLabel: true,
+        }
+    },
     query() {
         return FlowRouter.getQueryParam('q')
     },

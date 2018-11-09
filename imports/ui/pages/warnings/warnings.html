@@ -13,11 +13,6 @@
             </div>
             {{> searchBar searchArgs }}
             <hr>
-            {{#if warningCount}}
-              <p>Found {{warningCount}} scams</p>
-              {{> warningList warnings=warnings }}
-            {{else}}
-              <p>Sorry, we couldn't find anything.</p>
-            {{/if}}
+            {{> searchResults resultArgs}}
         </div>
     </template> 

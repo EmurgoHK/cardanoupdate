@@ -1,20 +1,14 @@
-import "./socialResourceList.html";
-import "./socialResourceList.scss";
+import "./socialResourceCard.html";
+import "./socialResourceCard.scss";
 
 import { Template } from "meteor/templating";
 import { deleteSocialResource } from "/imports/api/socialResources/methods";
 
 import swal from "sweetalert2";
 
-Template.socialResourceList.helpers({
-  containerClasses() {
-    return this.containerClass || "card-columns";
-  },
-  cardWrapperClasses() {
-    return Template.parentData().cardWrapperClass || "";
-  },
+Template.socialResourceCard.helpers({
   canEdit() {
-    return this.createdBy === Meteor.userId();
+    return Template.currentData().socialResource.createdBy === Meteor.userId();
   },
 
   resourceUrlClass(resourceUrlType) {
@@ -40,10 +34,11 @@ Template.socialResourceList.helpers({
   },
 });
 
-Template.socialResourceList.events({
+Template.socialResourceCard.events({
   "click #js-remove": function(event, _) {
     event.preventDefault();
 
+    const socialResource = Template.currentData().socialResource;
     swal({
       text: `Are you sure you want to remove this Project? This action is not reversible.`,
       type: "warning",
@@ -52,7 +47,7 @@ Template.socialResourceList.events({
       if (confirmed.value) {
         deleteSocialResource.call(
           {
-            projectId: this._id
+            projectId: socialResource._id
           },
           (err, data) => {
             if (err) {

@@ -1,5 +1,5 @@
-import "./learningResourceList.html";
-import "./learningResourceList.scss";
+import "./learningResourceCard.html";
+import "./learningResourceCard.scss";
 
 import { Template } from "meteor/templating";
 
@@ -12,16 +12,11 @@ import swal from "sweetalert2";
 import { notify } from "/imports/modules/notifier";
 import { flagDialog } from "/imports/modules/flagDialog";
 
-Template.learningResourceList.helpers({
-  containerClasses() {
-    return this.containerClass || "card-columns";
-  },
-  cardWrapperClasses() {
-    return Template.parentData().cardWrapperClass || "";
-  },
+Template.learningResourceCard.helpers({
   editURL() {
-    if(this.createdBy === Meteor.userId()){
-      return `/learn/${this.slug}/edit`
+    const learn = Template.currentData().learn;
+    if(learn.createdBy === Meteor.userId()){
+      return `/learn/${learn.slug}/edit`
     }
     return false
   },
@@ -29,11 +24,11 @@ Template.learningResourceList.helpers({
     return val && val.length > 50 ? val.slice(0, 50) + " ... " : val;
   },
   learningLevel () {
-    let level = this.difficultyLevel
+    let level = Template.currentData().learn.difficultyLevel;
     if(level){
-      if(level == 'beginner'){
+      if(level === 'beginner'){
         return `<span class="text-success" title="Difficulty Level"><i class="fa fa-circle"></i> ${level}</span>`
-      } else if (level == 'intermediate') {
+      } else if (level === 'intermediate') {
         return `<span class="text-warning" title="Difficulty Level"><i class="fa fa-circle"></i> ${level}</span>`
       } else {
         return `<span class="text-danger" title="Difficulty Level"><i class="fa fa-circle"></i> ${level}</span>`
@@ -43,10 +38,11 @@ Template.learningResourceList.helpers({
   }
 });
 
-Template.learningResourceList.events({
+Template.learningResourceCard.events({
   "click #js-remove": function(event, templateInstance) {
     event.preventDefault();
 
+    const learn = Template.currentData().learn;
     swal({
       text: `Are you sure you want to remove this learning resource? This action is not reversible.`,
       type: "warning",
@@ -55,7 +51,7 @@ Template.learningResourceList.events({
       if (confirmed.value) {
         removeLearningItem.call(
           {
-            learnId: this._id
+            learnId: learn._id
           },
           (err, data) => {
             if (err) {
@@ -69,6 +65,6 @@ Template.learningResourceList.events({
   "click .flag-learn": function(event, templateInstance) {
     event.preventDefault();
 
-    flagDialog.call(this, flagLearningItem, "learnId");
+    flagDialog.call(Template.currentData().learn, flagLearningItem, "learnId");
   }
 });

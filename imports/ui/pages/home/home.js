@@ -28,80 +28,6 @@ Template.home.onCreated(function () {
 })
 
 Template.home.helpers({
-  // Research Helpers
-  researchCount(){
-    let research = Research.find({}).count()
-    if(research){
-      return true
-    }
-    return false
-  },
-
-  research(){
-    return Research.find({}, {limit : 6})
-  },
-  // Learn Helpers
-  learnCount: () => !!Learn.find({}).count(),
-  learn: () => Learn.find({}, {limit : 6}),
-  // socialResources Helpers
-  socialResourcesCount(){
-    let project = socialResources.find({}).count()
-    if(project){
-      return true
-    }
-    return false
-  },
-
-  socialResources(){
-    return socialResources.find({}, {limit : 6})
-  },
-
-  // Project Helpers
-  projectCount(){
-    let project = Projects.find({}).count()
-    if(project){
-      return true
-    }
-    return false
-  },
-
-  // Return only latest 5 projects
-  projects(){
-    return Projects.find({}, {limit : 6})
-  },
-
-  // Warning Helpers
-  warningCount(){
-    let warning = Warnings.find({}).count()
-     if(warning){
-      return true
-    }
-    return false
-  },
-   // Return only latest 5 warnings
-  warnings(){
-    return Warnings.find({}, {limit : 6})
-  },
-
-
-  // Events
-  eventCount(){
-    let event = Events.find({}).count()
-    if(event){
-      return true
-    }
-    return false
-  },
-
-  events(){
-    // Return only latest 5 active events
-    return Events.find({
-      start_date : {
-        $gte : moment().toISOString()
-      }
-    }, {limit : 6})
-  },
-
   // User Stats
   signedUp: () => (UsersStats.findOne({
     _id: 'lastMonth'
@@ -117,10 +43,14 @@ Template.home.helpers({
   },
 
   totalUsers: () => Meteor.users.find({}).count() || 0,
-})
-
-Template.home.events({
-  'click #add-new' (event, _tpl) {
-    $('#newModal').modal('show')
-  },
+  resultArgs: () => ({
+    types: ['events', 'learn', 'projects', 'research', 'socialResource', 'warnings'],
+    searchTerm: undefined,
+    displayTypeLabel: true,
+    showAddNew: true,
+    typeLimit: 6,
+    addNewCallback: () => {
+      $('#newModal').modal('show')
+    }
+  }),
 })

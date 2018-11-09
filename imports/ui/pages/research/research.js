@@ -23,49 +23,6 @@ Template.research.onCreated(function () {
 
 Template.research.helpers({
     chunkSize: () => CHUNK_SIZE + 1,
-    researchCount: () => {
-      let research = 0
-      let searchText = Template.instance().searchFilter.get()
-      if (searchText) {
-        research = Research.find({
-          $or: [{
-              abstract: new RegExp(searchText.replace(/ /g, '|'), 'ig')
-          }, {
-              headline: new RegExp(searchText.replace(/ /g, '|'), 'ig')
-          }]
-        }).count()
-      } else {
-        research = Research.find({}).count()
-      }
-      return research
-    },
-    research: () => {
-        const tpl = Template.instance();
-
-        // Constructing sorting options
-        let sort;
-        switch (tpl.sort.get()) {
-            case 'date-asc':
-                sort = {createdAt: 1};
-                break;
-            case 'date-desc':
-            default:
-                sort = {createdAt: -1}
-        }
-
-        // Checking if the user searched for something and fetching data
-        const searchText = tpl.searchFilter.get();
-        if (searchText) {
-            return Research.find({
-                $or: [{
-                    abstract: new RegExp(searchText.replace(/ /g, '|'), 'ig')
-                }, {
-                    headline: new RegExp(searchText.replace(/ /g, '|'), 'ig')
-                }]
-            }, {sort});
-        }
-        return Research.find({}, {sort});
-    },
     canEdit: function() {
         return this.createdBy === Meteor.userId()
     },
@@ -80,6 +37,12 @@ Template.research.helpers({
             placeholder:"Search research",
             type: 'research',
             onChange: (newTerm) => instance.searchFilter.set(newTerm),
+        }
+    },
+    resultArgs() {
+        return {
+            types: ['research'],
+            searchTerm: Template.instance().searchFilter.get(),
         }
     },
 })
