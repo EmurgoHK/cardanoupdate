@@ -539,6 +539,21 @@ if (Meteor.isDevelopment) {
                     headline: `Testing 123`,
                 })
             }
+        },
+        generateTestFlaggedProject: () => {
+            for (let i = 0; i < 2; i++) {
+                Projects.insert({
+                    headline: `Testing 123`,
+                    description: 'Test',
+                    createdBy: 'test',
+                    createdAt: new Date().getTime(),
+                    flags: [{
+                        reason: 'testReason',
+                        flaggedBy: 'test',
+                        flaggedAt: new Date().getTime()
+                    }]
+                });
+            }
         }
     })
 }
