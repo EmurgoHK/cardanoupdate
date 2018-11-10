@@ -17,7 +17,7 @@ describe('comments methods', () => {
           title: 'title',
           summary: 'summary',
           content: 'content',
-          difficultyLevel: difficultyLevel,
+          difficultyLevel: 'beginner',
           createdBy: 'not-me',
           createdAt: new Date().getTime()
         })
