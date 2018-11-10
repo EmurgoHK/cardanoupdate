@@ -3,6 +3,7 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method'
 import SimpleSchema from 'simpl-schema'
 
 import { addTag, mentionTag, removeTag } from '../tags/methods';
+import { isTesting } from '../utilities';
 
 function guessResourceType(url) {
     if (!url) return "UNKNOWN";
@@ -40,7 +41,7 @@ export const addSocialResource = new ValidatedMethod({
             },
             captcha: {
                 type: String,
-                optional: false
+                optional: isTesting
             },
             tags: {
                 type: Array,
@@ -67,7 +68,7 @@ export const addSocialResource = new ValidatedMethod({
                 throw new Meteor.Error('Error.', 'You have to be logged in.')
             }
 
-            if(data.captcha != '_test_captcha_') {
+            if(!isTesting) {
                 var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, data.captcha);
 
                 if (!verifyCaptchaResponse.success) {
@@ -158,7 +159,7 @@ export const editSocialResource = new ValidatedMethod({
             },
             captcha: {
                 type: String,
-                optional: false
+                optional: isTesting
             },
             tags: {
                 type: Array,
@@ -195,7 +196,7 @@ export const editSocialResource = new ValidatedMethod({
                 throw new Meteor.Error('Error.', 'You can\'t edit a project that you haven\'t added.')
             }
 
-            if(captcha != '_test_captcha_') {
+            if(!isTesting) {
                 var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, captcha);
 
                 if (!verifyCaptchaResponse.success) {

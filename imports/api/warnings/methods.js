@@ -6,6 +6,7 @@ import { Warnings } from './warnings'
 import { Comments } from '../comments/comments'
 
 import { isModerator, userStrike } from '/imports/api/user/methods'
+import { isTesting } from '../utilities';
 
 export const addWarning = new ValidatedMethod({
     name: 'addWarning',
@@ -23,7 +24,7 @@ export const addWarning = new ValidatedMethod({
             },
             captcha: {
                 type: String,
-                optional: false
+                optional: isTesting
             },
         }).validator({
             clean: true
@@ -34,7 +35,7 @@ export const addWarning = new ValidatedMethod({
                 throw new Meteor.Error('Error.', 'You have to be logged in.')
             }
     
-            if(data.captcha != '_test_captcha_') {
+            if(!isTesting) {
                 var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, data.captcha);
         
                 if (!verifyCaptchaResponse.success) {
@@ -100,7 +101,7 @@ export const editWarning = new ValidatedMethod({
             },
             captcha: {
                 type: String,
-                optional: false
+                optional: isTesting
             }
         }).validator({
             clean: true
@@ -121,8 +122,7 @@ export const editWarning = new ValidatedMethod({
                 throw new Meteor.Error('Error.', 'You can\'t edit a warning that you haven\'t added.')
             }
 
-            // tests will have captcha `_test_captcha_`
-            if(captcha != '_test_captcha_') {
+            if(!isTesting) {
                 var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, captcha);
 
                 if (!verifyCaptchaResponse.success) {

@@ -9,6 +9,7 @@ import { isModerator, userStrike } from '/imports/api/user/methods'
 import { addTag, mentionTag, getTag } from '/imports/api/tags/methods'
 
 import { sendNotification } from '/imports/api/notifications/methods'
+import { isTesting } from '../utilities';
 
 export const addToSubscribers = (newsId, userId) => {
   let learn = Learn.findOne({
@@ -187,7 +188,7 @@ export const editLearningItem = new ValidatedMethod({
             },
             captcha: {
                 type: String,
-                optional: false
+                optional: isTesting
             },
             tags: {
               type: Array,
@@ -226,7 +227,7 @@ export const editLearningItem = new ValidatedMethod({
                 throw new Meteor.Error('Error.', 'You can\'t edit a learning item that you haven\'t created.')
             }
             
-            if(captcha != '_test_captcha_') {
+            if(!isTesting) {
                 var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, captcha);
         
                 if (!verifyCaptchaResponse.success) {

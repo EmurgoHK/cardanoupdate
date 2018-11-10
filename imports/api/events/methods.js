@@ -4,6 +4,7 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method'
 import { Events } from './events'
 import { Comments } from '../comments/comments'
 import { isModerator, userStrike } from '/imports/api/user/methods'
+import { isTesting } from '../utilities';
 
 export const newEvent = new ValidatedMethod({
   name: 'newEvent',
@@ -41,7 +42,7 @@ export const newEvent = new ValidatedMethod({
     },
     captcha: {
       type: String,
-      optional: false
+      optional: isTesting
     },
     timezone: {
       type: Object,
@@ -68,7 +69,7 @@ export const newEvent = new ValidatedMethod({
         throw new Meteor.Error('Error.', 'You have to be logged in.')
       }
 
-      if(data.captcha != '_test_captcha_') {
+      if(!isTesting) {
         var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, data.captcha);
 
         if (!verifyCaptchaResponse.success) {
@@ -157,7 +158,7 @@ export const editEvent = new ValidatedMethod({
     },
     captcha: {
       type: String,
-      optional: false
+      optional: isTesting
     },
     timezone: {
       type: Object,
@@ -207,7 +208,7 @@ export const editEvent = new ValidatedMethod({
         throw new Meteor.Error('Error.', 'You can\'t edit a event that you haven\'t added.')
       }
       
-      if(captcha != '_test_captcha_') {
+      if(!isTesting) {
         var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, captcha);
 
         if (!verifyCaptchaResponse.success) {

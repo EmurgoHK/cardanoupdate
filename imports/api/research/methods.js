@@ -8,6 +8,7 @@ import { Comments } from '/imports/api/comments/comments'
 import { isModerator, userStrike } from '/imports/api/user/methods'
 
 import { sendNotification } from '/imports/api/notifications/methods'
+import { isTesting } from '../utilities';
 
 export const newResearch = new ValidatedMethod({
     name: 'newResearch',
@@ -29,7 +30,7 @@ export const newResearch = new ValidatedMethod({
             },
             captcha: {
                 type: String,
-                optional: false
+                optional: isTesting
             },
             links: {
                 type: Array,
@@ -56,7 +57,7 @@ export const newResearch = new ValidatedMethod({
                 throw new Meteor.Error('Error.', 'You have to be logged in.')
             }
     
-            if(captcha != '_test_captcha_') {
+            if(!isTesting) {
                 var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, captcha);
     
                 if (!verifyCaptchaResponse.success) {
@@ -136,7 +137,7 @@ export const editResearch = new ValidatedMethod({
             },
             captcha: {
                 type: String,
-                optional: false
+                optional: isTesting
             },
             links: {
                 type: Array,
@@ -176,7 +177,7 @@ export const editResearch = new ValidatedMethod({
                 throw new Meteor.Error('Error.', 'You can\'t edit research that you haven\'t posted.')
             }
     
-            if(captcha != '_test_captcha_') {
+            if(!isTesting) {
                 var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, captcha);
         
                 if (!verifyCaptchaResponse.success) {
