@@ -7,11 +7,12 @@ Meteor.startup(() => {
 	let config = Config.findOne({
 		_id: 'recaptcha'
 	}) || {}
-
-	Meteor.settings.public.RECAPTCHA_CLIENT = config.publicKey || ''
+	
+	const isTest = Meteor.isAppTest || Meteor.isTest;
+	Meteor.settings.public.RECAPTCHA_CLIENT = isTest ? '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI' : config.publicKey || ''
 
 	reCAPTCHA.config({
-        privatekey: config.privateKey || ''
+        privatekey: isTest ? '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe' : config.privateKey || ''
 	});
 	
 	console.log(reCAPTCHA)

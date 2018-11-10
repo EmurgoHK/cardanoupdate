@@ -376,7 +376,7 @@ if (Meteor.isDevelopment) {
           profile: {
             name: 'Tester'
           }
-        })
+        });
 
         Meteor.users.update({
           _id: uId

@@ -12,3 +12,5 @@ export const callWithPromise = function () {
         })
     })
 }
+
+export const isTesting = Meteor.isTest || Meteor.isAppTest;

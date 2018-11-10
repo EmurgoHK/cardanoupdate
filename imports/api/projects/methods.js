@@ -9,6 +9,7 @@ import { Tags } from '/imports/api/tags/tags'
 import { addTag, mentionTag, getTag, removeTag } from '/imports/api/tags/methods'
 
 import { isModerator, userStrike } from '/imports/api/user/methods'
+import { isTesting } from '../utilities';
 
 export const addProject = new ValidatedMethod({
     name: 'addProject',
@@ -34,7 +35,7 @@ export const addProject = new ValidatedMethod({
             },
             captcha: {
                 type: String,
-                optional: false
+                optional: isTesting
             },
             tags: {
                 type: Array,
@@ -65,7 +66,7 @@ export const addProject = new ValidatedMethod({
                 throw new Meteor.Error('Error.', 'You have to be logged in.')
             }
 
-            if(data.captcha != '_test_captcha_') {
+            if(!isTesting) {
                 var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, data.captcha);
 
                 if (!verifyCaptchaResponse.success) {
@@ -168,7 +169,7 @@ export const editProject = new ValidatedMethod({
             },
             captcha: {
                 type: String,
-                optional: false
+                optional: isTesting
             },
             tags: {
                 type: Array,
@@ -209,7 +210,7 @@ export const editProject = new ValidatedMethod({
                 throw new Meteor.Error('Error.', 'You can\'t edit a project that you haven\'t added.')
             }
 
-            if(captcha != '_test_captcha_') {
+            if(!isTesting) {
                 var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, captcha);
 
                 if (!verifyCaptchaResponse.success) {
