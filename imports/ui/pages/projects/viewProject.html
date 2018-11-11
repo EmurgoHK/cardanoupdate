@@ -63,19 +63,7 @@
                   </div>
                   <hr>
                   <div class="card">
-                    <div class="card-body">
-                      <div class="form-group">
-                        <textarea class="form-control" id="cool-comment" name="comment" rows="3" placeholder="Leave a comment ..." required></textarea>
-                      </div>
-                          
-                      <p class="text-danger">{{coolInvalidMessage}}</p>
-                          
-                      <div class="btn-group" role="group">
-                        <div class="btn-group" role="group">
-                          <button type="submit" class="btn btn-outline-primary mb-2 new-cool">Comment</button>
-                        </div>
-                      </div>
-                    </div>
+                    {{> commentForm wrapperClasses="card-body" newsId=project._id parentId=project._id type="coolstuff" postType="project" hideCancel=true onSuccess=commentSuccess}}
                   </div>
                 </div>
               </div>
@@ -91,19 +79,7 @@
                   </div>
                   <hr>
                   <div class="card">
-                    <div class="card-body">
-                      <div class="form-group">
-                        <textarea class="form-control" id="flag-comment" name="comment" rows="3" placeholder="Leave a comment ..." required></textarea>
-                      </div>
-                          
-                      <p class="text-danger">{{flagInvalidMessage}}</p>
-                          
-                      <div class="btn-group" role="group">
-                        <div class="btn-group" role="group">
-                          <button type="submit" class="btn btn-outline-primary mb-2 new-flag">Comment</button>
-                        </div>
-                      </div>
-                    </div>
+                    {{> commentForm wrapperClasses="card-body" newsId=project._id parentId=project._id type="redflag" postType="project" hideCancel=true onSuccess=commentSuccess}}
                   </div>
                 </div>
               </div>

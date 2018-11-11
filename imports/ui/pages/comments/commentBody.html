@@ -16,9 +16,7 @@
             <h6 class="card-subtitle mb-4">By <strong>{{> userNameDisplay user}}</strong> {{showTimeAgoTimestamp createdAt}}</h6>
             <p class="card-text mb-4"> 
             {{#if editMode}}
-            	<textarea class="form-control edit-comment-{{_id}}">{{text}}</textarea><br />
-             	<button class="btn btn-sm btn-outline-primary edit-comment" role="button">Save</button>
-                <button class="btn btn-sm btn-outline-danger cancel-edit" role="button">Cancel</button>
+                {{> commentForm parentId=parentId newsId=newsId id=_id postType=postType type=type onSuccess=editSuccess onCancel=editCancel}}
             {{else}}
                 <span>{{{md text}}}</span> 
             {{/if}}
@@ -30,20 +28,7 @@
     <div style="margin-left: {{formIdent}}px" class="row">
         <div class="col-sm-12 news-form">
             <div class="card">
-                <div class="card-body">
-                  	<div class="form-group">
-                    	<textarea class="form-control rep-comment-{{_id}}" name="comment" rows="3" placeholder="Leave a comment ..." required></textarea>
-                  	</div>
-                  
-                  	<p class="text-danger">{{commentInvalidMessage}}</p>
-                  
-                  	<div class="btn-group" role="group">
-                    	<div class="btn-group" role="group">
-                      		<button type="submit" class="btn btn-outline-primary mb-2 reply-comment">Comment</button>
-                      		<button type="submit" class="btn btn-outline-danger mb-2 cancel-reply">Cancel</button>
-                    	</div>
-                  	</div>
-                </div>
+                {{> commentForm wrapperClasses="card-body" parentId=_id newsId=newsId postType="reply" type=type onSuccess=replySuccess onCancel=replyCancel}}
             </div>
         </div>
     </div>

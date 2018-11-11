@@ -73,8 +73,6 @@ Template.viewProject.helpers({
     		}
     	})
     },
-	coolInvalidMessage: () => Template.instance().coolMessage.get(),
-	flagInvalidMessage: () => Template.instance().flagMessage.get(),
 	coolCount: function () {
 		return Comments.find({
 		  	newsId: this._id,
@@ -89,6 +87,11 @@ Template.viewProject.helpers({
 	},
 	tagName: (tag) => tag.name,
 	tagUrl: (tag) => `/tags?search=${encodeURIComponent(tag.name)}`,
+	commentSuccess: () => {
+		return () => {
+			notify('Successfully commented.', 'success');
+		}
+	},
 })
 
 Template.viewProject.events({
@@ -98,31 +101,6 @@ Template.viewProject.events({
 		}) || {}
 
 		flagDialog.call(project, flagProject, 'projectId')
-	},
-	'click .new-cool, click .new-flag': (event, templateInstance) => {
-		event.preventDefault()
-		let project = Projects.findOne({
-			slug: FlowRouter.getParam('slug')
-		})
-
-		let cool = $(event.currentTarget).attr('class').includes('cool')
-
-		newComment.call({
-			parentId: project._id,
-			text: $(`#${cool ? 'cool' : 'flag'}-comment`).val(),
-      newsId: project._id,
-      postType : 'project',
-			type: cool ? 'coolstuff' : 'redflag'
-		}, (err, data) => {
-      		$(`#${cool ? 'cool' : 'flag'}-comment`).val('')
-
-			if (!err) {
-				notify('Successfully commented.', 'success')
-				templateInstance[`${cool ? 'cool' : 'flag'}Message`].set('')
-			} else {
-				templateInstance[`${cool ? 'cool' : 'flag'}Message`].set(err.reason || err.message)
-			}
-		})
 	},
 	'click .github': function(event, temlateInstance) {
         if ($(event.currentTarget).attr('href')) {
