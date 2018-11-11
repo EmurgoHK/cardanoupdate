@@ -9,6 +9,7 @@ const CHUNK_SIZE = 3
 
 Template.events.onCreated(function () {
   this.sort = new ReactiveVar('date-desc')
+  this.searchFilter = new ReactiveVar(undefined);
 
   this.autorun(() => {
     this.subscribe('events')
@@ -22,11 +23,18 @@ Template.events.helpers({
   canEdit() {
     return this.createdBy === Meteor.userId()
   },
-  
+  searchArgs() {
+      const instance = Template.instance();
+      return {
+          placeholder:"Search Events",
+          type: 'events',
+          onChange: (newTerm) => instance.searchFilter.set(newTerm),
+      }
+  },
   resultArgs() {
       return {
           types: ['events'],
-          searchTerm: undefined,
+          searchTerm: Template.instance().searchFilter.get(),
       }
   },
 })
