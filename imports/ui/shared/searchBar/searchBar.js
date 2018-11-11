@@ -5,15 +5,13 @@ Template.searchBar.onCreated(function() {
   this.searchTerm = new ReactiveVar(this.data.searchTerm);
 });
 
-Template.searchBar.helpers({
-  placeholder: () => Template.currentData().placeholder,
-  searchTerm: () => Template.instance().searchTerm.get(),
-  advancedSearchUrl: () => {
-    const term = Template.instance().searchTerm.get();
-
-    return `/search?q=${encodeURIComponent(term)}&type=${Template.currentData().type}`;
-  }
-});
+Template.searchBar.helpers({   placeholder: () =>
+Template.currentData().placeholder,   searchTerm: () =>
+Template.instance().searchTerm.get(),   advancedSearchUrl: () => {     let
+term = Template.instance().searchTerm.get();     term = (term &&
+term.trim().length > 0) ? term : '';     return
+`/search?q=${encodeURIComponent(term)}&type=${Template.currentData().type}`;
+} });
 
 Template.searchBar.events({
   'keyup/change #searchBox': (event, templateInstance) => {
