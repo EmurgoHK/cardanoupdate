@@ -13,7 +13,6 @@ Template.projects.helpers({
     chunkSize () {
         return CHUNK_SIZE + 1
     },
-
     searchArgs() {
         const instance = Template.instance();
         return {
