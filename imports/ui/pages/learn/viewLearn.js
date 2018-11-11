@@ -74,6 +74,11 @@ Template.viewLearn.helpers({
 	},
 	tagName: (tag) => tag.name,
 	tagUrl: (tag) => `/tags?search=${encodeURIComponent(tag.name)}`,
+	commentSuccess: () => {
+		return () => {
+			notify('Successfully commented.', 'success');
+		}
+	},
 })
 
 Template.viewLearn.events({
@@ -83,28 +88,5 @@ Template.viewLearn.events({
 		}) || {}
 
 		flagDialog.call(learn, flagLearningItem, 'learnId')
-	},
-	'click .new-comment': (event, templateInstance) => {
-		event.preventDefault()
-
-		let learn = Learn.findOne({
-			slug: FlowRouter.getParam('slug')
-		})
-
-		newComment.call({
-			parentId: learn._id,
-			text: $('#comments').val(),
-      newsId: learn._id,
-      postType : 'learn'
-		}, (err, data) => {
-      		$('#comments').val('')
-			
-			if (!err) {
-				notify('Successfully commented.', 'success')
-				templateInstance.message.set('')
-			} else {
-				templateInstance.message.set(err.reason || err.message)
-			}
-		})
 	}
 })

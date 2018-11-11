@@ -20,6 +20,8 @@ import '/imports/ui/shared/flagItem/flagItem';
 
 import '/imports/ui/shared/userNameDisplay/userNameDisplay';
 
+import '/imports/ui/shared/commentForm/commentForm';
+
 import '/imports/ui/shared/searchBar/searchBar';
 import '/imports/ui/shared/searchResults/searchResults';
 

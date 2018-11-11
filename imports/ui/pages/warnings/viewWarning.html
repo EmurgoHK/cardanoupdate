@@ -39,19 +39,7 @@
                 </div>
                 <hr>
                 <div class="card">
-                  <div class="card-body">
-                    <div class="form-group">
-                      <textarea class="form-control" id="comment" name="comment" rows="3" placeholder="Leave a comment ..." required></textarea>
-                    </div>
-                        
-                    <p class="text-danger">{{commentInvalidMessage}}</p>
-                        
-                    <div class="btn-group" role="group">
-                      <div class="btn-group" role="group">
-                        <button type="submit" class="btn btn-outline-primary mb-2 new-comment">Comment</button>
-                      </div>
-                    </div>
-                  </div>
+                  {{> commentForm wrapperClasses="card-body" newsId=warning._id parentId=warning._id type="warning" postType="scam" hideCancel=true onSuccess=commentSuccess}}
                 </div>
               </div>
             </div>

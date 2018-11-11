@@ -71,8 +71,6 @@ Template.viewSocialResourceTemp.helpers({
     		}
     	})
     },
-	coolInvalidMessage: () => Template.instance().coolMessage.get(),
-	flagInvalidMessage: () => Template.instance().flagMessage.get(),
 	coolCount: function () {
 		return Comments.find({
 		  	newsId: this._id,
@@ -103,35 +101,9 @@ Template.viewSocialResourceTemp.helpers({
 					return 'fas fa-globe';
 		}
 	},
-})
-
-
-
-Template.viewSocialResourceTemp.events({
-
-'click .new-cool, click .new-flag': (event, templateInstance) => {
-  event.preventDefault()
-  let socialResource = socialResources.findOne({
-    _id: FlowRouter.getParam('slug')
-  })
-
-  let cool = $(event.currentTarget).attr('class').includes('cool')
-
-  newComment.call({
-    parentId: socialResource._id,
-    text: $(`#${cool ? 'cool' : 'flag'}-comment`).val(),
-    newsId: socialResource._id,
-    postType : 'community',
-    type: cool ? 'coolstuff' : 'redflag'
-  }, (err, data) => {
-        $(`#${cool ? 'cool' : 'flag'}-comment`).val('')
-
-    if (!err) {
-      notify('Successfully commented.', 'success')
-      templateInstance[`${cool ? 'cool' : 'flag'}Message`].set('')
-    } else {
-      templateInstance[`${cool ? 'cool' : 'flag'}Message`].set(err.reason || err.message)
-    }
-  })
-}
+	commentSuccess: () => {
+		return () => {
+			notify('Successfully commented.', 'success');
+		}
+	},
 })

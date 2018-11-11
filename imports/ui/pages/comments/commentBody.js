@@ -56,6 +56,37 @@ Template.commentBody.helpers({
 		}).count();
 	},
 	showReplies: () => Template.instance().showReplies.get(),
+	replySuccess: () => {
+		const templateInstance = Template.instance();
+		const data = Template.currentData();
+		return () => {
+			notify('Successfully commented.', 'success');
+			templateInstance.showReplies.set(true);
+			templateInstance.replies.set(data._id, false);
+		}
+	},
+	replyCancel: () => {
+		const templateInstance = Template.instance();
+		const data = Template.currentData();
+		return () => {
+			templateInstance.replies.set(data._id, false);
+		}
+	},
+	editSuccess: () => {
+		const templateInstance = Template.instance();
+		const data = Template.currentData();
+		
+		return () => {
+			notify('Successfully edited comment.', 'success');
+			templateInstance.edits.set(data._id, false);
+		}
+	},
+	editCancel: () => {
+		const templateInstance = Template.instance();
+		const data = Template.currentData();
+		
+		return () => templateInstance.edits.set(data._id, false);
+	},
 })
 
 Template.commentBody.events({
@@ -91,36 +122,6 @@ Template.commentBody.events({
 
 		templateInstance.replies.set(this._id, true)
 	},
-	'click .reply-comment': function(event, templateInstance) {
-		event.preventDefault()
-		event.stopImmediatePropagation()
-
-		newComment.call({
-			parentId: this._id,
-			text: $(`.rep-comment-${this._id}`).val(),
-			newsId: templateInstance.data._id,
-      type: templateInstance.data.type,
-      postType: 'reply'
-		}, (err, data) => {
-      		$(`.rep-comment-${this._id}`).val('')
-
-			if (!err) {
-				notify('Successfully commented.', 'success')
-				templateInstance.message.set('')
-
-				templateInstance.replies.set(this._id, false)
-				templateInstance.showReplies.set(true);
-			} else {
-				templateInstance.message.set(err.reason || err.message)
-			}
-		})
-	},
-	'click .cancel-reply': function(event, templateInstance) {
-		event.preventDefault()
-		event.stopImmediatePropagation()
-
-		templateInstance.replies.set(this._id, false)
-	},
 	'click .edit-mode': function(event, templateInstance) {
 		event.preventDefault()
 		event.stopImmediatePropagation()
@@ -146,28 +147,6 @@ Template.commentBody.events({
                 })
             }
         })
-	},
-	'click .edit-comment': function(event, templateInstance) {
-		event.preventDefault()
-		event.stopImmediatePropagation()
-
-		editComment.call({
-			commentId: this._id,
-			text: $(`.edit-comment-${this._id}`).val()
-		}, (err, data) => {
-			if (err) {
-                notify(err.reason || err.message, 'error')
-            } else {
-            	notify('Successfully edited.', 'success')
-							templateInstance.edits.set(this._id, false)
-            }
-		})
-	},
-	'click .cancel-edit': function(event, templateInstance) {
-		event.preventDefault()
-		event.stopImmediatePropagation()
-
-		templateInstance.edits.set(this._id, false)
 	},
 	'click .showReplies': (event, templateInstance) => {
 		event.preventDefault();

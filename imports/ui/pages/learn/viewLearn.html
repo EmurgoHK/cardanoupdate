@@ -54,19 +54,7 @@
           <div class="row">
             <div class="col-sm-12 news-form">
               <div class="card">
-                <div class="card-body">
-                  <div class="form-group">
-                    <textarea class="form-control" id="comments" name="comment" rows="3" placeholder="Leave a comment ..." required></textarea>
-                  </div>
-
-                  <p class="text-danger">{{commentInvalidMessage}}</p>
-
-                  <div class="btn-group" role="group">
-                    <div class="btn-group" role="group">
-                      <button type="submit" class="btn btn-outline-primary mb-2 new-comment">Comment</button>
-                    </div>
-                  </div>
-                </div>
+                  {{> commentForm wrapperClasses="card-body" newsId=learn._id parentId=learn._id type="comment" postType="learn" hideCancel=true onSuccess=commentSuccess}}
               </div>
             </div>
           </div>
