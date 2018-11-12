@@ -29,28 +29,29 @@ Template.main.events({
 Template.main.helpers({
     breadcrumbs: () => {
         let bc = Session.get('breadcrumbs') || {}
+        
+        if (bc && bc.text) {
+          let crumbs = bc.text.split('/')
+          bc.urls = bc.urls || []
+          bc.urls.push(FlowRouter.current().path)
 
+          return crumbs.map((i, ind) => {
+              if (bc.param !== undefined && i.trim() === bc.param)
+                  i = FlowRouter.getParam(bc.param)
 
-        let crumbs = bc.text.split('/')
-        bc.urls = bc.urls || []
-        bc.urls.push(FlowRouter.current().path)
+              if (i !== undefined) {
+                  let text = `breadcrumbs.${i.trim()}`
 
-        return crumbs.map((i, ind) => {
-            if (bc.param !== undefined && i.trim() === bc.param)
-                i = FlowRouter.getParam(bc.param)
+                  if (text.split('.')[0] === 'breadcrumbs')
+                      text = text.split('.')[text.split('.').length - 1]
 
-            if (i !== undefined) {
-                let text = `breadcrumbs.${i.trim()}`
-                
-                if (text.split('.')[0] === 'breadcrumbs')
-                    text = text.split('.')[text.split('.').length - 1]
-
-                return {
-                    text: text,
-                    url: bc.urls[ind],
-                    notLast: ind !== crumbs.length - 1
-                }
-            }
-        })
+                  return {
+                      text: text,
+                      url: bc.urls[ind],
+                      notLast: ind !== crumbs.length - 1
+                  }
+              }
+          })
+        }
     }
 })
