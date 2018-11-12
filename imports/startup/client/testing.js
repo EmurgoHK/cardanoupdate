@@ -1,4 +1,4 @@
-import { News } from '/imports/api/news/news'
+import { Learn } from '/imports/api/learn/learn'
 import { Comments } from '/imports/api/comments/comments'
 import { Notifications } from '/imports/api/notifications/notifications'
 import { Projects } from '/imports/api/projects/projects'
@@ -8,7 +8,7 @@ import { Tags } from '/imports/api/tags/tags'
 import { FastRender } from 'meteor/staringatlights:fast-render'
 
 const collections = {
-	News: News,
+  Learn: Learn,
 	Comments: Comments,
 	Notifications: Notifications,
 	Projects: Projects,

@@ -30,7 +30,10 @@ describe('Research page', function () {
         browser.pause(3000)
 
         browser.setValue('#headline', 'Headline Test')
-        browser.pause(1000)
+        browser.pause(8000)
+
+        browser.execute(() => window.grecaptcha.getResponse = () => '_test_captcha_')
+        browser.pause(2000)
 
         browser.click('.new-research')
         browser.pause(2000)
@@ -62,8 +65,11 @@ describe('Research page', function () {
         browser.pause(3000)
 
         browser.setValue('#headline', 'Headline Test 2')
-        browser.pause(1000)
+        browser.pause(8000)
 
+        browser.execute(() => window.grecaptcha.getResponse = () => '_test_captcha_')
+        browser.pause(2000)
+        
         browser.click('.new-research')
         browser.pause(3000)
 

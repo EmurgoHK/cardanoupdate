@@ -4,7 +4,6 @@
       <div class="col-sm-12">
         {{#if SubsCacheReady}}
           {{#with warning}}
-          <h5><a href="/scams" class="text-muted" style="text-decoration: underline;">Scams</a></h5>
           {{#if isOwner}}<a href="/scams/{{_id}}/edit" class="btn btn-primary btn-sm float-right"><i class="fas fa-edit"></i> Edit Scam</a>{{/if}}
           <h1 class="card-title text-dark mt-3"><strong>{{headline}}</strong></h1>
           <h5 class="card-subtitle mb-3 mt-3">
@@ -40,19 +39,7 @@
                 </div>
                 <hr>
                 <div class="card">
-                  <div class="card-body">
-                    <div class="form-group">
-                      <textarea class="form-control" id="comment" name="comment" rows="3" placeholder="Leave a comment ..." required></textarea>
-                    </div>
-                        
-                    <p class="text-danger">{{commentInvalidMessage}}</p>
-                        
-                    <div class="btn-group" role="group">
-                      <div class="btn-group" role="group">
-                        <button type="submit" class="btn btn-outline-primary mb-2 new-comment">Comment</button>
-                      </div>
-                    </div>
-                  </div>
+                  {{> commentForm wrapperClasses="card-body" newsId=warning._id parentId=warning._id type="warning" postType="scam" hideCancel=true onSuccess=commentSuccess}}
                 </div>
               </div>
             </div>

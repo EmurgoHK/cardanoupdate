@@ -7,7 +7,7 @@ describe('Flagged items page', function () {
         browser.pause(5000)
 
         browser.execute(() => {
-            Meteor.call('generateTestFlagged', (err, data) => {})
+            Meteor.call('generateTestFlaggedProject', (err, data) => {})
 
             return 'ok'
         })

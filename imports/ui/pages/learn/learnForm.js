@@ -74,6 +74,17 @@ Template.learnForm.onRendered(function() {
         $('#tags').trigger('change')
     })
 
+    this.autorun(() => {
+        let learn = Learn.findOne({
+            slug: FlowRouter.getParam('slug')
+        })
+
+        // preselect the correct type if it's on the project edit page
+        if (learn) {
+            $('[name=difficultyLevel]').val([learn.difficultyLevel])
+        }
+    })
+
     $('#tags').select2({
         tags: true,
         tokenSeparators: [' ', ','],
@@ -102,11 +113,16 @@ Template.learnForm.onRendered(function() {
 
   	this.autorun(() => {
     	let learn = Learn.findOne({
-      		slug: FlowRouter.getParam('slug')
+      	slug: FlowRouter.getParam('slug')
     	})
 
     	if (learn) {
-      		this.mde.value(learn.content)
+        this.mde.value(learn.content)
+        
+        // If dificulty level exist on editing
+        if(learn.difficultyLevel){
+          this.$('input[name="difficultyLevel"]').val(learn.difficultyLevel)
+        }
     	}
   	})
 })
@@ -137,7 +153,6 @@ Template.learnForm.events({
         let inputValue = event.target.value
         let inputMaxChars = maxCharValue(inputId) - parseInt(inputValue.length)
         let charsLeftText = `${inputMaxChars} characters left`
-
         $(`#${inputId}-chars`).text(charsLeftText)
 
         let specialCodes = [8, 46, 37, 39] // backspace, delete, left, right
@@ -152,6 +167,8 @@ Template.learnForm.events({
     },
     'click .new-learn': function(event, templateInstance) {
 		event.preventDefault()
+
+        var captchaData = grecaptcha.getResponse();
 
 		let tags = $('#tags').val()
 
@@ -189,8 +206,10 @@ Template.learnForm.events({
 	    	newLearningItem.call({
           title: $('#title').val(),
           summary : $('#summary').val(),
-	    		content: templateInstance.mde.value(),
-	    		tags: tagsToSave
+		  content: templateInstance.mde.value(),
+		  captcha: captchaData,
+          tags: tagsToSave,
+          difficultyLevel : $('input[name="difficultyLevel"]:checked').val()
 	    	}, (err, data) => {
 	    		if (!err) {
 	    			notify('Successfully added.', 'success')
@@ -217,8 +236,10 @@ Template.learnForm.events({
     			learnId: learn._id,
           title: $('#title').val(),
           summary : $('#summary').val(),
-	    		content: templateInstance.mde.value(),
-	    		tags: tagsToSave
+				content: templateInstance.mde.value(),
+				captcha: captchaData,
+          tags: tagsToSave,
+          difficultyLevel : $('input[name="difficultyLevel"]:checked').val()
 	    	}, (err, data) => {
 	    		if (!err) {
 	    			notify('Successfully edited.', 'success')

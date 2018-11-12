@@ -15,7 +15,9 @@ describe('Learning items methods', () => {
         return callWithPromise('newLearningItem', {
             title: 'Test title',
             content: 'Test content',
-            summary: 'Test summary'
+            summary: 'Test summary',
+            difficultyLevel: 'Test level',
+            captcha:'_test_captcha_'
         }).then(data => {
             let learn = Learn.findOne({
                 _id: data
@@ -26,12 +28,14 @@ describe('Learning items methods', () => {
             assert.ok(learn.title === 'Test title')
             assert.ok(learn.summary === 'Test summary')
             assert.ok(learn.content === 'Test content')
+            assert.ok(learn.difficultyLevel === 'Test level')
         })
     })
 
     it('user cannot add a new learning item if data is missing', () => {
         return callWithPromise('newLearningItem', {
-            title: 'Test title'
+            title: 'Test title',
+            captcha:'_test_captcha_'
         }).then(data => {
             assert.fail('Learning item added without all required parameters.')
         }).catch(error => {
@@ -48,7 +52,9 @@ describe('Learning items methods', () => {
             learnId: learn._id,
             title: 'Test title 2',
             summary: 'Test summary 2',
-            content: 'Test content 2'
+            difficultyLevel: 'Test level 2',
+            content: 'Test content 2',
+            captcha:'_test_captcha_'
         }).then(data => {
             let l2 = Learn.findOne({
                 _id: learn._id
@@ -59,6 +65,7 @@ describe('Learning items methods', () => {
             assert.ok(l2.title === 'Test title 2')
             assert.ok(l2.content === 'Test content 2')
             assert.ok(l2.summary === 'Test summary 2')
+            assert.ok(l2.difficultyLevel === 'Test level 2')
         })
     })
 
@@ -77,7 +84,9 @@ describe('Learning items methods', () => {
             learnId: learn,
             title: 'Test title 2',
             summary: 'Test summary 2',
-            content: 'Test content 2'
+            content: 'Test content 2',
+            difficultyLevel: 'Test level 2',
+            captcha:'_test_captcha_'
         }).then(data => {
             assert.fail('Learning item was edited by the user that didn\'t create it.')
         }).catch(error => {
@@ -122,6 +131,7 @@ describe('Learning items methods', () => {
             title: 'a',
             summary: 's',
             content: 'b',
+            difficultyLevel : 'x',
             createdBy: 'not-me',
             createdAt: new Date().getTime()
         })

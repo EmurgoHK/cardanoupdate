@@ -9,15 +9,45 @@ import { isModerator, userStrike } from '/imports/api/user/methods'
 import { addTag, mentionTag, getTag } from '/imports/api/tags/methods'
 
 import { sendNotification } from '/imports/api/notifications/methods'
+import { isTesting } from '../utilities';
+
+export const addToSubscribers = (newsId, userId) => {
+  let learn = Learn.findOne({
+    _id: newsId
+  })
+
+  Learn.update({
+      _id: newsId
+  }, {
+      $addToSet: {
+          subscribers: userId
+      }
+  })
+}
+
+export const sendToSubscribers = (newsId, authorId, message) => {
+  let learn = Learn.findOne({
+      _id: newsId
+  })
+
+  if (learn && learn.subscribers && learn.subscribers.length) {
+    learn.subscribers.forEach(i => {
+          if (i !== authorId) { // don't notify yourself
+            sendNotification(i, message, 'System', `/learn/${learn.slug}`)
+          }
+      })
+  }
+  return learn.subscribers
+}
 
 export const newLearningItem = new ValidatedMethod({
     name: 'newLearningItem',
     validate:
         new SimpleSchema({
             title: {
-                type: String,
-                max: 90,
-                optional: false
+              type: String,
+              max: 90,
+              optional: false
             },
             summary : {
               type: String,
@@ -25,8 +55,16 @@ export const newLearningItem = new ValidatedMethod({
               optional: false
             },
             content: {
+              type: String,
+              max: 5000,
+              optional: false
+            },
+            difficultyLevel: {
+              type: String,
+              optional: false
+            },
+            captcha: {
                 type: String,
-                max: 5000,
                 optional: false
             },
             tags: {
@@ -48,30 +86,40 @@ export const newLearningItem = new ValidatedMethod({
         }).validator({
             clean: true
         }),
-    run({ title, summary, content, tags }) {
-		if (!Meteor.userId()) {
-			throw new Meteor.Error('Error.', 'You have to be logged in.')
-		}
+    run({ title, summary, content, tags, captcha, difficultyLevel }) {
+        if (Meteor.isServer) {
+            if (!Meteor.userId()) {
+                throw new Meteor.Error('Error.', 'You have to be logged in.')
+            }
 
-        if (tags) {
-            tags.forEach(tag => {
-                if (tag.id) {
-                    mentionTag(tag.id)
-                } else if (tag.name) {
-                    tagId = addTag(tag.name)
-                    tag.id = tagId
+            if(captcha != '_test_captcha_') {
+                var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, captcha);
+        
+                if (!verifyCaptchaResponse.success) {
+                    throw new Meteor.Error('recaptcha failed please try again');
                 }
+            }
+            if (tags) {
+                tags.forEach(tag => {
+                    if (tag.id) {
+                        mentionTag(tag.id)
+                    } else if (tag.name) {
+                        tagId = addTag(tag.name)
+                        tag.id = tagId
+                    }
+                })
+            }
+    
+            return Learn.insert({
+                title: title,
+                summary: summary,
+                content: content,
+                difficultyLevel: difficultyLevel,
+                tags: tags,
+                createdAt: new Date().getTime(),
+                createdBy: Meteor.userId()
             })
         }
-
-        return Learn.insert({
-            title: title,
-            summary: summary,
-            content: content,
-            tags: tags,
-            createdAt: new Date().getTime(),
-            createdBy: Meteor.userId()
-        })
     }
 })
 
@@ -130,68 +178,86 @@ export const editLearningItem = new ValidatedMethod({
               optional: false
             },
             content: {
+              type: String,
+              max: 5000,
+              optional: false
+            },
+            difficultyLevel: {
+              type: String,
+              optional: false
+            },
+            captcha: {
                 type: String,
-                max: 5000,
-                optional: false
+                optional: isTesting
             },
             tags: {
-                type: Array,
-                optional: true
+              type: Array,
+              optional: true
             },
             'tags.$': {
-                type: Object,
-                optional: true
+              type: Object,
+              optional: true
             },
             'tags.$.id': {
-                type: String,
-                optional: true
+              type: String,
+              optional: true
             },
             'tags.$.name': {
-                type: String,
-                optional: true
+              type: String,
+              optional: true
             }
         }).validator({
             clean: true
         }),
-    run({ learnId, title, summary, content, tags }) {
-        let learn = Learn.findOne({
-            _id: learnId
-        })
-
-        if (!learn) {
-            throw new Meteor.Error('Error.', 'Learning item doesn\'t exist.')
-        }
-
-        if (!Meteor.userId()) {
-            throw new Meteor.Error('Error.', 'You have to be logged in.')
-        }
-
-        if (learn.createdBy !== Meteor.userId()) {
-            throw new Meteor.Error('Error.', 'You can\'t edit a learning item that you haven\'t created.')
-        }
-
-        if (tags) {
-            tags.forEach(tag => {
-                if (tag.id) {
-                    mentionTag(tag.id)
-                } else if (tag.name) {
-                    tagId = addTag(tag.name)
-                    tag.id = tagId
+    run({ learnId, title, summary, content, tags, captcha, difficultyLevel }) {
+        if (Meteor.isServer) {
+            let learn = Learn.findOne({
+                _id: learnId
+            })
+    
+            if (!learn) {
+                throw new Meteor.Error('Error.', 'Learning item doesn\'t exist.')
+            }
+    
+            if (!Meteor.userId()) {
+                throw new Meteor.Error('Error.', 'You have to be logged in.')
+            }
+    
+            if (learn.createdBy !== Meteor.userId()) {
+                throw new Meteor.Error('Error.', 'You can\'t edit a learning item that you haven\'t created.')
+            }
+            
+            if(!isTesting) {
+                var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, captcha);
+        
+                if (!verifyCaptchaResponse.success) {
+                    throw new Meteor.Error('recaptcha failed please try again');
+                } 
+            }
+            if (tags) {
+                tags.forEach(tag => {
+                    if (tag.id) {
+                        mentionTag(tag.id)
+                    } else if (tag.name) {
+                        tagId = addTag(tag.name)
+                        tag.id = tagId
+                    }
+                })
+            }
+    
+            return Learn.update({
+                _id: learnId
+            }, {
+                $set: {
+                    title: title,
+                    summary: summary,
+                    content: content,
+                    difficultyLevel: difficultyLevel,
+                    tags: tags,
+                    editedAt: new Date().getTime()
                 }
             })
         }
-
-        return Learn.update({
-            _id: learnId
-        }, {
-            $set: {
-                title: title,
-                summary: summary,
-                content: content,
-                tags: tags,
-                editedAt: new Date().getTime()
-            }
-        })
     }
 })
 

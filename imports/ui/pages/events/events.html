@@ -11,7 +11,8 @@
         <p class="section-intro">Any Cardano related events, anywhere in the world.</p>
       </div>
     </div>
+    {{> searchBar searchArgs }}
     <hr>
-    {{> eventList eventList=events}}
+    {{> searchResults resultArgs }}
   </div>
 </template>

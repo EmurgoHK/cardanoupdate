@@ -1,0 +1,17 @@
+<template name="learningResourceCard">
+  <div class="card learningResource">
+    {{#if displayTypeLabel}}
+    <p class="home-label bg-success">Learn</p>
+    {{/if}}
+
+    <div class="card-body">
+      <h4 class="card-title">
+        <a href="/learn/{{learn.slug}}" title="{{learn.title}}">{{ transform learn.title }}</a>
+      </h4>
+      <p class="card-text">{{limitChars learn.summary}}</p>
+      <hr />
+      {{#if learningLevel}} {{{learningLevel}}} {{/if}}
+      {{> flagItem item="learn" edit=editURL _id=learn._id}}
+    </div>
+  </div>
+</template>

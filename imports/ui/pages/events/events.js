@@ -9,6 +9,7 @@ const CHUNK_SIZE = 3
 
 Template.events.onCreated(function () {
   this.sort = new ReactiveVar('date-desc')
+  this.searchFilter = new ReactiveVar(undefined);
 
   this.autorun(() => {
     this.subscribe('events')
@@ -19,18 +20,22 @@ Template.events.helpers({
   chunkSize() {
     return CHUNK_SIZE + 1
   },
-  events() {
-    let events = Array.from(Events.find({}).fetch())
-
-    let pastEvents = events.filter(e =>  (moment(e.start_date).diff(moment.now())) < 0 )
-    
-    let upcomingEvents = events.filter(e =>  (moment(e.start_date).diff(moment.now())) > 0 )
-
-    events = upcomingEvents.concat(pastEvents);
-    return events
-  },
   canEdit() {
     return this.createdBy === Meteor.userId()
+  },
+  searchArgs() {
+      const instance = Template.instance();
+      return {
+          placeholder:"Search Events",
+          type: 'events',
+          onChange: (newTerm) => instance.searchFilter.set(newTerm),
+      }
+  },
+  resultArgs() {
+      return {
+          types: ['events'],
+          searchTerm: Template.instance().searchFilter.get(),
+      }
   },
 })
 

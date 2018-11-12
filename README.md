@@ -149,6 +149,8 @@ meteor test --driver-package practicalmeteor:mocha
 ```
 
 You should generally write a test for anything you don't want to break later, otherwise it will probably end up being broken by someone. We use [Mocha + Chai](https://guide.meteor.com/testing.html#mocha) for testing. You can see an example in [this](https://github.com/Blockrazor/blockrazor/pull/378/files) pull request.
+
+Detailed guide on how to run tests in your local environment is available [here](https://github.com/EmurgoHK/cardanoupdate/blob/master/docs/TESTING.md).
 </p>
 </details>    
 
@@ -195,3 +197,4 @@ This license ensures that:
 3. No one can change the above, without explicit written permission from _all_ contributors, which is essentially impossible to get. That means even the founder of this project cannot ever relicense and sell Cardanoupdate and its code. It belongs to everyone who contributed to it (and it always will).
 
 It is not permissible to use _any_ code from this codebase in _anything_ that isn't using a _share-alike_ license. Violations of the license will absolutely not be tolerated, and the terms of this license will be _brutally_ enforced through a variety of _very_ creative methods.
+

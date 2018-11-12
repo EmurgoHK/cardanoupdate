@@ -16,7 +16,8 @@ describe('project methods', () => {
             headline: 'Test headline',
             description: 'Test description',
             github_url: 'test',
-            type: 'built-on-cardano'
+            type: 'built-on-cardano',
+            captcha:'_test_captcha_'
         }).then(data => {
             let project = Projects.findOne({
                 _id: data
@@ -96,7 +97,8 @@ describe('project methods', () => {
             description: 'Test description 2',
             github_url: 'test',
             website: 'test web',
-            type: 'built-for-cardano'
+            type: 'built-for-cardano',
+            captcha:'_test_captcha_'
         }).then(data => {
             let project2 = Projects.findOne({
                 _id: project._id
@@ -127,7 +129,8 @@ describe('project methods', () => {
             headline: 'Test headline 2',
             description: 'Test description 2',
             github_url: 'test',
-            website: 'test web'
+            website: 'test web',
+            captcha:'_test_captcha_'
         }).then(data => {}).catch(error => {
             assert.ok(error)
         })

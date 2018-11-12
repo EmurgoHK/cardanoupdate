@@ -4,6 +4,7 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method'
 import { Events } from './events'
 import { Comments } from '../comments/comments'
 import { isModerator, userStrike } from '/imports/api/user/methods'
+import { isTesting } from '../utilities';
 
 export const newEvent = new ValidatedMethod({
   name: 'newEvent',
@@ -38,17 +39,47 @@ export const newEvent = new ValidatedMethod({
     rsvp: {
       type: String,
       optional: false
+    },
+    captcha: {
+      type: String,
+      optional: isTesting
+    },
+    timezone: {
+      type: Object,
+      optional: true
+    },
+    'timezone.abbreviation': {
+      type: String
+    },
+    'timezone.zoneName': {
+      type: String
+    },
+    'timezone.gmtOffset': {
+      type: String
+    },
+    'timezone.dst': {
+      type: String
     }
   }).validator({
     clean: true
   }),
   run(data) {
-    if (!Meteor.userId()) {
-      throw new Meteor.Error('Error.', 'You have to be logged in.')
+    if(Meteor.isServer) {
+      if (!Meteor.userId()) {
+        throw new Meteor.Error('Error.', 'You have to be logged in.')
+      }
+
+      if(!isTesting) {
+        var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, data.captcha);
+
+        if (!verifyCaptchaResponse.success) {
+            throw new Meteor.Error('recaptcha failed please try again');
+        }
+      }
+      data.createdBy = Meteor.userId()
+      data.createdAt = new Date().getTime()
+      return Events.insert(data)
     }
-    data.createdBy = Meteor.userId()
-    data.createdAt = new Date().getTime()
-    return Events.insert(data)
   }
 })
 
@@ -124,6 +155,26 @@ export const editEvent = new ValidatedMethod({
     rsvp: {
       type: String,
       optional: false
+    },
+    captcha: {
+      type: String,
+      optional: isTesting
+    },
+    timezone: {
+      type: Object,
+      optional: true
+    },
+    'timezone.abbreviation': {
+      type: String
+    },
+    'timezone.zoneName': {
+      type: String
+    },
+    'timezone.gmtOffset': {
+      type: String
+    },
+    'timezone.dst': {
+      type: String
     }
   }).validator({
     clean: true
@@ -136,7 +187,9 @@ export const editEvent = new ValidatedMethod({
     end_date,
     location,
     placeId,
-    rsvp
+    rsvp,
+    captcha,
+    timezone
   }) {
     if (Meteor.isServer) {
       let event = Events.findOne({
@@ -154,7 +207,15 @@ export const editEvent = new ValidatedMethod({
       if (event.createdBy !== Meteor.userId()) {
         throw new Meteor.Error('Error.', 'You can\'t edit a event that you haven\'t added.')
       }
+      
+      if(!isTesting) {
+        var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, captcha);
 
+        if (!verifyCaptchaResponse.success) {
+            throw new Meteor.Error('recaptcha failed please try again');
+        } else
+            console.log('reCAPTCHA verification passed!');
+      }
       return Events.update({
         _id: eventId
       }, {
@@ -166,6 +227,7 @@ export const editEvent = new ValidatedMethod({
           location: location,
           rsvp:rsvp,
           placeId: placeId,
+          timezone: timezone,
           updatedAt: new Date().getTime()
         }
       })

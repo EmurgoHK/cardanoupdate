@@ -9,6 +9,7 @@ import { Tags } from '/imports/api/tags/tags'
 import { addTag, mentionTag, getTag, removeTag } from '/imports/api/tags/methods'
 
 import { isModerator, userStrike } from '/imports/api/user/methods'
+import { isTesting } from '../utilities';
 
 export const addProject = new ValidatedMethod({
     name: 'addProject',
@@ -31,6 +32,10 @@ export const addProject = new ValidatedMethod({
             website: {
                 type: String,
                 optional: true
+            },
+            captcha: {
+                type: String,
+                optional: isTesting
             },
             tags: {
                 type: Array,
@@ -61,6 +66,13 @@ export const addProject = new ValidatedMethod({
                 throw new Meteor.Error('Error.', 'You have to be logged in.')
             }
 
+            if(!isTesting) {
+                var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, data.captcha);
+
+                if (!verifyCaptchaResponse.success) {
+                    throw new Meteor.Error('recaptcha failed please try again');
+                }
+            }   
             data.tags = data.tags || []
 
             // find the type tag
@@ -155,6 +167,10 @@ export const editProject = new ValidatedMethod({
                 type: String,
                 optional: true
             },
+            captcha: {
+                type: String,
+                optional: isTesting
+            },
             tags: {
                 type: Array,
                 optional: true
@@ -178,8 +194,8 @@ export const editProject = new ValidatedMethod({
         }).validator({
             clean: true
         }),
-    run({ projectId, headline, description, github_url, website, tags, type }) {
-        if (true || Meteor.isServer) {
+    run({ projectId, headline, description, github_url, website, captcha, tags, type }) {
+        if (Meteor.isServer) {
             let project = Projects.findOne({ _id: projectId })
 
             if (!project) {
@@ -192,6 +208,14 @@ export const editProject = new ValidatedMethod({
 
             if (project.createdBy !== Meteor.userId()) {
                 throw new Meteor.Error('Error.', 'You can\'t edit a project that you haven\'t added.')
+            }
+
+            if(!isTesting) {
+                var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, captcha);
+
+                if (!verifyCaptchaResponse.success) {
+                    throw new Meteor.Error('recaptcha failed please try again');
+                }
             }
 
             tags = tags || []
@@ -514,6 +538,21 @@ if (Meteor.isDevelopment) {
                 Projects.remove({
                     headline: `Testing 123`,
                 })
+            }
+        },
+        generateTestFlaggedProject: () => {
+            for (let i = 0; i < 2; i++) {
+                Projects.insert({
+                    headline: `Testing 123`,
+                    description: 'Test',
+                    createdBy: 'test',
+                    createdAt: new Date().getTime(),
+                    flags: [{
+                        reason: 'testReason',
+                        flaggedBy: 'test',
+                        flaggedAt: new Date().getTime()
+                    }]
+                });
             }
         }
     })

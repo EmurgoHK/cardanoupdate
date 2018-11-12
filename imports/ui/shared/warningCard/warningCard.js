@@ -1,5 +1,5 @@
-import "./warningList.html";
-import "./warningList.scss";
+import "./warningCard.html";
+import "./warningCard.scss";
 
 import { Template } from "meteor/templating";
 import {
@@ -10,26 +10,26 @@ import {
 import swal from "sweetalert2";
 import { notify } from "/imports/modules/notifier";
 
-Template.warningList.onCreated(function() {
-});
-Template.warningList.helpers({
-  containerClasses() {
-    return this.containerClass || "card-columns";
-  },
-  cardWrapperClasses() {
-    return Template.parentData().cardWrapperClass || "";
-  },
+Template.warningCard.helpers({
   editURL() {
-    if(this.createdBy === Meteor.userId()){
-      return `/scams/${this._id}/edit`
+    const warning = Template.currentData().warning;
+    if(warning.createdBy === Meteor.userId()){
+      return `/scams/${warning._id}/edit`
     }
     return false
   },
   limitChars(val) {
-    return val && val.length > 50 ? val.slice(0, 50) + " ... " : val;
+    const limitedText = val && val.length > 50 ? val.slice(0, 50) + " ... " : val;
+    const transformer = Template.currentData().textTransformer;
+    if (transformer) return transformer(limitedText);
+    return limitedText;
+  },
+  transform(text) {
+    const transformer = Template.currentData().textTransformer;
+    return transformer ? transformer(text) : text;
   },
 });
-Template.warningList.events({
+Template.warningCard.events({
   // Remove comments if user is allowed to propose changes
   /*
     'click .github': function(event, temlateInstance) {
@@ -88,6 +88,7 @@ Template.warningList.events({
   "click #js-remove": function(event, _) {
     event.preventDefault();
 
+    const warning = Template.currentData().warning;
     swal({
       text: `Are you sure you want to remove this Project? This action is not reversible.`,
       type: "warning",
@@ -96,7 +97,7 @@ Template.warningList.events({
       if (confirmed.value) {
         deleteWarning.call(
           {
-            projectId: this._id
+            projectId: warning._id
           },
           (err, data) => {
             if (err) {
@@ -119,6 +120,8 @@ Template.warningList.events({
   },
   "click .flag-warning": function(event, templateInstance) {
     event.preventDefault();
+    
+    const warning = Template.currentData().warning;
     swal({
       title: "Why are you flagging this?",
       input: "text",
@@ -130,7 +133,7 @@ Template.warningList.events({
       if (data.value) {
         flagWarning.call(
           {
-            projectId: this._id,
+            projectId: warning._id,
             reason: data.value
           },
           (err, data) => {

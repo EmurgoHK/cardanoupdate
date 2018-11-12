@@ -11,18 +11,8 @@
               <p class="section-intro">Scam websites, wallets etc. Anything that people should be wary about.</p>
             </div>
             </div>
-             <div class="row">
-                <div class="col-sm-12">
-                    <div class="input-group">
-                        <input type="text" id="searchBox" class="form-control" placeholder="Search Scams" aria-label="Search Scams">
-                    </div>
-                </div>
-            </div>
+            {{> searchBar searchArgs }}
             <hr>
-            {{#if warningCount}}
-              {{> warningList warnings=warnings }}
-            {{else}}
-              <p>Sorry, we couldn't find anything.</p>
-            {{/if}}
+            {{> searchResults resultArgs}}
         </div>
     </template> 

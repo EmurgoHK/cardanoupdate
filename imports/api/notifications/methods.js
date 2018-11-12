@@ -6,15 +6,15 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method'
 import { Notifications } from './notifications'
 
 export const sendNotification = (userId, message, from, href, type) => {
-    Notifications.insert({
-        userId: userId,
-        from: from || 'System',
-        href: href || '',
-        type: type || 'notification',
-        message: message,
-        createdAt: new Date().getTime(),
-        read: false
-    })
+  Notifications.insert({
+    userId: userId,
+    from: from || 'System',
+    href: href || '',
+    type: type || 'notification',
+    message: message,
+    createdAt: new Date().getTime(),
+    read: false
+  })
 }
 
 export const markNotificationAsRead = new ValidatedMethod({

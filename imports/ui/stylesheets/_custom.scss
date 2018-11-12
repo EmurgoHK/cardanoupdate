@@ -16,6 +16,7 @@ body {
 
 .container {
     max-width: 960px;
+    padding-top: 1rem !important;
     @extend .pt-5
 }
 
@@ -221,6 +222,14 @@ button {
 }
 
 .SearchMarker{background-color: lightblue}
+
+.search-bar-cross{
+    position: absolute;
+    margin-left: 95%;
+    margin-top: 10px;
+    cursor: pointer;
+    z-index: 3;
+}
 
 .wizard {
     .steps {

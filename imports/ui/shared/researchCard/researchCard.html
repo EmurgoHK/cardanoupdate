@@ -1,0 +1,21 @@
+<template name="researchCard">
+  <div class="card research">
+    {{#if displayTypeLabel}}
+    <p class="home-label bg-info">Research</p>
+    {{/if}}
+    <div class="card-body">
+      <h4 class="card-title">
+        <a href="/research/{{research.slug}}">{{transform research.headline}}</a>
+      </h4>
+      <p class="card-text">
+        {{limitChars research.abstract}}
+      </p>
+      <hr>
+      <a href="{{research.pdf}}" class="card-link" target="_blank"><i class="far fa-file-pdf"></i></a>
+      {{#each link in research.links}}
+          <a href="{{link.url}}" class="card-link" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+      {{/each}}
+      {{> flagItem item="research" edit=editURL _id=research._id}}
+    </div>
+  </div>
+</template>

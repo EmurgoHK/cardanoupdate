@@ -1,5 +1,5 @@
-import "./projectList.html";
-import "./projectList.scss";
+import "./projectCard.html";
+import "./projectCard.scss";
 
 import { Template } from "meteor/templating";
 
@@ -14,29 +14,32 @@ import { notify } from "/imports/modules/notifier";
 
 import { flagDialog } from "/imports/modules/flagDialog";
 
-Template.projectList.helpers({
-  containerClasses() {
-    return this.containerClass || "card-columns";
-  },
-  cardWrapperClasses() {
-    return Template.parentData().cardWrapperClass || "";
-  },
+Template.projectCard.helpers({
   editURL() {
-    if(this.createdBy === Meteor.userId()){
-      return `/projects/${this._id}/edit`
+    const project = Template.currentData().project;
+    if(project.createdBy === Meteor.userId()){
+      return `/projects/${project._id}/edit`
     }
     return false
   },
   limitChars(val) {
-    return val && val.length > 50 ? val.slice(0, 50) + " ... " : val;
-  }
+    const limitedText = val && val.length > 50 ? val.slice(0, 50) + " ... " : val;
+    const transformer = Template.currentData().textTransformer;
+    if (transformer) return transformer(limitedText);
+    return limitedText;
+  },
+  transform(text) {
+    const transformer = Template.currentData().textTransformer;
+    return transformer ? transformer(text) : text;
+  },
 });
 
-Template.projectList.events({
+Template.projectCard.events({
   "click .website": function(event, temlateInstance) {
     if ($(event.currentTarget).attr("href")) {
       return;
     }
+    const project = Template.currentData().project;
 
     swal({
       text: `Website is not available. If you know this information, please contribute below:`,
@@ -47,7 +50,7 @@ Template.projectList.events({
       if (val.value) {
         proposeNewData.call(
           {
-            projectId: this._id,
+            projectId: project._id,
             datapoint: "website",
             newData: val.value,
             type: "link"
@@ -63,8 +66,9 @@ Template.projectList.events({
       }
     });
   },
-  "click #js-remove": function(event, _) {
+  "click #js-remove": (event, templateInstance) => {
     event.preventDefault();
+    const project = Template.currentData().project;
     swal({
       text: `Are you sure you want to remove this Project? This action is not reversible.`,
       type: "warning",
@@ -73,7 +77,7 @@ Template.projectList.events({
       if (confirmed.value) {
         deleteProject.call(
           {
-            projectId: this._id
+            projectId: project._id
           },
           (err, data) => {
             if (err) {
@@ -97,6 +101,6 @@ Template.projectList.events({
   "click .flag-project": function(event, templateInstance) {
     event.preventDefault();
 
-    flagDialog.call(this, flagProject, "projectId");
+    flagDialog.call(Template.currentData().project, flagProject, "projectId");
   }
 });

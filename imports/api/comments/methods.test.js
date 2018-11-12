@@ -2,7 +2,7 @@ import { chai, assert } from 'chai'
 import { Meteor } from 'meteor/meteor'
 
 import { Comments } from './comments'
-import { News } from '/imports/api/news/news'
+import { Learn } from '/imports/api/learn/learn'
 import { callWithPromise } from '/imports/api/utilities'
 
 import './methods'
@@ -13,19 +13,19 @@ Meteor.user = () => ({ _id: 'test-user', profile: { name: 'Test User'}, moderato
 
 describe('comments methods', () => {
     it('user can add a new comment', () => {
-        let news = News.insert({
-            headline: 'a',
-            summary: 'b',
-            body: 'c',
-            createdBy: 'not-me',
-            createdAt: new Date().getTime()
+        let news = Learn.insert({
+          title: 'title',
+          summary: 'summary',
+          content: 'content',
+          difficultyLevel: 'beginner',
+          createdBy: 'not-me',
+          createdAt: new Date().getTime()
         })
 
         return callWithPromise('newComment', {
             text: 'Test text',
             parentId: news,
-            newsId: news,
-            type: 'redflag'
+            newsId: news
         }).then(data => {
             let comment = Comments.findOne({
                 _id: data
@@ -36,12 +36,11 @@ describe('comments methods', () => {
             assert.ok(comment.text === 'Test text')
             assert.ok(comment.parentId === news)
             assert.ok(comment.newsId === news)
-            assert.ok(comment.type === 'redflag')
         })
     })
 
     it('user can add a nested comment', () => {
-        let news = News.findOne({})
+        let news = Learn.findOne({})
 
         let comment = Comments.findOne({})
 
@@ -63,7 +62,7 @@ describe('comments methods', () => {
     })
 
     it('user cannot add a new comment if data is missing', () => {
-        let news = News.findOne({})
+        let news = Learn.findOne({})
 
         return callWithPromise('newComment', {
             parentId: news._id,
@@ -195,7 +194,7 @@ describe('comments methods', () => {
     })
 
     after(function() {
-        News.remove({})
-        Comments.remove({})
+      Learn.remove({})
+      Comments.remove({})
     })
 })

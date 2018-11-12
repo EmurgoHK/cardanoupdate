@@ -5,31 +5,19 @@
         <div class="input-group">
           <input type="text" id="searchBox" class="form-control" placeholder="Search by tags" aria-label="Search by tags">
         </div>
+        <hr />
       </div>
     </div>
 
     {{#unless hasAny}}
-    <p class="mt-5">Sorry, we couldn't find anything.</p>
+      <p class="mt-5">Sorry, we couldn't find anything.</p>
     {{/unless}}
-
-    {{#if hasProjects }}
-    <h2>Projects</h2>
-    {{> projectList projects=projects}}
-    {{/if}}
-
-    {{#if hasWarnings }}
-    <h2>Warnings</h2>
-    {{> warningList warnings=warnings }}
-    {{/if}}
-
-    {{#if hasLearn }}
-    <h2>Learning Resources</h2>
-    {{> learningResourceList learningResources=learn }}
-    {{/if}}
-
-    {{#if hasSocialResources }}
-    <h2>Social Resources</h2>
-    {{> socialResourceList socialResources=socialResources }}
-    {{/if}}
+    <div class="card-columns">
+      {{> projectList projects=projects containerClass="row" cardWrapperClass="col-md-4" isHome=true}}
+      {{> warningList warnings=warnings containerClass="row" cardWrapperClass="col-md-4" isHome=true}}
+      {{> eventList eventList=events containerClass="row" cardWrapperClass="col-md-4" isHome=true}}
+      {{> researchList research=research containerClass="row" cardWrapperClass="col-md-4" isHome=true}}
+      {{> learningResourceList learningResources=learn containerClass="row" cardWrapperClass="col-md-4" isHome=true}}
+    </div>
   </div>
 </template>

@@ -2,7 +2,6 @@
   <div class="container event-form">
     <div class="row">
       <div class="col-sm-12">
-        <h5><a href="/events" class="text-muted" style="text-decoration: underline;">Events</a></h5>
         <h2>{{#if add}} New Event {{else}} Edit Event {{/if}}</h2>
       </div>
     </div>
@@ -38,6 +37,10 @@
               <div class="input-group">
                 <input type="text" class="form-control" id="rsvp" value="{{event.rsvp}}" placeholder="Where should people RSVP if they want to attend this event?">
                 <div id="rsvpError" class="invalid-feedback"></div>
+              </div>
+              <div class="input-group">
+                  {{> reCAPTCHA}}
+                  <div id="captchaError" class="invalid-feedback"></div>
               </div>
             </form>
           </div>

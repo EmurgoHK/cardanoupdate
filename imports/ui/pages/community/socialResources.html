@@ -11,19 +11,9 @@
           <p class="section-intro">Telegram groups, meetup groups, facebook groups, forums, etc.</p>
         </div>
       </div>
-      <div class="row">
-          <div class="col-sm-12">
-              <div class="input-group">
-                  <input type="text" id="searchBox" class="form-control" placeholder="Search Social Resources" aria-label="Search Communities">
-              </div>
-          </div>
-      </div>
 
+      {{> searchBar searchArgs}}
       <hr>
-      {{#if socialResourcesCount}}
-        {{> socialResourceList socialResources=socialResources }}
-      {{else}}
-        <p>Sorry, we couldn't find anything.</p>
-      {{/if}}
+      {{> searchResults resultArgs }}
   </div>
 </template>

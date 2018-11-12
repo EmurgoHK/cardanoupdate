@@ -1,0 +1,17 @@
+<template name="warningCard">
+  <div class="card warning">
+    {{#if displayTypeLabel}}
+    <p class="home-label bg-danger">Scam</p>
+    {{/if}}
+    <div class="card-body">
+      <h4 class="card-title">
+        <a href="/scams/{{warning.slug}}" title="{{warning.headline}}">{{transform warning.headline}}</a>
+      </h4>
+      <p class="card-text">
+        {{limitChars warning.summary}}
+      </p>
+      <hr>
+      {{> flagItem item="warning" edit=editURL _id=warning._id}}
+    </div>
+  </div>
+</template>

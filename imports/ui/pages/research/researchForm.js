@@ -14,7 +14,7 @@ import { getFiles } from '/imports/ui/shared/uploader/uploader'
 
 const maxCharValue = (inputId) => {
   if (inputId === 'headline') {
-    return 90
+    return 160
   }
 }
 
@@ -80,12 +80,15 @@ Template.researchForm.events({
     'click .new-research': function(event, templateInstance) {
 		event.preventDefault()
 
+        var captchaData = grecaptcha.getResponse();
+
     	if (FlowRouter.current().route.name === 'newResearch') {
 	    	newResearch.call({
 	    		headline: $('#headline').val(),
 	    		abstract: $('#abstract').val(),
-					pdf: getFiles()[0],
-					links: templateInstance.links.get(),
+				pdf: getFiles()[0],
+				links: templateInstance.links.get(),
+				captcha: captchaData,
 	    	}, (err, data) => {
 	    		if (!err) {
 	    			notify('Successfully added.', 'success')
@@ -111,9 +114,10 @@ Template.researchForm.events({
     		editResearch.call({
     			researchId: research._id,
 	    		headline: $('#headline').val(),
-					abstract: $('#abstract').val(),
-					pdf: getFiles()[0],
-					links: templateInstance.links.get(),
+				abstract: $('#abstract').val(),
+				pdf: getFiles()[0],
+				links: templateInstance.links.get(),
+				captcha: captchaData,
 	    	}, (err, data) => {
 	    		if (!err) {
 	    			notify('Successfully edited.', 'success')

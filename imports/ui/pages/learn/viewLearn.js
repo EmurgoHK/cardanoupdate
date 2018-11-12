@@ -33,9 +33,22 @@ Template.viewLearn.onCreated(function() {
 })
 
 Template.viewLearn.helpers({
-  	isOwner: function() {
-    	return this.createdBy === Meteor.userId()
-  	},
+  isOwner: function() {
+    return this.createdBy === Meteor.userId()
+  },
+  learningLevel () {
+    let level = this.difficultyLevel
+    if(level){
+      if(level == 'beginner'){
+        return `<span class="text-success" title="Difficulty Level"><i class="fa fa-circle"></i> ${level}</span>`
+      } else if (level == 'intermediate') {
+        return `<span class="text-warning" title="Difficulty Level"><i class="fa fa-circle"></i> ${level}</span>`
+      } else {
+        return `<span class="text-danger" title="Difficulty Level"><i class="fa fa-circle"></i> ${level}</span>`
+      }
+    }
+    return false
+  },
 	learn: () => Learn.findOne({
 		slug: FlowRouter.getParam('slug')
 	}),
@@ -56,11 +69,16 @@ Template.viewLearn.helpers({
 	commentInvalidMessage: () => Template.instance().message.get(),
 	commentCount: function () {
 		return Comments.find({
-		  	newsId: this._id
+		  newsId: this._id
 		}).count()
 	},
 	tagName: (tag) => tag.name,
 	tagUrl: (tag) => `/tags?search=${encodeURIComponent(tag.name)}`,
+	commentSuccess: () => {
+		return () => {
+			notify('Successfully commented.', 'success');
+		}
+	},
 })
 
 Template.viewLearn.events({
@@ -70,27 +88,5 @@ Template.viewLearn.events({
 		}) || {}
 
 		flagDialog.call(learn, flagLearningItem, 'learnId')
-	},
-	'click .new-comment': (event, templateInstance) => {
-		event.preventDefault()
-
-		let learn = Learn.findOne({
-			slug: FlowRouter.getParam('slug')
-		})
-
-		newComment.call({
-			parentId: learn._id,
-			text: $('#comments').val(),
-			newsId: learn._id
-		}, (err, data) => {
-      		$('#comments').val('')
-			
-			if (!err) {
-				notify('Successfully commented.', 'success')
-				templateInstance.message.set('')
-			} else {
-				templateInstance.message.set(err.reason || err.message)
-			}
-		})
 	}
 })

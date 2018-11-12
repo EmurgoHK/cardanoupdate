@@ -9,7 +9,7 @@
         <form class="researchForm">
           <div class="group-title">Name</div>
           <div class="input-group">
-            <input type="text" class="form-control" id="headline" value="{{research.headline}}" placeholder="Name in 90 characters or less">
+            <input type="text" class="form-control" id="headline" value="{{research.headline}}" placeholder="Name in 160 characters or less">
             <div id="headlineError" class="invalid-feedback"></div>
           </div>
           <small><i id="headline-chars" class="text-muted"></i></small>
@@ -24,17 +24,21 @@
           <div id="pdfError" class="invalid-feedback"></div>
           <div class="group-title"> Links </div>
           <ul class="added-links">
-          {{#each link in links}}
-            <li class="input-group">
-              <input type="text" class="form-control linkDisplayName" data-index="{{@index}}" maxlength="25" placeholder="Display name in 25 characters or less" value={{link.displayName}} >
-              <input type="text" class="form-control linkUrl" data-index="{{@index}}" placeholder="URL" value="{{link.url}}">
-              <button class="btn btn-link remove-link" data-index="{{@index}}"> <i class="fas fa-trash"></i></button>
-              <div id="links_{{@index}}_urlError" class="invalid-feedback"></div>
-              <div id="links_{{@index}}_displayNameError" class="invalid-feedback"></div>
-            </li>
-          {{/each}}
-          <button class="btn btn-link" id="add-link">Add</button>
-        </ul>
+            {{#each link in links}}
+              <li class="input-group">
+                <input type="text" class="form-control linkDisplayName" data-index="{{@index}}" maxlength="25" placeholder="Display name in 25 characters or less" value={{link.displayName}} >
+                <input type="text" class="form-control linkUrl" data-index="{{@index}}" placeholder="URL" value="{{link.url}}">
+                <button class="btn btn-link remove-link" data-index="{{@index}}"> <i class="fas fa-trash"></i></button>
+                <div id="links_{{@index}}_urlError" class="invalid-feedback"></div>
+                <div id="links_{{@index}}_displayNameError" class="invalid-feedback"></div>
+              </li>
+            {{/each}}
+            <button class="btn btn-link" id="add-link">Add</button>
+          </ul>
+          <div class="input-group">
+              {{> reCAPTCHA}}
+              <div id="captchaError" class="invalid-feedback"></div>
+          </div>
         </form>
       </div>
       <div class="card-footer">

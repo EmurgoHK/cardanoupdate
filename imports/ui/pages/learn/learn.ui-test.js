@@ -35,8 +35,14 @@ describe('Learn page', function () {
         browser.setValue('#summary', 'Summary test')
         browser.pause(1000)
 
-        browser.click('.new-learn')
+        browser.click('input[name="difficultyLevel"]')
         browser.pause(2000)
+
+        browser.execute(() => window.grecaptcha.getResponse = () => '_test_captcha_')
+        browser.pause(2000)
+
+        browser.click('.new-learn')
+        browser.pause(8000)
 
         assert(browser.execute(() => $('#contentError').text().trim() === 'Content is required').value, true)
 
@@ -60,7 +66,10 @@ describe('Learn page', function () {
         browser.pause(1000)
 
         browser.setValue('#summary', 'Summary test 2')
-        browser.pause(1000)
+        browser.pause(8000)
+
+        browser.execute(() => window.grecaptcha.getResponse = () => '_test_captcha_')
+        browser.pause(2000)
 
         browser.click('.new-learn')
         browser.pause(3000)

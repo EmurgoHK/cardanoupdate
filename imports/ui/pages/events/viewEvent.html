@@ -4,7 +4,6 @@
       <div class="col-sm-12">
         {{#if SubsCacheReady}}
         {{#with event}}
-        <h5><a href="/events" class="text-muted" style="text-decoration: underline;">Events</a></h5>
         {{#if isOwner}}<a href="/events/{{_id}}/edit" class="btn btn-primary btn-sm float-right"><i class="fas fa-edit"></i> Edit Event</a>{{/if}}
         <h1 class="card-title text-dark mt-3"><strong>{{headline}}</strong></h1>
         <h5 class="card-subtitle mb-3 mt-3">
@@ -18,7 +17,7 @@
           <div class="card-body">
             <div class="row mb-5">
               <div class="col-sm-12">
-               <i class="icon-calendar"></i> {{showLocalTimestamp start_date}} to {{showLocalTimestamp end_date}}
+               <i class="icon-calendar"></i> {{showLocalTimestamp start_date timezone.zoneName}} to {{showLocalTimestamp end_date timezone.zoneName}}
               </div>
               <div class="col-sm-12">
                 <i class="icon-check"></i> <a target="_blank" href={{rsvp}}>RSVP Link</a>

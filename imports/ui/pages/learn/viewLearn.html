@@ -4,7 +4,6 @@
       <div class="col-sm-12">
         {{#if SubsCacheReady}}
           {{#with learn}}
-          <h5><a href="/learn" class="text-muted" style="text-decoration: underline;">Learn</a></h5>
           {{#if isOwner}}<a href="/learn/{{slug}}/edit" class="btn btn-primary btn-sm float-right"><i class="fas fa-edit"></i> Edit learning resource</a>{{/if}}
           <h1 class="card-title text-dark mt-3"><strong>{{title}}</strong></h1>
           <h5 class="card-subtitle mb-3 mt-3">
@@ -39,6 +38,10 @@
                 {{/if}}
                 <div class="row">
                   <div class="col-sm-12">
+                    <!-- Check for old content which doesn't have difficultyLevel -->
+                    {{#if learningLevel}}
+                      Difficulty Level : &nbsp;{{{learningLevel}}}
+                    {{/if}}
                     {{> flagItem item="learn"}}
                   </div>
                 </div>
@@ -51,19 +54,7 @@
           <div class="row">
             <div class="col-sm-12 news-form">
               <div class="card">
-                <div class="card-body">
-                  <div class="form-group">
-                    <textarea class="form-control" id="comments" name="comment" rows="3" placeholder="Leave a comment ..." required></textarea>
-                  </div>
-
-                  <p class="text-danger">{{commentInvalidMessage}}</p>
-
-                  <div class="btn-group" role="group">
-                    <div class="btn-group" role="group">
-                      <button type="submit" class="btn btn-outline-primary mb-2 new-comment">Comment</button>
-                    </div>
-                  </div>
-                </div>
+                  {{> commentForm wrapperClasses="card-body" newsId=learn._id parentId=learn._id type="comment" postType="learn" hideCancel=true onSuccess=commentSuccess}}
               </div>
             </div>
           </div>

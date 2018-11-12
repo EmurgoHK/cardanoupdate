@@ -16,6 +16,7 @@ describe('research methods', () => {
             headline: 'Test headline',
             abstract: 'Test abstract',
             pdf: '/test.pdf',
+            captcha:'_test_captcha_',
             links: [
                 {url: 'https://google.com', displayName: 'google'},
             ]
@@ -41,7 +42,8 @@ describe('research methods', () => {
         return callWithPromise('newResearch', {
             headline: 'Test headline',
             abstract: 'Test abstract',
-            pdf: '/test.pdf'
+            pdf: '/test.pdf',
+            captcha:'_test_captcha_'
         }).then(data => {
             let research = Research.findOne({
                 _id: data
@@ -58,7 +60,8 @@ describe('research methods', () => {
     it('user cannot add a new research item if data is missing', () => {
         return callWithPromise('newResearch', {
             headline: 'Test headline',
-            abstract: ''
+            abstract: '',
+            captcha:'_test_captcha_'
         }).then(data => {}).catch(error => {
             assert.ok(error)
         })
@@ -73,7 +76,8 @@ describe('research methods', () => {
             researchId: research._id,
             headline: 'Test headline 2',
             abstract: 'Test abstract 2',
-            pdf: '/test2.pdf'
+            pdf: '/test2.pdf',
+            captcha:'_test_captcha_'
         }).then(data => {
             let research2 = Research.findOne({
                 _id: research._id
@@ -102,7 +106,8 @@ describe('research methods', () => {
             researchId: research,
             headline: 'Test headline 2',
             abstract: 'Test abstract 2',
-            pdf: '/test2.pdf'
+            pdf: '/test2.pdf',
+            captcha:'_test_captcha_'
         }).then(data => {}).catch(error => {
             assert.ok(error)
         })

@@ -85,6 +85,8 @@ Template.socialResourceFormTemp.events({
     'click .add-socialResource' (event, templateInstance) {
         event.preventDefault()
         
+        var captchaData = grecaptcha.getResponse();
+
 		let tags = $('#tags').val()
 
 		// convert all tags to array of objects
@@ -123,6 +125,7 @@ Template.socialResourceFormTemp.events({
 	    		Name: $('#Name').val(),
                 Resource_url: $('#Resource_url').val() || '',
                 description: $('#description').val(),
+                captcha: captchaData,
                 tags: tagsToSave,
 	    	}, (err, _data) => {
 	    		if (!err) {
@@ -147,6 +150,7 @@ Template.socialResourceFormTemp.events({
             Name: $('#Name').val(),
             description: $('#description').val(),
             Resource_url: $('#Resource_url').val() || '',
+            captcha: captchaData,
             tags: tagsToSave,
         }, (err, data) => {
             if (!err) {

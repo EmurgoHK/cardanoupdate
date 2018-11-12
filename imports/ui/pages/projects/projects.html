@@ -12,25 +12,8 @@
           </div>
         </div>
 
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="input-group">
-                    <input type="text" id="searchBox" class="form-control" placeholder="Search projects" aria-label="Search projects">
-                </div>
-            </div>
-        </div>
+        {{> searchBar searchArgs }}
         <hr>
-        
-        <div class="float-right">
-          <button class="btn btn-link" id="sort-date">
-              Date {{#if isDateAsc }} <i class="fas fa-sort-down"></i> {{else}} <i class="fas fa-sort-up"></i> {{/if}}
-          </button>
-        </div>
-        <div class="clearfix"></div>
-        {{#if projectCount}}
-          {{> projectList projects=projects}}
-        {{else}}
-          <p>Sorry, we couldn't find anything.</p>
-        {{/if}}
+        {{> searchResults resultArgs}}
     </div>
 </template>

@@ -17,43 +17,24 @@ Template.learn.onCreated(function () {
 
 Template.learn.helpers({
   chunkSize: () => CHUNK_SIZE + 1,
-  learnCount: () => {
-    let learn = 0
-    let searchText = Template.instance().searchFilter.get()
-    if (searchText) {
-      learn = Learn.find({
-        $or: [{
-          content: new RegExp(searchText.replace(/ /g, '|'), 'ig')
-        }, {
-          title: new RegExp(searchText.replace(/ /g, '|'), 'ig')
-        }]
-      }).count()
-    } else {
-      learn = Learn.find({}).count()
-    }
-    return learn
-  },
-    learn: () => {
-        let learn = []
-        let searchText = Template.instance().searchFilter.get()
-
-        if (searchText) {
-            learn = Learn.find({
-                $or: [{
-                    content: new RegExp(searchText.replace(/ /g, '|'), 'ig')
-                }, {
-                    title: new RegExp(searchText.replace(/ /g, '|'), 'ig')
-                }]
-            })
-        } else {
-            learn = Learn.find({})
-        }
-
-        return learn
-    },
     canEdit: function() {
         return this.createdBy === Meteor.userId()
-    }
+    },
+
+    searchArgs() {
+        const instance = Template.instance();
+        return {
+            placeholder:"Search learning resources",
+            type: 'learn',
+            onChange: (newTerm) => instance.searchFilter.set(newTerm),
+        }
+    },
+    resultArgs() {
+        return {
+            types: ['learn'],
+            searchTerm: Template.instance().searchFilter.get(),
+        }
+    },
 })
 
 Template.learn.events({
@@ -61,10 +42,5 @@ Template.learn.events({
         event.preventDefault()
 
         FlowRouter.go('/learn/new')
-    },
-    'keyup #searchBox': (event, templateInstance) => {
-        event.preventDefault()
-
-        templateInstance.searchFilter.set($('#searchBox').val())
     },
 })

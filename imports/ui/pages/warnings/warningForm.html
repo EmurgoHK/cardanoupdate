@@ -2,7 +2,6 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-12">
-          <h5><a href="/scams" class="text-muted" style="text-decoration: underline;">Warnings</a></h5>
           <h2>{{#if add}} New Scam {{else}} Edit Scam {{/if}}</h2>
         </div>
       </div>
@@ -25,6 +24,10 @@
                     <i class="icon-info"></i> Please provide a very clear description of what the scam is for & what it does.
                   </span>
                   <div id="summaryError" class="invalid-feedback"></div>
+                </div>
+                <div class="input-group">
+                    {{> reCAPTCHA}}
+                    <div id="captchaError" class="invalid-feedback"></div>
                 </div>
               </form>
             </div>

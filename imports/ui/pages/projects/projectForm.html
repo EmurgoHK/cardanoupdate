@@ -2,7 +2,6 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-12">
-        <h5><a href="/projects" class="text-muted" style="text-decoration: underline;">Projects</a></h5>
         <h2>{{#if add}} New Project {{else}} Edit Project {{/if}}</h2>
       </div>
     </div>
@@ -53,6 +52,10 @@
                 <small style="display: none" class="typeExp">Is this project something <b>for</b> Cardano OR something built <b>on</b> Cardano? An example of something that's <b>for</b> Cardano is a wallet or a developer library. An example of something built <b>on</b> Cardano is Traxia.</small>
                 <br>
                 <div id="typeError" class="invalid-feedback"></div>
+              </div>
+              <div class="input-group">
+                  {{> reCAPTCHA}}
+                  <div id="captchaError" class="invalid-feedback"></div>
               </div>
             </form>
           </div>

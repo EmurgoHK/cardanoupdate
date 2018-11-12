@@ -10,7 +10,7 @@
                   <h4 class="mt-0"><strong>{{name}}</strong> {{#if isModerator}}<span class="badge badge-primary">moderator</span>{{/if}}</h4>
                   {{#if rank}}<p class="h6 text-muted"><strong>Rank : {{rank}}</strong></p>{{/if}}
                   <p class="h6 text-muted"><strong>About</strong></p>
-                  <p>{{bio}}</p>
+                  <p style="font-size: 0.75em">{{bio}}</p>
                 </div>
             </div>
           </div>
@@ -32,10 +32,22 @@
                 <a class="nav-link active" id="project-tab" data-toggle="tab" href="#project" role="tab" aria-controls="home" aria-selected="true">Projects</a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link" id="contact-tab" data-toggle="tab" href="#research" role="tab" aria-controls="research" aria-selected="false">Research</a>
-                </li>
+                <a class="nav-link" id="events-tab" data-toggle="tab" href="#events" role="tab" aria-controls="events" aria-selected="false">Events</a>
+              </li>
               <li class="nav-item">
-                <a class="nav-link" id="comment-tab" data-toggle="tab" href="#comment" role="tab" aria-controls="profile" aria-selected="false">Comments</a>
+                <a class="nav-link" id="research-tab" data-toggle="tab" href="#research" role="tab" aria-controls="research" aria-selected="false">Research</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="learn-tab" data-toggle="tab" href="#learn" role="tab" aria-controls="learn" aria-selected="false">Learn</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="community-tab" data-toggle="tab" href="#community" role="tab" aria-controls="community" aria-selected="false">Community</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="scam-tab" data-toggle="tab" href="#scam" role="tab" aria-controls="scam" aria-selected="false">Scams</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="comment-tab" data-toggle="tab" href="#comment" role="tab" aria-controls="comments" aria-selected="false">Comments</a>
               </li>
             </ul>
             <div class="tab-content" id="myTabContent">
@@ -51,23 +63,68 @@
                   User has not added any project yet.
                 {{/each}}
               </div>
-              <div class="tab-pane fade" id="research" role="tabpanel" aria-labelledby="research-tab">
-                  {{#each research}} 
-                    <div class="card">
-                      <div class="card-body">
-                      <div ><a href="/research/{{slug}}" class="card-title" >{{headline}}</a> Posted {{showTimeAgoTimestamp createdAt}}</div>
-                      <p class="card-text">{{abstract}}</p>              
-                      </div>
+              <div class="tab-pane fade" id="events" role="tabpanel" aria-labelledby="events-tab">
+                {{#each events}} 
+                  <div class="card">
+                    <div class="card-body">
+                    <div ><a href="/events/{{slug}}" class="card-title" >{{headline}}</a> Created {{showTimeAgoTimestamp createdAt}}</div>
                     </div>
-                  {{else}}
-                    User has not added any research yet.
-                  {{/each}}
-                </div>
+                  </div>
+                {{else}}
+                  User has not added any event yet.
+                {{/each}}
+              </div>
+              <div class="tab-pane fade" id="research" role="tabpanel" aria-labelledby="research-tab">
+                {{#each research}} 
+                  <div class="card">
+                    <div class="card-body">
+                    <div ><a href="/research/{{slug}}" class="card-title" >{{headline}}</a> Posted {{showTimeAgoTimestamp createdAt}}</div>
+                    <p class="card-text">{{abstract}}</p>              
+                    </div>
+                  </div>
+                {{else}}
+                  User has not added any research yet.
+                {{/each}}
+              </div>
+              <div class="tab-pane fade" id="learn" role="tabpanel" aria-labelledby="learn-tab">
+                {{#each learn}} 
+                  <div class="card">
+                    <div class="card-body">
+                    <div ><a href="/research/{{slug}}" class="card-title" >{{title}}</a> Added {{showTimeAgoTimestamp createdAt}}</div>
+                    </div>
+                  </div>
+                {{else}}
+                  User has not added any learning resource yet.
+                {{/each}}
+              </div>
+              <div class="tab-pane fade" id="community" role="tabpanel" aria-labelledby="community-tab">
+                {{#each community}} 
+                  <div class="card">
+                    <div class="card-body">
+                    <div ><a href="/research/{{slug}}" class="card-title" >{{Name}}</a> Created {{showTimeAgoTimestamp createdAt}}</div>
+                    </div>
+                  </div>
+                {{else}}
+                  User has not added any community yet.
+                {{/each}}
+              </div>
+              <div class="tab-pane fade" id="scam" role="tabpanel" aria-labelledby="scam-tab">
+                {{#each scams}} 
+                  <div class="card">
+                    <div class="card-body">
+                    <div ><a href="/research/{{slug}}" class="card-title" >{{headline}}</a> Created {{showTimeAgoTimestamp createdAt}}</div>
+                    </div>
+                  </div>
+                {{else}}
+                  User has not reported any scam yet.
+                {{/each}}
+              </div>
               <div class="tab-pane fade" id="comment" role="tabpanel" aria-labelledby="comment-tab">
                 {{#each comments}} 
                   <div class="card">
                     <div class="card-body">
                         <i class="far fa-comments" style="vertical-align: middle"></i>&nbsp;Commented {{text}} {{showTimeAgoTimestamp createdAt}}
+                        on <a href="{{contentUrl}}">{{contentTitle}}</a>
                     </div>
                   </div>
                 {{else}}
@@ -75,38 +132,7 @@
                 {{/each}}
               </div>
             </div>
-           
-            <!-- <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                {{#if contentCount}}
-                {{#each userContent}}
-                  <h6 class="mb-3 mt-3">
-                    {{#if isComment}} 
-                      <i class="far fa-comments" style="vertical-align: middle"></i>&nbsp;Commented on 
-                    {{else}} 
-                      <i class="far fa-edit" style="vertical-align: middle"></i>&nbsp;Posted 
-                    {{/if}}
-
-                    <strong><a href="/news/{{link}}">{{title}}</a></strong>&nbsp;&nbsp;<small class="text-muted"><i class="icon-clock" style="vertical-align: middle"></i>&nbsp;{{showTimeAgoTimestamp createdAt}}</small> 
-                  </h6>
-                {{/each}}
-              {{else}}
-                User doesn't have any activity.
-              {{/if}}
-            </div> -->
           </div>
-          <!-- <div class="user-content">
-            <h4>{{#if ownProfile}}Your Content{{else}}{{user.name}}'s Activity{{/if}}</h4>
-            {{#if contentCount}}
-              {{#each userContent}}
-                <div class="card">
-                  {{#if isComment}} <i class="icon-speech"></i>&nbsp;Commented on {{else}} <i class="icon-pencil"></i>&nbsp;Posted {{/if}}
-                  <a href="/news/{{link}}">{{title}}</a>, <i class="icon-clock" style="vertical-align: middle"></i>&nbsp;{{showTimeAgoTimestamp createdAt}}
-                </div>
-              {{/each}}
-            {{else}}
-              User doesn't have any activity.
-            {{/if}}
-          </div> -->
         </div>
       </div>
     </div>
