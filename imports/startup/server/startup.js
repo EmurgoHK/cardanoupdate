@@ -14,6 +14,4 @@ Meteor.startup(() => {
 	reCAPTCHA.config({
         privatekey: isTest ? '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe' : config.privateKey || ''
 	});
-	
-	console.log(reCAPTCHA)
 })

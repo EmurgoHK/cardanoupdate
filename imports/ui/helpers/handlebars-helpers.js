@@ -66,6 +66,3 @@ Template.registerHelper('avatarFor', (user, size) => {
 
 	return gravatarUrl
 })
-
-// checks if tag id is included in the resource tags 
-Template.registerHelper('isTagIncluded',(tags, tagId) => tags != [] && _.find(tags, (tag) => tag.id ===  tagId ) ? 'selected' : '')
