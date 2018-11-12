@@ -1,5 +1,6 @@
 import './searchBar.html';
 import './searchBar.scss';
+import { FlowRouter } from 'meteor/kadira:flow-router'
 
 Template.searchBar.onCreated(function() {
     this.searchTerm = new ReactiveVar(this.data.searchTerm);
@@ -24,5 +25,32 @@ Template.searchBar.events({
 
         // Communicate change up
         templateInstance.data.onChange(templateInstance.$("#searchBox").val())
+    },
+    'click .search-bar-cross': (event, templateInstance) =>{
+    	// Initially clear search bar.
+    	$("#searchBox").val('');
+    	// Trigger change event so process further processes
+    	$("#searchBox").trigger('keyup');
+
+    	// Advance search remove if found
+    	// first check using pathname in window object
+    	let pathname = window.location.pathname;
+    	if(pathname && pathname == '/search'){
+    		let trimmedSearch = window.location.search.substring(1);
+
+			let searchFromLocation = trimmedSearch?JSON.parse(
+			   '{"' + trimmedSearch.replace(/&/g, '","').replace(/=/g,'":"') + '"}', 
+			    function(key, value) { 
+			       return key===""?value:decodeURIComponent(value) 
+			    }
+			)
+			:
+			{}
+    		let routeType = searchFromLocation.type ? searchFromLocation.type.trim() : null ;
+    		if(routeType && routeType.length > 0){
+    			FlowRouter.go('/'+routeType);
+    		}
+    	}
+
     }
 });

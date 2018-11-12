@@ -223,6 +223,14 @@ button {
 
 .SearchMarker{background-color: lightblue}
 
+.search-bar-cross{
+    position: absolute;
+    margin-left: 95%;
+    margin-top: 10px;
+    cursor: pointer;
+    z-index: 3;
+}
+
 .wizard {
     .steps {
         margin: 25px auto;
