@@ -149,6 +149,8 @@ meteor test --driver-package practicalmeteor:mocha
 ```
 
 You should generally write a test for anything you don't want to break later, otherwise it will probably end up being broken by someone. We use [Mocha + Chai](https://guide.meteor.com/testing.html#mocha) for testing. You can see an example in [this](https://github.com/Blockrazor/blockrazor/pull/378/files) pull request.
+
+Detailed guide on how to run tests in your local environment is available [here](https://github.com/EmurgoHK/cardanoupdate/blob/master/docs/TESTING.md).
 </p>
 </details>    
 
