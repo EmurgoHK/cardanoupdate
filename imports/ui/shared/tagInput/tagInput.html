@@ -1,0 +1,11 @@
+<template name="tagInput">
+    <div class="group-title">Tags</div>
+    <div class="input-group">
+        <select multiple="true" name="tags[]" id="tags" class="form-control">
+        {{values}}
+        {{#each tags}}
+            <option value="{{name}}" {{isTagIncluded _id}}>{{name}}</option>
+        {{/each}}
+        </select>
+    </div>
+</template>

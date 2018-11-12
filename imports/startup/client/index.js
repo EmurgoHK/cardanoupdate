@@ -17,6 +17,7 @@ import '/imports/ui/shared/researchCard/researchCard';
 import '/imports/ui/shared/socialResourceCard/socialResourceCard';
 import '/imports/ui/shared/warningCard/warningCard';
 import '/imports/ui/shared/flagItem/flagItem';
+import '/imports/ui/shared/tagInput/tagInput';
 
 import '/imports/ui/shared/userNameDisplay/userNameDisplay';
 

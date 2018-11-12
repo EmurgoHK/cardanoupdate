@@ -32,14 +32,7 @@
                 <input type="text" class="form-control" id="github_url" value="{{project.github_url}}" placeholder="Github link">
                 <div id="github_urlError" class="invalid-feedback"></div>
               </div>
-              <div class="group-title">Tags</div>
-              <div class="input-group">
-                <select multiple="true" name="tags[]" id="tags" class="form-control">
-                  {{#each tags}}
-                    <option value="{{name}}" {{isTagIncluded project.tags _id}}>{{name}}</option>
-                  {{/each}}
-                </select>
-              </div>
+              {{> tagInput values=projectTags}}
               <div class="group-title">Website</div>
               <div class="input-group">
                 <input type="text" class="form-control" id="website" value="{{project.website}}" placeholder="Website link">
