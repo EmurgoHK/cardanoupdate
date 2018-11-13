@@ -47,15 +47,6 @@ Template.projectForm.onCreated(function() {
 
 Template.projectForm.onRendered(function() {
     this.autorun(() => {
-        let tags = (Projects.findOne({
-            _id: FlowRouter.getParam('id')
-        }) || {}).tags || []
-
-        $('#tags').val(tags.map(i => i.name))
-        $('#tags').trigger('change')
-    })
-
-    this.autorun(() => {
         let project = Projects.findOne({
             _id: FlowRouter.getParam('id')
         })
@@ -65,29 +56,11 @@ Template.projectForm.onRendered(function() {
             $('[name=type]').val([(project.tags.filter(i => /built-(on|for)-cardano/i.test(i.name))[0] || {}).name])
         }
     })
-
-    $('#tags').select2({
-        tags: true,
-        tokenSeparators: [' ', ','],
-        allowClear: true,
-        placeholder: 'Add a tags separated by comma(,) e.g. crypto,wallet'
-    })
 })
 
 Template.projectForm.helpers({
     add: () => FlowRouter.current().route.name === 'editProject' ? false : true,
     project: () => Projects.findOne({ _id: FlowRouter.getParam('id') }),
-    tags: () => { 
-
-        let tags = Array.from(Tags.find({
-            name: {
-                $not: new RegExp('built-(for|on)-cardano', 'i') // dont include these tags
-            }
-        }))
-
-        tags = _.uniqBy(tags, 'name');
-        return tags
-    },
     changedItems: () => {
         let projects = Projects.find({
             'edits.status': 'open',
@@ -109,7 +82,8 @@ Template.projectForm.helpers({
             link: j.type === 'link',
             createdAt: j.createdAt
         })).filter(i => i.status === 'open')))
-    }
+    },
+    projectTags: () => (Projects.findOne({ _id: FlowRouter.getParam('id') }) || {}).tags || []
 })
 
 Template.projectForm.events({

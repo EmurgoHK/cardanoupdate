@@ -66,15 +66,6 @@ Template.learnForm.onCreated(function() {
 
 Template.learnForm.onRendered(function() {
     this.autorun(() => {
-        let tags = (Learn.findOne({
-            slug: FlowRouter.getParam('slug')
-        }) || {}).tags || []
-
-        $('#tags').val(tags.map(i => i.name))
-        $('#tags').trigger('change')
-    })
-
-    this.autorun(() => {
         let learn = Learn.findOne({
             slug: FlowRouter.getParam('slug')
         })
@@ -83,13 +74,6 @@ Template.learnForm.onRendered(function() {
         if (learn) {
             $('[name=difficultyLevel]').val([learn.difficultyLevel])
         }
-    })
-
-    $('#tags').select2({
-        tags: true,
-        tokenSeparators: [' ', ','],
-        allowClear: true,
-        placeholder: 'Add a tags separated by comma(,) e.g. crypto,wallet'
     })
 })
 
@@ -132,17 +116,7 @@ Template.learnForm.helpers({
 		slug: FlowRouter.getParam('slug')
   	}),
 	add: () => !(FlowRouter.current().route.name === 'editLearn'),
-	tags: () => { 
-
-        let tags = Array.from(Tags.find({
-            name: {
-                $not: new RegExp('built-(for|on)-cardano', 'i') // dont include these tags
-            }
-        }))
-
-        tags = _.uniqBy(tags, 'name');
-        return tags
-    }
+    learnTags: () => (Learn.findOne({ slug: FlowRouter.getParam('slug') }) || {}).tags || [] 
 })
 
 Template.learnForm.events({
