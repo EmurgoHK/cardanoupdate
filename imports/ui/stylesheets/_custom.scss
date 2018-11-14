@@ -309,3 +309,7 @@ button {
 body .select2-dropdown {
   border-color: #8ad4ee;
 }
+
+@media (max-width: 575.98px) {
+  .sidebar-show .main::before, .aside-menu-show .main::before { position: fixed; }
+}
