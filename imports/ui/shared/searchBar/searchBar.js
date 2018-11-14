@@ -49,7 +49,9 @@ Template.searchBar.events({
     		let routeType = searchFromLocation.type ? searchFromLocation.type.trim() : null ;
     		if(routeType && routeType.length > 0){
     			FlowRouter.go('/'+routeType);
-    		}
+    		} else {
+                FlowRouter.go('/');
+            }
     	}
 
     }
