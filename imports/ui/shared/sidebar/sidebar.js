@@ -12,7 +12,7 @@ Template.sidebar.helpers({
 Template.sidebar.events({
     'click .sidebar-minimizer': function() {
         $('body').toggleClass("sidebar-minimized")
-        $('body').toggleClass("sidebar-show")
+        // $('body').toggleClass("sidebar-show")
     },
     'click .nav-item': function() {
     	//only close the side bar when the screen size is less that 400pixel e.g. mobile devices
