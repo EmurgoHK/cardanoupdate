@@ -9,11 +9,7 @@ import { socialResources } from '/imports/api/socialResources/socialResources'
 import { Research } from '/imports/api/research/research'
 import { Learn } from '/imports/api/learn/learn'
 
-
 if (Meteor.isClient) {
-  import { notify } from '/imports/modules/notifier'
-  
-
   // Import needed templates
   import '/imports/ui/pages/home/home'
   import '/imports/ui/pages/login/login'
@@ -72,7 +68,10 @@ const userLoginFilter = (context, redirect, _stop) => {
   }
 
   if (!Meteor.userId() && !authRoutes.includes(context.path)) {
-    notify('Login to continue!', 'error')
+    if (Meteor.isClient) {
+      import { notify } from '/imports/modules/notifier'
+      if (notify) notify('Login to continue!', 'error')
+    }
     redirect('/login')
   }
 }
@@ -168,7 +167,7 @@ FlowRouter.route('/faqs/new', {
       urls: ['/faqs']
     })
   },
-  triggersEnter: [userLoginFilter], 
+  triggersEnter: [userLoginFilter],
   subscriptions: function(params, queryParams) {
     this.register('users', Meteor.subscribe('users'))
   },
@@ -247,7 +246,7 @@ FlowRouter.route('/projects/new', {
       urls: ['/projects']
     })
   },
-  triggersEnter: [userLoginFilter], 
+  triggersEnter: [userLoginFilter],
   subscriptions: function(params, queryParams) {
     this.register('users', Meteor.subscribe('users'))
     this.register('tags', Meteor.subscribe('tags'))
@@ -418,7 +417,7 @@ FlowRouter.route('/community/new', {
       urls: ['/community']
     })
   },
-  triggersEnter: [userLoginFilter], 
+  triggersEnter: [userLoginFilter],
   subscriptions: function(params, queryParams) {
     this.register('tags', Meteor.subscribe('tags'))
   },
@@ -503,7 +502,7 @@ FlowRouter.route('/research/new', {
       urls: ['/research']
     })
   },
-  triggersEnter: [userLoginFilter], 
+  triggersEnter: [userLoginFilter],
   action: () => {
     BlazeLayout.render('main', {
       header: 'header',
@@ -521,7 +520,7 @@ FlowRouter.route('/research/:slug/edit', {
       urls: ['/research']
     })
   },
-  triggersEnter: [userLoginFilter], 
+  triggersEnter: [userLoginFilter],
   subscriptions: function(params, queryParams) {
     this.register('research.item', Meteor.subscribe('research.item', params.slug))
   },
@@ -586,7 +585,7 @@ FlowRouter.route('/learn/new', {
       urls: ['/learn']
     })
   },
-  triggersEnter: [userLoginFilter], 
+  triggersEnter: [userLoginFilter],
   subscriptions: function(params, queryParams) {
     this.register('tags', Meteor.subscribe('tags'))
   },
@@ -697,7 +696,7 @@ FlowRouter.route('/events/:id/edit', {
       urls: ['/events']
     })
   },
-  triggersEnter: [userLoginFilter], 
+  triggersEnter: [userLoginFilter],
   subscriptions: function(params, queryParams) {
     this.register('config', Meteor.subscribe('config'))
     this.register('events.item', Meteor.subscribe('events.item', params.id))
@@ -777,7 +776,7 @@ FlowRouter.route('/profile/:userId/edit', {
       urls: ['/profile/']
     })
   },
-  triggersEnter: [userLoginFilter], 
+  triggersEnter: [userLoginFilter],
   subscriptions: function(params, queryParams) {
     this.register('users', Meteor.subscribe('users'))
   },
@@ -985,4 +984,3 @@ FlowRouter.notFound = {
     })
   }
 }
-
