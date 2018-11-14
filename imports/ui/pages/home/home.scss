@@ -47,17 +47,18 @@
 }
 
 // Add New content modal cta
-.add-new-content{
+.add-new-content {
   position: relative;
   background-color: #fff;
-  a{
+  a {
     display: block;
     height: 100%;
     width: 100%;
     font-size: 1.125em;
     font-weight: 800;
+    cursor: pointer;
   }
-  i{
+  i {
     margin-right: 3px;
   }
 }
