@@ -205,6 +205,7 @@ export const possibleModerators = new ValidatedMethod({
   }),
   run({}) {
     let possible = []
+    let notPossible = []
 
     Meteor.users.find({}).fetch().forEach(i => {
       let strikes = (i.strikes || []).filter(i => i.time > (new Date().getTime() - 1000 * 60 * 60 * 24 * 30))
@@ -221,6 +222,10 @@ export const possibleModerators = new ValidatedMethod({
         possible.push({
           _id: i._id,
           totalInput: projects + comments,
+        })
+      } else {
+        notPossible.push({
+          _id: i._id
         })
       }
     })
@@ -244,6 +249,14 @@ export const possibleModerators = new ValidatedMethod({
         }
       })
     }) // save data for all possible moderators
+
+    notPossible.forEach((i, ind) => {
+      Meteor.users.update({
+        _id: i._id
+      }, {
+        $unset: { 'mod.data': 1 }
+      })
+    }) // reset data for all not possible moderators
 
     possible = possible.slice(0, Math.ceil(possible.length * 0.1)) // top 10%
 

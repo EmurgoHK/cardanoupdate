@@ -64,9 +64,18 @@ Template.viewProfile.helpers({
     let user = Meteor.users.findOne({
       _id: FlowRouter.getParam('userId')
     })
-    let totalUsers = Meteor.users.find({}).count()
-    if (user.mod) {
-      return `${user.mod.data.rank} out of ${totalUsers} users, based on comments and contributions.`
+    if (user) {
+      let totalUserQuery = {}
+      //
+      let strikes = (user.strikes || []).filter(i => i.time > (new Date().getTime() - 1000 * 60 * 60 * 24 * 30))
+      if (!user.suspended && !user.moderator && strikes.length === 0) {
+        totalUserQuery = { _id: { $ne: user._id } }
+      }
+      //
+      let totalUsers = Meteor.users.find(totalUserQuery).count()
+      if (user.mod && user.mod.data && !_.isEmpty(totalUserQuery)) {
+        return `${user.mod.data.rank} out of ${totalUsers} users, based on comments and contributions.`
+      }
     }
     return false
   },
