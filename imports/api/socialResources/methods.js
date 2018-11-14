@@ -255,3 +255,77 @@ export const updateResourceUrlTypes = new ValidatedMethod({
         }
     }
   });
+
+export const addTestSocialResource = new ValidatedMethod({
+    name: 'addTestSocialResource',
+    validate:
+        new SimpleSchema({
+            Name: {
+                type: String,
+                max: 90,
+                optional: false
+            },
+            description: {
+                type: String,
+                max: 260,
+                optional: false
+            },
+            Resource_url: {
+                type: String,
+                optional: true
+            },
+            tags: {
+                type: Array,
+                optional: true
+            },
+            'tags.$': {
+                type: Object,
+                optional: true
+            },
+            'tags.$.id': {
+                type: String,
+                optional: true
+            },
+            'tags.$.name': {
+                type: String,
+                optional: true
+            },
+            'createdBy' : {
+                type: String,
+                optional: true,
+            },
+            'createdAt': {
+                type: Number,
+                optional: true,
+            },
+        }).validator({
+            clean: true
+        }),
+    run(data) {
+        if (!isTesting) {
+            throw new Meteor.Error('Error.', 'This is a testing only method');
+        }
+
+        if (Meteor.isServer) {
+            if (!data.createdBy)
+                data.createdBy = 'other-test-user-id';
+            if (!data.createdAt)
+                data.createdAt = new Date().getTime()
+
+            data.resourceUrlType = guessResourceType(data.Resource_url);
+
+            if (data.tags) {
+                data.tags.forEach(tag => {
+                    if (tag.id) {
+                        mentionTag(tag.id)
+                    } else if (tag.name) {
+                        tagId = addTag(tag.name)
+                        tag.id = tagId
+                    }
+                })
+            }
+
+            return socialResources.insert(data)
+        }
+    }
+})
