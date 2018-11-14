@@ -162,9 +162,9 @@ describe("Communities page", function() {
       .$("..")
       .$("..");
 
-    card.$(".news-settings").click();
-    card.waitForVisible(".news-settings #js-edit");
-    card.$(".news-settings #js-edit").click();
+    card.$(".flagItem i").click();
+    card.waitForVisible(".flagItem #js-edit");
+    card.$(".flagItem #js-edit").click();
 
     waitForPageLoad(browser, `/community/${newResourceId}/edit`);
 
@@ -242,9 +242,9 @@ describe("Communities page", function() {
       .$("..")
       .$("..");
 
-    card.$(".news-settings").click();
-    card.waitForVisible(".news-settings #js-remove");
-    card.$(".news-settings #js-remove").click();
+    card.$(".flagItem i").click();
+    card.waitForVisible(".flagItem #js-remove");
+    card.$(".flagItem #js-remove").click();
 
     browser.waitForEnabled(".swal2-confirm");
     browser.click(".swal2-confirm");
@@ -257,8 +257,7 @@ describe("Communities page", function() {
     });
   });
 
-  /*
-  it.only("user can flag a community others created", () => {
+  it("user can flag a community others created", () => {
     const newResourceId = callMethod(browser, "addTestSocialResource", {
       Name: "Test Name for edit test",
       description: "Test description for edit test",
@@ -274,18 +273,14 @@ describe("Communities page", function() {
       .$("..")
       .$("..");
 
-    card.$(".news-settings").click();
-    card.waitForVisible(".news-settings #js-remove");
-    card.$(".news-settings #js-remove").click();
+    card.click(".flagItem i");
+    card.waitForVisible(".flagItem .flag-socialResource");
+    card.$(".flagItem .flag-socialResource").click();
 
-    browser.waitForEnabled(".swal2-confirm");
-    browser.click(".swal2-confirm");
+    browser.waitForEnabled(".swal2-content .btn#spam");
+    browser.click(".swal2-content .btn#spam");
 
-    browser.waitUntil(() => {
-      return (
-        browser.$(`a[href="/community/${newResourceId}"]`).type ===
-        "NoSuchElement"
-      );
-    });
-  });*/
+    browser.waitUntil(() => !browser.isVisible('.swal2-content'));
+    browser.waitUntil(() => browser.getText('.noty_body').startsWith('Successfully flagged.'));
+  });
 });

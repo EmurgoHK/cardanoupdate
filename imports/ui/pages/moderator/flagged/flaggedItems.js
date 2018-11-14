@@ -17,8 +17,10 @@ import { resolveProjectFlags } from '/imports/api/projects/methods'
 import { resolveEventFlags } from '/imports/api/events/methods'
 import { resolveResearchFlags } from '/imports/api/research/methods'
 import { resolveLearningItemFlags } from '/imports/api/learn/methods'
+import { resolveSocialResourceFlags } from '/imports/api/socialResources/methods'
 
 import swal from 'sweetalert2'
+import { socialResources } from '../../../../api/socialResources/socialResources';
 
 Template.flaggedItems.onCreated(function() {
 	this.autorun(() => {
@@ -29,6 +31,7 @@ Template.flaggedItems.onCreated(function() {
     this.subscribe('events')
     this.subscribe('research')
     this.subscribe('learn')
+    this.subscribe('socialResources')
 	})
 })
 
@@ -70,10 +73,21 @@ Template.flaggedItems.helpers({
 			}
 		}).fetch()
 
-		return _.union(research, events, comments, projects, learn, warnings).map(i => ({
+		let socialResource = socialResources.find({
+			'flags.0': {
+				$exists: true
+			}
+		}).fetch()
+
+		return _.union(research, events, comments, projects, learn, warnings, socialResource).map(i => ({
 			_id: i._id,
-			link: i.content ? `/learn/${i.slug}` : (i.pdf ? `/research/${i.slug}` : (i.location ? `/events/${i.slug}` : (i.summary ? `/scams/${i.slug}` : (i.description ? `/projects/${i.slug}` : '')))),
-			text: i.title ? i.title : (i.headline ? i.headline : i.text),
+			link: i.content ? `/learn/${i.slug}` : 
+						(i.pdf ? `/research/${i.slug}` : 
+						(i.location ? `/events/${i.slug}` : 
+						(i.summary ? `/scams/${i.slug}` : 
+						(i.Resource_url ? `/community/${i._id}` :
+						(i.description ? `/projects/${i.slug}` : ''))))),
+			text: i.title ? i.title : (i.headline ? i.headline : (i.Name ? i.Name: i.text)),
 			reasons: i.flags.map(j => ({
 				reason: j.reason,
 				author: Meteor.users.findOne({
@@ -83,9 +97,10 @@ Template.flaggedItems.helpers({
 			times: `${i.flags.length} ${i.flags.length === 1 ? 'time' : 'times'}`,
       		isEvent: !!i.location,
       		isWarning: !!i.summary,
-			isProject: !!i.description,
+			isProject: !!i.description && !i.Resource_url,
 			isResearch: !!i.pdf,
-			isLearn: !!i.content
+			isLearn: !!i.content,
+			isSocialResource: !!i.Resource_url,
 		}))
 	}
 })
@@ -156,6 +171,17 @@ Template.flaggedItems.events({
 							notify('Successfully ignored.', 'success')
 						}
 					})
+				} else if (this.isSocialResource) {
+					resolveSocialResourceFlags.call({
+						socialResourceId: this._id,
+						decision: 'ignore'
+					}, (err, data) => {
+						if (err) {
+							notify(err.reason || err.message, 'error')
+						} else {
+							notify('Successfully ignored.', 'success')
+						}
+					});
 				} else {
 					resolveCommentFlags.call({
 						commentId: this._id,
@@ -235,6 +261,17 @@ Template.flaggedItems.events({
 							notify('Successfully removed.', 'success')
 						}
 					})
+				} else if (this.isSocialResource) {
+					resolveSocialResourceFlags.call({
+						socialResourceId: this._id,
+						decision: 'remove'
+					}, (err, data) => {
+						if (err) {
+							notify(err.reason || err.message, 'error')
+						} else {
+							notify('Successfully ignored.', 'success')
+						}
+					});
 				} else {
 					resolveCommentFlags.call({
 						commentId: this._id,

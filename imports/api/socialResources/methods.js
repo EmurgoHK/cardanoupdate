@@ -1,8 +1,12 @@
-import { socialResources } from './socialResources'
 import { ValidatedMethod } from 'meteor/mdg:validated-method'
 import SimpleSchema from 'simpl-schema'
 
+import { socialResources } from './socialResources'
+import { Comments } from '/imports/api/comments/comments'
+
+import { isModerator, userStrike } from '/imports/api/user/methods'
 import { addTag, mentionTag, removeTag } from '../tags/methods';
+
 import { isTesting } from '../utilities';
 
 function guessResourceType(url) {
@@ -329,3 +333,109 @@ export const addTestSocialResource = new ValidatedMethod({
         }
     }
 })
+
+export const flagSocialResource = new ValidatedMethod({
+    name: 'flagSocialResource',
+    validate:
+        new SimpleSchema({
+            socialResourceId: {
+                type: String,
+                optional: false
+            },
+            reason: {
+                type: String,
+                max: 1000,
+                optional: false
+            }
+        }).validator({
+            clean: true
+        }),
+    run({ socialResourceId, reason }) {
+        let socialResource = socialResources.findOne({
+            _id: socialResourceId
+        })
+
+        if (!socialResource) {
+            throw new Meteor.Error('Error.', 'Social resource doesn\'t exist.')
+        }
+
+        if (!Meteor.userId()) {
+            throw new Meteor.Error('Error.', 'You have to be logged in.')
+        }
+
+        if ((socialResource.flags || []).some(i => i.flaggedBy === Meteor.userId())) {
+            throw new Meteor.Error('Error.', 'You have already flagged this item.')
+        }
+
+        return socialResources.update({
+            _id: socialResourceId
+        }, {
+            $push: {
+                flags: {
+                    reason: reason,
+                    flaggedBy: Meteor.userId(),
+                    flaggedAt: new Date().getTime()
+                }
+            }
+        })
+    }
+});
+
+export const resolveSocialResourceFlags = new ValidatedMethod({
+    name: 'resolveSocialResourceFlags',
+    validate:
+        new SimpleSchema({
+            socialResourceId: {
+                type: String,
+                optional: false
+            },
+            decision: {
+                type: String,
+                optional: false
+            }
+        }).validator({
+            clean: true
+        }),
+    run({ socialResourceId, decision }) {
+        if (!Meteor.userId()) {
+            throw new Meteor.Error('Error.', 'You have to be logged in.')
+        }
+
+        if (!isModerator(Meteor.userId())) {
+            throw new Meteor.Error('Error.', 'You have to be a moderator.')
+        }
+
+        let socialResource = socialResources.findOne({
+            _id: socialResourceId
+        })
+
+        if (!socialResource) {
+            throw new Meteor.Error('Error.', 'Social resource doesn\'t exist.')
+        }
+
+        if (decision === 'ignore') {
+            return socialResources.update({
+                _id: socialResourceId
+            }, {
+                $set: {
+                    flags: []
+                }
+            })
+        } else {
+            userStrike.call({
+                userId: socialResource.createdBy,
+                type: 'socialResource',
+                token: 's3rv3r-only',
+                times: 1
+            }, (err, data) => {})
+
+            Comments.remove({
+                newsId: socialResourceId
+            })
+
+            return socialResources.remove({
+                _id: socialResourceId
+            })
+        }
+    }
+});

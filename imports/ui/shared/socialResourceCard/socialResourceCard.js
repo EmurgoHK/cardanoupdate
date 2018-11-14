@@ -2,13 +2,18 @@ import "./socialResourceCard.html";
 import "./socialResourceCard.scss";
 
 import { Template } from "meteor/templating";
-import { deleteSocialResource } from "/imports/api/socialResources/methods";
+import { deleteSocialResource, flagSocialResource } from "/imports/api/socialResources/methods";
 
+import { flagDialog } from "/imports/modules/flagDialog";
 import swal from "sweetalert2";
 
 Template.socialResourceCard.helpers({
-  canEdit() {
-    return Template.currentData().socialResource.createdBy === Meteor.userId();
+  editURL() {
+    const socialResource = Template.currentData().socialResource;
+    if(socialResource.createdBy === Meteor.userId()){
+      return `/community/${socialResource._id}/edit`;
+    }
+    return false;
   },
 
   resourceUrlClass(resourceUrlType) {
@@ -65,5 +70,11 @@ Template.socialResourceCard.events({
         );
       }
     });
+  },
+
+  "click .flag-socialResource": function(event, templateInstance) {
+    event.preventDefault();
+
+    flagDialog.call(Template.currentData().socialResource, flagSocialResource, "socialResourceId");
   }
 });
