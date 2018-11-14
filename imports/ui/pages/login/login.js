@@ -3,6 +3,11 @@ import { notify } from '/imports/modules/notifier'
 
 import './login.html'
 
+Template.login.onRendered(function () {
+  $('body').removeClass('modal-open')
+  $('.modal-backdrop.fade').remove()
+})
+
 Template.login.events({
     'click #goToSignup': (event, templateInstance) => {
         event.preventDefault()
@@ -11,8 +16,8 @@ Template.login.events({
     'submit': (event, templateInstance) => {
         event.preventDefault()
 
-        Meteor.loginWithPassword({ 
-            email: event.target.email.value 
+        Meteor.loginWithPassword({
+            email: event.target.email.value
         }, event.target.password.value, (err) => {
             if (err) {
                 notify(err.message, 'error')
