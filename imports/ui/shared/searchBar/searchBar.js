@@ -48,6 +48,9 @@ Template.searchBar.events({
 			{}
     		let routeType = searchFromLocation.type ? searchFromLocation.type.trim() : null ;
     		if(routeType && routeType.length > 0){
+                if(routeType == "socialResources"){
+                    routeType = "community"
+                }
     			FlowRouter.go('/'+routeType);
     		} else {
                 FlowRouter.go('/');
