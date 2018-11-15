@@ -20,11 +20,13 @@ Template.searchBar.helpers({
 
 Template.searchBar.events({
     'keyup/change #searchBox': (event, templateInstance) => {
+        let searchText = templateInstance.$("#searchBox").val().trim();
+        
         // Save it internally to update links
-        templateInstance.searchTerm.set(templateInstance.$("#searchBox").val());
+        templateInstance.searchTerm.set(searchText);
 
         // Communicate change up
-        templateInstance.data.onChange(templateInstance.$("#searchBox").val())
+        templateInstance.data.onChange(searchText)
     },
     'click .search-bar-cross': (event, templateInstance) =>{
     	// Initially clear search bar.
