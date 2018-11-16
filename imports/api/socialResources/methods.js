@@ -208,6 +208,12 @@ export const editSocialResource = new ValidatedMethod({
                 } else
                     console.log('reCAPTCHA verification passed!');
             }
+
+            project.tags.filter(tag => 
+                !tags.some(t => t.id == tag.id)).forEach(tag => {
+                    removeTag(tag.id)
+                })
+                
             if (tags) {
                 tags.filter(tag => // We filter out tags that are already on the resource to make edit not increase mentions.
                         !tag.id || // If we didn't get an id it's a new tag
