@@ -13,7 +13,6 @@ Template.tagInput.onCreated(function() {
 
 Template.tagInput.onRendered(function() {
     this.autorun(() => {
-        console.log(this.data.values)
         $('#tags').val(this.data.values.map(t => t.name))
         $('#tags').trigger('change')
     })

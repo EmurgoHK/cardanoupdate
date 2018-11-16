@@ -234,6 +234,12 @@ export const editLearningItem = new ValidatedMethod({
                     throw new Meteor.Error('recaptcha failed please try again');
                 } 
             }
+
+            learn.tags.filter(tag => 
+                !tags.some(t => t.id == tag.id)).forEach(tag => {
+                    removeTag(tag.id)
+                })
+                
             if (tags) {
                 tags.forEach(tag => {
                     if (tag.id) {
