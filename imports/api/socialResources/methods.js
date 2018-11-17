@@ -340,6 +340,35 @@ export const addTestSocialResource = new ValidatedMethod({
     }
 })
 
+export const deleteTestSocialResource = new ValidatedMethod({
+    name: 'deleteTestSocialResource',
+    validate:
+        new SimpleSchema({
+            id: {
+                type: String,
+                optional: true
+            },
+        }).validator({
+            clean: true
+        }),
+    run({id}) {
+        if (!isTesting) {
+            throw new Meteor.Error('Error.', 'This is a testing only method');
+        }
+
+        let projects = id ? [socialResources.findOne({ _id: id })] : socialResources.find({createdBy: 'other-test-user-id'}).fetch();
+        for (const project of projects) {
+            // remove mentions of tags & decrease the counter of each tag
+            if(project.tags) {
+                project.tags.forEach(t => {
+                    removeTag(t.id)
+                })
+            }
+        
+            socialResources.remove({ _id: project._id });
+        }
+    }
+})
 export const flagSocialResource = new ValidatedMethod({
     name: 'flagSocialResource',
     validate:
