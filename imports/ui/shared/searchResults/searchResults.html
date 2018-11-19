@@ -1,7 +1,10 @@
 <template name="searchResults">
   <div class="float-right">
     <button class="btn btn-link" id="sort-date">
-        Date {{#if isDateAsc }} <i class="fas fa-sort-down"></i> {{else}} <i class="fas fa-sort-up"></i> {{/if}}
+        Date {{#if isDateAsc 'date-asc'}} <i class="fas fa-sort-down"></i> {{else}} {{#if isDateAsc 'date-desc'}} <i class="fas fa-sort-up"></i> {{/if}} {{/if}}
+    </button>
+    <button class="btn btn-link" id="sort-title">
+        Title {{#if isTitleAsc 'title-asc'}} <i class="fas fa-sort-down"></i> {{else}} {{#if isTitleAsc 'title-desc'}}<i class="fas fa-sort-up"></i> {{/if}} {{/if}}
     </button>
   </div>
   <p>Found {{resultCount}} items</p>

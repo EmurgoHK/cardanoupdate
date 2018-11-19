@@ -10,6 +10,7 @@ import { Warnings } from '/imports/api/warnings/warnings';
 
 Template.searchResults.onCreated(function() {
   this.sort = new ReactiveVar("date-desc");
+  this.titleSort = new ReactiveVar("");
 
   this.results = new ReactiveVar({ count: () => 0 });
 });
@@ -35,7 +36,7 @@ Template.searchResults.onRendered(function() {
             {headline: regex}, 
             {location: regex}
           ],
-        }, opts)).map(p => ({type: 'event', res: p, date: p.createdAt})));
+        }, opts)).map(p => ({type: 'event', res: p, date: p.createdAt, titleText: p.headline})));
       }
 
       if (data.types.includes('projects')) {
@@ -45,7 +46,7 @@ Template.searchResults.onRendered(function() {
             {headline: regex}, 
             {tags: regex}
           ],
-        }, opts)).map(p => ({type: 'project', res: p, date: p.createdAt})));
+        }, opts)).map(p => ({type: 'project', res: p, date: p.createdAt, titleText: p.headline})));
       }
 
       if (data.types.includes('learn')) {
@@ -55,7 +56,7 @@ Template.searchResults.onRendered(function() {
             {title: regex}, 
             {summary: regex}, 
           ],
-        }, opts)).map(p => ({type: 'learningResource', res: p, date: p.createdAt})));
+        }, opts)).map(p => ({type: 'learningResource', res: p, date: p.createdAt, titleText: p.title})));
       }
 
       if (data.types.includes('research')) {
@@ -64,7 +65,7 @@ Template.searchResults.onRendered(function() {
             {abstract: regex}, 
             {headline: regex}, 
           ],
-        }, opts)).map(p => ({type: 'research', res: p, date: p.createdAt})));
+        }, opts)).map(p => ({type: 'research', res: p, date: p.createdAt, titleText: p.headline})));
       }
 
       if (data.types.includes('socialResources')) {
@@ -73,7 +74,7 @@ Template.searchResults.onRendered(function() {
             {Name: regex}, 
             {description: regex}, 
           ],
-        }, opts)).map(p => ({type: 'socialResource', res: p, date: p.createdAt})));
+        }, opts)).map(p => ({type: 'socialResource', res: p, date: p.createdAt, titleText: p.name})));
       }
       
       if (data.types.includes('warnings')) {
@@ -83,26 +84,26 @@ Template.searchResults.onRendered(function() {
             {headline: regex},
             {tags: regex}, 
           ],
-        }, opts)).map(p => ({type: 'warning', res: p, date: p.createdAt})));
+        }, opts)).map(p => ({type: 'warning', res: p, date: p.createdAt, titleText: p.headline})));
       }
     } else {
       if (data.types.includes('events'))
-        res = res.concat(Events.find({}, opts).map(p => ({type: 'event', res: p, date: p.createdAt})));
+        res = res.concat(Events.find({}, opts).map(p => ({type: 'event', res: p, date: p.createdAt, titleText: p.headline})));
       
       if (data.types.includes('projects'))
-        res = res.concat(Projects.find({}, opts).map(p => ({type: 'project', res: p, date: p.createdAt})));
+        res = res.concat(Projects.find({}, opts).map(p => ({type: 'project', res: p, date: p.createdAt, titleText: p.headline})));
         
       if (data.types.includes('learn'))
-        res = res.concat(Learn.find({}, opts).map(p => ({type: 'learningResource', res: p, date: p.createdAt})));
+        res = res.concat(Learn.find({}, opts).map(p => ({type: 'learningResource', res: p, date: p.createdAt, titleText: p.title})));
       
       if (data.types.includes('research'))
         res = res.concat(Research.find({}, opts).map(p => ({type: 'research', res: p, date: p.createdAt})));
 
       if (data.types.includes('socialResources'))
-        res = res.concat(socialResources.find({}, opts).map(p => ({type: 'socialResource', res: p, date: p.createdAt})));
+        res = res.concat(socialResources.find({}, opts).map(p => ({type: 'socialResource', res: p, date: p.createdAt, titleText: p.name})));
 
       if (data.types.includes('warnings'))
-        res = res.concat(Warnings.find({}, opts).map(p => ({type: 'warning', res: p, date: p.createdAt})));
+        res = res.concat(Warnings.find({}, opts).map(p => ({type: 'warning', res: p, date: p.createdAt, titleText: p.headline})));
     }
     Template.instance().results.set(res);
   })
@@ -111,24 +112,39 @@ Template.searchResults.onRendered(function() {
 Template.searchResults.helpers({
   results: () => {
     const tpl = Template.instance();
-    const results = tpl.results.get();
-
-    switch (tpl.sort.get()) {
-      case "date-asc":
-        return results.sort((a,b) => a.date - b.date);
-      case "date-desc":
-      default:
-        return results.sort((a,b) => b.date - a.date);
+    let results = tpl.results.get();
+    
+    if (tpl.titleSort.get()) {
+      switch (tpl.titleSort.get()) { //sort by titles
+        case "title-asc":
+          return results.sort((a,b) => a.titleText.localeCompare(b.titleText));
+        case "title-desc":
+          return results.sort((a,b) => b.titleText.localeCompare(a.titleText));
+      }
+    } else { // we only need to sort by date if the user has not selected sort by title
+      switch (tpl.sort.get()) { //sort by date
+        case "date-asc":
+          return results.sort((a,b) => a.date - b.date);
+        case "date-desc":
+        default:
+          return results.sort((a,b) => b.date - a.date);
+      }
     }
   },
+
   resultCount: () => Template.instance().results.get().length,
 
   isTypeOf: (res, type) => res.type === type,
 
-  isDateAsc() {
-    return Template.instance().sort.get() === "date-asc";
+  isDateAsc(val) {
+    // we must check if the title sort is active. if the title sort is active we must not show asc or desc icons on date.
+    if (Template.instance().titleSort.get() == '') return Template.instance().sort.get() === val; 
   },
   
+  isTitleAsc(val) {
+      return Template.instance().titleSort.get() === val
+  },
+
   highlighter(){
     let searchVal = Template.currentData().searchTerm;
     return (text) => {
@@ -142,10 +158,26 @@ Template.searchResults.helpers({
 Template.searchResults.events({
   'click #sort-date': (event, templateInstance) => {
     event.preventDefault()
+
+    // if the user clicks the date sort button we need to reset the sort by title
+    templateInstance.titleSort.set('');
+
     if (templateInstance.sort.get() === 'date-desc') {
         templateInstance.sort.set('date-asc');
     } else {
         templateInstance.sort.set('date-desc');
+    }
+  },
+
+  'click #sort-title': (event, templateInstance) => {
+    event.preventDefault()
+
+    if (templateInstance.titleSort.get() === '') {
+        templateInstance.titleSort.set('title-asc');
+    } else if (templateInstance.titleSort.get() === 'title-asc') {
+        templateInstance.titleSort.set('title-desc');
+    } else {
+      templateInstance.titleSort.set('');
     }
   },
 
