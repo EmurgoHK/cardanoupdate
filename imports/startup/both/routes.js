@@ -872,12 +872,12 @@ FlowRouter.route('/search', {
     })
   },
   subscriptions: function(params, queryParams) {
-    this.register('projects.search', Meteor.subscribe('projects.search', queryParams.q))
-    this.register('events.search', Meteor.subscribe('events.search', queryParams.q))
-    this.register('learn.search', Meteor.subscribe('learn.search', queryParams.q))
-    this.register('research.search', Meteor.subscribe('research.search', queryParams.q))
-    this.register('warnings.search', Meteor.subscribe('warnings.search', queryParams.q))
-    this.register('socialResources.search', Meteor.subscribe('socialResources.search', queryParams.q))
+    this.register('projects.search', Meteor.subscribe('projects.search', queryParams.q || ''))
+    this.register('events.search', Meteor.subscribe('events.search', queryParams.q || ''))
+    this.register('learn.search', Meteor.subscribe('learn.search', queryParams.q || ''))
+    this.register('research.search', Meteor.subscribe('research.search', queryParams.q || ''))
+    this.register('warnings.search', Meteor.subscribe('warnings.search', queryParams.q || ''))
+    this.register('socialResources.search', Meteor.subscribe('socialResources.search', queryParams.q || ''))
   },
   action: () => {
     BlazeLayout.render('main', {
