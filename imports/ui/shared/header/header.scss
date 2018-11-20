@@ -1,7 +1,9 @@
 // Logo CSS
 .app-header .navbar-brand {
+  width: auto;
   img{
     max-width: 100%;
+    width: 155px;
     height: auto;
   }
 }
@@ -9,6 +11,13 @@
 .left-nav-menu{
   li{
     display: inline-block;
+
+    &.px-3 {
+      @media (max-width: 1199px){
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+      }
+    }
   }
 }
 
