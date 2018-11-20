@@ -11,5 +11,24 @@ Accounts.onCreateUser(( options, user ) => {
   if(options.profile){
   	user.profile = options.profile
   }
+  
+  // Send Verification Email on Sign UP
+  Meteor.setTimeout(function() {
+    Accounts.sendVerificationEmail(user._id)
+  }, 2 * 1000)
+
   return ( user )
 })
+
+// Custom Verify Email Template
+Accounts.emailTemplates.verifyEmail = {
+  from() {
+    return "Cardano Update Space <no-reply@cardanoupdate.space"
+  },
+  subject() {
+    return "Activate your account on Cardano Update Space.";
+  },
+  text(user, url) {
+    return `Hey ${user.profile.name}! \n\n Verify your e-mail on Cardano Update Space by clicking this link: ${url}`;
+  }
+};
