@@ -177,6 +177,35 @@ describe('social resources methods', () => {
         });
     });
 
+    it('user can flag a social resource', () => {
+        return callWithPromise('flagSocialResource', {
+            socialResourceId: resourceIdNotOwned,
+            reason: 'Test reason'
+        }, (err, data) => {
+            let flaggedResource = socialResources.findOne({
+                _id: resourceIdNotOwned
+            })
+
+            assert.ok(flaggedResource)
+
+            assert.ok(flaggedResource.flags.length > 0)
+            assert.ok(flaggedResource.flags[0].reason === 'Test reason')
+        })
+    })
+
+    it('moderator can remove a flagged social resource', () => {
+        return callWithPromise('resolveSocialResourceFlags', {
+            socialResourceId: resourceIdNotOwned,
+            decision: 'remove'
+        }, (err, data) => {
+            let n2 = Learn.findOne({
+                _id: resourceIdNotOwned
+            })
+
+            assert.notOk(n2)
+        })
+    })
+
     after(function() {
         socialResources.remove({})
         Tags.remove({});

@@ -3,7 +3,10 @@ import './searchBar.scss';
 import { FlowRouter } from 'meteor/kadira:flow-router'
 
 Template.searchBar.onCreated(function() {
-    this.searchTerm = new ReactiveVar(this.data.searchTerm);
+    this.searchTerm = new ReactiveVar(undefined);
+    this.autorun(() => {
+        this.searchTerm.set(Template.currentData().searchTerm);
+    })
 });
 
 Template.searchBar.helpers({
@@ -20,17 +23,19 @@ Template.searchBar.helpers({
 
 Template.searchBar.events({
     'keyup/change #searchBox': (event, templateInstance) => {
+        let searchText = templateInstance.$("#searchBox").val().trim();
+        
         // Save it internally to update links
-        templateInstance.searchTerm.set(templateInstance.$("#searchBox").val());
+        templateInstance.searchTerm.set(searchText);
 
         // Communicate change up
-        templateInstance.data.onChange(templateInstance.$("#searchBox").val())
+        templateInstance.data.onChange(searchText)
     },
     'click .search-bar-cross': (event, templateInstance) =>{
     	// Initially clear search bar.
     	$("#searchBox").val('');
     	// Trigger change event so process further processes
-    	$("#searchBox").trigger('keyup');
+        $("#searchBox").trigger('keyup');
 
     	// Advance search remove if found
     	// first check using pathname in window object
@@ -46,8 +51,14 @@ Template.searchBar.events({
 			)
 			:
 			{}
-    		let routeType = searchFromLocation.type ? searchFromLocation.type.trim() : null ;
-    		if(routeType && routeType.length > 0){
+            let routeType = searchFromLocation.type ? searchFromLocation.type.trim() : null ;
+    		if(routeType && routeType.split('-').length === 1){
+                if(routeType == "socialResources"){
+                    routeType = "community"
+                } else if (routeType === "warnings") {
+                    routeType = "scams";
+                }
+                
     			FlowRouter.go('/'+routeType);
     		} else {
                 FlowRouter.go('/');

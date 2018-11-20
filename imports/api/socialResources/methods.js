@@ -1,8 +1,12 @@
-import { socialResources } from './socialResources'
 import { ValidatedMethod } from 'meteor/mdg:validated-method'
 import SimpleSchema from 'simpl-schema'
 
+import { socialResources } from './socialResources'
+import { Comments } from '/imports/api/comments/comments'
+
+import { isModerator, userStrike } from '/imports/api/user/methods'
 import { addTag, mentionTag, removeTag } from '../tags/methods';
+
 import { isTesting } from '../utilities';
 
 function guessResourceType(url) {
@@ -204,6 +208,12 @@ export const editSocialResource = new ValidatedMethod({
                 } else
                     console.log('reCAPTCHA verification passed!');
             }
+
+            project.tags.filter(tag => 
+                !tags.some(t => t.id == tag.id)).forEach(tag => {
+                    removeTag(tag.id)
+                })
+                
             if (tags) {
                 tags.filter(tag => // We filter out tags that are already on the resource to make edit not increase mentions.
                         !tag.id || // If we didn't get an id it's a new tag
@@ -255,3 +265,212 @@ export const updateResourceUrlTypes = new ValidatedMethod({
         }
     }
   });
+
+export const addTestSocialResource = new ValidatedMethod({
+    name: 'addTestSocialResource',
+    validate:
+        new SimpleSchema({
+            Name: {
+                type: String,
+                max: 90,
+                optional: false
+            },
+            description: {
+                type: String,
+                max: 260,
+                optional: false
+            },
+            Resource_url: {
+                type: String,
+                optional: true
+            },
+            tags: {
+                type: Array,
+                optional: true
+            },
+            'tags.$': {
+                type: Object,
+                optional: true
+            },
+            'tags.$.id': {
+                type: String,
+                optional: true
+            },
+            'tags.$.name': {
+                type: String,
+                optional: true
+            },
+            'createdBy' : {
+                type: String,
+                optional: true,
+            },
+            'createdAt': {
+                type: Number,
+                optional: true,
+            },
+        }).validator({
+            clean: true
+        }),
+    run(data) {
+        if (!isTesting) {
+            throw new Meteor.Error('Error.', 'This is a testing only method');
+        }
+
+        if (Meteor.isServer) {
+            if (!data.createdBy)
+                data.createdBy = 'other-test-user-id';
+            if (!data.createdAt)
+                data.createdAt = new Date().getTime()
+
+            data.resourceUrlType = guessResourceType(data.Resource_url);
+
+            if (data.tags) {
+                data.tags.forEach(tag => {
+                    if (tag.id) {
+                        mentionTag(tag.id)
+                    } else if (tag.name) {
+                        tagId = addTag(tag.name)
+                        tag.id = tagId
+                    }
+                })
+            }
+
+            return socialResources.insert(data)
+        }
+    }
+})
+
+export const deleteTestSocialResource = new ValidatedMethod({
+    name: 'deleteTestSocialResource',
+    validate:
+        new SimpleSchema({
+            id: {
+                type: String,
+                optional: true
+            },
+        }).validator({
+            clean: true
+        }),
+    run({id}) {
+        if (!isTesting) {
+            throw new Meteor.Error('Error.', 'This is a testing only method');
+        }
+
+        let projects = id ? [socialResources.findOne({ _id: id })] : socialResources.find({createdBy: 'other-test-user-id'}).fetch();
+        for (const project of projects) {
+            // remove mentions of tags & decrease the counter of each tag
+            if(project.tags) {
+                project.tags.forEach(t => {
+                    removeTag(t.id)
+                })
+            }
+        
+            socialResources.remove({ _id: project._id });
+        }
+    }
+})
+export const flagSocialResource = new ValidatedMethod({
+    name: 'flagSocialResource',
+    validate:
+        new SimpleSchema({
+            socialResourceId: {
+                type: String,
+                optional: false
+            },
+            reason: {
+                type: String,
+                max: 1000,
+                optional: false
+            }
+        }).validator({
+            clean: true
+        }),
+    run({ socialResourceId, reason }) {
+        let socialResource = socialResources.findOne({
+            _id: socialResourceId
+        })
+
+        if (!socialResource) {
+            throw new Meteor.Error('Error.', 'Social resource doesn\'t exist.')
+        }
+
+        if (!Meteor.userId()) {
+            throw new Meteor.Error('Error.', 'You have to be logged in.')
+        }
+
+        if ((socialResource.flags || []).some(i => i.flaggedBy === Meteor.userId())) {
+            throw new Meteor.Error('Error.', 'You have already flagged this item.')
+        }
+
+        return socialResources.update({
+            _id: socialResourceId
+        }, {
+            $push: {
+                flags: {
+                    reason: reason,
+                    flaggedBy: Meteor.userId(),
+                    flaggedAt: new Date().getTime()
+                }
+            }
+        })
+    }
+});
+
+export const resolveSocialResourceFlags = new ValidatedMethod({
+    name: 'resolveSocialResourceFlags',
+    validate:
+        new SimpleSchema({
+            socialResourceId: {
+                type: String,
+                optional: false
+            },
+            decision: {
+                type: String,
+                optional: false
+            }
+        }).validator({
+            clean: true
+        }),
+    run({ socialResourceId, decision }) {
+        if (!Meteor.userId()) {
+            throw new Meteor.Error('Error.', 'You have to be logged in.')
+        }
+
+        if (!isModerator(Meteor.userId())) {
+            throw new Meteor.Error('Error.', 'You have to be a moderator.')
+        }
+
+        let socialResource = socialResources.findOne({
+            _id: socialResourceId
+        })
+
+        if (!socialResource) {
+            throw new Meteor.Error('Error.', 'Social resource doesn\'t exist.')
+        }
+
+        if (decision === 'ignore') {
+            return socialResources.update({
+                _id: socialResourceId
+            }, {
+                $set: {
+                    flags: []
+                }
+            })
+        } else {
+            userStrike.call({
+                userId: socialResource.createdBy,
+                type: 'socialResource',
+                token: 's3rv3r-only',
+                times: 1
+            }, (err, data) => {})
+
+            Comments.remove({
+                newsId: socialResourceId
+            })
+
+            return socialResources.remove({
+                _id: socialResourceId
+            })
+        }
+    }
+});

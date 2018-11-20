@@ -9,7 +9,7 @@ import swal from 'sweetalert2'
 Template.main.events({
 	'click a, click .btn': (event, templateInstance) => {
 		if (!Meteor.userId()) {
-			if (!~['home', 'projects'].indexOf(FlowRouter.current().route.name) && !$(event.currentTarget).hasClass('nav-link')) {
+			if (!~['home', 'projects', 'search'].indexOf(FlowRouter.current().route.name) && !$(event.currentTarget).hasClass('nav-link')) {
 				event.stopImmediatePropagation()
 				event.stopPropagation()
 				event.preventDefault()

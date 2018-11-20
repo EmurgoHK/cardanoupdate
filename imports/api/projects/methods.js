@@ -209,7 +209,7 @@ export const editProject = new ValidatedMethod({
             if (project.createdBy !== Meteor.userId()) {
                 throw new Meteor.Error('Error.', 'You can\'t edit a project that you haven\'t added.')
             }
-
+            
             if(!isTesting) {
                 var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, captcha);
 
@@ -234,6 +234,13 @@ export const editProject = new ValidatedMethod({
                     id: tag._id
                 })
             }
+
+            // unmention removed tags
+            project.tags.filter(tag => 
+                !tags.some(t => t.id == tag.id)).forEach(tag => {
+                    removeTag(tag.id)
+                })
+
 
             if (tags != undefined) {
                 tags.forEach(tag => {
