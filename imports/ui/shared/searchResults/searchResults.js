@@ -8,6 +8,8 @@ import { Research } from '/imports/api/research/research';
 import { socialResources } from '/imports/api/socialResources/socialResources';
 import { Warnings } from '/imports/api/warnings/warnings';
 
+import moment from "moment";
+
 Template.searchResults.onCreated(function() {
   this.sort = new ReactiveVar("date-desc");
   this.titleSort = new ReactiveVar("");
@@ -87,8 +89,9 @@ Template.searchResults.onRendered(function() {
         }, opts)).map(p => ({type: 'warning', res: p, date: p.createdAt, titleText: p.headline})));
       }
     } else {
+      const now = moment().utc().format('YYYY-MM-DD[T]HH:mm');
       if (data.types.includes('events'))
-        res = res.concat(Events.find({}, opts).map(p => ({type: 'event', res: p, date: p.createdAt, titleText: p.headline})));
+        res = res.concat(Events.find(data.hidePastEvents ? {end_date: {$gt: now}} : {}, opts).map(p => ({type: 'event', res: p, date: p.createdAt, titleText: p.headline})));
       
       if (data.types.includes('projects'))
         res = res.concat(Projects.find({}, opts).map(p => ({type: 'project', res: p, date: p.createdAt, titleText: p.headline})));
