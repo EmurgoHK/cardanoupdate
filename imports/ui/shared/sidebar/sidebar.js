@@ -11,13 +11,17 @@ Template.sidebar.helpers({
 
 Template.sidebar.events({
     'click .sidebar-minimizer': function() {
-        $('body').toggleClass("sidebar-minimized")
-        // $('body').toggleClass("sidebar-show")
+      $('body').toggleClass("sidebar-minimized")
+      // $('body').toggleClass("sidebar-show")
     },
     'click .nav-item': function() {
     	//only close the side bar when the screen size is less that 400pixel e.g. mobile devices
-        if ($(window).width() < 400) {
-            $('body').removeClass("sidebar-lg-show")
-        }
+      if ($(window).width() < 400) {
+        $('body').removeClass("sidebar-lg-show")
+      }
+    },
+    'click .nav-dropdown-toggle' (event, template) {
+      event.preventDefault()
+      $(event.currentTarget).closest('.nav-dropdown').toggleClass('open')
     }
 })
