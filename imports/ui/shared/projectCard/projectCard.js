@@ -42,7 +42,7 @@ Template.projectCard.events({
     const project = Template.currentData().project;
 
     swal({
-      text: `Website is not available. If you know this information, please contribute below:`,
+      text: TAPi18n.__('projects.view.no_web'),
       type: "warning",
       showCancelButton: true,
       input: "text"
@@ -59,7 +59,7 @@ Template.projectCard.events({
             if (err) {
               notify(err.reason || err.message, "error");
             } else {
-              notify("Successfully contributed.", "success");
+              notify(TAPi18n.__('projects.view.success_contrib'), "success");
             }
           }
         );
@@ -70,7 +70,7 @@ Template.projectCard.events({
     event.preventDefault();
     const project = Template.currentData().project;
     swal({
-      text: `Are you sure you want to remove this Project? This action is not reversible.`,
+      text: TAPi18n.__('projects.card.are_you_sure'),
       type: "warning",
       showCancelButton: true
     }).then(confirmed => {
@@ -91,11 +91,11 @@ Template.projectCard.events({
   "click .no-github"(event, _tpl) {
     event.preventDefault();
     swal({
-      title: "Missing source repository",
-      text: "This project does't contain any link to the source repository",
+      title: TAPi18n.__('projects.view.missing_repo'),
+      text: TAPi18n.__('projects.view.missing_info'),
       type: "warning",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Okay"
+      confirmButtonText: TAPi18n.__('projects.view.ok')
     });
   },
   "click .flag-project": function(event, templateInstance) {

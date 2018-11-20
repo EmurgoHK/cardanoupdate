@@ -21,7 +21,7 @@ Template.tagInput.onRendered(function() {
         tags: true,
         tokenSeparators: [' ', ','],
         allowClear: true,
-        placeholder: 'Add a tags separated by comma(,) e.g. crypto,wallet'
+        placeholder: TAPi18n.__('shared.tags.placeholder')
     })
 })
 

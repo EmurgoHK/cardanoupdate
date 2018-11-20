@@ -89,7 +89,7 @@ Template.viewProject.helpers({
 	tagUrl: (tag) => `/tags?search=${encodeURIComponent(tag.name)}`,
 	commentSuccess: () => {
 		return () => {
-			notify('Successfully commented.', 'success');
+			notify(TAPi18n.__('projects.view.success'), 'success');
 		}
 	},
 })
@@ -108,7 +108,7 @@ Template.viewProject.events({
         }
 
         swal({
-            text: `GitHub repo is not available. If you know this information, please contribute below:`,
+            text: TAPi18n.__('projects.view.no_gh'),
             type: 'warning',
             showCancelButton: true,
             input: 'text'
@@ -123,7 +123,7 @@ Template.viewProject.events({
                     if (err) {
                         notify(err.reason || err.message, 'error')
                     } else {
-                        notify('Successfully contributed.', 'success')
+                        notify(TAPi18n.__('projects.view.success_contrib'), 'success')
                     }
                 })
             }
@@ -135,7 +135,7 @@ Template.viewProject.events({
         }
 
         swal({
-            text: `Website is not available. If you know this information, please contribute below:`,
+            text: TAPi18n.__('projects.view.no_web'),
             type: 'warning',
             showCancelButton: true,
             input: 'text'
@@ -150,7 +150,7 @@ Template.viewProject.events({
                     if (err) {
                         notify(err.reason || err.message, 'error')
                     } else {
-                        notify('Successfully contributed.', 'success')
+                        notify(TAPi18n.__('projects.view.success_contrib'), 'success')
                     }
                 })
             }
@@ -158,13 +158,12 @@ Template.viewProject.events({
     },
     'click .projectWarning' (event, _tpl) {
         event.preventDefault()
-        console.log('here')
         swal({
-            title: 'Missing source repository',
-            text: "This project does't contain any link to the source repository",
+            title: TAPi18n.__('projects.view.missing_repo'),
+            text: TAPi18n.__('projects.view.missing_info'),
             type: 'warning',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Okay'
+            confirmButtonText: TAPi18n.__('projects.view.ok')
         })
     }
 })

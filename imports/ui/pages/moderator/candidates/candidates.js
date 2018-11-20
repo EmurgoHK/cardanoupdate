@@ -43,7 +43,7 @@ Template.candidates.events({
 			if (err) {
 				notify(err.reason || err.message, 'error')
 			} else {
-				notify('Successfully promoted.', 'success')
+				notify(TAPi18n.__('mod.candidates.success'), 'success')
 			}
 		})
 	}

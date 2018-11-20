@@ -3,26 +3,26 @@
       <div class="card mb-5">
         <div class="card-body">
           <h2 class="card-title">
-            {{#if add}}New{{else}}Edit{{/if}} FAQ
+            {{#if add}}{{_ "faq.new_form"}}{{else}}{{_ "faq.edit"}}{{/if}} FAQ
           </h2>
           <hr>
           <form>
-            <div class="group-title">Question</div>
+            <div class="group-title">{{_ "faq.question"}}</div>
             <div class="input-group">
-              <input type="text" class="form-control" id="question" value="{{faq.question}}" placeholder="FAQ question in 90 chars or less">
+              <input type="text" class="form-control" id="question" value="{{faq.question}}" placeholder='{{_ "faq.question_placeholder"}}'>
               <div id="questionError" class="invalid-feedback"></div>
             </div>
             <small><i id="title-chars" class="text-muted"></i></small>
-            <div class="group-title">Answer</div>
+            <div class="group-title">{{_ "faq.answer"}}</div>
             <div class="input-group">
-              <textarea class="form-control" id="answer" rows="8" value="{{faq.answer}}" placeholder="FAQ answer in 260 characters or less"></textarea>
+              <textarea class="form-control" id="answer" rows="8" value="{{faq.answer}}" placeholder='{{_ "faq.answer_placeholder"}}'></textarea>
               <div id="answerError" class="invalid-feedback"></div>
             </div>
           </form>
         </div>
         <div class="card-footer">
           <div>
-            <button type="submit" class="btn btn-lg btn-success new-faq">Submit</button>
+            <button type="submit" class="btn btn-lg btn-success new-faq">{{_ "faq.submit"}}</button>
           </div>
         </div>
       </div>

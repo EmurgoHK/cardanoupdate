@@ -2,7 +2,7 @@
   <div class="container">
   <div class="row">
       <div class="col-sm-12">
-          <h2>{{#if add}} New Community {{else}} Edit Community {{/if}}</h2>
+          <h2>{{#if add}} {{_ "community.form.new"}} {{else}} {{_ "community.form.edit"}} {{/if}}</h2>
       </div>
   </div>
   <hr>
@@ -12,22 +12,22 @@
               <div class="card-body">
                   <form class="news-form">
 
-                      <div class="group-title">Name</div>
+                      <div class="group-title">{{_ "community.form.name"}}</div>
                       <div class="input-group">
-                          <input type="text" class="form-control" id="Name" value="{{Resource.Name}}" placeholder="Name in 25 characters or less">
+                          <input type="text" class="form-control" id="Name" value="{{Resource.Name}}" placeholder='{{_ "community.form.name_placeholder"}}'>
                           <div id="NameError" class="invalid-feedback"></div>
                       </div>
                       <small><i id="Name-chars" class="text-muted"></i></small>
 
-                      <div class="group-title">URL</div>
+                      <div class="group-title">{{_ "community.form.url"}}</div>
                       <div class="input-group">
-                          <input type="text" class="form-control" id="Resource_url" value="{{Resource.Resource_url}}" placeholder="Community link">
+                          <input type="text" class="form-control" id="Resource_url" value="{{Resource.Resource_url}}" placeholder='{{_ "community.form.url_placeholder"}}'>
                           <div id="Resource_urlError" class="invalid-feedback"></div>
                       </div>
 
-                      <div class="group-title">Description</div>
+                      <div class="group-title">{{_ "community.form.desc"}}</div>
                       <div class="input-group">
-                          <textarea class="form-control" id="description" rows="8" value="{{Resource.description}}" placeholder="Community description in 260 characters or less"></textarea>
+                          <textarea class="form-control" id="description" rows="8" value="{{Resource.description}}" placeholder='{{_ "community.form.desc_placeholder"}}'></textarea>
                           <div id="descriptionError" class="invalid-feedback"></div>
                       </div>
                       <small><i id="description-chars" class="text-muted"></i></small>
@@ -42,7 +42,7 @@
               </div>
               <div class="card-footer">
                   <div>
-                      <button type="submit" class="btn btn-lg btn-success add-socialResource">Submit</button>
+                      <button type="submit" class="btn btn-lg btn-success add-socialResource">{{_ "community.form.submit"}}</button>
                   </div>
               </div>
           </div>

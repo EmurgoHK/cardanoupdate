@@ -32,11 +32,11 @@ Template.eventCard.helpers({
     const event = Template.currentData().event;
     let now = moment();
     if (moment(event.start_date) > now && moment(event.end_date) > now) {
-      return "upcoming-event";
+      return TAPi18n.__('events.card.upcoming');
     } else if (moment(event.start_date) <= now && now <= moment(event.end_date)) {
-      return "ongoing-event";
+      return TAPi18n.__('events.card.ongoing');
     } else {
-      return "past-event";
+      return TAPi18n.__('events.card.past')
     }
   }
 });
@@ -47,7 +47,7 @@ Template.eventCard.events({
 
     const event = Template.currentData().event;
     swal({
-      text: `Are you sure you want to remove this Event? This action is not reversible.`,
+      text: TAPi18n.__('events.card.are_you_sure'),
       type: "warning",
       showCancelButton: true
     }).then(confirmed => {

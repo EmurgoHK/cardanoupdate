@@ -3,37 +3,37 @@
     <div class="card mb-5">
       <div class="card-body">
         <h2 class="card-title">
-            {{#if add}}New research{{else}}Edit research{{/if}}
+            {{#if add}}{{_ "research.form.new"}}{{else}}{{_ "research.form.edit"}}{{/if}}
         </h2>
         <hr>
         <form class="researchForm">
-          <div class="group-title">Name</div>
+          <div class="group-title">{{_ "research.form.name"}}</div>
           <div class="input-group">
-            <input type="text" class="form-control" id="headline" value="{{research.headline}}" placeholder="Name in 160 characters or less">
+            <input type="text" class="form-control" id="headline" value="{{research.headline}}" placeholder='{{_ "research.form.name_placeholder"}}'>
             <div id="headlineError" class="invalid-feedback"></div>
           </div>
           <small><i id="headline-chars" class="text-muted"></i></small>
-          <div class="group-title">Abstract</div>
+          <div class="group-title">{{_ "research.form.abstract"}}</div>
           <div class="input-group">
-            <textarea class="form-control" id="abstract" rows="6" value="{{research.abstract}}" placeholder="Research paper abstract"></textarea>
+            <textarea class="form-control" id="abstract" rows="6" value="{{research.abstract}}" placeholder='{{_ "research.form.abstract_placeholder"}}'></textarea>
             <div id="abstractError" class="invalid-feedback"></div>
           </div>
           <!-- <small><i id="abstract-chars" class="text-muted"></i></small> -->
-          <div class="group-title">PDF file</div>
+          <div class="group-title">{{_ "research.form.pdf"}}</div>
           {{> uploader files=pdf single=true type='pdf'}}
           <div id="pdfError" class="invalid-feedback"></div>
-          <div class="group-title"> Links </div>
+          <div class="group-title"> {{_ "research.form.links"}} </div>
           <ul class="added-links">
             {{#each link in links}}
               <li class="input-group">
-                <input type="text" class="form-control linkDisplayName" data-index="{{@index}}" maxlength="25" placeholder="Display name in 25 characters or less" value={{link.displayName}} >
+                <input type="text" class="form-control linkDisplayName" data-index="{{@index}}" maxlength="25" placeholder='{{_ "research.form.links_placeholder"}}' value={{link.displayName}} >
                 <input type="text" class="form-control linkUrl" data-index="{{@index}}" placeholder="URL" value="{{link.url}}">
                 <button class="btn btn-link remove-link" data-index="{{@index}}"> <i class="fas fa-trash"></i></button>
                 <div id="links_{{@index}}_urlError" class="invalid-feedback"></div>
                 <div id="links_{{@index}}_displayNameError" class="invalid-feedback"></div>
               </li>
             {{/each}}
-            <button class="btn btn-link" id="add-link">Add</button>
+            <button class="btn btn-link" id="add-link">{{_ "research.form.add"}}</button>
           </ul>
           <div class="input-group">
               {{> reCAPTCHA}}
@@ -43,7 +43,7 @@
       </div>
       <div class="card-footer">
         <div>
-          <button type="submit" class="btn btn-lg btn-success new-research">Submit</button>
+          <button type="submit" class="btn btn-lg btn-success new-research">{{_ "research.form.submit"}}</button>
         </div>
       </div>
     </div>

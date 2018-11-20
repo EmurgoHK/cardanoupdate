@@ -103,7 +103,7 @@ Template.viewSocialResourceTemp.helpers({
 	},
 	commentSuccess: () => {
 		return () => {
-			notify('Successfully commented.', 'success');
+			notify(TAPi18n.__('community.view.success'), 'success');
 		}
 	},
 })

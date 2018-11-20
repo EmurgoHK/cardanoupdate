@@ -1,0 +1,46 @@
+{
+	"events": {
+		"form": {
+			"new": "New Event",
+			"edit": "Edit Event",
+			"name": "Name",
+			"name_placeholder": "Name in 90 characters or less",
+			"duration": "Event Duration",
+			"desc": "Description",
+			"desc_placeholder": "Event description",
+			"location": "Location",
+			"location_placeholder": "Event Location",
+			"rsvp": "RSVP link",
+			"rsvp_placeholder": "Where should people RSVP if they want to attend this event?",
+			"submit": "Submit",
+			"chars_left": "characters left",
+			"success_edit": "Successfully edited.",
+			"success_add": "Successfully added."
+		},
+		"main": {
+			"add": "Add Event",
+			"events": "Events",
+			"desc": "Any Cardano related events, anywhere in the world."
+		},
+		"view": {
+			"edit": "Edit Event",
+			"by": "Added by",
+			"to": "to",
+			"rsvp": "RSVP Link",
+			"following": "Following",
+			"follow": "Follow",
+			"unfollow": "Unfollow",
+			"comment": "Comment",
+			"success": "Successfully commented."
+		},
+		"card": {
+			"started": "Started",
+			"starts": "Starts on",
+			"rsvp": "RSVP Link",
+			"are_you_sure": "Are you sure you want to remove this Event? This action is not reversible.",
+			"past": "past-event",
+			"ongoing": "ongoing-event",
+			"upcoming": "upcoming-event"
+		}
+	}
+}

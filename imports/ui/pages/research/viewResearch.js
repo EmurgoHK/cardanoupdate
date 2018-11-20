@@ -85,7 +85,7 @@ Template.viewResearch.events({
       		$('#comments').val('')
 			
 			if (!err) {
-				notify('Successfully commented.', 'success')
+				notify(TAPi18n.__('research.view.success'), 'success')
 				templateInstance.message.set('')
 			} else {
 				templateInstance.message.set(err.reason || err.message)

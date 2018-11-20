@@ -1,7 +1,7 @@
 <template name="projectCard">
   <div class="card project">
     {{#if displayTypeLabel}}
-    <p class="home-label bg-primary">Project</p>
+    <p class="home-label bg-primary">{{_ "projects.card.project"}}</p>
     {{/if}}
     <div class="card-body">
       <h4 class="card-title">
@@ -17,7 +17,7 @@
       <a href="#" class="no-github card-link"><img style="max-width: 1.5em; margin-top: -.125em;" src="/img/no-github.png" alt="no github repo"></a>
       {{/if}}
       <a href="{{project.website}}" 
-        title="{{#if project.website }}Go to {{project.website}} {{else}} Suggest a website {{/if}}" 
+        title='{{#if project.website }}{{_ "projects.card.go_to"}} {{project.website}} {{else}} {{_ "projects.card.suggest"}} {{/if}}'
         class="website card-link" 
         target="_blank">
         <i class="fas fa-external-link-alt fa-lg"></i>

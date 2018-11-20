@@ -4,11 +4,11 @@
     <div class="col-sm-12">
       {{#if SubsCacheReady}}
         {{#with socialResource}}
-        {{#if isOwner}}<a href="/community/{{_id}}/edit" class="btn btn-primary btn-sm float-right"><i class="fas fa-edit"></i> Edit Community</a>{{/if}}
+        {{#if isOwner}}<a href="/community/{{_id}}/edit" class="btn btn-primary btn-sm float-right"><i class="fas fa-edit"></i> {{_ "community.view.edit"}}</a>{{/if}}
         <h1 class="card-title text-dark mt-3"><strong>{{Name}}</strong></h1>
         <h5 class="card-subtitle mb-3 mt-3">
             <ul class="list-inline">
-              <li class="list-inline-item">Posted by <strong><span class="name">{{> userNameDisplay author}}</span></strong></li>
+              <li class="list-inline-item">{{_ "community.view.by"}} <strong><span class="name">{{> userNameDisplay author}}</span></strong></li>
               <li class="list-inline-item"><i class="icon-clock" style="vertical-align: middle"></i>&nbsp;{{showTimeAgoTimestamp createdAt}}</li>
               <li class="list-inline-item"><i class="icon-speech" style="vertical-align: middle"></i>&nbsp;{{coolCount}}</li>
               <li class="list-inline-item"><i class="icon-flag" style="vertical-align: middle"></i>&nbsp;{{flagCount}}</li>
@@ -25,7 +25,7 @@
               {{#if tags.length}}
                 <div class="row">
                   <div class="col-sm-12">
-                      <div>Tags</div>
+                      <div>{{_ "community.view.tags"}}</div>
                       {{#each tags}}
                         <a class="badge badge-pill badge-primary" href="{{tagUrl this}}">{{tagName this}}</a>
                       {{/each}}
@@ -36,7 +36,7 @@
               <div class="row">
                 <div class="col-sm-12">
                   <a href="{{Resource_url}}" 
-                    title="{{#if Resource_url }}Go to {{Resource_url}} {{else}} Suggest a website {{/if}}" 
+                    title='{{#if Resource_url }}{{_ "community.view.go_to"}} {{Resource_url}} {{else}} {{_ "community.view.suggest"}} {{/if}}'
                     class="btn btn-secondary website" 
                     target="_blank">
                     <i class="{{resourceUrlClass this.resourceUrlType}} fa-lg"></i>
@@ -50,7 +50,7 @@
           <div class="col-sm-6 project-form comments">
             <div class="card">
               <div class="card-body">
-                <h4 class="card-title text-dark mt-3">Cool stuff</h4>
+                <h4 class="card-title text-dark mt-3">{{_ "community.view.cool"}}</h4>
                 <div style="max-height: 500px;overflow-y: auto;">
                 {{#each coolStuff}}
                   {{> commentBody ident=0 comment=this _id=socialResource._id type="coolstuff"}}
@@ -66,7 +66,7 @@
           <div class="col-sm-6 project-form comments">
             <div class="card">
               <div class="card-body">
-                <h4 class="card-title text-dark mt-3">Red flags</h4>
+                <h4 class="card-title text-dark mt-3">{{_ "community.view.red_flags"}}</h4>
                 <div style="max-height: 500px;overflow-y: auto;">
                 {{#each redFlags}}
                   {{> commentBody ident=0 comment=this _id=socialResource._id type="redflag"}}

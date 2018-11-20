@@ -40,11 +40,11 @@ Template.viewLearn.helpers({
     let level = this.difficultyLevel
     if(level){
       if(level == 'beginner'){
-        return `<span class="text-success" title="Difficulty Level"><i class="fa fa-circle"></i> ${level}</span>`
+        return `<span class="text-success" title="Difficulty Level"><i class="fa fa-circle"></i> ${TAPi18n.__(`learn.view.${level}`)}</span>`
       } else if (level == 'intermediate') {
-        return `<span class="text-warning" title="Difficulty Level"><i class="fa fa-circle"></i> ${level}</span>`
+        return `<span class="text-warning" title="Difficulty Level"><i class="fa fa-circle"></i> ${TAPi18n.__(`learn.view.${level}`)}</span>`
       } else {
-        return `<span class="text-danger" title="Difficulty Level"><i class="fa fa-circle"></i> ${level}</span>`
+        return `<span class="text-danger" title="Difficulty Level"><i class="fa fa-circle"></i> ${TAPi18n.__(`learn.view.${level}`)}</span>`
       }
     }
     return false
@@ -76,7 +76,7 @@ Template.viewLearn.helpers({
 	tagUrl: (tag) => `/tags?search=${encodeURIComponent(tag.name)}`,
 	commentSuccess: () => {
 		return () => {
-			notify('Successfully commented.', 'success');
+			notify(TAPi18n.__('learn.view.success'), 'success');
 		}
 	},
 })

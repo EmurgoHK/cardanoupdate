@@ -1,7 +1,7 @@
 <template name="socialResourceCard">
   <div class="card socialResource">
     {{#if displayTypeLabel}}
-    <p class="home-label bg-info">Community</p>
+    <p class="home-label bg-info">{{_ "community.card.community"}}</p>
     {{/if}}
     <div class="card-body">
       <h4 class="card-title">
@@ -12,7 +12,7 @@
       </p>
       <hr>
       <a href="{{socialResource.Resource_url}}" 
-        title="{{#if socialResource.Resource_url }}Go to {{socialResource.Resource_url}} {{else}} Suggest a website {{/if}}" 
+        title='{{#if socialResource.Resource_url }}{{_ "community.card.go_to"}} {{socialResource.Resource_url}} {{else}} {{_ "community.card.suggest"}} {{/if}}'
         class="website card-link" 
         target="_blank">
           <i class="{{resourceUrlClass socialResource.resourceUrlType}} fa-lg"></i>

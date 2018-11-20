@@ -58,7 +58,7 @@ import { flagWarning } from '/imports/api/warnings/methods'
 	tagUrl: (tag) => `/tags?search=${encodeURIComponent(tag.name)}`,
 	commentSuccess: () => {
 		return () => {
-			notify('Successfully commented.', 'success');
+			notify(TAPi18n.__('warnings.view.success'), 'success');
 		}
 	},
 })
@@ -68,11 +68,11 @@ import { flagWarning } from '/imports/api/warnings/methods'
 			slug: FlowRouter.getParam('slug')
 		}) || {}
  		swal({
-		  	title: 'Why are you flagging this?',
+		  	title: TAPi18n.__('warnings.view.flag_reason'),
 		  	input: 'text',
 		  	showCancelButton: true,
 		  	inputValidator: (value) => {
-		    	return !value && 'You need to write a valid reason!'
+		    	return !value && TAPi18n.__('warnings.view.invalid_reason')
 		  	}
 		}).then(data => {
 			if (data.value) {
@@ -83,7 +83,7 @@ import { flagWarning } from '/imports/api/warnings/methods'
 					if (err) {
 						notify(err.reason || err.message, 'error')
 					} else {
-						notify('Successfully flagged. Moderators will decide what to do next.', 'success')
+						notify(TAPi18n.__('warnings.view.success_flag'), 'success')
 					}
 				})
 			}

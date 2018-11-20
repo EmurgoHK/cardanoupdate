@@ -17,7 +17,7 @@ Template.socialResourcesTemp.helpers({
     searchArgs() {
         const instance = Template.instance();
         return {
-            placeholder:"Search communities",
+            placeholder: TAPi18n.__('community.main.search'),
             type: 'socialResources',
             onChange: (newTerm) => instance.searchFilter.set(newTerm),
         }

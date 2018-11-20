@@ -172,7 +172,7 @@ Template.eventForm.events({
     let inputId = event.target.id
     let inputValue = event.target.value
     let inputMaxChars = maxCharValue(inputId) - parseInt(inputValue.length)
-    let charsLeftText = `${inputMaxChars} characters left`
+    let charsLeftText = `${inputMaxChars} ${TAPi18n.__('events.form.chars_left')}`
 
     $(`#${inputId}-chars`).text(charsLeftText)
 
@@ -214,7 +214,7 @@ Template.eventForm.events({
         }
       }, (err, _data) => {
         if (!err) {
-          notify('Successfully edited.', 'success')
+          notify(TAPi18n.__('events.form.success_edit'), 'success')
           FlowRouter.go('/events')
           return
         }
@@ -248,7 +248,7 @@ Template.eventForm.events({
       }
     }, (err, data) => {
       if (!err) {
-        notify('Successfully added.', 'success')
+        notify(TAPi18n.__('events.form.success_add'), 'success')
         FlowRouter.go('/events')
         return
       }

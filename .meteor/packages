@@ -47,3 +47,4 @@ session
 http
 altapp:recaptcha
 ejson
+tap:i18n

@@ -53,7 +53,7 @@ Template.changes.events({
 			if (err) {
 				notify(err.reason || err.message, 'error')
 			} else {
-				notify('Successfully merged.', 'success')
+				notify(TAPi18n.__('mod.changes.success_merge'), 'success')
 			}
 		})
 	},
@@ -68,7 +68,7 @@ Template.changes.events({
 			if (err) {
 				notify(err.reason || err.message, 'error')
 			} else {
-				notify('Successfully rejected.', 'success')
+				notify(TAPi18n.__('mod.changes.success_reject'), 'success')
 			}
 		})
 	},

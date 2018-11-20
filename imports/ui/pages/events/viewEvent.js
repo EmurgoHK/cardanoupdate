@@ -83,7 +83,7 @@ Template.viewEvent.events({
 		}, (err, data) => {
       $('#comments').val('')
 			if (!err) {
-				notify('Successfully commented.', 'success')
+				notify(TAPi18n.__('events.view.success'), 'success')
 				templateInstance.message.set('')
 			} else {
 				templateInstance.message.set(err.reason || err.message)

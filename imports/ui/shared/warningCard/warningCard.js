@@ -30,67 +30,12 @@ Template.warningCard.helpers({
   },
 });
 Template.warningCard.events({
-  // Remove comments if user is allowed to propose changes
-  /*
-    'click .github': function(event, temlateInstance) {
-        if ($(event.currentTarget).attr('href')) {
-            return
-        }
-         swal({
-            text: `GitHub repo is not available. If you know this information, please contribute below:`,
-            type: 'warning',
-            showCancelButton: true,
-            input: 'text'
-        }).then(val => {
-            if (val.value) {
-                proposeNewDataWarning.call({
-                    projectId: this._id,
-                    datapoint: 'github_url',
-                    newData: val.value,
-                    type: 'link'
-                }, (err, data) => {
-                    if (err) {
-                        notify(err.reason || err.message, 'error')
-                    } else {
-                        notify('Successfully contributed.', 'success')
-                    }
-                })
-            }
-        })
-    },
-    'click .website': function(event, temlateInstance) {
-        if ($(event.currentTarget).attr('href')) {
-            return
-        }
-         swal({
-            text: `Website is not available. If you know this information, please contribute below:`,
-            type: 'warning',
-            showCancelButton: true,
-            input: 'text'
-        }).then(val => {
-            if (val.value) {
-                proposeNewDataWarning.call({
-                    projectId: this._id,
-                    datapoint: 'website',
-                    newData: val.value,
-                    type: 'link'
-                }, (err, data) => {
-                    if (err) {
-                        notify(err.reason || err.message, 'error')
-                    } else {
-                        notify('Successfully contributed.', 'success')
-                    }
-                })
-            }
-        })
-    },
-    */
   "click #js-remove": function(event, _) {
     event.preventDefault();
 
     const warning = Template.currentData().warning;
     swal({
-      text: `Are you sure you want to remove this Project? This action is not reversible.`,
+      text: TAPi18n.__('warnings.card.are_you_sure'),
       type: "warning",
       showCancelButton: true
     }).then(confirmed => {
@@ -108,26 +53,16 @@ Template.warningCard.events({
       }
     });
   },
-  "click .projectWarning"(event, _tpl) {
-    event.preventDefault();
-    swal({
-      title: "Missing source repository",
-      text: "This project does't contain any link to the source repository",
-      type: "warning",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Okay"
-    });
-  },
   "click .flag-warning": function(event, templateInstance) {
     event.preventDefault();
     
     const warning = Template.currentData().warning;
     swal({
-      title: "Why are you flagging this?",
+      title: TAPi18n.__('warnings.card.flag_reason'),
       input: "text",
       showCancelButton: true,
       inputValidator: value => {
-        return !value && "You need to write a valid reason!";
+        return !value && TAPi18n.__('warnings.card.invalid_reason');
       }
     }).then(data => {
       if (data.value) {
@@ -141,7 +76,7 @@ Template.warningCard.events({
               notify(err.reason || err.message, "error");
             } else {
               notify(
-                "Successfully flagged. Moderators will decide what to do next.",
+                TAPi18n.__('warnings.card.success_flag'),
                 "success"
               );
             }

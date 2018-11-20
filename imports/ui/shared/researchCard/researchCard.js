@@ -35,7 +35,7 @@ Template.researchCard.events({
 
     const research = Template.currentData().research;
     swal({
-      text: `Are you sure you want to remove this research papaer? This action is not reversible.`,
+      text: TAPi18n.__('research.card.are_you_sure'),
       type: "warning",
       showCancelButton: true
     }).then(confirmed => {
