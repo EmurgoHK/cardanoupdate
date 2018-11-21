@@ -3,10 +3,10 @@
     <i class="fas fa-ellipsis-h dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
     <div class="dropdown-menu">
       {{#if edit}}
-        <a class="dropdown-item" id="js-edit" href={{edit}}><i class="icon-pencil"></i>Edit</a>
-        <a class="dropdown-item text-danger" id="js-remove" href="#"><i class="icon-trash text-danger"></i>Delete</a>
+        <a class="dropdown-item" id="js-edit" href={{edit}}><i class="icon-pencil"></i>{{_ "shared.flag.edit"}}</a>
+        <a class="dropdown-item text-danger" id="js-remove" href="#"><i class="icon-trash text-danger"></i>{{_ "shared.flag.delete"}}</a>
       {{else}}
-        <a class="dropdown-item flag-{{item}}" href="#" title="Report"><i class="icon-flag"></i> Report</a>
+        <a class="dropdown-item flag-{{item}}" href="#" title='{{_ "shared.flag.report"}}'><i class="icon-flag"></i> {{_ "shared.flag.report"}}</a>
       {{/if}}
     </div>
   </div>

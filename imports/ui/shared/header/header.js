@@ -53,9 +53,22 @@ Template.header.events({
     $(".searchModal").fadeOut();
     $(".backdrop").fadeOut();
   },
+  'change #selectLanguage': (event, templateInstance) => {
+    event.preventDefault()
+    TAPi18n.setLanguage(event.target.value)
+  }
 })
 
 Template.header.helpers({
+  languages: () => {
+    return Object.keys(TAPi18n.languages_names).map(key => {
+      return {
+          code: key,
+        name: TAPi18n.languages_names[key][1],
+        selected: key === TAPi18n.getLanguage()
+      }
+    })
+  },
   notificationsCount: () => Notifications.find({
     userId: Meteor.userId(),
     read: false,

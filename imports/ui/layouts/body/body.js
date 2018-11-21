@@ -31,6 +31,11 @@ Template.main.helpers({
         let bc = Session.get('breadcrumbs') || {}
         
         if (bc && bc.text) {
+        	bc.text = TAPi18n.__(`breadcrumbs.${bc.text}`, {
+      			postProcess: 'sprintf',
+      			sprintf: [bc.name || '']
+    		})
+
           let crumbs = bc.text.split('/')
           bc.urls = bc.urls || []
           bc.urls.push(FlowRouter.current().path)
@@ -40,13 +45,8 @@ Template.main.helpers({
                   i = FlowRouter.getParam(bc.param)
 
               if (i !== undefined) {
-                  let text = `breadcrumbs.${i.trim()}`
-
-                  if (text.split('.')[0] === 'breadcrumbs')
-                      text = text.split('.')[text.split('.').length - 1]
-
                   return {
-                      text: text,
+                      text: i,
                       url: bc.urls[ind],
                       notLast: ind !== crumbs.length - 1
                   }

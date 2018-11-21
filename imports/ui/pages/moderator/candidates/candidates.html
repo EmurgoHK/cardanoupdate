@@ -2,7 +2,7 @@
     <div class="news-list container">
         <div class="row">
             <div class="col-sm-12">
-                <h2>Moderator candidates</h2>
+                <h2>{{_ "mod.candidates.candidates"}}</h2>
             </div>
         </div>
         <hr>
@@ -17,21 +17,21 @@
                         <div class="col-sm-12 card news-item">
                             <div class="card-body">
                                 <div class="actions">
-                                    <a class="btn btn-sm btn-success" id="js-promote" href="#" role="button" title="Promote">
-                                        Promote
+                                    <a class="btn btn-sm btn-success" id="js-promote" href="#" role="button" title='{{_ "mod.candidates.promote"}}'>
+                                        {{_ "mod.candidates.promote"}}
                                     </a>
                                 </div>
                                 <span class="card-title">
                                     {{> userNameDisplay this}}
                                 </span>
-                                <p class="card-text">Input rating : {{fixed rating}}<br>Total input : {{totalInput}}<br>Rank : {{rank}}</p>
+                                <p class="card-text">{{_ "mod.candidates.rating"}}: {{fixed rating}}<br>{{_ "mod.candidates.total"}}: {{totalInput}}<br>{{_ "mod.candidates.rank"}}: {{rank}}</p>
                             </div>
                         </div>
                     {{/each}}
                     </div>
                 {{else}}
                     <div class="mt-3">
-                        <h3>No candidates found!</h3>
+                        <h3>{{_ "mod.candidates.no_candidates"}}</h3>
                     </div>
                 {{/if}}
                 {{else}}
@@ -40,7 +40,7 @@
                 </div>
             </div>
             {{else}}
-                <h3>You have to be a moderator.</h3>
+                <h3>{{_ "mod.mod_only"}}</h3>
             {{/if}}
         </div>
     </div>

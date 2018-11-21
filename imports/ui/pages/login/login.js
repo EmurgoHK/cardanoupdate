@@ -52,7 +52,7 @@ Template.passwordReset.events({
           notify(err.reason || err.message, 'error')
           return
         } else {
-          notify('Please check your mail box for password reset link.', 'success')
+          notify(TAPi18n.__('sign.login.check'), 'success')
         }
       });
     }

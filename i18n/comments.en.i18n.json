@@ -1,0 +1,20 @@
+{
+	"comments": {
+		"flag": "Flag",
+		"edit": "Edit",
+		"delete": "Delete",
+		"by": "By",
+		"reply": "Reply",
+		"hide_replies": "Hide replies",
+		"show_replies": "Show replies",
+		"success": "Successfully commented.",
+		"success_edit": "Successfully edited comment.",
+		"flag_reason": "Why are you flagging this?",
+		"invalid_reason": "You need to write a valid reason!",
+		"success_flag": "Successfully flagged. Moderators will decide what to do next.",
+		"remove_question": "Are you sure you want to remove this comment? This action is not reversible.",
+		"cancel": "Cancel",
+		"comment": "Comment",
+		"placeholder": "Comment something!"
+	}
+}

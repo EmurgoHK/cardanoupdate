@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-12">
-        <h2>{{#if add}} New Project {{else}} Edit Project {{/if}}</h2>
+        <h2>{{#if add}} {{_ "projects.form.new"}} {{else}} {{_ "projects.form.edit"}} {{/if}}</h2>
       </div>
     </div>
     <hr>
@@ -11,38 +11,37 @@
         <div class="card">
           <div class="card-body">
             <form class="news-form project-form">
-              <div class="group-title">Name</div>
+              <div class="group-title">{{_ "projects.form.name"}}</div>
               <div class="input-group">
-                <input type="text" class="form-control" id="headline" maxlength="90" value="{{project.headline}}" placeholder="Name in 90 characters or less">
+                <input type="text" class="form-control" id="headline" maxlength="90" value="{{project.headline}}" placeholder='{{_ "projects.form.name_placeholder"}}'>
                 <div id="headlineError" class="invalid-feedback"></div>
               </div>
               <small><i id="headline-chars" class="text-muted"></i></small>
-              <div class="group-title">Description</div>
+              <div class="group-title">{{_ "projects.form.desc"}}</div>
               <div class="input-group">
-                <textarea class="form-control" id="description" rows="8" value="{{project.description}}" placeholder="Project description"></textarea>
+                <textarea class="form-control" id="description" rows="8" value="{{project.description}}" placeholder='{{_ "projects.form.desc_placeholder"}}'></textarea>
                 <span class="instructions">
-                  <i class="icon-info"></i> Please provide a very clear description of what the project is for, what it
-                  does, or what problem it solves.
+                  <i class="icon-info"></i> {{_ "projects.form.desc_info"}}
                 </span>
                 <div id="descriptionError" class="invalid-feedback"></div>
               </div>
               <!-- <small><i id="description-chars" class="text-muted"></i></small> -->
-              <div class="group-title">Github URL</div>
+              <div class="group-title">{{_ "projects.form.gh_url"}}</div>
               <div class="input-group">
-                <input type="text" class="form-control" id="github_url" value="{{project.github_url}}" placeholder="Github link">
+                <input type="text" class="form-control" id="github_url" value="{{project.github_url}}" placeholder='{{_ "projects.form.gh_url_placeholder"}}'>
                 <div id="github_urlError" class="invalid-feedback"></div>
               </div>
               {{> tagInput values=projectTags}}
-              <div class="group-title">Website</div>
+              <div class="group-title">{{_ "projects.form.website"}}</div>
               <div class="input-group">
-                <input type="text" class="form-control" id="website" value="{{project.website}}" placeholder="Website link">
+                <input type="text" class="form-control" id="website" value="{{project.website}}" placeholder='{{_ "projects.form.website_placeholder"}}'>
               </div>
               <br />
               <div>
-                <input type="radio" name="type" value="BUILT-FOR-CARDANO"> Built <b>for</b> Cardano
-                <input type="radio" name="type" value="BUILT-ON-CARDANO"> Built <b>on</b> Cardano
+                <input type="radio" name="type" value="BUILT-FOR-CARDANO"> {{{_ "projects.form.for_cardano"}}}
+                <input type="radio" name="type" value="BUILT-ON-CARDANO"> {{{_ "projects.form.on_cardano"}}}
                 <br>
-                <small style="display: none" class="typeExp">Is this project something <b>for</b> Cardano OR something built <b>on</b> Cardano? An example of something that's <b>for</b> Cardano is a wallet or a developer library. An example of something built <b>on</b> Cardano is Traxia.</small>
+                <small style="display: none" class="typeExp">{{{_ "projects.form.built_info"}}}</small>
                 <br>
                 <div id="typeError" class="invalid-feedback"></div>
               </div>
@@ -54,7 +53,7 @@
           </div>
           <div class="card-footer">
             <div>
-              <button type="submit" class="btn btn-lg btn-success add-project">Submit</button>
+              <button type="submit" class="btn btn-lg btn-success add-project">{{_ "projects.form.submit"}}</button>
             </div>
           </div>
         </div>
@@ -70,15 +69,15 @@
             <div class="col-sm-12 card news-item">
               <div class="card-body">
                 <div class="actions">
-                  <a class="btn btn-sm btn-success" id="js-merge" href="#" role="button" title="Merge">
+                  <a class="btn btn-sm btn-success" id="js-merge" href="#" role="button" title='{{_ "projects.form.merge"}}'>
                     <i class="icon-eye"></i>
                   </a>
-                  <a class="btn btn-sm btn-danger" id="js-reject" href="#" role="button" title="Reject">
+                  <a class="btn btn-sm btn-danger" id="js-reject" href="#" role="button" title='{{_ "projects.form.reject"}}'>
                     <i class="icon-ban"></i>
                   </a>
                 </div>
                 <a class="card-title" href="/project/{{slug}}">{{headline}}</a>
-                <h6 class="card-subtitle mb-2 text-muted">{{author}} wants to propose the following new data:</h6>
+                <h6 class="card-subtitle mb-2 text-muted">{{author}} {{_ "projects.form.new_data"}}</h6>
                 <p class="card-text">{{datapoint}} - {{#if link}}<a href="{{newData}}" target="_blank">{{newData}}</a>{{else}}{{newData}}{{/if}}</p>
               </div>
             </div>
@@ -94,17 +93,17 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="projectInstructionLabel">Instructions</h5>
+            <h5 class="modal-title" id="projectInstructionLabel">{{_ "projects.form.instructions"}}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            Projects added here must be something that people can use with Cardano, for example a wallet, a developer library, a development framework, etc.
+            {{_ "projects.form.ins_desc"}}
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary foreverHideModal">Never Show Again</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{_ "projects.form.close"}}</button>
+            <button type="button" class="btn btn-primary foreverHideModal">{{_ "projects.form.dont_show"}}</button>
           </div>
         </div>
       </div>

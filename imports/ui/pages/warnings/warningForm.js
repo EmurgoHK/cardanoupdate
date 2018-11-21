@@ -46,10 +46,10 @@ import _ from 'lodash'
     $('#projectInstruction').modal('hide')
     hideInstructionModal.call({modalId : 'addWarning'}, (err, res) => {
       if (!err) {
-      notify('Successfully updated.', 'success')
+      notify(TAPi18n.__('warnings.form.success'), 'success')
         return
       } 
-      notify('Error while updating information :: '+err.reason, 'error')
+      notify(`${TAPi18n.__('warnings.form.error')} :: ${err.reason}`, 'error')
     })
   },
     'keyup .form-control' (event, _tpl) {
@@ -57,7 +57,7 @@ import _ from 'lodash'
          let inputId = event.target.id
         let inputValue = event.target.value
         let inputMaxChars = maxCharValue(inputId) - parseInt(inputValue.length)
-        let charsLeftText = `${inputMaxChars} characters left`
+        let charsLeftText = `${inputMaxChars} ${TAPi18n.__('warnings.form.chars_left')}`
          $(`#${inputId}-chars`).text(charsLeftText)
          let specialCodes = [8, 46, 37, 39] // backspace, delete, left, right
          if (inputMaxChars <= 0) {
@@ -80,7 +80,7 @@ import _ from 'lodash'
 	    		summary: $('#description').val()
 	    	}, (err, _data) => {
 	    		if (!err) {
-	    			notify('Successfully edited.', 'success')
+	    			notify(TAPi18n.__('warnings.form.success_edit'), 'success')
 	        		FlowRouter.go('/scams')
 	        		return
 	      		}
@@ -100,7 +100,7 @@ import _ from 'lodash'
             summary: $('#description').val()
         }, (err, data) => {
             if (!err) {
-                notify('Successfully added.', 'success')
+                notify(TAPi18n.__('warnings.form.success_add'), 'success')
                 FlowRouter.go('/scams')
                 return
             }
@@ -114,7 +114,7 @@ import _ from 'lodash'
                 err.details.forEach(e => {
                     $(`#${e.name}`).addClass('is-invalid')
                     $(`#${e.name}Error`).show()
-                    e.message = e.message.split(' ')[0] == 'Summary' ? `Description is required` : e.message;
+                    e.message = e.message.split(' ')[0] == 'Summary' ? TAPi18n.__('warnings.form.desc_required') : e.message;
                     $(`#${e.name}Error`).text(e.message)
                 })
             }

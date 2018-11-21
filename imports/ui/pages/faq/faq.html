@@ -5,12 +5,12 @@
         <div class="float-right">
           {{#if currentUser}}
             <button class="btn btn-outline-primary" id="new-faq">
-              New FAQ
+              {{_ "faq.new"}}
             </button>
           {{/if}}
         </div>
-        <h2>FAQs</h2>
-        <p class="section-intro">Frequentry asked questions on Cardano Update Space</p>
+        <h2>{{_ "faq.faqs"}}</h2>
+        <p class="section-intro">{{_ "faq.desc"}}</p>
       </div>
       <hr>
       {{#if faqCount}}
@@ -22,7 +22,7 @@
         </div>
       </div>
       {{else}}
-        <p>Sorry, we couldn't find anything.</p>
+        <p>{{_ "faq.no_faqs"}}</p>
       {{/if}}
     </div>
   </div>
@@ -39,10 +39,10 @@
         {{#if canEdit}}
         <div class="float-right">
           <button class="btn btn-success edit-faq">
-            <span class="icon-pencil"></span> Edit
+            <span class="icon-pencil"></span> {{_ "faq.edit"}}
           </button>
           <button class="btn btn-danger delete-faq" type="button">
-            <span class="icon-trash"></span> Delete
+            <span class="icon-trash"></span> {{_ "faq.delete"}}
           </button>
         </div>
         {{/if}}

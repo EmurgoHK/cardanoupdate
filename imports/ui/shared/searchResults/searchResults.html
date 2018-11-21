@@ -1,20 +1,20 @@
 <template name="searchResults">
   <div class="float-right">
     <button class="btn btn-link" id="sort-date">
-        Date {{#if isDateAsc 'date-asc'}} <i class="fas fa-sort-down"></i> {{else}} {{#if isDateAsc 'date-desc'}} <i class="fas fa-sort-up"></i> {{/if}} {{/if}}
+        {{_ "search.date"}} {{#if isDateAsc 'date-asc'}} <i class="fas fa-sort-down"></i> {{else}} {{#if isDateAsc 'date-desc'}} <i class="fas fa-sort-up"></i> {{/if}} {{/if}}
     </button>
     <button class="btn btn-link" id="sort-title">
-        Title {{#if isTitleAsc 'title-asc'}} <i class="fas fa-sort-down"></i> {{else}} {{#if isTitleAsc 'title-desc'}}<i class="fas fa-sort-up"></i> {{/if}} {{/if}}
+        {{_ "search.title"}} {{#if isTitleAsc 'title-asc'}} <i class="fas fa-sort-down"></i> {{else}} {{#if isTitleAsc 'title-desc'}}<i class="fas fa-sort-up"></i> {{/if}} {{/if}}
     </button>
   </div>
-  <p>Found {{resultCount}} items</p>
+  <p>{{_ "search.found"}} {{resultCount}} {{_ "search.items"}}</p>
   <div class="clearfix"></div>
   <div class="card-columns">
   {{#if showAddNew}}
     <!-- Add New Content -->
     <div class="card add-new-content btn-outline-primary">
       <div class="card-body">
-        <a id="add-new"><p class="card-text"><i class="fa fa-plus"></i> Add new content</p></a>
+        <a id="add-new"><p class="card-text"><i class="fa fa-plus"></i> {{_ "search.add_new"}}</p></a>
       </div>
     </div>
   {{/if}}
@@ -35,7 +35,7 @@
         {{/if}}
       {{/each}}
   {{else}}
-    <p>Sorry, we couldn't find anything.</p>
+    <p>{{_ "search.nothing"}}</p>
   {{/if}}
   </div>
 </template>

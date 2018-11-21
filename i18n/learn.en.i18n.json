@@ -1,0 +1,48 @@
+{
+	"learn": {
+		"form": {
+			"new": "New",
+			"edit": "Edit",
+			"res": "learning resource",
+			"title": "Title",
+			"title_placeholder": "What are users going to learn about by reading or watching this? (in 25 chars or less)",
+			"summary": "Summary",
+			"summary_placeholder": "Learning resource summary in 260 characters or less",
+			"content": "Content",
+			"content_placeholder": "Learning resource content in 5000 characters or less",
+			"level": "Difficulty level",
+			"beginner": "Beginner",
+			"intermediate": "Intermediate",
+			"advanced": "Advanced",
+			"submit": "Submit",
+			"youtube": "Please provide YouTube video link",
+			"invalid_yt": "Invalid YouTube video link!",
+			"chars_left": "characters left",
+			"success_add": "Successfully added.",
+			"success_edit": "Successfully edited."
+		}, 
+		"main": {
+			"new": "New learning resource",
+			"res": "Learning resources",
+			"desc": "From basic introductions to developer documentation.",
+			"search": "Search learning resources"
+		},
+		"view": {
+			"edit": "Edit learning resource",
+			"by": "Posted by",
+			"tags": "Tags",
+			"level": "Difficulty Level",
+			"success": "Successfully commented.",
+			"beginner": "Beginner",
+			"intermediate": "Intermediate",
+			"advanced": "Advanced"
+		},
+		"card": {
+			"learn": "Learn",
+			"beginner": "Beginner",
+			"intermediate": "Intermediate",
+			"advanced": "Advanced",
+			"are_you_sure": "Are you sure you want to remove this learning resource? This action is not reversible."
+		}
+	}
+}

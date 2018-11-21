@@ -1,0 +1,39 @@
+{
+	"research": {
+		"main": {
+			"new": "New research paper",
+			"research": "Research",
+			"desc": "Peer reviewed academic papers that are related to Cardano.",
+			"search": "Search research"
+		},
+		"form": {
+			"new": "New research",
+			"edit": "Edit research",
+			"name": "Name",
+			"name_placeholder": "Name in 160 characters or less",
+			"abstract": "Abstract",
+			"abstract_placeholder": "Research paper abstract",
+			"pdf": "PDF file",
+			"links": "Links",
+			"links_placeholder": "Display name in 25 characters or less",
+			"add": "Add",
+			"submit": "Submit",
+			"chars_left": "characters left",
+			"success_add": "Successfully added.",
+			"success_edit": "Successfully edited."
+		},
+		"view": {
+			"edit": "Edit research",
+			"by": "Posted by",
+			"external": "External resources:",
+			"download_pdf": "Download PDF",
+			"comment_placeholder": "Leave a comment...",
+			"comment": "Comment",
+			"success": "Successfully commented."
+		},
+		"card": {
+			"research": "Research",
+			"are_you_sure": "Are you sure you want to remove this research papaer? This action is not reversible."
+		}
+	}
+}

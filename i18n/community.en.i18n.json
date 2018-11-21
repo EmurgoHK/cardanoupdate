@@ -1,0 +1,41 @@
+{
+	"community": {
+		"form": {
+			"new": "New Community",
+			"edit": "Edit Community",
+			"name": "Name",
+			"name_placeholder": "Name in 25 characters or less",
+			"url": "URL",
+			"url_placeholder": "Community link",
+			"desc": "Description",
+			"desc_placeholder": "Community description in 260 characters or less",
+			"submit": "Submit",
+			"tags_placeholder": "Add a tags separated by comma(,) e.g. crypto,wallet",
+			"chars_left": "characters left",
+			"success_edit": "Successfully edited.",
+			"success_add": "Successfully added."
+		},
+		"main": {
+			"add": "Add Community",
+			"community": "Community",
+			"desc": "Telegram groups, meetup groups, facebook groups, forums, etc.",
+			"search": "Search communities"
+		},
+		"view": {
+			"edit": "Edit Community",
+			"by": "Posted by",
+			"tags": "Tags",
+			"go_to": "Go to",
+			"suggest": "Suggest a website",
+			"cool": "Cool stuff",
+			"red_flags": "Red flags",
+			"success": "Successfully commented."
+		},
+		"card": {
+			"community": "Community",
+			"go_to": "Go to",
+			"suggest": "Suggest a website",
+			"are_you_sure": "Are you sure you want to remove this Project? This action is not reversible."
+		}
+	}
+}

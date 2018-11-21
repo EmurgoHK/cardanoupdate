@@ -7,15 +7,15 @@
                 <div class="container">
                     <div class="row mx-auto">
                         <div class="col-sm-12 pr-0 pl-0 pb-5">
-                            <h2>Everything about Cardano.</h2>
-                            <h2>Accurate up to the minute.</h2>
+                            <h2>{{_ "shared.main.title"}}</h2>
+                            <h2>{{_ "shared.main.title2"}}</h2>
                         </div>
                     </div>
                 </div>
             </section>
             <nav class="container">
                 <!-- <li class="breadcrumb-item"> -->
-                    <a href="/">Home</a> / 
+                    <a href="/">{{_ "shared.main.home"}}</a> / 
                     {{#each breadcrumbs}}
                     <a href="{{url}}">{{text}}</a>
                     {{#if notLast}} / {{/if}}

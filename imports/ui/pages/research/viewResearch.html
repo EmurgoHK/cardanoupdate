@@ -4,11 +4,11 @@
       <div class="col-sm-12">
         {{#if SubsCacheReady}}
           {{#with research}}
-          {{#if isOwner}}<a href="/research/{{slug}}/edit" class="btn btn-primary btn-sm float-right"><i class="fas fa-edit"></i> Edit research</a>{{/if}}
+          {{#if isOwner}}<a href="/research/{{slug}}/edit" class="btn btn-primary btn-sm float-right"><i class="fas fa-edit"></i> {{_ "research.view.edit"}}</a>{{/if}}
           <h1 class="card-title text-dark mt-3"><strong>{{headline}}</strong></h1>
           <h5 class="card-subtitle mb-3 mt-3">
               <ul class="list-inline">
-                <li class="list-inline-item">Posted by <strong><span class="name">{{> userNameDisplay author}}</span></strong></li>
+                <li class="list-inline-item">{{_ "research.view.by"}} <strong><span class="name">{{> userNameDisplay author}}</span></strong></li>
                 <li class="list-inline-item"><i class="icon-clock" style="vertical-align: middle"></i>&nbsp;{{showTimeAgoTimestamp createdAt}}</li>
                 <li class="list-inline-item"><i class="icon-speech" style="vertical-align: middle"></i>&nbsp;{{commentCount}}</li>
               </ul>
@@ -22,9 +22,9 @@
                 </div>
 
                 <div class="row pt-4">
-                  <h6 class="col-sm-2">External resources:</h6>
+                  <h6 class="col-sm-2">{{_ "research.view.external"}}</h6>
                   <div class="col-sm-2 pdf">
-                    <a href="{{pdf}}" target="_blank">Download PDF</a>
+                    <a href="{{pdf}}" target="_blank">{{_ "research.view.download_pdf"}}</a>
                   </div>
                   {{#each link in links}}
                     <div class="col-sm-2 link">
@@ -49,14 +49,14 @@
               <div class="card">
                 <div class="card-body">
                   <div class="form-group">
-                    <textarea class="form-control" id="comments" name="comment" rows="3" placeholder="Leave a comment ..." required></textarea>
+                    <textarea class="form-control" id="comments" name="comment" rows="3" placeholder='{{_ "research.view.comment_placeholder"}}' required></textarea>
                   </div>
 
                   <p class="text-danger">{{commentInvalidMessage}}</p>
 
                   <div class="btn-group" role="group">
                     <div class="btn-group" role="group">
-                      <button type="submit" class="btn btn-outline-primary mb-2 new-comment">Comment</button>
+                      <button type="submit" class="btn btn-outline-primary mb-2 new-comment">{{_ "research.view.comment"}}</button>
                     </div>
                   </div>
                 </div>

@@ -97,10 +97,10 @@ Template.projectForm.events({
     $('#projectInstruction').modal('hide')
     hideInstructionModal.call({modalId : 'addProject'}, (err, res) => {
       if (!err) {
-      notify('Successfully updated.', 'success')
+      notify(TAPi18n.__('projects.form.success_update'), 'success')
         return
       }
-      notify('Error while updating information :: '+err.reason, 'error')
+      notify(`${TAPi18n.__('projects.form.error')} :: ${err.reason}`, 'error')
     })
   },
     'keyup .form-control' (event, _tpl) {
@@ -109,7 +109,7 @@ Template.projectForm.events({
         let inputId = event.target.id
         let inputValue = event.target.value
         let inputMaxChars = maxCharValue(inputId) - parseInt(inputValue.length)
-        let charsLeftText = `${inputMaxChars} characters left`
+        let charsLeftText = `${inputMaxChars} ${TAPi18n.__('projects.form.chars_left')}`
 
         $(`#${inputId}-chars`).text(charsLeftText)
 
@@ -174,7 +174,7 @@ Template.projectForm.events({
                 type: $('input[name="type"]:checked').val()
 	    	}, (err, _data) => {
 	    		if (!err) {
-	    			notify('Successfully edited.', 'success')
+	    			notify(TAPi18n.__('projects.form.success_edit'), 'success')
 	        		FlowRouter.go('/projects')
 	        		return
 	      		}
@@ -201,7 +201,7 @@ Template.projectForm.events({
             type: $('input[name="type"]:checked').val()
         }, (err, data) => {
             if (!err) {
-                notify('Successfully added.', 'success')
+                notify(TAPi18n.__('projects.form.success_add'), 'success')
                 FlowRouter.go('/projects')
                 return
             }
@@ -231,7 +231,7 @@ Template.projectForm.events({
             if (err) {
                 notify(err.reason || err.message, 'error')
             } else {
-                notify('Successfully merged.', 'success')
+                notify(TAPi18n.__('projects.form.success_merge'), 'success')
             }
         })
     },
@@ -246,7 +246,7 @@ Template.projectForm.events({
             if (err) {
                 notify(err.reason || err.message, 'error')
             } else {
-                notify('Successfully rejected.', 'success')
+                notify(TAPi18n.__('projects.form.success_reject'), 'success')
             }
         })
     }

@@ -1,0 +1,46 @@
+{
+	"mod": {
+		"candidates": {
+			"candidates": "Moderator candidates",
+			"promote": "Promote",
+			"rating": "Input rating",
+			"total": "Total input",
+			"rank": "Rank",
+			"no_candidates": "No candidates found!",
+			"success": "Successfully promoted."
+		},
+		"changes": {
+			"proposed": "Proposed changes",
+			"merge": "Merge",
+			"reject": "Reject",
+			"new_data": "wants to propose the following new data:",
+			"no_changes": "No changes found!",
+			"success_merge": "Successfully merged.",
+			"success_reject": "Successfully rejected."
+		},
+		"flagged": {
+			"flagged": "Flagged items",
+			"flag": "Flagged",
+			"because": "because",
+			"by": "by",
+			"ignore": "Ignore",
+			"remove": "Remove",
+			"no_items": "No flagged items found!",
+			"content_ignore": "Content will be ignored and no longer marked as flagged",
+			"are_you_sure": "Are you sure?",
+			"success_ignore": "Successfully ignored.",
+			"success_remove": "Successfully removed."
+		},
+		"pardon": {
+			"no_more": "Great, no more users to pardon.",
+			"req": "Pardon request",
+			"user": "Username",
+			"offences": "Offences",
+			"reason": "Reason",
+			"upvotes": "Upvotes",
+			"downvotes": "Downvotes",
+			"skip": "Skip"
+		},
+		"mod_only": "You have to be a moderator."
+	}
+}

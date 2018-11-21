@@ -1,0 +1,42 @@
+{
+	"warnings": {
+		"view": {
+			"edit": "Edit Scam",
+			"by": "Posted by",
+			"comments": "Comments",
+			"success": "Successfully commented.",
+			"flag_reason": "Why are you flagging this?",
+			"invalid_reason": "You need to write a valid reason!",
+			"success_flag": "Successfully flagged. Moderators will decide what to do next."
+		},
+		"form": {
+			"new": "New Scam",
+			"edit": "Edit Scam",
+			"name": "Name",
+			"name_placeholder": "Headline in 90 characters or less",
+			"desc": "Description",
+			"desc_placeholder": "Warning description in 260 characters or less",
+			"desc_info": "Please provide a very clear description of what the scam is for & what it does.",
+			"submit": "Submit",
+			"success": "Successfully updated.",
+			"error": "Error while updating information",
+			"chars_left": "characters left",
+			"success_edit": "Successfully edited.",
+			"success_add": "Successfully added.",
+			"desc_required": "Description is required"
+		},
+		"main": {
+			"new": "Add Scam",
+			"scams": "Scams",
+			"desc": "Scam websites, wallets etc. Anything that people should be wary about.",
+			"search": "Search scams"
+		},
+		"card": {
+			"scam": "Scam",
+			"are_you_sure": "Are you sure you want to remove this scam? This action is not reversible.",
+			"flag_reason": "Why are you flagging this?",
+			"invalid_reason": "You need to write a valid reason!",
+			"success_flag": "Successfully flagged. Moderators will decide what to do next."
+		}
+	}
+}

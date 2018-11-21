@@ -7,14 +7,14 @@
       </h4>
       <p class="card-text">
         {{#unless isEventUpcoming event.start_date event.timezone.zoneName}} 
-          <p>Started {{showTimeAgoTimestamp event.start_date event.timezone.zoneName}}</p> 
+          <p>{{_ "events.card.started"}} {{showTimeAgoTimestamp event.start_date event.timezone.zoneName}}</p> 
         {{else}} 
-          <p>Starts on {{showLocalTimestamp event.start_date event.timezone.zoneName}}</p>
+          <p>{{_ "events.card.starts"}} {{showLocalTimestamp event.start_date event.timezone.zoneName}}</p>
         {{/unless}}
       </p>
       <hr>
       <p class="rsvp">
-        <i class="icon-check"></i> <a target="_blank" href={{event.rsvp}}>RSVP Link</a>
+        <i class="icon-check"></i> <a target="_blank" href={{event.rsvp}}>{{_ "events.card.rsvp"}}</a>
       </p>
       <p class="location">
         <i class="icon-location-pin"></i> <a target="_blank" href="https://www.google.com/maps/place/{{event.location}}/">{{transform event.location}}</a>

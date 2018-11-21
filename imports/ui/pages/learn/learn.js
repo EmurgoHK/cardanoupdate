@@ -24,7 +24,7 @@ Template.learn.helpers({
     searchArgs() {
         const instance = Template.instance();
         return {
-            placeholder:"Search learning resources",
+            placeholder: TAPi18n.__('learn.main.search'),
             type: 'learn',
             onChange: (newTerm) => instance.searchFilter.set(newTerm),
         }

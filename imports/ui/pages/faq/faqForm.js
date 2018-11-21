@@ -36,7 +36,7 @@ Template.faqForm.events({
     let inputId = event.target.id
     let inputValue = event.target.value
     let inputMaxChars = maxCharValue(inputId) - parseInt(inputValue.length)
-    let charsLeftText = `${inputMaxChars} characters left`
+    let charsLeftText = `${inputMaxChars} ${TAPi18n.__('faq.chars_left')}`
     $(`#${inputId}-chars`).text(charsLeftText)
     let specialCodes = [8, 46, 37, 39] // backspace, delete, left, right
     if (inputMaxChars <= 0) {
@@ -56,7 +56,7 @@ Template.faqForm.events({
           answer : $('#answer').val(),
 	    	}, (err, data) => {
 	    		if (!err) {
-	    			notify('Successfully added.', 'success')
+	    			notify(TAPi18n.__('faq.success_add'), 'success')
 	        		FlowRouter.go('/faqs')
 	        		return
 	      		}
@@ -78,7 +78,7 @@ Template.faqForm.events({
           answer : $('#answer').val(),
 	    	}, (err, data) => {
 	    		if (!err) {
-	    			notify('Successfully edited.', 'success')
+	    			notify(TAPi18n.__('faq.success_edit'), 'success')
 	        		FlowRouter.go('/faqs')
 	        		return
 	      		}

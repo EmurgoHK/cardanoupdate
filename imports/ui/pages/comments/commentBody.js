@@ -60,7 +60,7 @@ Template.commentBody.helpers({
 		const templateInstance = Template.instance();
 		const data = Template.currentData();
 		return () => {
-			notify('Successfully commented.', 'success');
+			notify(TAPi18n.__('comments.success'), 'success');
 			templateInstance.showReplies.set(true);
 			templateInstance.replies.set(data._id, false);
 		}
@@ -77,7 +77,7 @@ Template.commentBody.helpers({
 		const data = Template.currentData();
 		
 		return () => {
-			notify('Successfully edited comment.', 'success');
+			notify(TAPi18n.__('comments.success_edit'), 'success');
 			templateInstance.edits.set(data._id, false);
 		}
 	},
@@ -95,11 +95,11 @@ Template.commentBody.events({
 		event.stopImmediatePropagation()
 
 		swal({
-		  	title: 'Why are you flagging this?',
+		  	title: TAPi18n.__('comments.flag_reason'),
 		  	input: 'text',
 		  	showCancelButton: true,
 		  	inputValidator: (value) => {
-		    	return !value && 'You need to write a valid reason!'
+		    	return !value && TAPi18n.__('comments.invalid_reason')
 		  	}
 		}).then(data => {
 			if (data.value) {
@@ -110,7 +110,7 @@ Template.commentBody.events({
 					if (err) {
 						notify(err.reason || err.message, 'error')
 					} else {
-						notify('Successfully flagged. Moderators will decide what to do next.', 'success')
+						notify(TAPi18n.__('comments.success_flag'), 'success')
 					}
 				})
 			}
@@ -133,7 +133,7 @@ Template.commentBody.events({
 		event.stopImmediatePropagation()
 
 		swal({
-            text: `Are you sure you want to remove this comment? This action is not reversible.`,
+            text: TAPi18n.__('comments.remove_question'),
             type: 'warning',
             showCancelButton: true
         }).then(confirmed => {

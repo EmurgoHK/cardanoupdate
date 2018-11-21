@@ -1,0 +1,51 @@
+{
+	"user": {
+		"suspended": {
+			"suspended": "You have been suspended!",
+			"sins": "You have done the following:",
+			"pardon": "If you want to apply for a pardon, please state your reason. Be descriptive.",
+			"submit": "Submit",
+			"denied": "Your application for pardon has been denied. You can't apply again!",
+			"process": "Your application is currently being processed by moderators. Good luck!",
+			"news": "You have posted a news article that has been flagged and removed.",
+			"comment": "You have posted a comment that has been flagged and removed.",
+			"success": "Successfully applied."
+		},
+		"edit": {
+			"edit": "Edit Profile",
+			"name": "Name",
+			"email": "Email address",
+			"about": "About Me",
+			"image": "Profile image",
+			"save": "Save changes",
+			"no_name": "No Name",
+			"rank": "users, based on comments and contributions.",
+			"out": "out of"
+		},
+		"view": {
+			"moderator": "moderator",
+			"rank": "Rank",
+			"about": "About",
+			"content": "Your Content",
+			"activity": "'s Activity",
+			"projects": "Projects",
+			"events": "Events",
+			"research": "Research",
+			"learn": "Learn",
+			"community": "Community",
+			"scams": "Scams",
+			"comments": "Comments",
+			"created": "Created",
+			"no_projects": "User has not added any project yet.",
+			"commented": "Commented",
+			"no_comments": "User has not commented yet.",
+			"no_scams": "User has not reported any scam yet.",
+			"no_communities": "User has not added any community yet.",
+			"no_res": "User has not added any learning resource yet.",
+			"added": "Added",
+			"no_research": "User has not added any research yet.",
+			"posted": "Posted",
+			"no_events": "User has not added any event yet."
+		}
+	}
+}

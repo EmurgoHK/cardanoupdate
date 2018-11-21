@@ -1,0 +1,67 @@
+{
+	"shared": {
+		"not_found": {
+			"not_found": "Тражена страница не постоји.",
+			"go_home": "Иди назад на почетну"
+		},
+		"header": {
+			"projects": "Пројекти",
+			"events": "Догађаји",
+			"research": "Истраживања",
+			"learn": "Научи",
+			"community": "Заједница",
+			"scams": "Преваре",
+			"faqs": "Питања",
+			"search": "Претражи овде...",
+			"username": "Корисник",
+			"account": "Налог",
+			"my_profile": "Мој профил",
+			"edit_profile": "Измени профил",
+			"signout": "Одјави се",
+			"signin": "Пријави се"
+		},
+		"sidebar": {
+			"home": "Почетна",
+			"projects": "Пројекти",
+			"events": "Догађаји",
+			"research": "Истраживања",
+			"learn": "Научи",
+			"community": "Заједница",
+			"scams": "Преваре",
+			"gh": "GitHub",
+			"faqs": "Питања",
+			"moderator": "Модератор",
+			"flagged": "Означене ставке",
+			"pardon": "Помиловања",
+			"changes": "Предложене измене",
+			"candidates": "Кандидати"
+		},
+		"tags": {
+			"tags": "Ознаке",
+			"placeholder": "Додајте ознаке одвојене зарезом (,) (crypo, wallet, итд.)",
+			"nothing_found": "Ништа нисмо пронашли.",
+			"search": "Претражи по ознакама"
+		},
+		"uploader": {
+			"upload": "Отпреми",
+			"insert_image": "Додај слику",
+			"cancel": "Откажи",
+			"uploading": "У отпреми",
+			"another": "Отпреми још",
+			"change": "Промени"
+		},
+		"user": {
+			"no_name": "Без имена"
+		},
+		"flag": {
+			"edit": "Измени",
+			"delete": "Обриши",
+			"report": "Пријваи"
+		},
+		"main": {
+			"title": "Све о Кардану.",
+			"title2": "Тачно у минут.",
+			"home": "Почетна"
+		}
+	}
+}

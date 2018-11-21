@@ -2,7 +2,7 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-12">
-          <h2>{{#if add}} New Scam {{else}} Edit Scam {{/if}}</h2>
+          <h2>{{#if add}} {{_ "warnings.form.new"}} {{else}} {{_ "warnings.form.edit"}} {{/if}}</h2>
         </div>
       </div>
       <hr>
@@ -11,17 +11,17 @@
           <div class="card">
             <div class="card-body">
               <form class="news-form project-form">
-                <div class="group-title">Name</div>
+                <div class="group-title">{{_ "warnings.form.name"}}</div>
                 <div class="input-group">
-                  <input type="text" class="form-control" id="headline" value="{{warning.headline}}" placeholder="Headline in 90 characters or less">
+                  <input type="text" class="form-control" id="headline" value="{{warning.headline}}" placeholder='{{_ "warnings.form.name_placeholder"}}'>
                   <div id="headlineError" class="invalid-feedback"></div>
                 </div>
                 <small><i id="headline-chars" class="text-muted"></i></small>
-                <div class="group-title">Description</div>
+                <div class="group-title">{{_ "warnings.form.desc"}}</div>
                 <div class="input-group">
-                  <textarea class="form-control" id="description" rows="8" value="{{warning.summary}}" placeholder="Warning description in 260 characters or less"></textarea>
+                  <textarea class="form-control" id="description" rows="8" value="{{warning.summary}}" placeholder='{{_ "warnings.form.desc_placeholder"}}'></textarea>
                   <span class="instructions">
-                    <i class="icon-info"></i> Please provide a very clear description of what the scam is for & what it does.
+                    <i class="icon-info"></i> {{_ "warnings.form.desc_info"}}
                   </span>
                   <div id="summaryError" class="invalid-feedback"></div>
                 </div>
@@ -33,7 +33,7 @@
             </div>
             <div class="card-footer">
               <div>
-                <button type="submit" class="btn btn-lg btn-success add-warning">Submit</button>
+                <button type="submit" class="btn btn-lg btn-success add-warning">{{_ "warnings.form.submit"}}</button>
               </div>
             </div>
           </div>

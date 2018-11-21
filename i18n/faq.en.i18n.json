@@ -1,0 +1,21 @@
+{
+	"faq": {
+		"new": "New FAQ",
+		"desc": "Frequently asked questions on Cardano Update Space",
+		"faqs": "FAQs",
+		"no_faqs": "Sorry, we couldn't find anything.",
+		"edit": "Edit",
+		"delete": "Delete",
+		"are_you_sure": "Are you sure you want to remove this FAQ? This action is not reversible.",
+		"success": "Successfully Deleted.",
+		"new_form": "New",
+		"question": "Question",
+		"question_placeholder": "FAQ question in 90 chars or less",
+		"answer": "Answer",
+		"answer_placeholder": "FAQ answer in 260 characters or less",
+		"submit": "Submit",
+		"chars_left": "characters left",
+		"success_add": "Successfully added.",
+		"success_edit": "Successfully edited."
+	}
+}

@@ -1,0 +1,15 @@
+{
+	"home": {
+		"users_online": "Users Online",
+		"new_users": "New users in the last month",
+		"content": "Content this month",
+		"add": {
+			"new": "Add new",
+			"project": "New project",
+			"event": "New event",
+			"research": "New research",
+			"community": "New community",
+			"learning": "New learning resource"
+		}
+	}
+}
