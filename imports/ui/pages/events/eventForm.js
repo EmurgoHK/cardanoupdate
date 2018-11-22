@@ -6,6 +6,7 @@ import { Events } from '/imports/api/events/events'
 import { notify } from '/imports/modules/notifier'
 import daterangepicker from 'daterangepicker'
 import SimpleMDE from 'simplemde'
+import marked from 'marked';
 import moment from 'moment-timezone'
 import { newEvent, editEvent } from '/imports/api/events/methods'
 import '../../../../node_modules/daterangepicker/daterangepicker.css';
@@ -136,6 +137,7 @@ Template.eventForm.onRendered(function() {
       className: 'fa fa-file-video-o',
       title: 'Insert YouTube video'
     }, '|', 'preview', 'side-by-side', 'fullscreen', '|', 'guide'],
+    previewRender: (content) => marked(content, {sanitize: true}),
   })
 
   window.mde = this.mde

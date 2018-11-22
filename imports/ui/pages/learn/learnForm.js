@@ -91,6 +91,7 @@ Template.learnForm.onRendered(function() {
     		className: 'fa fa-file-video-o',
     		title: 'Insert YouTube video'
     	}, '|', 'preview', 'side-by-side', 'fullscreen', '|', 'guide'],
+			previewRender: (content) => marked(content, {sanitize: true}),
   	})
 
   	window.mde = this.mde
