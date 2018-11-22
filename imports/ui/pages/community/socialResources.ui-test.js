@@ -195,7 +195,8 @@ describe("Communities page", function() {
     browser.url(`${baseUrl}/community/${newResourceId}`);
     waitForPageLoad(browser, `/community/${newResourceId}`);
 
-    const commentAreas = browser.elements(".comments").value;
+    const commentAreas = browser.elements(".comment-area").value;
+
     for (const elem of commentAreas) {
       elem.$(".comment-text").setValue("test comment Lorem Ipsum");
       elem.$(".save-comment").click();

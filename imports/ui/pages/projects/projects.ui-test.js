@@ -99,25 +99,23 @@ describe('Projects page', function () {
     })
 
     it('user can post cool stuff', () => {
-        browser.setValue('#cool-comment', 'Test cool stuff')
+        browser.setValue('.cool-stuff .comment-text', 'Test comment')
         browser.pause(2000)
 
-        browser.click('.new-cool')
+        browser.click('.cool-stuff .save-comment')
         browser.pause(3000)
 
-        assert(browser.execute(() => Array.from($('.comments').find('.card-body span')).some(i => $(i).text().includes('Test cool stuff'))).value, true)
+        assert(browser.execute(() => Array.from($('.comments').find('.card-body span')).some(i => $(i).text().includes('Test comment'))).value, true)
     })
 
     it('user can reply to a comment', () => {
-        browser.click('.reply')
+        browser.click('.cool-stuff .reply')
         browser.pause(2000)
 
-        let comment = browser.execute(() => testingComments.findOne()).value
-
-        browser.setValue(`.rep-comment-${comment._id}`, 'Test reply')
+        browser.setValue(`.cool-stuff .comments .comment-text`, 'Test reply')
         browser.pause(1000)
 
-        browser.click('.reply-comment')
+        browser.click('.cool-stuff .comments .save-comment')
         browser.pause(3000)
 
         assert(browser.execute(() => Array.from($('.comments').find('.card-body span')).some(i => $(i).text().includes('Test reply'))).value, true)
@@ -127,15 +125,13 @@ describe('Projects page', function () {
         browser.execute(() => $('.news-settings').find('.dropdown-menu').addClass('show'))
         browser.pause(3000)
 
-        browser.click('.edit-mode')
+        browser.click('.cool-stuff .edit-mode')
         browser.pause(2000)
 
-        let comment = browser.execute(() => testingComments.findOne()).value
-
-        browser.setValue(`.edit-comment-${comment._id}`, 'Test comment 2')
+        browser.setValue(`.cool-stuff .comments .comment-text`, 'Test comment 2')
         browser.pause(1000)
 
-        browser.click('.edit-comment')
+        browser.click('.cool-stuff .comments .save-comment')
         browser.pause(3000)
 
         assert(browser.execute(() => Array.from($('.comments').find('.card-body span')).some(i => $(i).text().includes('Test comment 2'))).value, true)

@@ -87,10 +87,10 @@ describe('Research page', function () {
     })
 
     it('user can comment', () => {
-        browser.setValue('#comments', 'Test comment')
+        browser.setValue('.comment-text', 'Test comment')
         browser.pause(2000)
 
-        browser.click('.new-comment')
+        browser.click('.save-comment')
         browser.pause(3000)
 
         assert(browser.execute(() => Array.from($('.comments').find('.card-body span')).some(i => $(i).text().includes('Test comment'))).value, true)
@@ -100,12 +100,10 @@ describe('Research page', function () {
         browser.click('.reply')
         browser.pause(2000)
 
-        let comment = browser.execute(() => testingComments.findOne()).value
-
-        browser.setValue(`.rep-comment-${comment._id}`, 'Test reply')
+        browser.setValue(`.comments .comment-text`, 'Test reply')
         browser.pause(1000)
 
-        browser.click('.reply-comment')
+        browser.click('.comments .save-comment')
         browser.pause(3000)
 
         assert(browser.execute(() => Array.from($('.comments').find('.card-body span')).some(i => $(i).text().includes('Test reply'))).value, true)
@@ -118,12 +116,10 @@ describe('Research page', function () {
         browser.click('.edit-mode')
         browser.pause(2000)
 
-        let comment = browser.execute(() => testingComments.findOne()).value
-
-        browser.setValue(`.edit-comment-${comment._id}`, 'Test comment 2')
+        browser.setValue(`.comments .comment-text`, 'Test comment 2')
         browser.pause(1000)
 
-        browser.click('.edit-comment')
+        browser.click('.comments .save-comment')
         browser.pause(3000)
 
         assert(browser.execute(() => Array.from($('.comments').find('.card-body span')).some(i => $(i).text().includes('Test comment 2'))).value, true)

@@ -50,22 +50,8 @@
           {{/with}}
 
           <hr class="mb-5 mt-5">
+          {{> commentArea parentId=learn._id type="comment" postType="learn" commentSuccess=commentSuccess}}
 
-          <div class="row">
-            <div class="col-sm-12 news-form">
-              <div class="card">
-                  {{> commentForm wrapperClasses="card-body" newsId=learn._id parentId=learn._id type="comment" postType="learn" hideCancel=true onSuccess=commentSuccess}}
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-sm-12 news-form comments">
-              {{#each comments}}
-                {{> commentBody ident=0 comment=this _id=learn._id}}
-              {{/each}}
-            </div>
-          </div>
         {{else}}
           {{> loader}}
         {{/if}}

@@ -21,7 +21,9 @@ import '/imports/ui/shared/tagInput/tagInput';
 
 import '/imports/ui/shared/userNameDisplay/userNameDisplay';
 
+import '/imports/ui/shared/commentArea/commentArea';
 import '/imports/ui/shared/commentForm/commentForm';
+import '/imports/ui/shared/commentCard/commentCard';
 
 import '/imports/ui/shared/searchBar/searchBar';
 import '/imports/ui/shared/searchResults/searchResults';

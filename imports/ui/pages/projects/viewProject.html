@@ -52,35 +52,19 @@
             </div>
           {{/with}}
           <div class="row">
-            <div class="col-sm-6 project-form comments">
+            <div class="col-sm-6 project-form cool-stuff">
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title text-dark mt-3">{{_ "projects.view.cool"}}</h4>
-                  <div style="max-height: 500px;overflow-y: auto;">
-                  {{#each coolStuff}}
-                    {{> commentBody ident=0 comment=this _id=project._id type="coolstuff"}}
-                  {{/each}}
-                  </div>
-                  <hr>
-                  <div class="card">
-                    {{> commentForm wrapperClasses="card-body" newsId=project._id parentId=project._id type="coolstuff" postType="project" hideCancel=true onSuccess=commentSuccess}}
-                  </div>
+                  {{> commentArea parentId=project._id type="coolstuff" postType="project" commentSuccess=commentSuccess}}
                 </div>
               </div>
             </div>
-            <div class="col-sm-6 project-form comments">
+            <div class="col-sm-6 project-form redflags">
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title text-dark mt-3">{{_ "projects.view.flags"}}</h4>
-                  <div style="max-height: 500px;overflow-y: auto;">
-                  {{#each redFlags}}
-                    {{> commentBody ident=0 comment=this _id=project._id type="redflag"}}
-                  {{/each}}
-                  </div>
-                  <hr>
-                  <div class="card">
-                    {{> commentForm wrapperClasses="card-body" newsId=project._id parentId=project._id type="redflag" postType="project" hideCancel=true onSuccess=commentSuccess}}
-                  </div>
+                  {{> commentArea parentId=project._id type="redflag" postType="project" commentSuccess=commentSuccess}}
                 </div>
               </div>
             </div>

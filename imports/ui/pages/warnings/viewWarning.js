@@ -1,10 +1,8 @@
 import './viewWarning.html'
-import '../comments/commentBody'
  import { Template } from 'meteor/templating'
 import { FlowRouter } from 'meteor/kadira:flow-router'
  import { Warnings } from '/imports/api/warnings/warnings'
 import { Comments } from '/imports/api/comments/comments'
- import { newComment } from '/imports/api/comments/methods' 
 import { flagWarning } from '/imports/api/warnings/methods'
  import { notify } from '/imports/modules/notifier'
  import swal from 'sweetalert2'
@@ -31,23 +29,6 @@ import { flagWarning } from '/imports/api/warnings/methods'
 		slug: FlowRouter.getParam('slug')
 	}),
 	author: () => Meteor.users.findOne({_id: Template.currentData().createdBy}),
-    comment: () => {
-    	let warning = Warnings.findOne({
-			slug: FlowRouter.getParam('slug')
-		}) || {}
-     	return Comments.find({
-			parentId: warning._id,
-			$or: [
-				{ type: 'coolstuff' },
-				{ type: 'redflag' },
-				{ type: 'warning' },
-			]
-    	}, {
-    		sort: {
-    			createdAt: -1
-    		}
-    	})
-    },
 	commentCount: function () {
 		return Comments.find({
 		  	newsId: this._id,

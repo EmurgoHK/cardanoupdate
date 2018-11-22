@@ -380,7 +380,6 @@ if (Meteor.isDevelopment) {
       let user = Meteor.users.findOne({
         username: 'testing'
       })
-
       if (!user) {
         let uId = Accounts.createUser({
           username: 'testing',

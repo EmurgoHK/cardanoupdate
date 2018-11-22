@@ -1,5 +1,4 @@
 import './viewProject.html'
-import '../comments/commentBody'
 
 import { Template } from 'meteor/templating'
 import { FlowRouter } from 'meteor/kadira:flow-router'
@@ -7,7 +6,6 @@ import { FlowRouter } from 'meteor/kadira:flow-router'
 import { Projects } from '/imports/api/projects/projects'
 import { Comments } from '/imports/api/comments/comments'
 
-import { newComment } from '/imports/api/comments/methods' 
 import { flagProject, proposeNewData } from '/imports/api/projects/methods'
 
 import { notify } from '/imports/modules/notifier'
@@ -19,19 +17,8 @@ import swal from 'sweetalert2'
 Template.viewProject.onCreated(function() {
 	this.autorun(() => {
 		this.subscribe('projects.item', FlowRouter.getParam('slug'))
-		this.subscribe('users')
-
-		let project = Projects.findOne({
-			slug: FlowRouter.getParam('slug')
-		})
-
-		if (project) {
-			this.subscribe('comments.item', project._id)
-		}
-	})
-
-	this.coolMessage = new ReactiveVar('')
-	this.flagMessage = new ReactiveVar('')
+        this.subscribe('users')
+    });
 })
 
 Template.viewProject.helpers({
@@ -45,34 +32,6 @@ Template.viewProject.helpers({
 		slug: FlowRouter.getParam('slug')
 	}),
 	author: () => Meteor.users.findOne({_id: Template.currentData().createdBy}),
-    coolStuff: () => {
-    	let project = Projects.findOne({
-			slug: FlowRouter.getParam('slug')
-		}) || {}
-
-    	return Comments.find({
-        	parentId: project._id,
-        	type: 'coolstuff'
-    	}, {
-    		sort: {
-    			createdAt: -1
-    		}
-    	})
-    },
-    redFlags: () => {
-    	let project = Projects.findOne({
-			slug: FlowRouter.getParam('slug')
-		}) || {}
-
-    	return Comments.find({
-        	parentId: project._id,
-        	type: 'redflag'
-    	}, {
-    		sort: {
-    			createdAt: -1
-    		}
-    	})
-    },
 	coolCount: function () {
 		return Comments.find({
 		  	newsId: this._id,

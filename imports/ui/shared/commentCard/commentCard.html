@@ -1,6 +1,6 @@
-<template name="commentBody">
+<template name="commentCard">
 	{{#with comment}}
-	<div style="margin-left: {{ident}}px;" class="card" id="comment-{{_id}}">
+	<div style="margin-left: {{ident}}px;" class="comment card" id="comment-{{_id}}">
         <div class="card-body">
             <div class="news-settings float-right dropdown" style="margin-top: -10px;">
                 <i class="nav-icon icon-settings dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
@@ -16,7 +16,7 @@
             <h6 class="card-subtitle mb-4">{{_ "comments.by"}} <strong>{{> userNameDisplay user}}</strong> {{showTimeAgoTimestamp createdAt}}</h6>
             <p class="card-text mb-4"> 
             {{#if editMode}}
-                {{> commentForm parentId=parentId newsId=newsId id=_id postType=postType type=type onSuccess=editSuccess onCancel=editCancel}}
+                {{> commentForm parentId=parentId newsId=newsId id=_id postType=postType type=type onSuccess=editSuccess onCancel=editCancel text=text}}
             {{else}}
                 <span>{{{md text}}}</span> 
             {{/if}}
@@ -35,8 +35,8 @@
     {{/if}}
     {{#if childCommentCount}}
         {{#if showReplies}}
-        {{#each childComments}}
-            {{> commentBody ident=newIdent comment=this _id=origId type=type}}
+        {{#each comment in childComments}}
+            {{> commentCard subCommentArgs comment}}
         {{/each}}
             <div style="margin-left: {{ident}}px;" class="row mb-4">
                 <button class="btn btn-link btn-primary hideReplies" data-id="{{_id}}">{{_ "comments.hide_replies"}}</button><br>

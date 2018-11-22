@@ -1,32 +1,17 @@
 import './viewSocialResource.html'
-import '../comments/commentBody'
 
 import { Template } from 'meteor/templating'
 import { socialResources } from '/imports/api/socialResources/socialResources'
 import { FlowRouter } from 'meteor/kadira:flow-router'
 import { Comments } from '/imports/api/comments/comments'
-import { flagProject } from '/imports/api/projects/methods'
-import { newComment } from '/imports/api/comments/methods'
 import { notify } from '/imports/modules/notifier'
-import swal from 'sweetalert2'
 
 
 Template.viewSocialResourceTemp.onCreated(function() {
 	this.autorun(() => {
 		this.subscribe('socialResources.item', FlowRouter.getParam('slug'))
 		this.subscribe('users')
-
-		let socialResource = socialResources.findOne({
-			_id: FlowRouter.getParam('slug')
-		})
-
-		if (socialResource) {
-			this.subscribe('comments.item', socialResource._id)
-		}
 	})
-
-	this.coolMessage = new ReactiveVar('')
-	this.flagMessage = new ReactiveVar('')
 })
 
 Template.viewSocialResourceTemp.helpers({
@@ -43,34 +28,6 @@ Template.viewSocialResourceTemp.helpers({
 		_id: FlowRouter.getParam('slug')
 	}),
 	author: () => Meteor.users.findOne({_id: Template.currentData().createdBy}),
-    coolStuff: () => {
-    	let socialResource = socialResources.findOne({
-			_id: FlowRouter.getParam('slug')
-		}) || {}
-
-    	return Comments.find({
-        	parentId: socialResource._id,
-        	type: 'coolstuff'
-    	}, {
-    		sort: {
-    			createdAt: -1
-    		}
-    	})
-    },
-    redFlags: () => {
-    	let socialResource = socialResources.findOne({
-			_id: FlowRouter.getParam('slug')
-		}) || {}
-
-    	return Comments.find({
-        	parentId: socialResource._id,
-        	type: 'redflag'
-    	}, {
-    		sort: {
-    			createdAt: -1
-    		}
-    	})
-    },
 	coolCount: function () {
 		return Comments.find({
 		  	newsId: this._id,
