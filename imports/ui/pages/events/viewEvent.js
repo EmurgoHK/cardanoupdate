@@ -86,7 +86,7 @@ Template.viewEvent.events({
 				notify(TAPi18n.__('events.view.success'), 'success')
 				templateInstance.message.set('')
 			} else {
-				templateInstance.message.set(err.reason || err.message)
+				templateInstance.message.set(TAPi18n.__(err.reason || err.message))
 			}
 		})
 	},
@@ -97,7 +97,7 @@ Template.viewEvent.events({
 			eventId: this._id
 		}, (err, data) => {
 			if (err) {
-        notify(err.reason || err.message, 'error')
+        notify(TAPi18n.__(err.reason || err.message), 'error')
       }
 		})
 	}

@@ -100,7 +100,7 @@ Template.projectForm.events({
       notify(TAPi18n.__('projects.form.success_update'), 'success')
         return
       }
-      notify(`${TAPi18n.__('projects.form.error')} :: ${err.reason}`, 'error')
+      notify(`${TAPi18n.__('projects.form.error')} :: ${TAPi18n.__(err.reason)}`, 'error')
     })
   },
     'keyup .form-control' (event, _tpl) {
@@ -183,7 +183,7 @@ Template.projectForm.events({
 		        	err.details.forEach(e => {
 		          		$(`#${e.name}`).addClass('is-invalid')
 		          		$(`#${e.name}Error`).show()
-		          		$(`#${e.name}Error`).text(e.message)
+		          		$(`#${e.name}Error`).text(TAPi18n.__(e.message))
 		        	})
 		      	}
 	    	})
@@ -207,7 +207,7 @@ Template.projectForm.events({
             }
 
             if (err.details === undefined && err.reason) {
-                notify(err.reason, 'error')
+                notify(TAPi18n.__(err.reason), 'error')
                 return
             }
 
@@ -215,7 +215,7 @@ Template.projectForm.events({
                 err.details.forEach(e => {
                     $(`#${e.name}`).addClass('is-invalid')
                     $(`#${e.name}Error`).show()
-                    $(`#${e.name}Error`).text(e.message)
+                    $(`#${e.name}Error`).text(TAPi18n.__(e.message))
                 })
             }
         })
@@ -229,7 +229,7 @@ Template.projectForm.events({
             decision: 'merge'
         }, (err, data) => {
             if (err) {
-                notify(err.reason || err.message, 'error')
+                notify(TAPi18n.__(err.reason || err.message), 'error')
             } else {
                 notify(TAPi18n.__('projects.form.success_merge'), 'success')
             }
@@ -244,7 +244,7 @@ Template.projectForm.events({
             decision: 'reject'
         }, (err, data) => {
             if (err) {
-                notify(err.reason || err.message, 'error')
+                notify(TAPi18n.__(err.reason || err.message), 'error')
             } else {
                 notify(TAPi18n.__('projects.form.success_reject'), 'success')
             }

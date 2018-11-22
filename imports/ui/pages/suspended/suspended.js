@@ -53,7 +53,7 @@ Template.suspended.events({
 			reason: $('#js-reason').val()
 		}, (err, data) => {
 			if (err) {
-				notify(err.message || err.reason, 'error')
+				notify(TAPi18n.__(err.message || err.reason), 'error')
 			} else {
 				notify(TAPi18n.__('user.suspended.success'), 'success')
 			}

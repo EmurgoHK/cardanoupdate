@@ -69,14 +69,14 @@ export const addSocialResource = new ValidatedMethod({
     run(data) {
         if (Meteor.isServer) {
             if (!Meteor.userId()) {
-                throw new Meteor.Error('Error.', 'You have to be logged in.')
+                throw new Meteor.Error('Error.', 'messages.login')
             }
 
             if(!isTesting) {
                 var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, data.captcha);
 
                 if (!verifyCaptchaResponse.success) {
-                    throw new Meteor.Error('recaptcha failed please try again');
+                    throw new Meteor.Error('messages.recaptcha');
                 } else
                     console.log('reCAPTCHA verification passed!');
             }   
@@ -116,15 +116,15 @@ export const deleteSocialResource = new ValidatedMethod({
             let project = socialResources.findOne({ _id: projectId })
 
             if (!project) {
-                throw new Meteor.Error('Error.', 'Project doesn\'t exist.')
+                throw new Meteor.Error('Error.', 'messages.communities.no_community')
             }
 
             if (!Meteor.userId()) {
-                throw new Meteor.Error('Error.', 'You have to be logged in.')
+                throw new Meteor.Error('Error.', 'messages.login')
             }
 
             if (project.createdBy !== Meteor.userId()) {
-                throw new Meteor.Error('Error.', 'You can\'t remove a project that you haven\'t added.')
+                throw new Meteor.Error('Error.', 'messages.communities.cant_remove')
             }
 
             // remove mentions of tags & decrease the counter of each tag
@@ -189,22 +189,22 @@ export const editSocialResource = new ValidatedMethod({
             let project = socialResources.findOne({ _id: projectId })
 
             if (!project) {
-                throw new Meteor.Error('Error.', 'Project doesn\'t exist.')
+                throw new Meteor.Error('Error.', 'messages.communities.no_community')
             }
 
             if (!Meteor.userId()) {
-                throw new Meteor.Error('Error.', 'You have to be logged in.')
+                throw new Meteor.Error('Error.', 'messages.login')
             }
 
             if (project.createdBy !== Meteor.userId()) {
-                throw new Meteor.Error('Error.', 'You can\'t edit a project that you haven\'t added.')
+                throw new Meteor.Error('Error.', 'messages.communities.cant_edit')
             }
 
             if(!isTesting) {
                 var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, captcha);
 
                 if (!verifyCaptchaResponse.success) {
-                    throw new Meteor.Error('recaptcha failed please try again');
+                    throw new Meteor.Error('messages.recaptcha');
                 } else
                     console.log('reCAPTCHA verification passed!');
             }
@@ -391,15 +391,15 @@ export const flagSocialResource = new ValidatedMethod({
         })
 
         if (!socialResource) {
-            throw new Meteor.Error('Error.', 'Social resource doesn\'t exist.')
+            throw new Meteor.Error('Error.', 'messages.communities.no_community')
         }
 
         if (!Meteor.userId()) {
-            throw new Meteor.Error('Error.', 'You have to be logged in.')
+            throw new Meteor.Error('Error.', 'messages.login')
         }
 
         if ((socialResource.flags || []).some(i => i.flaggedBy === Meteor.userId())) {
-            throw new Meteor.Error('Error.', 'You have already flagged this item.')
+            throw new Meteor.Error('Error.', 'messages.already_flagged')
         }
 
         return socialResources.update({
@@ -433,11 +433,11 @@ export const resolveSocialResourceFlags = new ValidatedMethod({
         }),
     run({ socialResourceId, decision }) {
         if (!Meteor.userId()) {
-            throw new Meteor.Error('Error.', 'You have to be logged in.')
+            throw new Meteor.Error('Error.', 'messages.login')
         }
 
         if (!isModerator(Meteor.userId())) {
-            throw new Meteor.Error('Error.', 'You have to be a moderator.')
+            throw new Meteor.Error('Error.', 'messages.moderator')
         }
 
         let socialResource = socialResources.findOne({
@@ -445,7 +445,7 @@ export const resolveSocialResourceFlags = new ValidatedMethod({
         })
 
         if (!socialResource) {
-            throw new Meteor.Error('Error.', 'Social resource doesn\'t exist.')
+            throw new Meteor.Error('Error.', 'messages.communities.no_community')
         }
 
         if (decision === 'ignore') {

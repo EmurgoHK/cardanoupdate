@@ -88,7 +88,7 @@ Template.viewResearch.events({
 				notify(TAPi18n.__('research.view.success'), 'success')
 				templateInstance.message.set('')
 			} else {
-				templateInstance.message.set(err.reason || err.message)
+				templateInstance.message.set(TAPi18n.__(err.reason || err.message))
 			}
 		})
 	}

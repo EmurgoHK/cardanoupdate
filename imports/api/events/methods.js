@@ -66,14 +66,14 @@ export const newEvent = new ValidatedMethod({
   run(data) {
     if(Meteor.isServer) {
       if (!Meteor.userId()) {
-        throw new Meteor.Error('Error.', 'You have to be logged in.')
+        throw new Meteor.Error('Error.', 'messages.login')
       }
 
       if(!isTesting) {
         var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, data.captcha);
 
         if (!verifyCaptchaResponse.success) {
-            throw new Meteor.Error('recaptcha failed please try again');
+            throw new Meteor.Error('messages.recaptcha');
         }
       }
       data.createdBy = Meteor.userId()
@@ -100,15 +100,15 @@ export const deleteEvent = new ValidatedMethod({
       })
 
       if (!event) {
-        throw new Meteor.Error('Error.', 'Event doesn\'t exist.')
+        throw new Meteor.Error('Error.', 'messages.events.no_event')
       }
 
       if (!Meteor.userId()) {
-        throw new Meteor.Error('Error.', 'You have to be logged in.')
+        throw new Meteor.Error('Error.', 'messages.login')
       }
 
       if (event.createdBy !== Meteor.userId()) {
-        throw new Meteor.Error('Error.', 'You can\'t remove a event that you haven\'t added.')
+        throw new Meteor.Error('Error.', 'messages.events.cant_remove')
       }
 
       return Events.remove({
@@ -197,22 +197,22 @@ export const editEvent = new ValidatedMethod({
       })
 
       if (!event) {
-        throw new Meteor.Error('Error.', 'Event doesn\'t exist.')
+        throw new Meteor.Error('Error.', 'messages.events.no_event')
       }
 
       if (!Meteor.userId()) {
-        throw new Meteor.Error('Error.', 'You have to be logged in.')
+        throw new Meteor.Error('Error.', 'messages.login')
       }
 
       if (event.createdBy !== Meteor.userId()) {
-        throw new Meteor.Error('Error.', 'You can\'t edit a event that you haven\'t added.')
+        throw new Meteor.Error('Error.', 'messages.events.cant_edit')
       }
       
       if(!isTesting) {
         var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, captcha);
 
         if (!verifyCaptchaResponse.success) {
-            throw new Meteor.Error('recaptcha failed please try again');
+            throw new Meteor.Error('messages.recaptcha');
         } else
             console.log('reCAPTCHA verification passed!');
       }
@@ -259,15 +259,15 @@ export const flagEvent = new ValidatedMethod({
     })
 
     if (!event) {
-      throw new Meteor.Error('Error.', 'Event doesn\'t exist.')
+      throw new Meteor.Error('Error.', 'messages.events.no_event')
     }
 
     if (!Meteor.userId()) {
-      throw new Meteor.Error('Error.', 'You have to be logged in.')
+      throw new Meteor.Error('Error.', 'messages.login')
     }
 
     if ((event.flags || []).some(i => i.flaggedBy === Meteor.userId())) {
-      throw new Meteor.Error('Error.', 'You have already flagged this item.')
+      throw new Meteor.Error('Error.', 'messages.already_flagged')
     }
 
     return Events.update({
@@ -303,11 +303,11 @@ export const resolveEventFlags = new ValidatedMethod({
     decision
   }) {
     if (!Meteor.userId()) {
-      throw new Meteor.Error('Error.', 'You have to be logged in.')
+      throw new Meteor.Error('Error.', 'messages.login')
     }
 
     if (!isModerator(Meteor.userId())) {
-      throw new Meteor.Error('Error.', 'You have to be a moderator.')
+      throw new Meteor.Error('Error.', 'messages.moderator')
     }
 
     let event = Events.findOne({
@@ -315,7 +315,7 @@ export const resolveEventFlags = new ValidatedMethod({
     })
 
     if (!event) {
-      throw new Meteor.Error('Error.', 'Event doesn\'t exist.')
+      throw new Meteor.Error('Error.', 'messages.events.no_event')
     }
 
     if (decision === 'ignore') {
@@ -362,11 +362,11 @@ export const toggleWatchEvents = new ValidatedMethod({
       })
 
       if (!event) {
-          throw new Meteor.Error('Error.', 'Event doesn\'t exist.')
+          throw new Meteor.Error('Error.', 'messages.events.no_event')
       }
 
       if (!Meteor.userId()) {
-          throw new Meteor.Error('Error.', 'You have to be logged in.')
+          throw new Meteor.Error('Error.', 'messages.login')
       }
 
       return Events.update({

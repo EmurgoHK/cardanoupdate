@@ -49,7 +49,7 @@ import _ from 'lodash'
       notify(TAPi18n.__('warnings.form.success'), 'success')
         return
       } 
-      notify(`${TAPi18n.__('warnings.form.error')} :: ${err.reason}`, 'error')
+      notify(`${TAPi18n.__('warnings.form.error')} :: ${TAPi18n.__(err.reason)}`, 'error')
     })
   },
     'keyup .form-control' (event, _tpl) {
@@ -88,7 +88,7 @@ import _ from 'lodash'
 		        	err.details.forEach(e => {
 		          		$(`#${e.name}`).addClass('is-invalid')
 		          		$(`#${e.name}Error`).show()
-		          		$(`#${e.name}Error`).text(e.message)
+		          		$(`#${e.name}Error`).text(TAPi18n.__(e.message))
 		        	})
 		      	}
 	    	})
@@ -105,7 +105,7 @@ import _ from 'lodash'
                 return
             }
              if (err.details === undefined && err.reason) {
-                notify(err.reason, 'error')
+                notify(TAPi18n.__(err.reason), 'error')
                 return
             }
             
@@ -115,7 +115,7 @@ import _ from 'lodash'
                     $(`#${e.name}`).addClass('is-invalid')
                     $(`#${e.name}Error`).show()
                     e.message = e.message.split(' ')[0] == 'Summary' ? TAPi18n.__('warnings.form.desc_required') : e.message;
-                    $(`#${e.name}Error`).text(e.message)
+                    $(`#${e.name}Error`).text(TAPi18n.__(e.message))
                 })
             }
         })

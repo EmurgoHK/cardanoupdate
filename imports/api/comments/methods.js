@@ -221,7 +221,7 @@ export const newComment = new ValidatedMethod({
   }),
   run({ parentId, newsId, text, type, postType }) {
     if (!Meteor.userId()) {
-      throw new Meteor.Error('Error.', 'You have to be logged in.')
+      throw new Meteor.Error('Error.', 'messages.login')
     }
     addToSubscribers(postType, newsId, Meteor.userId())
     sendToSubscribers(postType, newsId, Meteor.userId(), `${((Meteor.users.findOne({_id: Meteor.userId()}) || {}).profile || {}).name || 'No name'}`)
@@ -251,15 +251,15 @@ export const removeComment = new ValidatedMethod({
     })
 
     if (!comment) {
-      throw new Meteor.Error('Error.', 'Comment doesn\'t exist.')
+      throw new Meteor.Error('Error.', 'messages.comments.no_comment')
     }
 
     if (!Meteor.userId()) {
-      throw new Meteor.Error('Error.', 'You have to be logged in.')
+      throw new Meteor.Error('Error.', 'messages.login')
     }
 
     if (comment.createdBy !== Meteor.userId()) {
-      throw new Meteor.Error('Error.', 'You can\'t remove a comment that you haven\'t posted.')
+      throw new Meteor.Error('Error.', 'messages.comments.cant_remove')
     }
 
     // if the comment that's being deleted has children, append the children to the parent comment
@@ -304,15 +304,15 @@ export const editComment = new ValidatedMethod({
     })
 
     if (!comment) {
-      throw new Meteor.Error('Error.', 'Comment doesn\'t exist.')
+      throw new Meteor.Error('Error.', 'messages.comments.no_comment')
     }
 
     if (!Meteor.userId()) {
-      throw new Meteor.Error('Error.', 'You have to be logged in.')
+      throw new Meteor.Error('Error.', 'messages.login')
     }
 
     if (comment.createdBy !== Meteor.userId()) {
-      throw new Meteor.Error('Error.', 'You can\'t edit a comment that you haven\'t posted.')
+      throw new Meteor.Error('Error.', 'messages.comments.cant_edit')
     }
 
     return Comments.update({
@@ -347,15 +347,15 @@ export const flagComment = new ValidatedMethod({
     })
 
     if (!comment) {
-      throw new Meteor.Error('Error.', 'Comment doesn\'t exist.')
+      throw new Meteor.Error('Error.', 'messages.comments.no_comment')
     }
 
     if (!Meteor.userId()) {
-      throw new Meteor.Error('Error.', 'You have to be logged in.')
+      throw new Meteor.Error('Error.', 'messages.login')
     }
 
     if ((comment.flags || []).some(i => i.flaggedBy === Meteor.userId())) {
-      throw new Meteor.Error('Error.', 'You have already flagged this item.')
+      throw new Meteor.Error('Error.', 'messages.already_flagged')
     }
 
     return Comments.update({
@@ -388,11 +388,11 @@ export const resolveCommentFlags = new ValidatedMethod({
   }),
   run({ commentId, decision }) {
     if (!Meteor.userId()) {
-      throw new Meteor.Error('Error.', 'You have to be logged in.')
+      throw new Meteor.Error('Error.', 'messages.login')
     }
 
     if (!isModerator(Meteor.userId())) {
-      throw new Meteor.Error('Error.', 'You have to be a moderator.')
+      throw new Meteor.Error('Error.', 'messages.moderator')
     }
 
     let comment = Comments.findOne({
@@ -400,7 +400,7 @@ export const resolveCommentFlags = new ValidatedMethod({
     })
 
     if (!comment) {
-      throw new Meteor.Error('Error.', 'Comment doesn\'t exist.')
+      throw new Meteor.Error('Error.', 'messages.comments.no_comment')
     }
 
     if (decision === 'ignore') {
