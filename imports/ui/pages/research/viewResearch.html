@@ -43,34 +43,7 @@
           {{/with}}
 
           <hr class="mb-5 mt-5">
-
-          <div class="row">
-            <div class="col-sm-12 news-form">
-              <div class="card">
-                <div class="card-body">
-                  <div class="form-group">
-                    <textarea class="form-control" id="comments" name="comment" rows="3" placeholder='{{_ "research.view.comment_placeholder"}}' required></textarea>
-                  </div>
-
-                  <p class="text-danger">{{commentInvalidMessage}}</p>
-
-                  <div class="btn-group" role="group">
-                    <div class="btn-group" role="group">
-                      <button type="submit" class="btn btn-outline-primary mb-2 new-comment">{{_ "research.view.comment"}}</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-sm-12 news-form comments">
-              {{#each comments}}
-                {{> commentBody ident=0 comment=this _id=research._id}}
-              {{/each}}
-            </div>
-          </div>
+          {{> commentArea parentId=research._id postType="research" type="comment" commentSuccess=commentSuccess}}
         {{else}}
           {{> loader}}
         {{/if}}

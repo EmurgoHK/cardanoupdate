@@ -1,17 +1,16 @@
-import './commentBody.html'
+import './commentCard.html'
 
 import { Template } from 'meteor/templating'
-import { FlowRouter } from 'meteor/kadira:flow-router'
 
 import { Comments } from '/imports/api/comments/comments'
 
-import { newComment, editComment, removeComment, flagComment } from '/imports/api/comments/methods'
+import { removeComment, flagComment } from '/imports/api/comments/methods'
 
 import { notify } from '/imports/modules/notifier'
 
 import swal from 'sweetalert2'
 
-Template.commentBody.onCreated(function() {
+Template.commentCard.onCreated(function() {
 	this.edits = new ReactiveDict()
 	this.replies = new ReactiveDict()
 
@@ -20,9 +19,7 @@ Template.commentBody.onCreated(function() {
 	this.showReplies = new ReactiveVar(false);
 })
 
-Template.commentBody.helpers({
-	origId: () => Template.instance().data._id,
-	type: () => Template.instance().data.type,
+Template.commentCard.helpers({
 	user: () => Meteor.users.findOne({ _id: Template.currentData().createdBy}),
     canEditComment: function() {
     	return this.createdBy === Meteor.userId()
@@ -56,13 +53,28 @@ Template.commentBody.helpers({
 		}).count();
 	},
 	showReplies: () => Template.instance().showReplies.get(),
+	subCommentArgs: (comment) => {
+		const data = Template.instance().data;
+
+		return {
+			ident: data.ident + 10,
+			comment: comment,
+			_id: comment._id,
+			type: data.type,
+			onReplySuccess: data.onReplySuccess,
+			onEditSuccess: data.onEditSuccess,
+		};
+	},
 	replySuccess: () => {
 		const templateInstance = Template.instance();
-		const data = Template.currentData();
+
 		return () => {
 			notify(TAPi18n.__('comments.success'), 'success');
 			templateInstance.showReplies.set(true);
-			templateInstance.replies.set(data._id, false);
+			templateInstance.replies.set(templateInstance.data._id, false);
+			
+			if (templateInstance.data.onReplySuccess)
+				templateInstance.data.onReplySuccess();
 		}
 	},
 	replyCancel: () => {
@@ -74,11 +86,13 @@ Template.commentBody.helpers({
 	},
 	editSuccess: () => {
 		const templateInstance = Template.instance();
-		const data = Template.currentData();
 		
 		return () => {
 			notify(TAPi18n.__('comments.success_edit'), 'success');
-			templateInstance.edits.set(data._id, false);
+			templateInstance.edits.set(templateInstance.data._id, false);
+
+			if (templateInstance.data.onEditSuccess)
+				templateInstance.data.onEditSuccess();
 		}
 	},
 	editCancel: () => {
@@ -89,7 +103,7 @@ Template.commentBody.helpers({
 	},
 })
 
-Template.commentBody.events({
+Template.commentCard.events({
 	'click .flag-comment': function(event, templateInstance) {
 		event.preventDefault()
 		event.stopImmediatePropagation()

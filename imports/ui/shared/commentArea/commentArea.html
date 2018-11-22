@@ -1,0 +1,13 @@
+<template name="commentArea">
+  <section class="comment-area {{wrapperClasses}}">
+    <div class="card">
+      {{> commentForm formArgs }}
+    </div>
+    
+    <div class="comments">
+      {{#each comment in comments}}
+        {{> commentCard ident=0 comment=comment _id=comment._id onReplySuccess=replySuccess onEditSuccess=editSuccess}}
+      {{/each}}
+    </div>
+  </section>
+</template>

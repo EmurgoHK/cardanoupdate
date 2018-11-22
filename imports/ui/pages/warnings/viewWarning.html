@@ -28,22 +28,9 @@
                </div>
             </div>
           {{/with}}
-          <div class="warning-form comments">
-            <div class="card">
-              <div class="card-body">
-                <h4 class="card-title text-dark mt-3">{{_ "warnings.view.comments"}}</h4>
-                <div style="max-height: 500px;overflow-y: auto;">
-                {{#each comment}}
-                  {{> commentBody ident=0 comment=this _id=warning._id type="warning"}}
-                {{/each}}
-                </div>
-                <hr>
-                <div class="card">
-                  {{> commentForm wrapperClasses="card-body" newsId=warning._id parentId=warning._id type="warning" postType="scam" hideCancel=true onSuccess=commentSuccess}}
-                </div>
-              </div>
-            </div>
-          </div>
+          
+          <hr class="mb-5 mt-5">
+          {{> commentArea parentId=warning._id type="warning" postType="scam" commentSuccess=commentSuccess}}
         {{else}}
           {{> loader}}
         {{/if}}

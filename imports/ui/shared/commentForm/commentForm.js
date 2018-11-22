@@ -58,7 +58,9 @@ Template.commentForm.events({
         if (!err) {
           templateInstance.text.set('');
           templateInstance.error.set('');
-          data.onSuccess(res);
+
+          if (data.onSuccess)
+            data.onSuccess(res);
         } else {
           templateInstance.error.set(TAPi18n.__(err.reason || err.message));
         }
@@ -74,7 +76,9 @@ Template.commentForm.events({
         if (!err) {
           templateInstance.text.set('');
           templateInstance.error.set('');
-          data.onSuccess(res);
+
+          if (data.onSuccess)
+            data.onSuccess(res);
         } else {
           templateInstance.error.set(TAPi18n.__(err.reason || err.message));
         }
