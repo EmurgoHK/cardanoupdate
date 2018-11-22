@@ -37,4 +37,12 @@ Meteor.startup(() => {
     reCAPTCHA.config({
         publickey: Meteor.settings.public.RECAPTCHA_CLIENT
     });
+    
+    TAPi18n.setLanguage(sessionStorage.getItem('uiLanguage') || 'en')
+      .done(function () {
+      })
+      .fail(function (error_message) {
+        // Handle the situation
+        console.log(error_message);
+      });
 })
