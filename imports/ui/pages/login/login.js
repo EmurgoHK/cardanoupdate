@@ -20,7 +20,7 @@ Template.login.events({
             email: event.target.email.value
         }, event.target.password.value, (err) => {
             if (err) {
-                notify(err.message, 'error')
+                notify(TAPi18n.__(err.message), 'error')
                 return
             }
 
@@ -34,7 +34,7 @@ Template.login.events({
             if (!err) {
                 FlowRouter.go(window.last || '/')
             } else {
-                notify(err.message, 'error')
+                notify(TAPi18n.__(err.message), 'error')
             }
         })
     },
@@ -49,7 +49,7 @@ Template.passwordReset.events({
     if (email && email !== '') {
       Accounts.forgotPassword({ email: email }, function (err) {
         if (err) {
-          notify(err.reason || err.message, 'error')
+          notify(TAPi18n.__(err.reason || err.message), 'error')
           return
         } else {
           notify(TAPi18n.__('sign.login.check'), 'success')

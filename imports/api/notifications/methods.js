@@ -29,7 +29,7 @@ export const markNotificationAsRead = new ValidatedMethod({
     }),
     run({ notificationId }) {
         if (!Meteor.userId()) {
-            throw new Meteor.Error('Error.', 'You have to be logged in.')
+            throw new Meteor.Error('Error.', 'messages.login')
         }
 
         return Notifications.update({
@@ -59,7 +59,7 @@ export const markAllAsRead = new ValidatedMethod({
     }),
     run({ userId, type }) {
         if (!Meteor.userId()) {
-            throw new Meteor.Error('Error.', 'You have to be logged in.')
+            throw new Meteor.Error('Error.', 'messages.login')
         }
 
         return Notifications.update({

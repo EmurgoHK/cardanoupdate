@@ -21,7 +21,7 @@ Template.signup.events({
           }
         }, (err) => {
           if (err) {
-            notify(err.message, 'error')
+            notify(TAPi18n.__(err.message), 'error')
             return
           }
           FlowRouter.go(window.last || '/')

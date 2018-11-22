@@ -222,7 +222,7 @@ Template.editProfile.events({
       }
 
       if (err.details === undefined && err.reason) {
-        notify(err.reason, 'error')
+        notify(TAPi18n.__(err.reason), 'error')
         return
       }
 
@@ -230,7 +230,7 @@ Template.editProfile.events({
         err.details.forEach(e => {
           $(`#${e.name}`).addClass('is-invalid')
           $(`#${e.name}Error`).show()
-          $(`#${e.name}Error`).text(e.message)
+          $(`#${e.name}Error`).text(TAPi18n.__(e.message))
         })
       }
     })

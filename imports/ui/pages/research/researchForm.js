@@ -102,7 +102,7 @@ Template.researchForm.events({
 		        	err.details.forEach(e => {
 		          		$(`#${e.name}`).addClass('is-invalid')
 		          		$(`#${e.name}Error`).show()
-		          		$(`#${e.name}Error`).text(e.message)
+		          		$(`#${e.name}Error`).text(TAPi18n.__(e.message))
 		        	})
 		      	}
 	    	})
@@ -132,7 +132,7 @@ Template.researchForm.events({
 									console.log(e);
 		          		$(`#${e.name.replace(/\./g, '_')}`).addClass('is-invalid')
 		          		$(`#${e.name.replace(/\./g, '_')}Error`).show()
-		          		$(`#${e.name.replace(/\./g, '_')}Error`).text(e.message)
+		          		$(`#${e.name.replace(/\./g, '_')}Error`).text(TAPi18n.__(e.message))
 		        	})
 		      	}
 	    	})

@@ -81,7 +81,7 @@ import { flagWarning } from '/imports/api/warnings/methods'
 					reason: data.value
 				}, (err, data) => {
 					if (err) {
-						notify(err.reason || err.message, 'error')
+						notify(TAPi18n.__(err.reason || err.message), 'error')
 					} else {
 						notify(TAPi18n.__('warnings.view.success_flag'), 'success')
 					}

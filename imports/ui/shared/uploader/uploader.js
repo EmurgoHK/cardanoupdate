@@ -171,7 +171,7 @@ Template.uploader.events({
                     md5: CryptoJS.MD5(CryptoJS.enc.Latin1.parse(data.trim())).toString()
                 }, (err, data) => {
                     if (err) {
-                        notify(err.reason || err.message, 'error')
+                        notify(TAPi18n.__(err.reason || err.message), 'error')
 
                         // If any error generated while uploading image then
                         // Following line rever back button to original.

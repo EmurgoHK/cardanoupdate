@@ -54,14 +54,14 @@ export const newResearch = new ValidatedMethod({
     run({ headline, abstract, pdf, captcha, links }) {
         if(Meteor.isServer) {
             if (!Meteor.userId()) {
-                throw new Meteor.Error('Error.', 'You have to be logged in.')
+                throw new Meteor.Error('Error.', 'messages.login')
             }
     
             if(!isTesting) {
                 var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, captcha);
     
                 if (!verifyCaptchaResponse.success) {
-                    throw new Meteor.Error('recaptcha failed please try again');
+                    throw new Meteor.Error('messages.recaptcha');
                 }
             }
             
@@ -92,15 +92,15 @@ export const removeResearch = new ValidatedMethod({
         })
 
         if (!research) {
-            throw new Meteor.Error('Error.', 'Research doesn\'t exist.')
+            throw new Meteor.Error('Error.', 'messages.research.no_research')
         }
 
         if (!Meteor.userId()) {
-            throw new Meteor.Error('Error.', 'You have to be logged in.')
+            throw new Meteor.Error('Error.', 'messages.login')
         }
 
         if (research.createdBy !== Meteor.userId()) {
-            throw new Meteor.Error('Error.', 'You can\'t remove research that you haven\'t posted.')
+            throw new Meteor.Error('Error.', 'messages.research.cant_remove')
         }
 
         Comments.remove({
@@ -166,22 +166,22 @@ export const editResearch = new ValidatedMethod({
             })
     
             if (!research) {
-                throw new Meteor.Error('Error.', 'Research doesn\'t exist.')
+                throw new Meteor.Error('Error.', 'messages.research.no_research')
             }
     
             if (!Meteor.userId()) {
-                throw new Meteor.Error('Error.', 'You have to be logged in.')
+                throw new Meteor.Error('Error.', 'messages.login')
             }
     
             if (research.createdBy !== Meteor.userId()) {
-                throw new Meteor.Error('Error.', 'You can\'t edit research that you haven\'t posted.')
+                throw new Meteor.Error('Error.', 'messages.research.cant_edit')
             }
     
             if(!isTesting) {
                 var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, captcha);
         
                 if (!verifyCaptchaResponse.success) {
-                    throw new Meteor.Error('recaptcha failed please try again');
+                    throw new Meteor.Error('messages.recaptcha');
                 }
             }
     
@@ -222,15 +222,15 @@ export const flagResearch = new ValidatedMethod({
         })
 
         if (!research) {
-            throw new Meteor.Error('Error.', 'Research doesn\'t exist.')
+            throw new Meteor.Error('Error.', 'messages.research.no_research')
         }
 
         if (!Meteor.userId()) {
-            throw new Meteor.Error('Error.', 'You have to be logged in.')
+            throw new Meteor.Error('Error.', 'messages.login')
         }
 
         if ((research.flags || []).some(i => i.flaggedBy === Meteor.userId())) {
-            throw new Meteor.Error('Error.', 'You have already flagged this item.')
+            throw new Meteor.Error('Error.', 'messages.already_flagged')
         }
 
         return Research.update({
@@ -264,11 +264,11 @@ export const resolveResearchFlags = new ValidatedMethod({
         }),
     run({ researchId, decision }) {
         if (!Meteor.userId()) {
-            throw new Meteor.Error('Error.', 'You have to be logged in.')
+            throw new Meteor.Error('Error.', 'messages.login')
         }
 
         if (!isModerator(Meteor.userId())) {
-            throw new Meteor.Error('Error.', 'You have to be a moderator.')
+            throw new Meteor.Error('Error.', 'messages.moderator')
         }
 
         let research = Research.findOne({
@@ -276,7 +276,7 @@ export const resolveResearchFlags = new ValidatedMethod({
         })
 
         if (!research) {
-            throw new Meteor.Error('Error.', 'Research doesn\'t exist.')
+            throw new Meteor.Error('Error.', 'messages.research.no_research')
         }
 
         if (decision === 'ignore') {

@@ -75,7 +75,7 @@ Template.pardonUser.events({
         	type: $(event.currentTarget).data('vote')
         }, (err, data) => {
             if (err) {
-            	notify(err.message || err.reason, 'error')
+            	notify(TAPi18n.__(err.message || err.reason), 'error')
             } else {
 				newPardonUser()
 			}

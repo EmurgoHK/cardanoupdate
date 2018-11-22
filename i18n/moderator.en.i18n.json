@@ -27,6 +27,7 @@
 			"remove": "Remove",
 			"no_items": "No flagged items found!",
 			"content_ignore": "Content will be ignored and no longer marked as flagged",
+			"content_remove": "Deleting this Red flag will delete the flagged content. This action is not reversible.",
 			"are_you_sure": "Are you sure?",
 			"success_ignore": "Successfully ignored.",
 			"success_remove": "Successfully removed."

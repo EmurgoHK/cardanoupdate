@@ -51,7 +51,7 @@ Template.changes.events({
 			decision: 'merge'
 		}, (err, data) => {
 			if (err) {
-				notify(err.reason || err.message, 'error')
+				notify(TAPi18n.__(err.reason || err.message), 'error')
 			} else {
 				notify(TAPi18n.__('mod.changes.success_merge'), 'success')
 			}
@@ -66,7 +66,7 @@ Template.changes.events({
 			decision: 'reject'
 		}, (err, data) => {
 			if (err) {
-				notify(err.reason || err.message, 'error')
+				notify(TAPi18n.__(err.reason || err.message), 'error')
 			} else {
 				notify(TAPi18n.__('mod.changes.success_reject'), 'success')
 			}

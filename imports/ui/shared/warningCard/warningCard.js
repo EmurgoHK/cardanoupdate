@@ -46,7 +46,7 @@ Template.warningCard.events({
           },
           (err, data) => {
             if (err) {
-              notify(err.reason || err.message, "error");
+              notify(TAPi18n.__(err.reason || err.message), "error");
             }
           }
         );
@@ -73,7 +73,7 @@ Template.warningCard.events({
           },
           (err, data) => {
             if (err) {
-              notify(err.reason || err.message, "error");
+              notify(TAPi18n.__(err.reason || err.message), "error");
             } else {
               notify(
                 TAPi18n.__('warnings.card.success_flag'),

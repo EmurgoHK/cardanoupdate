@@ -89,14 +89,14 @@ export const newLearningItem = new ValidatedMethod({
     run({ title, summary, content, tags, captcha, difficultyLevel }) {
         if (Meteor.isServer) {
             if (!Meteor.userId()) {
-                throw new Meteor.Error('Error.', 'You have to be logged in.')
+                throw new Meteor.Error('Error.', 'messages.login')
             }
 
             if(captcha != '_test_captcha_') {
                 var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, captcha);
         
                 if (!verifyCaptchaResponse.success) {
-                    throw new Meteor.Error('recaptcha failed please try again');
+                    throw new Meteor.Error('messages.recaptcha');
                 }
             }
             if (tags) {
@@ -138,15 +138,15 @@ export const removeLearningItem = new ValidatedMethod({
         })
 
         if (!learn) {
-            throw new Meteor.Error('Error.', 'Learning item doesn\'t exist.')
+            throw new Meteor.Error('Error.', 'messages.learn.no_learn')
         }
 
         if (!Meteor.userId()) {
-            throw new Meteor.Error('Error.', 'You have to be logged in.')
+            throw new Meteor.Error('Error.', 'messages.login')
         }
 
         if (learn.createdBy !== Meteor.userId()) {
-            throw new Meteor.Error('Error.', 'You can\'t remove a learning item that you haven\'t created.')
+            throw new Meteor.Error('Error.', 'messages.learn.cant_remove')
         }
 
         Comments.remove({
@@ -216,22 +216,22 @@ export const editLearningItem = new ValidatedMethod({
             })
     
             if (!learn) {
-                throw new Meteor.Error('Error.', 'Learning item doesn\'t exist.')
+                throw new Meteor.Error('Error.', 'messages.learn.no_learn')
             }
     
             if (!Meteor.userId()) {
-                throw new Meteor.Error('Error.', 'You have to be logged in.')
+                throw new Meteor.Error('Error.', 'messages.login')
             }
     
             if (learn.createdBy !== Meteor.userId()) {
-                throw new Meteor.Error('Error.', 'You can\'t edit a learning item that you haven\'t created.')
+                throw new Meteor.Error('Error.', 'messages.learn.cant_edit')
             }
             
             if(!isTesting) {
                 var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, captcha);
         
                 if (!verifyCaptchaResponse.success) {
-                    throw new Meteor.Error('recaptcha failed please try again');
+                    throw new Meteor.Error('messages.recaptcha');
                 } 
             }
 
@@ -289,15 +289,15 @@ export const flagLearningItem = new ValidatedMethod({
         })
 
         if (!learn) {
-            throw new Meteor.Error('Error.', 'Learning item doesn\'t exist.')
+            throw new Meteor.Error('Error.', 'messages.learn.no_learn')
         }
 
         if (!Meteor.userId()) {
-            throw new Meteor.Error('Error.', 'You have to be logged in.')
+            throw new Meteor.Error('Error.', 'messages.login')
         }
 
         if ((learn.flags || []).some(i => i.flaggedBy === Meteor.userId())) {
-            throw new Meteor.Error('Error.', 'You have already flagged this item.')
+            throw new Meteor.Error('Error.', 'messages.already_flagged')
         }
 
         return Learn.update({
@@ -331,11 +331,11 @@ export const resolveLearningItemFlags = new ValidatedMethod({
         }),
     run({ learnId, decision }) {
         if (!Meteor.userId()) {
-            throw new Meteor.Error('Error.', 'You have to be logged in.')
+            throw new Meteor.Error('Error.', 'messages.login')
         }
 
         if (!isModerator(Meteor.userId())) {
-            throw new Meteor.Error('Error.', 'You have to be a moderator.')
+            throw new Meteor.Error('Error.', 'messages.moderator')
         }
 
         let learn = Learn.findOne({
@@ -343,7 +343,7 @@ export const resolveLearningItemFlags = new ValidatedMethod({
         })
 
         if (!learn) {
-            throw new Meteor.Error('Error.', 'Learning item doesn\'t exist.')
+            throw new Meteor.Error('Error.', 'messages.learn.no_learn')
         }
 
         if (decision === 'ignore') {

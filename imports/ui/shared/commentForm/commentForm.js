@@ -60,7 +60,7 @@ Template.commentForm.events({
           templateInstance.error.set('');
           data.onSuccess(res);
         } else {
-          templateInstance.error.set(err.reason || err.message);
+          templateInstance.error.set(TAPi18n.__(err.reason || err.message));
         }
       });
     } else {
@@ -76,7 +76,7 @@ Template.commentForm.events({
           templateInstance.error.set('');
           data.onSuccess(res);
         } else {
-          templateInstance.error.set(err.reason || err.message);
+          templateInstance.error.set(TAPi18n.__(err.reason || err.message));
         }
       })
     }
