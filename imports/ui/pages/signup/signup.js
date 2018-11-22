@@ -29,9 +29,9 @@ Template.signup.events({
         })
         return
       }
-      notify(TAPi18n.__('sign.signup.confirm_error'), 'error')
+      notify(TAPi18n.__('signup.confirm_error'), 'error')
       return
     }
-    notify(TAPi18n.__('sign.signup.required'), 'error')
+    notify(TAPi18n.__('signup.required'), 'error')
   }
 })

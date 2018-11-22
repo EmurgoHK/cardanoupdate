@@ -52,7 +52,7 @@ Template.passwordReset.events({
           notify(TAPi18n.__(err.reason || err.message), 'error')
           return
         } else {
-          notify(TAPi18n.__('sign.login.check'), 'success')
+          notify(TAPi18n.__('login.check'), 'success')
         }
       });
     }
