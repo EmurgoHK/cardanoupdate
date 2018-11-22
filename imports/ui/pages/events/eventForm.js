@@ -90,16 +90,7 @@ Template.eventForm.onCreated(function () {
 
   this.location = new ReactiveVar({})
   this.timezone = new ReactiveVar({})
-  Meteor.setTimeout(() => {
-    $('input#event_duration').daterangepicker({
-      timePicker: true,
-      startDate: moment().startOf('hour'),
-      endDate: moment().startOf('hour').add(32, 'hour'),
-      locale: {
-        format: 'DD/MM/YYYY hh:mm A'
-      }
-    })
-  })
+
   if (FlowRouter.current().route.name === 'editEvent') {
     this.autorun(() => {
       this.subscribe('events.item', FlowRouter.getParam('id'))
@@ -120,6 +111,24 @@ Template.eventForm.onCreated(function () {
 })
 
 Template.eventForm.onRendered(function() {
+  this.autorun(() => {
+    const event = Events.findOne({
+      _id: FlowRouter.getParam('id')
+    });
+
+    const start = event ? moment(event.start_date) : moment().startOf('hour');
+    const end = event ? moment(event.end_date) : moment().startOf('hour').add(32, 'hour');
+
+    $('input#event_duration').daterangepicker({
+      timePicker: true,
+      startDate: start,
+      endDate: end,
+      locale: {
+        format: 'DD/MM/YYYY hh:mm A'
+      }
+    })
+  })
+
   if (window.google && google && google.maps && !this.loaded.get()) { // initialize the location search if the script has loaded already
     initLocationSearch.call(this)
   }
