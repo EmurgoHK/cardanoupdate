@@ -56,6 +56,7 @@ Template.header.events({
   'change #selectLanguage': (event, templateInstance) => {
     event.preventDefault()
     TAPi18n.setLanguage(event.target.value)
+    sessionStorage.setItem('uiLanguage', event.target.value);
   }
 })
 
