@@ -1,10 +1,8 @@
 import './viewWarning.html'
-import '../comments/commentBody'
  import { Template } from 'meteor/templating'
 import { FlowRouter } from 'meteor/kadira:flow-router'
  import { Warnings } from '/imports/api/warnings/warnings'
 import { Comments } from '/imports/api/comments/comments'
- import { newComment } from '/imports/api/comments/methods' 
 import { flagWarning } from '/imports/api/warnings/methods'
  import { notify } from '/imports/modules/notifier'
  import swal from 'sweetalert2'
@@ -31,23 +29,6 @@ import { flagWarning } from '/imports/api/warnings/methods'
 		slug: FlowRouter.getParam('slug')
 	}),
 	author: () => Meteor.users.findOne({_id: Template.currentData().createdBy}),
-    comment: () => {
-    	let warning = Warnings.findOne({
-			slug: FlowRouter.getParam('slug')
-		}) || {}
-     	return Comments.find({
-			parentId: warning._id,
-			$or: [
-				{ type: 'coolstuff' },
-				{ type: 'redflag' },
-				{ type: 'warning' },
-			]
-    	}, {
-    		sort: {
-    			createdAt: -1
-    		}
-    	})
-    },
 	commentCount: function () {
 		return Comments.find({
 		  	newsId: this._id,
@@ -58,7 +39,7 @@ import { flagWarning } from '/imports/api/warnings/methods'
 	tagUrl: (tag) => `/tags?search=${encodeURIComponent(tag.name)}`,
 	commentSuccess: () => {
 		return () => {
-			notify('Successfully commented.', 'success');
+			notify(TAPi18n.__('warnings.view.success'), 'success');
 		}
 	},
 })
@@ -68,11 +49,11 @@ import { flagWarning } from '/imports/api/warnings/methods'
 			slug: FlowRouter.getParam('slug')
 		}) || {}
  		swal({
-		  	title: 'Why are you flagging this?',
+		  	title: TAPi18n.__('warnings.view.flag_reason'),
 		  	input: 'text',
 		  	showCancelButton: true,
 		  	inputValidator: (value) => {
-		    	return !value && 'You need to write a valid reason!'
+		    	return !value && TAPi18n.__('warnings.view.invalid_reason')
 		  	}
 		}).then(data => {
 			if (data.value) {
@@ -81,9 +62,9 @@ import { flagWarning } from '/imports/api/warnings/methods'
 					reason: data.value
 				}, (err, data) => {
 					if (err) {
-						notify(err.reason || err.message, 'error')
+						notify(TAPi18n.__(err.reason || err.message), 'error')
 					} else {
-						notify('Successfully flagged. Moderators will decide what to do next.', 'success')
+						notify(TAPi18n.__('warnings.view.success_flag'), 'success')
 					}
 				})
 			}

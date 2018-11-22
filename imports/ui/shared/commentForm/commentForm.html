@@ -1,11 +1,11 @@
 <template name="commentForm">
   <div class="{{wrapperClasses}}">
-    <textarea class="form-control comment-text">{{text}}</textarea><br />
+    <textarea class="form-control comment-text" placeholder="{{_ 'comments.placeholder'}}">{{text}}</textarea><br />
     <p class="text-danger">{{error}}</p>
     
     <div class="btn-group" role="group">
       <button class="btn btn-mb btn-outline-primary save-comment" role="button">{{ saveButtonText }}</button>
-      {{#unless hideCancel}}<button class="btn btn-mb btn-outline-danger cancel-comment" role="button"> Cancel </button> {{/unless}}
+      {{#unless hideCancel}}<button class="btn btn-mb btn-outline-danger cancel-comment" role="button"> {{_ "comments.cancel"}} </button> {{/unless}}
     </div>
   </div>
 </template>

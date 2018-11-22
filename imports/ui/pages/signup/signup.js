@@ -21,7 +21,7 @@ Template.signup.events({
           }
         }, (err) => {
           if (err) {
-            notify(err.message, 'error')
+            notify(TAPi18n.__(err.message), 'error')
             return
           }
           FlowRouter.go(window.last || '/')
@@ -29,9 +29,9 @@ Template.signup.events({
         })
         return
       }
-      notify('confirm password doesn\'t match password', 'error')
+      notify(TAPi18n.__('sign.signup.confirm_error'), 'error')
       return
     }
-    notify('email/password fields are required', 'error')
+    notify(TAPi18n.__('sign.signup.required'), 'error')
   }
 })

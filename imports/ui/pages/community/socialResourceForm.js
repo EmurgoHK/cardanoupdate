@@ -32,7 +32,7 @@ Template.socialResourceFormTemp.onRendered(function() {
         tags: true,
         tokenSeparators: [' ', ','],
         allowClear: true,
-        placeholder: 'Add a tags separated by comma(,) e.g. crypto,wallet'
+        placeholder: TAPi18n.__('community.form.tags_placeholder')
     })
 })
 
@@ -50,7 +50,7 @@ Template.socialResourceFormTemp.events({
         let inputId = event.target.id
         let inputValue = event.target.value
         let inputMaxChars = maxCharValue(inputId) - parseInt(inputValue.length)
-        let charsLeftText = `${inputMaxChars} characters left`
+        let charsLeftText = `${inputMaxChars} ${TAPi18n.__('community.form.chars_left')}`
 
         $(`#${inputId}-chars`).text(charsLeftText)
 
@@ -111,7 +111,7 @@ Template.socialResourceFormTemp.events({
                 tags: tagsToSave,
 	    	}, (err, _data) => {
 	    		if (!err) {
-	    			notify('Successfully edited.', 'success')
+	    			notify(TAPi18n.__('community.form.success_edit'), 'success')
 	        		FlowRouter.go('/community')
 	        		return
 	      		}
@@ -120,7 +120,7 @@ Template.socialResourceFormTemp.events({
 		        	err.details.forEach(e => {
 		          		$(`#${e.name}`).addClass('is-invalid')
 		          		$(`#${e.name}Error`).show()
-		          		$(`#${e.name}Error`).text(e.message)
+		          		$(`#${e.name}Error`).text(TAPi18n.__(e.message))
 		        	})
 		      	}
 	    	})
@@ -136,13 +136,13 @@ Template.socialResourceFormTemp.events({
             tags: tagsToSave,
         }, (err, data) => {
             if (!err) {
-                notify('Successfully added.', 'success')
+                notify(TAPi18n.__('community.form.success_add'), 'success')
                 FlowRouter.go('/community')
                 return
             }
 
             if (err.details === undefined && err.reason) {
-                notify(err.reason, 'error')
+                notify(TAPi18n.__(err.reason), 'error')
                 return
             }
 
@@ -150,7 +150,7 @@ Template.socialResourceFormTemp.events({
                 err.details.forEach(e => {
                     $(`#${e.name}`).addClass('is-invalid')
                     $(`#${e.name}Error`).show()
-                    $(`#${e.name}Error`).text(e.message)
+                    $(`#${e.name}Error`).text(TAPi18n.__(e.message))
                 })
             }
         })

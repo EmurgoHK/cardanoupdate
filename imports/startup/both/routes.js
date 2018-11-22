@@ -143,7 +143,7 @@ FlowRouter.route('/faqs', {
   name: 'faqs',
   breadcrumb: (params) => {
     return ({
-      text: 'FAQ',
+      text: 'faq',
       urls: ['/faqs']
     })
   },
@@ -163,7 +163,7 @@ FlowRouter.route('/faqs/new', {
   name: 'newFaq',
   breadcrumb: (params) => {
     return ({
-      text: 'FAQ / New',
+      text: 'faq_new',
       urls: ['/faqs']
     })
   },
@@ -184,7 +184,7 @@ FlowRouter.route('/faqs/:id/edit', {
   name: 'editFaq',
   breadcrumb: (params) => {
     return ({
-      text: 'FAQ / Edit',
+      text: 'faq_edit',
       urls: ['/faqs']
     })
   },
@@ -222,7 +222,7 @@ FlowRouter.route('/projects', {
   name: 'projects',
   breadcrumb: (params) => {
     return ({
-      text: 'Projects',
+      text: 'projects',
       urls: ['/projects']
     })
   },
@@ -242,7 +242,7 @@ FlowRouter.route('/projects/new', {
   name: 'newProject',
   breadcrumb: (params) => {
     return ({
-      text: 'Projects / New',
+      text: 'projects_new',
       urls: ['/projects']
     })
   },
@@ -264,7 +264,7 @@ FlowRouter.route('/projects/:id/edit', {
   name: 'editProject',
   breadcrumb: (params) => {
     return ({
-      text: 'Projects / Edit',
+      text: 'projects_edit',
       urls: ['/projects']
     })
   },
@@ -289,7 +289,8 @@ FlowRouter.route('/projects/:slug', {
       slug: params.slug
     })
     return ({
-      text: 'Projects / '+(project ? project.headline : 'View'),
+      text: 'projects_view',
+      name: project ? project.headline : 'View',
       urls: ['/projects']
     })
   },
@@ -310,7 +311,7 @@ FlowRouter.route('/scams', {
   name: 'warnings',
   breadcrumb: (params) => {
     return ({
-      text: 'Scams',
+      text: 'scams',
       urls: ['/scams']
     })
   },
@@ -330,7 +331,7 @@ FlowRouter.route('/scams/new', {
   name: 'newWarning',
   breadcrumb: (params) => {
     return ({
-      text: 'Scams / New',
+      text: 'scams_new',
       urls: ['/scams']
     })
   },
@@ -348,7 +349,7 @@ FlowRouter.route('/scams/:id/edit', {
   name: 'editWarning',
   breadcrumb: (params) => {
     return ({
-      text: 'Scams / Edit',
+      text: 'scams_edit',
       urls: ['/scams']
     })
   },
@@ -372,7 +373,8 @@ FlowRouter.route('/scams/:slug', {
       slug: params.slug
     })
     return ({
-      text: 'Scams / '+(scam ? scam.headline : "View"),
+      text: 'scams_view',
+      name: scam ? scam.headline : 'View',
       urls: ['/scams']
     })
   },
@@ -393,7 +395,7 @@ FlowRouter.route('/community', {
   name: 'socialResources',
   breadcrumb: (params) => {
     return ({
-      text: 'Community',
+      text: 'community',
       urls: ['/community']
     })
   },
@@ -413,7 +415,7 @@ FlowRouter.route('/community/new', {
   name: 'newSocialResource',
   breadcrumb: (params) => {
     return ({
-      text: 'Community / New',
+      text: 'community_new',
       urls: ['/community']
     })
   },
@@ -434,7 +436,7 @@ FlowRouter.route('/community/:id/edit', {
   name: 'editSocialResource',
   breadcrumb: (params) => {
     return ({
-      text: 'Community / Edit',
+      text: 'community_edit',
       urls: ['/community']
     })
   },
@@ -457,7 +459,8 @@ FlowRouter.route('/community/:slug', {
       _id: params.slug
     })
     return ({
-      text: 'Community / '+(socialResource ? socialResource.Name : 'View'),
+      text: 'community_view',
+      name: socialResource ? socialResource.Name : 'View',
       urls: ['/community']
     })
   },
@@ -478,7 +481,7 @@ FlowRouter.route('/research', {
   name: 'research',
   breadcrumb: (params) => {
     return ({
-      text: 'Research',
+      text: 'research',
       urls: ['/research']
     })
   },
@@ -498,7 +501,7 @@ FlowRouter.route('/research/new', {
   name: 'newResearch',
   breadcrumb: (params) => {
     return ({
-      text: 'Research / New',
+      text: 'research_new',
       urls: ['/research']
     })
   },
@@ -516,7 +519,7 @@ FlowRouter.route('/research/:slug/edit', {
   name: 'editResearch',
   breadcrumb: (params) => {
     return ({
-      text: 'Research / Edit',
+      text: 'research_edit',
       urls: ['/research']
     })
   },
@@ -540,7 +543,8 @@ FlowRouter.route('/research/:slug', {
       slug: params.slug
     })
     return ({
-      text: 'Research / '+(research ? research.headline : 'View'),
+      text: 'research_view',
+      name: research ? research.headline : 'View',
       urls: ['/research']
     })
   },
@@ -561,7 +565,7 @@ FlowRouter.route('/learn', {
   name: 'learn',
   breadcrumb: (params) => {
     return ({
-      text: 'Learn',
+      text: 'learn',
       urls: ['/learn']
     })
   },
@@ -581,7 +585,7 @@ FlowRouter.route('/learn/new', {
   name: 'newLearn',
   breadcrumb: (params) => {
     return ({
-      text: 'Learn / New',
+      text: 'learn_new',
       urls: ['/learn']
     })
   },
@@ -602,7 +606,7 @@ FlowRouter.route('/learn/:slug/edit', {
   name: 'editLearn',
   breadcrumb: (params) => {
     return ({
-      text: 'Learn / Edit',
+      text: 'learn_edit',
       urls: ['/learn']
     })
   },
@@ -627,7 +631,8 @@ FlowRouter.route('/learn/:slug', {
       slug: params.slug
     })
     return ({
-      text: 'Learn / '+(learn ? learn.title : 'View'),
+      text: 'learn_view',
+      name: learn ? learn.headline : 'View',
       urls: ['/learn']
     })
   },
@@ -651,7 +656,7 @@ FlowRouter.route('/events', {
       slug: params.slug
     })
     return ({
-      text: 'Events',
+      text: 'events',
       urls: ['/events']
     })
   },
@@ -671,7 +676,7 @@ FlowRouter.route('/events/new', {
   name: 'newEvent',
   breadcrumb: (params) => {
     return ({
-      text: 'Events / New',
+      text: 'events_new',
       urls: ['/events']
     })
   },
@@ -692,7 +697,7 @@ FlowRouter.route('/events/:id/edit', {
   name: 'editEvent',
   breadcrumb: (params) => {
     return ({
-      text: 'Events / Edit',
+      text: 'events_edit',
       urls: ['/events']
     })
   },
@@ -717,7 +722,8 @@ FlowRouter.route('/events/:slug', {
       slug: params.slug
     })
     return ({
-      text: 'Events / '+(event ? event.headline : 'View'),
+      text: 'event_view',
+      name: event ? event.headline : 'View',
       urls: ['/events']
     })
   },
@@ -738,7 +744,7 @@ FlowRouter.route('/profile/:userId', {
   name: 'userProfile',
   breadcrumb: (params) => {
     return ({
-      text: 'Profile',
+      text: 'profile',
       urls: ['/profile']
     })
   },
@@ -772,7 +778,7 @@ FlowRouter.route('/profile/:userId/edit', {
   name: 'editProfile',
   breadcrumb: (params) => {
     return ({
-      text: 'Profile / Edit',
+      text: 'profile_edit',
       urls: ['/profile/']
     })
   },
@@ -793,7 +799,7 @@ FlowRouter.route('/suspended', {
 	name: 'suspended',
   breadcrumb: (params) => {
     return ({
-      text: 'Suspended',
+      text: 'suspended',
       urls: ['/suspended']
     })
   },
@@ -814,7 +820,7 @@ FlowRouter.route('/notifications', {
 	name: 'notifications',
   breadcrumb: (params) => {
     return ({
-      text: 'Notifications',
+      text: 'notifications',
       urls: ['/notifications']
     })
   },
@@ -843,7 +849,7 @@ FlowRouter.route('/password-reset', {
   name: 'resetPassword',
   breadcrumb: (params) => {
     return ({
-      text: 'Reset Password',
+      text: 'reset_password',
       urls: ['/password-reset']
     })
   },
@@ -867,7 +873,7 @@ FlowRouter.route('/search', {
   name: 'search',
   breadcrumb: (params) => {
     return ({
-      text: 'Search',
+      text: 'search',
       urls: ['/search']
     })
   },
@@ -927,7 +933,7 @@ modRoutes.route('/candidates', {
 	name: 'candidates',
   breadcrumb: (params) => {
     return ({
-      text: 'Candidates',
+      text: 'candidates',
       urls: ['/candidates']
     })
   },
@@ -961,7 +967,7 @@ modRoutes.route('/pardon', {
 	name: 'pardon',
   breadcrumb: (params) => {
     return ({
-      text: 'Cardon',
+      text: 'pardon',
       urls: ['/pardon']
     })
   },

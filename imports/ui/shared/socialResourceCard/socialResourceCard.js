@@ -53,7 +53,7 @@ Template.socialResourceCard.events({
 
     const socialResource = Template.currentData().socialResource;
     swal({
-      text: `Are you sure you want to remove this Project? This action is not reversible.`,
+      text: TAPi18n.__('community.card.are_you_sure'),
       type: "warning",
       showCancelButton: true
     }).then(confirmed => {
@@ -64,7 +64,7 @@ Template.socialResourceCard.events({
           },
           (err, data) => {
             if (err) {
-              notify(err.reason || err.message, "error");
+              notify(TAPi18n.__(err.reason || err.message), "error");
             }
           }
         );

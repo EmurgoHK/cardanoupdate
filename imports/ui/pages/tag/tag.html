@@ -3,14 +3,14 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="input-group">
-          <input type="text" id="searchBox" class="form-control" placeholder="Search by tags" aria-label="Search by tags">
+          <input type="text" id="searchBox" class="form-control" placeholder='{{_ "shared.tags.search"}}' aria-label='{{_ "shared.tags.search"}}'>
         </div>
         <hr />
       </div>
     </div>
 
     {{#unless hasAny}}
-      <p class="mt-5">Sorry, we couldn't find anything.</p>
+      <p class="mt-5">{{_ "shared.tags.nothing_found"}}</p>
     {{/unless}}
     <div class="card-columns">
       {{> projectList projects=projects containerClass="row" cardWrapperClass="col-md-4" isHome=true}}

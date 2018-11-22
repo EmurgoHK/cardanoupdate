@@ -7,9 +7,9 @@
             <div class="media">
                 <img src="{{avatarFor user '100'}}" alt=""  height="100" width="100" class="mr-3 rounded">
                 <div class="media-body">
-                  <h4 class="mt-0"><strong>{{name}}</strong> {{#if isModerator}}<span class="badge badge-primary">moderator</span>{{/if}}</h4>
-                  {{#if rank}}<p class="h6 text-muted"><strong>Rank : {{rank}}</strong></p>{{/if}}
-                  <p class="h6 text-muted"><strong>About</strong></p>
+                  <h4 class="mt-0"><strong>{{name}}</strong> {{#if isModerator}}<span class="badge badge-primary">{{_ "user.view.moderator"}}</span>{{/if}}</h4>
+                  {{#if rank}}<p class="h6 text-muted"><strong>{{_ "user.view.rank"}}: {{rank}}</strong></p>{{/if}}
+                  <p class="h6 text-muted"><strong>{{_ "user.view.about"}}</strong></p>
                   <p style="font-size: 0.75em">{{bio}}</p>
                 </div>
             </div>
@@ -21,7 +21,7 @@
           <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
               <a class="nav-link active border-0 mb-1 bg-transparent pl-1" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
-                <i class="fas fa-chart-line"></i>&nbsp; {{#if ownProfile}}Your Content{{else}}{{user.name}}'s Activity{{/if}}
+                <i class="fas fa-chart-line"></i>&nbsp; {{#if ownProfile}}{{_ "user.view.content"}}{{else}}{{user.name}}{{_ "user.view.activity"}}{{/if}}
               </a>
             </li>
           </ul>
@@ -29,25 +29,25 @@
           <div class="tab-content border-0 rounded shadow mb-4" id="myTabContent">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
               <li class="nav-item">
-                <a class="nav-link active" id="project-tab" data-toggle="tab" href="#project" role="tab" aria-controls="home" aria-selected="true">Projects</a>
+                <a class="nav-link active" id="project-tab" data-toggle="tab" href="#project" role="tab" aria-controls="home" aria-selected="true">{{_ "user.view.projects"}}</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" id="events-tab" data-toggle="tab" href="#events" role="tab" aria-controls="events" aria-selected="false">Events</a>
+                <a class="nav-link" id="events-tab" data-toggle="tab" href="#events" role="tab" aria-controls="events" aria-selected="false">{{_ "user.view.events"}}</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" id="research-tab" data-toggle="tab" href="#research" role="tab" aria-controls="research" aria-selected="false">Research</a>
+                <a class="nav-link" id="research-tab" data-toggle="tab" href="#research" role="tab" aria-controls="research" aria-selected="false">{{_ "user.view.research"}}</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" id="learn-tab" data-toggle="tab" href="#learn" role="tab" aria-controls="learn" aria-selected="false">Learn</a>
+                <a class="nav-link" id="learn-tab" data-toggle="tab" href="#learn" role="tab" aria-controls="learn" aria-selected="false">{{_ "user.view.learn"}}</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" id="community-tab" data-toggle="tab" href="#community" role="tab" aria-controls="community" aria-selected="false">Community</a>
+                <a class="nav-link" id="community-tab" data-toggle="tab" href="#community" role="tab" aria-controls="community" aria-selected="false">{{_ "user.view.community"}}</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" id="scam-tab" data-toggle="tab" href="#scam" role="tab" aria-controls="scam" aria-selected="false">Scams</a>
+                <a class="nav-link" id="scam-tab" data-toggle="tab" href="#scam" role="tab" aria-controls="scam" aria-selected="false">{{_ "user.view.scams"}}</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" id="comment-tab" data-toggle="tab" href="#comment" role="tab" aria-controls="comments" aria-selected="false">Comments</a>
+                <a class="nav-link" id="comment-tab" data-toggle="tab" href="#comment" role="tab" aria-controls="comments" aria-selected="false">{{_ "user.view.comments"}}</a>
               </li>
             </ul>
             <div class="tab-content" id="myTabContent">
@@ -55,80 +55,80 @@
                 {{#each projects}} 
                   <div class="card">
                     <div class="card-body">
-                    <div ><a href="/projects/{{slug}}" class="card-title" >{{headline}}</a> Created {{showTimeAgoTimestamp createdAt}}</div>
+                    <div ><a href="/projects/{{slug}}" class="card-title" >{{headline}}</a> {{_ "user.view.created"}} {{showTimeAgoTimestamp createdAt}}</div>
                     <p class="card-text">{{description}}</p>              
                     </div>
                   </div>
                 {{else}}
-                  User has not added any project yet.
+                  {{_ "user.view.no_projects"}}
                 {{/each}}
               </div>
               <div class="tab-pane fade" id="events" role="tabpanel" aria-labelledby="events-tab">
                 {{#each events}} 
                   <div class="card">
                     <div class="card-body">
-                    <div ><a href="/events/{{slug}}" class="card-title" >{{headline}}</a> Created {{showTimeAgoTimestamp createdAt}}</div>
+                    <div ><a href="/events/{{slug}}" class="card-title" >{{headline}}</a> {{_ "user.view.created"}} {{showTimeAgoTimestamp createdAt}}</div>
                     </div>
                   </div>
                 {{else}}
-                  User has not added any event yet.
+                  {{_ "user.view.no_events"}}
                 {{/each}}
               </div>
               <div class="tab-pane fade" id="research" role="tabpanel" aria-labelledby="research-tab">
                 {{#each research}} 
                   <div class="card">
                     <div class="card-body">
-                    <div ><a href="/research/{{slug}}" class="card-title" >{{headline}}</a> Posted {{showTimeAgoTimestamp createdAt}}</div>
+                    <div ><a href="/research/{{slug}}" class="card-title" >{{headline}}</a> {{_ "user.view.posted"}} {{showTimeAgoTimestamp createdAt}}</div>
                     <p class="card-text">{{abstract}}</p>              
                     </div>
                   </div>
                 {{else}}
-                  User has not added any research yet.
+                  {{_ "user.view.no_research"}}
                 {{/each}}
               </div>
               <div class="tab-pane fade" id="learn" role="tabpanel" aria-labelledby="learn-tab">
                 {{#each learn}} 
                   <div class="card">
                     <div class="card-body">
-                    <div ><a href="/research/{{slug}}" class="card-title" >{{title}}</a> Added {{showTimeAgoTimestamp createdAt}}</div>
+                    <div ><a href="/research/{{slug}}" class="card-title" >{{title}}</a> {{_ "user.view.added"}} {{showTimeAgoTimestamp createdAt}}</div>
                     </div>
                   </div>
                 {{else}}
-                  User has not added any learning resource yet.
+                  {{_ "user.view.no_res"}}
                 {{/each}}
               </div>
               <div class="tab-pane fade" id="community" role="tabpanel" aria-labelledby="community-tab">
                 {{#each community}} 
                   <div class="card">
                     <div class="card-body">
-                    <div ><a href="/research/{{slug}}" class="card-title" >{{Name}}</a> Created {{showTimeAgoTimestamp createdAt}}</div>
+                    <div ><a href="/research/{{slug}}" class="card-title" >{{Name}}</a> {{_ "user.view.created"}} {{showTimeAgoTimestamp createdAt}}</div>
                     </div>
                   </div>
                 {{else}}
-                  User has not added any community yet.
+                  {{_ "user.view.no_communities"}}
                 {{/each}}
               </div>
               <div class="tab-pane fade" id="scam" role="tabpanel" aria-labelledby="scam-tab">
                 {{#each scams}} 
                   <div class="card">
                     <div class="card-body">
-                    <div ><a href="/research/{{slug}}" class="card-title" >{{headline}}</a> Created {{showTimeAgoTimestamp createdAt}}</div>
+                    <div ><a href="/research/{{slug}}" class="card-title" >{{headline}}</a> {{_ "user.view.created"}} {{showTimeAgoTimestamp createdAt}}</div>
                     </div>
                   </div>
                 {{else}}
-                  User has not reported any scam yet.
+                  {{_ "user.view.no_scams"}}
                 {{/each}}
               </div>
               <div class="tab-pane fade" id="comment" role="tabpanel" aria-labelledby="comment-tab">
                 {{#each comments}} 
                   <div class="card">
                     <div class="card-body">
-                        <i class="far fa-comments" style="vertical-align: middle"></i>&nbsp;Commented {{text}} {{showTimeAgoTimestamp createdAt}}
+                        <i class="far fa-comments" style="vertical-align: middle"></i>&nbsp;{{_ "user.view.commented"}} {{text}} {{showTimeAgoTimestamp createdAt}}
                         on <a href="{{contentUrl}}">{{contentTitle}}</a>
                     </div>
                   </div>
                 {{else}}
-                  User has not commented yet.
+                  {{_ "user.view.no_comments"}}
                 {{/each}}
               </div>
             </div>

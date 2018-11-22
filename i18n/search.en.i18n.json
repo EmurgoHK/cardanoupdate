@@ -1,0 +1,18 @@
+{
+	"search": {
+		"projects": "Projects",
+		"events": "Events",
+		"research": "Research",
+		"learn": "Learn",
+		"community": "Community",
+		"scams": "Scams",
+		"anything": "Search anything!",
+		"advanced": "Advanced search",
+		"date": "Date",
+		"title": "Title",
+		"found": "Found",
+		"items": "items",
+		"add_new": "Add new content",
+		"nothing": "Sorry, we couldn't find anything."
+	}
+}

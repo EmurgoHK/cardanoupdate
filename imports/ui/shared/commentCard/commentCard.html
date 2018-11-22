@@ -1,27 +1,27 @@
-<template name="commentBody">
+<template name="commentCard">
 	{{#with comment}}
-	<div style="margin-left: {{ident}}px;" class="card" id="comment-{{_id}}">
+	<div style="margin-left: {{ident}}px;" class="comment card" id="comment-{{_id}}">
         <div class="card-body">
             <div class="news-settings float-right dropdown" style="margin-top: -10px;">
                 <i class="nav-icon icon-settings dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item flag-comment" href="#" title="Report"><i class="fas fa-exclamation-triangle text-dark"></i> Flag</a>
+                    <a class="dropdown-item flag-comment" href="#" title="Report"><i class="fas fa-exclamation-triangle text-dark"></i> {{_ "comments.flag"}}</a>
                     {{#if canEditComment}}
-                    <a class="dropdown-item edit-mode" href="#"><i class="icon-pencil text-dark"></i> Edit</a>
-                    <a class="dropdown-item text-danger delete-comment" href="#"><i class="icon-trash text-danger"></i> Delete</a>
+                    <a class="dropdown-item edit-mode" href="#"><i class="icon-pencil text-dark"></i> {{_ "comments.edit"}}</a>
+                    <a class="dropdown-item text-danger delete-comment" href="#"><i class="icon-trash text-danger"></i> {{_ "comments.delete"}}</a>
                     {{/if}}
                 </div>
             </div>
                     
-            <h6 class="card-subtitle mb-4">By <strong>{{> userNameDisplay user}}</strong> {{showTimeAgoTimestamp createdAt}}</h6>
+            <h6 class="card-subtitle mb-4">{{_ "comments.by"}} <strong>{{> userNameDisplay user}}</strong> {{showTimeAgoTimestamp createdAt}}</h6>
             <p class="card-text mb-4"> 
             {{#if editMode}}
-                {{> commentForm parentId=parentId newsId=newsId id=_id postType=postType type=type onSuccess=editSuccess onCancel=editCancel}}
+                {{> commentForm parentId=parentId newsId=newsId id=_id postType=postType type=type onSuccess=editSuccess onCancel=editCancel text=text}}
             {{else}}
                 <span>{{{md text}}}</span> 
             {{/if}}
             </p>
-        	<a href="#" class="reply"><i class="fas fa-reply"></i>&nbsp; Reply</a>
+        	<a href="#" class="reply"><i class="fas fa-reply"></i>&nbsp; {{_ "comments.reply"}}</a>
     	</div>
     </div>
     {{#if replyMode}}
@@ -35,15 +35,15 @@
     {{/if}}
     {{#if childCommentCount}}
         {{#if showReplies}}
-        {{#each childComments}}
-            {{> commentBody ident=newIdent comment=this _id=origId type=type}}
+        {{#each comment in childComments}}
+            {{> commentCard subCommentArgs comment}}
         {{/each}}
             <div style="margin-left: {{ident}}px;" class="row mb-4">
-                <button class="btn btn-link btn-primary hideReplies" data-id="{{_id}}">Hide replies</button><br>
+                <button class="btn btn-link btn-primary hideReplies" data-id="{{_id}}">{{_ "comments.hide_replies"}}</button><br>
             </div>
         {{else}}
             <div style="margin-left: {{ident}}px;" class="row mb-4">
-                <button class="btn btn-link btn-primary showReplies" data-id="{{_id}}">Show replies</button><br>
+                <button class="btn btn-link btn-primary showReplies" data-id="{{_id}}">{{_ "comments.show_replies"}}</button><br>
             </div>
         {{/if}}
     {{/if}}

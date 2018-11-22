@@ -1,0 +1,62 @@
+{
+	"projects": {
+		"form": {
+			"new": "New Project",
+			"edit": "Edit Project",
+			"name": "Name",
+			"name_placeholder": "Name in 90 characters or less",
+			"desc": "Description",
+			"desc_placeholder": "Project description",
+			"desc_info": "Please provide a very clear description of what the project is for, what it does, or what problem it solves.",
+			"gh_url": "Github URL",
+			"gh_url_placeholder": "Github link",
+			"website": "Website",
+			"website_placeholder": "Website link",
+			"for_cardano": "Built <b>for</b> Cardano",
+			"on_cardano": "Built <b>on</b> Cardano",
+			"built_info": "Is this project something <b>for</b> Cardano OR something built <b>on</b> Cardano? An example of something that's <b>for</b> Cardano is a wallet or a developer library. An example of something built <b>on</b> Cardano is Traxia.",
+			"submit": "Submit",
+			"merge": "Merge",
+			"reject": "Reject",
+			"new_data": "wants to propose the following new data:",
+			"instructions": "Instructions",
+			"ins_desc": "Projects added here must be something that people can use with Cardano, for example a wallet, a developer library, a development framework, etc.",
+			"close": "Close",
+			"dont_show": "Never Show Again",
+			"success_reject": "Successfully rejected.",
+			"success_merge": "Successfully merged.",
+			"success_add": "Successfully added.",
+			"success_edit": "Successfully edited.",
+			"chars_left": "characters left",
+			"success_update": "Successfully updated.",
+			"error": "Error while updating information"
+		},
+		"main": {
+			"add": "Add Project",
+			"projects": "Projects",
+			"desc": "Projects that are built on or for Cardano. This includes everything from developer libraries to user wallets."
+		},
+		"view": {
+			"edit": "Edit Project",
+			"by": "Posted by",
+			"tags": "Tags",
+			"go_to": "Go to",
+			"suggest": "Suggest a website",
+			"cool": "Cool stuff",
+			"flags": "Red flags",
+			"success": "Successfully commented.",
+			"no_gh": "GitHub repo is not available. If you know this information, please contribute below:",
+			"success_contrib": "Successfully contributed.",
+			"no_web": "Website is not available. If you know this information, please contribute below:",
+			"missing_repo": "Missing source repository",
+			"missing_info": "This project does't contain any link to the source repository",
+			"ok": "Okay"
+		},
+		"card": {
+			"project": "Project",
+			"go_to": "Go to",
+			"suggest": "Suggest a website",
+			"are_you_sure": "Are you sure you want to remove this Project? This action is not reversible."
+		}
+	}
+}

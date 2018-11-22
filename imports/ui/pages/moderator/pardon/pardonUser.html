@@ -1,6 +1,6 @@
 <template name="pardonUser">
     {{#if isModerator}}
-    <h3 style="margin-top: 10px;">Pardon request</h3>
+    <h3 style="margin-top: 10px;">{{_ "mod.pardon.req"}}</h3>
     <br>
     {{#with pardonUser}}
     <div class="row">
@@ -9,23 +9,23 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-2">
-                            <h5 class="card-title">Username</h5>
+                            <h5 class="card-title">{{_ "mod.pardon.user"}}</h5>
                             <p class="card-text"> {{> userNameDisplay this}} </p>
                         </div>
                         <div class="col-sm-6">
-                            <h5 class="card-title">Offences</h5>
+                            <h5 class="card-title">{{_ "mod.pardon.offences"}}</h5>
                             <p class="card-text"> {{#each offences}} {{name}} - {{date}} <br> {{/each}} </p>
             
-                            <h5 class="card-title">Reason</h5>
+                            <h5 class="card-title">{{_ "mod.pardon.reason"}}</h5>
                             <p class="card-text"> {{pardon.reason}} </p>
                         </div>
                         <div class="col-sm-2">
                             {{#if voted}}
                                 -
                             {{else}}
-                                <h5 class="card-title">Upvotes</h5>
+                                <h5 class="card-title">{{_ "mod.pardon.upvotes"}}</h5>
                                 <p class="card-text"> {{upvotes}} </p>
-                                <h5 class="card-title">Downvotes</h5>
+                                <h5 class="card-title">{{_ "mod.pardon.downvotes"}}</h5>
                                 <p class="card-text"> {{downvotes}} </p>
                             {{/if}}
                         </div>
@@ -52,9 +52,9 @@
         </div>
     </div>
     {{/with}}
-    <h3><a id="skipPardon" href="#">Skip <i class="fa fa-step-forward"></i></a></h3>
+    <h3><a id="skipPardon" href="#">{{_ "mod.pardon.skip"}} <i class="fa fa-step-forward"></i></a></h3>
     {{else}}
-    <h1>This page is only for moderators.</h1>
+    <h1>{{_ "mod.mod_only"}}</h1>
     {{/if}}
     <br>
 </template>

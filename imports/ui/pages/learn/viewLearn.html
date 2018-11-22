@@ -4,11 +4,11 @@
       <div class="col-sm-12">
         {{#if SubsCacheReady}}
           {{#with learn}}
-          {{#if isOwner}}<a href="/learn/{{slug}}/edit" class="btn btn-primary btn-sm float-right"><i class="fas fa-edit"></i> Edit learning resource</a>{{/if}}
+          {{#if isOwner}}<a href="/learn/{{slug}}/edit" class="btn btn-primary btn-sm float-right"><i class="fas fa-edit"></i> {{_ "learn.view.edit"}}</a>{{/if}}
           <h1 class="card-title text-dark mt-3"><strong>{{title}}</strong></h1>
           <h5 class="card-subtitle mb-3 mt-3">
               <ul class="list-inline">
-                <li class="list-inline-item">Posted by <strong><span class="name">{{> userNameDisplay author}}</span></strong></li>
+                <li class="list-inline-item">{{_ "learn.view.by"}} <strong><span class="name">{{> userNameDisplay author}}</span></strong></li>
                 <li class="list-inline-item"><i class="icon-clock" style="vertical-align: middle"></i>&nbsp;{{showTimeAgoTimestamp createdAt}}</li>
                 <li class="list-inline-item"><i class="icon-speech" style="vertical-align: middle"></i>&nbsp;{{commentCount}}</li>
               </ul>
@@ -29,7 +29,7 @@
                 {{#if tags.length}}
                   <div class="row">
                     <div class="col-sm-12">
-                        <div>Tags</div>
+                        <div>{{_ "learn.view.tags"}}</div>
                         {{#each tags}}
                           <a class="badge badge-pill badge-primary" href="{{tagUrl this}}">{{tagName this}}</a>
                         {{/each}}
@@ -40,7 +40,7 @@
                   <div class="col-sm-12">
                     <!-- Check for old content which doesn't have difficultyLevel -->
                     {{#if learningLevel}}
-                      Difficulty Level : &nbsp;{{{learningLevel}}}
+                      {{_ "learn.view.level"}}: &nbsp;{{{learningLevel}}}
                     {{/if}}
                     {{> flagItem item="learn"}}
                   </div>
@@ -50,22 +50,8 @@
           {{/with}}
 
           <hr class="mb-5 mt-5">
+          {{> commentArea parentId=learn._id type="comment" postType="learn" commentSuccess=commentSuccess}}
 
-          <div class="row">
-            <div class="col-sm-12 news-form">
-              <div class="card">
-                  {{> commentForm wrapperClasses="card-body" newsId=learn._id parentId=learn._id type="comment" postType="learn" hideCancel=true onSuccess=commentSuccess}}
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-sm-12 news-form comments">
-              {{#each comments}}
-                {{> commentBody ident=0 comment=this _id=learn._id}}
-              {{/each}}
-            </div>
-          </div>
         {{else}}
           {{> loader}}
         {{/if}}

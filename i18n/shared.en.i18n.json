@@ -1,0 +1,67 @@
+{
+	"shared": {
+		"not_found": {
+			"not_found": "Sorry, that page doesn't exist",
+			"go_home": "Go to home"
+		},
+		"header": {
+			"projects": "Projects",
+			"events": "Events",
+			"research": "Research",
+			"learn": "Learn",
+			"community": "Community",
+			"scams": "Scams",
+			"faqs": "FAQs",
+			"search": "Search here..",
+			"username": "User Name",
+			"account": "Account",
+			"my_profile": "My Profile",
+			"edit_profile": "Edit Profile",
+			"signout": "Sign out",
+			"signin": "Sign In"
+		},
+		"sidebar": {
+			"home": "Home",
+			"projects": "Projects",
+			"events": "Events",
+			"research": "Research papers",
+			"learn": "Learn",
+			"community": "Community",
+			"scams": "Scams",
+			"gh": "GitHub",
+			"faqs": "FAQs",
+			"moderator": "Moderator",
+			"flagged": "Flagged items",
+			"pardon": "Pardon requests",
+			"changes": "Proposed changes",
+			"candidates": "Candidates"
+		},
+		"tags": {
+			"tags": "Tags",
+			"placeholder": "Add a tags separated by comma(,) e.g. crypto,wallet",
+			"nothing_found": "Sorry, we couldn't find anything.",
+			"search": "Search by tags"
+		},
+		"uploader": {
+			"upload": "Upload",
+			"insert_image": "Insert image",
+			"cancel": "Cancel",
+			"uploading": "Uploading",
+			"another": "Upload another",
+			"change": "Change"
+		},
+		"user": {
+			"no_name": "No name"
+		},
+		"flag": {
+			"edit": "Edit",
+			"delete": "Delete",
+			"report": "Report"
+		},
+		"main": {
+			"title": "Everything about Cardano.",
+			"title2": "Accurate up to the minute.",
+			"home": "Home"
+		}
+	}
+}

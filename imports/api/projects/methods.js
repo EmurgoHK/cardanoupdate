@@ -63,14 +63,14 @@ export const addProject = new ValidatedMethod({
     run(data) {
         if (Meteor.isServer) {
             if (!Meteor.userId()) {
-                throw new Meteor.Error('Error.', 'You have to be logged in.')
+                throw new Meteor.Error('Error.', 'messages.login')
             }
 
             if(!isTesting) {
                 var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, data.captcha);
 
                 if (!verifyCaptchaResponse.success) {
-                    throw new Meteor.Error('recaptcha failed please try again');
+                    throw new Meteor.Error('messages.recaptcha');
                 }
             }   
             data.tags = data.tags || []
@@ -118,15 +118,15 @@ export const deleteProject = new ValidatedMethod({
             let project = Projects.findOne({ _id: projectId })
 
             if (!project) {
-                throw new Meteor.Error('Error.', 'Project doesn\'t exist.')
+                throw new Meteor.Error('Error.', 'messages.projects.no_project')
             }
 
             if (!Meteor.userId()) {
-                throw new Meteor.Error('Error.', 'You have to be logged in.')
+                throw new Meteor.Error('Error.', 'messages.login')
             }
 
             if (project.createdBy !== Meteor.userId()) {
-                throw new Meteor.Error('Error.', 'You can\'t remove a project that you haven\'t added.')
+                throw new Meteor.Error('Error.', 'messages.projects.cant_remove')
             }
 
             // remove mentions of tags & decrease the counter of each tag
@@ -199,15 +199,15 @@ export const editProject = new ValidatedMethod({
             let project = Projects.findOne({ _id: projectId })
 
             if (!project) {
-                throw new Meteor.Error('Error.', 'Project doesn\'t exist.')
+                throw new Meteor.Error('Error.', 'messages.projects.no_project')
             }
 
             if (!Meteor.userId()) {
-                throw new Meteor.Error('Error.', 'You have to be logged in.')
+                throw new Meteor.Error('Error.', 'messages.login')
             }
 
             if (project.createdBy !== Meteor.userId()) {
-                throw new Meteor.Error('Error.', 'You can\'t edit a project that you haven\'t added.')
+                throw new Meteor.Error('Error.', 'messages.projects.cant_edit')
             }
             
             if(!isTesting) {
@@ -294,15 +294,15 @@ export const flagProject = new ValidatedMethod({
         })
 
         if (!project) {
-            throw new Meteor.Error('Error.', 'Project doesn\'t exist.')
+            throw new Meteor.Error('Error.', 'messages.projects.no_project')
         }
 
         if (!Meteor.userId()) {
-            throw new Meteor.Error('Error.', 'You have to be logged in.')
+            throw new Meteor.Error('Error.', 'messages.login')
         }
 
         if ((project.flags || []).some(i => i.flaggedBy === Meteor.userId())) {
-            throw new Meteor.Error('Error.', 'You have already flagged this item.')
+            throw new Meteor.Error('Error.', 'messages.already_flagged')
         }
 
         return Projects.update({
@@ -344,7 +344,7 @@ export const proposeNewData = new ValidatedMethod({
         }),
     run({ projectId, datapoint, newData, type }) {
         if (!Meteor.userId()) {
-            throw new Meteor.Error('Error.', 'You have to be logged in.')
+            throw new Meteor.Error('Error.', 'messages.login')
         }
 
         let project = Projects.findOne({
@@ -352,11 +352,11 @@ export const proposeNewData = new ValidatedMethod({
         })
 
         if (!project) {
-            throw new Meteor.Error('Error.', 'Project doesn\'t exist.')
+            throw new Meteor.Error('Error.', 'messages.projects.no_project')
         }
 
         if (project[datapoint]) {
-            throw new Meteor.Error('Error.', 'Data already exists.')
+            throw new Meteor.Error('Error.', 'messages.projects.data')
         }
 
         Projects.update({
@@ -398,7 +398,7 @@ export const resolveProjectDataUpdate = new ValidatedMethod({
         }),
     run({ projectId, editId, decision }) {
         if (!Meteor.userId()) {
-            throw new Meteor.Error('Error.', 'You have to be logged in.')
+            throw new Meteor.Error('Error.', 'messages.login')
         }
 
         let project = Projects.findOne({
@@ -406,11 +406,11 @@ export const resolveProjectDataUpdate = new ValidatedMethod({
         })
 
         if (!isModerator(Meteor.userId()) && project.createdBy !== Meteor.userId()) {
-            throw new Meteor.Error('Error.', 'You can only resolve data changes if you\'re a moderator or if you\'ve created the project.')
+            throw new Meteor.Error('Error.', 'messages.projects.cant_merge')
         }
 
         if (!project) {
-            throw new Meteor.Error('Error.', 'Project doesn\'t exist.')
+            throw new Meteor.Error('Error.', 'messages.projects.no_project')
         }
 
         if (decision === 'merge') {
@@ -427,7 +427,7 @@ export const resolveProjectDataUpdate = new ValidatedMethod({
             })
 
             if (!edit) {
-                throw new Meteor.Error('Error.', 'Edit doesn\'t exist.')
+                throw new Meteor.Error('Error.', 'messages.projects.edit')
             }
 
             return Projects.update({
@@ -477,11 +477,11 @@ export const resolveProjectFlags = new ValidatedMethod({
         }),
     run({ projectId, decision }) {
         if (!Meteor.userId()) {
-            throw new Meteor.Error('Error.', 'You have to be logged in.')
+            throw new Meteor.Error('Error.', 'messages.login')
         }
 
         if (!isModerator(Meteor.userId())) {
-            throw new Meteor.Error('Error.', 'You have to be a moderator.')
+            throw new Meteor.Error('Error.', 'messages.moderator')
         }
 
         let project = Projects.findOne({
@@ -489,7 +489,7 @@ export const resolveProjectFlags = new ValidatedMethod({
         })
 
         if (!project) {
-            throw new Meteor.Error('Error.', 'Project doesn\'t exist.')
+            throw new Meteor.Error('Error.', 'messages.projects.no_project')
         }
 
         if (decision === 'ignore') {

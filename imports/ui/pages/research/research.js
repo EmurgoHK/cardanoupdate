@@ -34,7 +34,7 @@ Template.research.helpers({
     searchArgs() {
         const instance = Template.instance();
         return {
-            placeholder:"Search research",
+            placeholder: TAPi18n.__('research.main.search'),
             type: 'research',
             onChange: (newTerm) => instance.searchFilter.set(newTerm),
         }

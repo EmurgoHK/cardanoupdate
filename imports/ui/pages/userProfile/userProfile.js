@@ -39,7 +39,7 @@ Template.viewProfile.helpers({
     if(user){
       return {
         id : user._id,
-        name : user.profile.name ? user.profile.name : 'No Name',
+        name : user.profile.name ? user.profile.name : TAPi18n.__('user.edit.no_name'),
         bio : user.profile.bio ? user.profile.bio : '',
         picture: user.profile.picture || '',
         profile: user.profile,
@@ -74,7 +74,7 @@ Template.viewProfile.helpers({
       //
       let totalUsers = Meteor.users.find(totalUserQuery).count()
       if (user.mod && user.mod.data && !_.isEmpty(totalUserQuery)) {
-        return `${user.mod.data.rank} out of ${totalUsers} users, based on comments and contributions.`
+        return `${user.mod.data.rank} ${TAPi18n.__('user.edit.out')} ${totalUsers} ${TAPi18n.__('user.edit.rank')}`
       }
     }
     return false
@@ -184,7 +184,7 @@ Template.editProfile.helpers({
   user(){
     let user = Meteor.users.findOne({_id : Meteor.userId()})
     return {
-      name : user.profile.name ? user.profile.name : 'No Name',
+      name : user.profile.name ? user.profile.name : TAPi18n.__('user.edit.no_name'),
       email : user.emails[0].address,
       bio : user.profile.bio ? user.profile.bio : '',
       picture: user.profile.picture || ''
@@ -222,7 +222,7 @@ Template.editProfile.events({
       }
 
       if (err.details === undefined && err.reason) {
-        notify(err.reason, 'error')
+        notify(TAPi18n.__(err.reason), 'error')
         return
       }
 
@@ -230,7 +230,7 @@ Template.editProfile.events({
         err.details.forEach(e => {
           $(`#${e.name}`).addClass('is-invalid')
           $(`#${e.name}Error`).show()
-          $(`#${e.name}Error`).text(e.message)
+          $(`#${e.name}Error`).text(TAPi18n.__(e.message))
         })
       }
     })

@@ -39,7 +39,7 @@ Template.faqItem.events({
   "click .delete-faq": function(event, templateInstance) {
     event.preventDefault()
     swal({
-      text: `Are you sure you want to remove this FAQ? This action is not reversible.`,
+      text: TAPi18n.__('faq.are_you_sure'),
       type: "warning",
       showCancelButton: true
     }).then(confirmed => {
@@ -50,9 +50,9 @@ Template.faqItem.events({
           },
           (err, data) => {
             if (err) {
-              notify(err.reason || err.message, "error");
+              notify(TAPi18n.__(err.reason || err.message), "error");
             } else {
-              notify('Successfully Deleted.', 'success')
+              notify(TAPi18n.__('faq.success'), 'success')
               return
             }
           }

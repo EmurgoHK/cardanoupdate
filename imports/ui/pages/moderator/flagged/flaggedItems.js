@@ -110,8 +110,8 @@ Template.flaggedItems.events({
 		event.preventDefault()
 
 		swal({
-			title: 'Are you sure?',
-            text: `Content will be ignored and no longer marked as flagged`,
+			title: TAPi18n.__('mod.flagged.are_you_sure'),
+            text: TAPi18n.__('mod.flagged.content_ignore'),
             type: 'warning',
             showCancelButton: true
         }).then(confirmed => {
@@ -122,9 +122,9 @@ Template.flaggedItems.events({
 						decision: 'ignore'
 					}, (err, data) => {
 						if (err) {
-							notify(err.reason || err.message, 'error')
+							notify(TAPi18n.__(err.reason || err.message), 'error')
 						} else {
-							notify('Successfully ignored.', 'success')
+							notify(TAPi18n.__('mod.flagged.success_ignore'), 'success')
 						}
 					})
                 } else if (this.isEvent) {
@@ -133,9 +133,9 @@ Template.flaggedItems.events({
 							  decision: 'ignore'
 						  }, (err, data) => {
 							  if (err) {
-								  notify(err.reason || err.message, 'error')
+								  notify(TAPi18n.__(err.reason || err.message), 'error')
 							  } else {
-								  notify('Successfully ignored.', 'success')
+								  notify(TAPi18n.__('mod.flagged.success_ignore'), 'success')
 							  }
 						  })
 				} else if (this.isWarning) {
@@ -144,9 +144,9 @@ Template.flaggedItems.events({
 						decision: 'ignore'
 					}, (err, data) => {
 						if (err) {
-							notify(err.reason || err.message, 'error')
+							notify(TAPi18n.__(err.reason || err.message), 'error')
 						} else {
-							notify('Successfully ignored.', 'success')
+							notify(TAPi18n.__('mod.flagged.success_ignore'), 'success')
 						}
 					})
 				} else if (this.isProject) {
@@ -155,9 +155,9 @@ Template.flaggedItems.events({
 						decision: 'ignore'
 					}, (err, data) => {
 						if (err) {
-							notify(err.reason || err.message, 'error')
+							notify(TAPi18n.__(err.reason || err.message), 'error')
 						} else {
-							notify('Successfully ignored.', 'success')
+							notify(TAPi18n.__('mod.flagged.success_ignore'), 'success')
 						}
 					})
 				} else if (this.isResearch) {
@@ -166,9 +166,9 @@ Template.flaggedItems.events({
 						decision: 'ignore'
 					}, (err, data) => {
 						if (err) {
-							notify(err.reason || err.message, 'error')
+							notify(TAPi18n.__(err.reason || err.message), 'error')
 						} else {
-							notify('Successfully ignored.', 'success')
+							notify(TAPi18n.__('mod.flagged.success_ignore'), 'success')
 						}
 					})
 				} else if (this.isSocialResource) {
@@ -177,9 +177,9 @@ Template.flaggedItems.events({
 						decision: 'ignore'
 					}, (err, data) => {
 						if (err) {
-							notify(err.reason || err.message, 'error')
+							notify(TAPi18n.__(err.reason || err.message), 'error')
 						} else {
-							notify('Successfully ignored.', 'success')
+							notify(TAPi18n.__('mod.flagged.success_ignore'), 'success')
 						}
 					});
 				} else {
@@ -188,9 +188,9 @@ Template.flaggedItems.events({
 						decision: 'ignore'
 					}, (err, data) => {
 						if (err) {
-							notify(err.reason || err.message, 'error')
+							notify(TAPi18n.__(err.reason || err.message), 'error')
 						} else {
-							notify('Successfully ignored.', 'success')
+							notify(TAPi18n.__('mod.flagged.success_ignore'), 'success')
 						}
 					})
 				}
@@ -200,8 +200,8 @@ Template.flaggedItems.events({
 	'click #js-remove': function(event, templateInstance) {
 		event.preventDefault()
 		swal({
-			title: 'Are you sure?',
-            text: `Deleting this Red flag will delete the flagged content. This action is not reversible.`,
+			title: TAPi18n.__('mod.flagged.are_you_sure'),
+            text: TAPi18n.__('mod.flagged.content_remove'),
             type: 'error',
             showCancelButton: true
         }).then(confirmed => {
@@ -212,9 +212,9 @@ Template.flaggedItems.events({
 						decision: 'remove'
 					}, (err, data) => {
 						if (err) {
-							notify(err.reason || err.message, 'error')
+							notify(TAPi18n.__(err.reason || err.message), 'error')
 						} else {
-							notify('Successfully removed.', 'success')
+							notify(TAPi18n.__('mod.flagged.success_removed'), 'success')
 						}
 					})
                 } else if (this.isEvent) {
@@ -223,9 +223,9 @@ Template.flaggedItems.events({
 							  decision: 'remove'
 						  }, (err, data) => {
 							  if (err) {
-								  notify(err.reason || err.message, 'error')
+								  notify(TAPi18n.__(err.reason || err.message), 'error')
 							  } else {
-								  notify('Successfully removed.', 'success')
+								  notify(TAPi18n.__('mod.flagged.success_removed'), 'success')
 							  }
 						  })
 				} else if (this.isWarning) {
@@ -234,9 +234,9 @@ Template.flaggedItems.events({
 						decision: 'remove'
 					}, (err, data) => {
 						if (err) {
-							notify(err.reason || err.message, 'error')
+							notify(TAPi18n.__(err.reason || err.message), 'error')
 						} else {
-							notify('Successfully removed.', 'success')
+							notify(TAPi18n.__('mod.flagged.success_removed'), 'success')
 						}
 					})
 				} else if (this.isProject) {
@@ -245,9 +245,9 @@ Template.flaggedItems.events({
 						decision: 'remove'
 					}, (err, data) => {
 						if (err) {
-							notify(err.reason || err.message, 'error')
+							notify(TAPi18n.__(err.reason || err.message), 'error')
 						} else {
-							notify('Successfully removed.', 'success')
+							notify(TAPi18n.__('mod.flagged.success_removed'), 'success')
 						}
 					})
 				} else if (this.isResearch) {
@@ -256,9 +256,9 @@ Template.flaggedItems.events({
 						decision: 'remove'
 					}, (err, data) => {
 						if (err) {
-							notify(err.reason || err.message, 'error')
+							notify(TAPi18n.__(err.reason || err.message), 'error')
 						} else {
-							notify('Successfully removed.', 'success')
+							notify(TAPi18n.__('mod.flagged.success_removed'), 'success')
 						}
 					})
 				} else if (this.isSocialResource) {
@@ -267,9 +267,9 @@ Template.flaggedItems.events({
 						decision: 'remove'
 					}, (err, data) => {
 						if (err) {
-							notify(err.reason || err.message, 'error')
+							notify(TAPi18n.__(err.reason || err.message), 'error')
 						} else {
-							notify('Successfully ignored.', 'success')
+							notify(TAPi18n.__('mod.flagged.success_removed'), 'success')
 						}
 					});
 				} else {
@@ -278,9 +278,9 @@ Template.flaggedItems.events({
 						decision: 'remove'
 					}, (err, data) => {
 						if (err) {
-							notify(err.reason || err.message, 'error')
+							notify(TAPi18n.__(err.reason || err.message), 'error')
 						} else {
-							notify('Successfully removed.', 'success')
+							notify(TAPi18n.__('mod.flagged.success_removed'), 'success')
 						}
 					})
 				}

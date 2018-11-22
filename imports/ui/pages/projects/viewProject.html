@@ -4,11 +4,11 @@
       <div class="col-sm-12">
         {{#if SubsCacheReady}}
           {{#with project}}
-          {{#if isOwner}}<a href="/projects/{{_id}}/edit" class="btn btn-primary btn-sm float-right"><i class="fas fa-edit"></i> Edit Project</a>{{/if}}
+          {{#if isOwner}}<a href="/projects/{{_id}}/edit" class="btn btn-primary btn-sm float-right"><i class="fas fa-edit"></i> {{_ "projects.view.edit"}}</a>{{/if}}
           <h1 class="card-title text-dark mt-3"><strong>{{headline}}</strong></h1>
           <h5 class="card-subtitle mb-3 mt-3">
               <ul class="list-inline">
-                <li class="list-inline-item">Posted by <strong><span class="name">{{> userNameDisplay author }}</span></strong></li>
+                <li class="list-inline-item">{{_ "projects.view.by"}} <strong><span class="name">{{> userNameDisplay author }}</span></strong></li>
                 <li class="list-inline-item"><i class="icon-clock" style="vertical-align: middle"></i>&nbsp;{{showTimeAgoTimestamp createdAt}}</li>
                 <li class="list-inline-item"><i class="icon-speech" style="vertical-align: middle"></i>&nbsp;{{coolCount}}</li>
                 <li class="list-inline-item"><i class="icon-flag" style="vertical-align: middle"></i>&nbsp;{{flagCount}}</li>
@@ -25,7 +25,7 @@
                 {{#if tags.length}}
                   <div class="row">
                     <div class="col-sm-12">
-                        <div>Tags</div>
+                        <div>{{_ "projects.view.tags"}}</div>
                         {{#each tags}}
                         <a class="badge badge-pill badge-primary" href="{{tagUrl this}}">{{tagName this}}</a>
                         {{/each}}
@@ -39,7 +39,7 @@
                       {{/unless}}
                       <a href="{{github_url}}" class="btn btn-dark text-white github" target="_blank"><i class="fab fa-github fa-lg"></i></a>
                       <a href="{{website}}" 
-                        title="{{#if website }}Go to {{website}} {{else}} Suggest a website {{/if}}" 
+                        title='{{#if website }}{{_ "projects.view.go_to"}} {{website}} {{else}} {{_ "projects.view.suggest"}} {{/if}}'
                         class="btn btn-secondary website" 
                         target="_blank">
                         <i class="fas fa-external-link-alt fa-lg"></i>
@@ -52,35 +52,19 @@
             </div>
           {{/with}}
           <div class="row">
-            <div class="col-sm-6 project-form comments">
+            <div class="col-sm-6 project-form cool-stuff">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title text-dark mt-3">Cool stuff</h4>
-                  <div style="max-height: 500px;overflow-y: auto;">
-                  {{#each coolStuff}}
-                    {{> commentBody ident=0 comment=this _id=project._id type="coolstuff"}}
-                  {{/each}}
-                  </div>
-                  <hr>
-                  <div class="card">
-                    {{> commentForm wrapperClasses="card-body" newsId=project._id parentId=project._id type="coolstuff" postType="project" hideCancel=true onSuccess=commentSuccess}}
-                  </div>
+                  <h4 class="card-title text-dark mt-3">{{_ "projects.view.cool"}}</h4>
+                  {{> commentArea parentId=project._id type="coolstuff" postType="project" commentSuccess=commentSuccess}}
                 </div>
               </div>
             </div>
-            <div class="col-sm-6 project-form comments">
+            <div class="col-sm-6 project-form redflags">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title text-dark mt-3">Red flags</h4>
-                  <div style="max-height: 500px;overflow-y: auto;">
-                  {{#each redFlags}}
-                    {{> commentBody ident=0 comment=this _id=project._id type="redflag"}}
-                  {{/each}}
-                  </div>
-                  <hr>
-                  <div class="card">
-                    {{> commentForm wrapperClasses="card-body" newsId=project._id parentId=project._id type="redflag" postType="project" hideCancel=true onSuccess=commentSuccess}}
-                  </div>
+                  <h4 class="card-title text-dark mt-3">{{_ "projects.view.flags"}}</h4>
+                  {{> commentArea parentId=project._id type="redflag" postType="project" commentSuccess=commentSuccess}}
                 </div>
               </div>
             </div>

@@ -14,7 +14,7 @@ Template.warnings.onCreated(function () {
     searchArgs() {
         const instance = Template.instance();
         return {
-            placeholder:"Search scams",
+            placeholder: TAPi18n.__('warnings.main.search'),
             type: 'warnings',
             onChange: (newTerm) => instance.searchFilter.set(newTerm),
         }
@@ -27,61 +27,6 @@ Template.warnings.onCreated(function () {
     },
 })
  Template.warnings.events({
-     // Remove comments if user is allowed to propose changes
-    /*
-    'click .github': function(event, temlateInstance) {
-        if ($(event.currentTarget).attr('href')) {
-            return
-        }
-         swal({
-            text: `GitHub repo is not available. If you know this information, please contribute below:`,
-            type: 'warning',
-            showCancelButton: true,
-            input: 'text'
-        }).then(val => {
-            if (val.value) {
-                proposeNewDataWarning.call({
-                    projectId: this._id,
-                    datapoint: 'github_url',
-                    newData: val.value,
-                    type: 'link'
-                }, (err, data) => {
-                    if (err) {
-                        notify(err.reason || err.message, 'error')
-                    } else {
-                        notify('Successfully contributed.', 'success')
-                    }
-                })
-            }
-        })
-    },
-    'click .website': function(event, temlateInstance) {
-        if ($(event.currentTarget).attr('href')) {
-            return
-        }
-         swal({
-            text: `Website is not available. If you know this information, please contribute below:`,
-            type: 'warning',
-            showCancelButton: true,
-            input: 'text'
-        }).then(val => {
-            if (val.value) {
-                proposeNewDataWarning.call({
-                    projectId: this._id,
-                    datapoint: 'website',
-                    newData: val.value,
-                    type: 'link'
-                }, (err, data) => {
-                    if (err) {
-                        notify(err.reason || err.message, 'error')
-                    } else {
-                        notify('Successfully contributed.', 'success')
-                    }
-                })
-            }
-        })
-    },
-    */
      'click #add-warning': (event, _) => {
         event.preventDefault()
         FlowRouter.go('/scams/new')

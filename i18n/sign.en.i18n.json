@@ -1,0 +1,28 @@
+{
+	"login": {
+		"login": "Login",
+		"signin": "Sign In to your account",
+		"facebook": "Login with Facebook",
+		"email": "Email",
+		"password": "Password",
+		"forgot": "Forgot Password?",
+		"register": "Don't have an account?",
+		"reset": "Reset your password.",
+		"reset_email": "Enter your email",
+		"reset_password": "Reset Password",
+		"back": "Back to login",
+		"check": "Please check your mail box for password reset link."
+	},
+	"signup": {
+		"register": "Register",
+		"create": "Create your account",
+		"name": "Full Name",
+		"email": "Email",
+		"password": "Password",
+		"confirm": "Confirm Password",
+		"create_account": "Create Account",
+		"login": "Have an account?",
+		"confirm_error": "Confirm password doesn't match password.",
+		"required": "Email/password fields are required."
+	}
+}

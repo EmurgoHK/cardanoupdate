@@ -23,11 +23,11 @@ export const insertVideo = editor => {
     const options = editor.options
 
     swal({
-		title: 'Please provide YouTube video link',
+		title: TAPi18n.__('learn.form.youtube'),
 		input: 'text',
 		showCancelButton: true,
 		inputValidator: (value) => {
-		  	return !/youtu(\.|)be/.test(value) && 'Invalid YouTube video link!'
+		  	return !/youtu(\.|)be/.test(value) && TAPi18n.__('learn.form.invalid_yt')
 		}
 	}).then(data => {
 		if (data.value) {
@@ -36,7 +36,7 @@ export const insertVideo = editor => {
 			if (videoId && /[0-9A-Za-z_-]{10}[048AEIMQUYcgkosw]/.test(videoId)) { // videoId has certain constrains so we can check if it's valid
 				replaceSelection(cm, state.video, ['<iframe width="560" height="315" ', 'src="#url#" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>'], `https://www.youtube.com/embed/${videoId}`)
 			} else {
-				notify('Invalid YouTube video.', 'error')
+				notify(TAPi18n.__('learn.form.invalid_yt'), 'error')
 			}
 		}
 	})
@@ -126,7 +126,7 @@ Template.learnForm.events({
         let inputId = event.target.id
         let inputValue = event.target.value
         let inputMaxChars = maxCharValue(inputId) - parseInt(inputValue.length)
-        let charsLeftText = `${inputMaxChars} characters left`
+        let charsLeftText = `${inputMaxChars} ${TAPi18n.__('learn.form.chars_left')}`
         $(`#${inputId}-chars`).text(charsLeftText)
 
         let specialCodes = [8, 46, 37, 39] // backspace, delete, left, right
@@ -186,7 +186,7 @@ Template.learnForm.events({
           difficultyLevel : $('input[name="difficultyLevel"]:checked').val()
 	    	}, (err, data) => {
 	    		if (!err) {
-	    			notify('Successfully added.', 'success')
+	    			notify(TAPi18n.__('learn.form.success_add'), 'success')
 
 	        		FlowRouter.go('/learn')
 
@@ -197,7 +197,7 @@ Template.learnForm.events({
 		        	err.details.forEach(e => {
 		          		$(`#${e.name}`).addClass('is-invalid')
 		          		$(`#${e.name}Error`).show()
-		          		$(`#${e.name}Error`).text(e.message)
+		          		$(`#${e.name}Error`).text(TAPi18n.__(e.message))
 		        	})
 		      	}
 	    	})
@@ -216,7 +216,7 @@ Template.learnForm.events({
           difficultyLevel : $('input[name="difficultyLevel"]:checked').val()
 	    	}, (err, data) => {
 	    		if (!err) {
-	    			notify('Successfully edited.', 'success')
+	    			notify(TAPi18n.__('learn.form.success_edit'), 'success')
 
 	        		FlowRouter.go('/learn')
 
@@ -227,7 +227,7 @@ Template.learnForm.events({
 		        	err.details.forEach(e => {
 		          		$(`#${e.name}`).addClass('is-invalid')
 		          		$(`#${e.name}Error`).show()
-		          		$(`#${e.name}Error`).text(e.message)
+		          		$(`#${e.name}Error`).text(TAPi18n.__(e.message))
 		        	})
 		      	}
 	    	})

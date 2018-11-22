@@ -47,6 +47,7 @@ Template.home.helpers({
     types: ['events', 'learn', 'projects', 'research', 'socialResource', 'warnings'],
     searchTerm: undefined,
     displayTypeLabel: true,
+    hidePastEvents: true,
     showAddNew: true,
     typeLimit: 6,
     addNewCallback: () => {

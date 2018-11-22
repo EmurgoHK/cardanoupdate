@@ -25,7 +25,7 @@ export const newFaqItem = new ValidatedMethod({
     }),
   run({ question, answer }) {
 		if (!Meteor.userId()) {
-			throw new Meteor.Error('Error.', 'You have to be logged in.')
+			throw new Meteor.Error('Error.', 'messages.login')
 		}
     return Faq.insert({
       question: question,
@@ -52,15 +52,15 @@ export const removeFaqItem = new ValidatedMethod({
     })
 
     if (!faq) {
-      throw new Meteor.Error('Error.', 'Learning item doesn\'t exist.')
+      throw new Meteor.Error('Error.', 'messages.faq.no_faq')
     }
 
     if (!Meteor.userId()) {
-      throw new Meteor.Error('Error.', 'You have to be logged in.')
+      throw new Meteor.Error('Error.', 'messages.login')
     }
 
     if (faq.createdBy !== Meteor.userId()) {
-      throw new Meteor.Error('Error.', 'You can\'t remove a faq item that you haven\'t created.')
+      throw new Meteor.Error('Error.', 'messages.faq.cant_remove')
     }
 
     return Faq.remove({
@@ -96,15 +96,15 @@ export const editFaqItem = new ValidatedMethod({
       })
 
       if (!faq) {
-        throw new Meteor.Error('Error.', 'Learning item doesn\'t exist.')
+        throw new Meteor.Error('Error.', 'messages.faq.no_faq')
       }
 
       if (!Meteor.userId()) {
-        throw new Meteor.Error('Error.', 'You have to be logged in.')
+        throw new Meteor.Error('Error.', 'messages.login')
       }
 
       if (faq.createdBy !== Meteor.userId()) {
-        throw new Meteor.Error('Error.', 'You can\'t edit a faq item that you haven\'t created.')
+        throw new Meteor.Error('Error.', 'messages.faq.cant_edit')
       }
       return Faq.update({
         _id: faqId

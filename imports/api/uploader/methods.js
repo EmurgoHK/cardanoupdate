@@ -27,20 +27,20 @@ export const uploadImage = new ValidatedMethod({
         const uploadDir = '/home/gareth/cardanoupdate_assets/static/images/'
 
         if (!Meteor.userId()) {
-            throw new Meteor.Error('Error.', 'You must be logged in.')
+            throw new Meteor.Error('Error.', 'messages.login')
         }
 
         const md5validate = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(data)).toString()
 
         if (md5validate !== md5) {
-            throw new Meteor.Error('Error.', 'Failed to validate md5 hash of the image. Please try again.')
+            throw new Meteor.Error('Error.', 'messages.uploader.md5_fail')
         }
 
         const mimetype = mime.lookup(fileName)
         const validFile = ['image/png', 'image/gif', 'image/jpeg'].includes(mimetype)
 
         if (!validFile) {
-            throw new Meteor.Error('Error.', 'File type is not supported. Only png, gif and jpeg are supported.')
+            throw new Meteor.Error('Error.', 'messages.uploader.file_type')
         }
 
         const fileExtension = mime.extension(mimetype)
@@ -104,20 +104,20 @@ export const uploadPDF = new ValidatedMethod({
         const uploadDir = '/home/gareth/cardanoupdate_assets/static/pdfs/'
 
         if (!Meteor.userId()) {
-            throw new Meteor.Error('Error.', 'You must be logged in.')
+            throw new Meteor.Error('Error.', 'messages.login')
         }
 
         const md5validate = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(data)).toString()
 
         if (md5validate !== md5) {
-            throw new Meteor.Error('Error.', 'Failed to validate md5 hash of the PDF. Please try again.')
+            throw new Meteor.Error('Error.', 'messages.uploader.md5_fail_pdf')
         }
 
         const mimetype = mime.lookup(fileName)
         const validFile = ['application/pdf'].includes(mimetype)
 
         if (!validFile) {
-            throw new Meteor.Error('Error.', 'File type is not supported. Only pdf is supported.')
+            throw new Meteor.Error('Error.', 'messages.uploader.file_type_pdf')
         }
 
         const fileExtension = mime.extension(mimetype)

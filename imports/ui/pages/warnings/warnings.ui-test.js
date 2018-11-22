@@ -45,54 +45,42 @@ describe('Warnings page', function () {
         assert(browser.execute(() => $('.news-body').text().trim() === 'Summary Test').value, true)
     })
 
-     it('user can edit a warning he/she created', () => {
-        browser.url(`${baseUrl}/scams`)
-        browser.pause(5000)
-        browser.execute(() => $($('.fa-ellipsis-h').get(0)).trigger('click'))
-        browser.pause(3000)
-        browser.click('#js-edit')
-        browser.pause(3000)
-        browser.setValue('#headline', 'Headline Test 2')
-        browser.pause(1000)
-        browser.execute(() => window.grecaptcha.getResponse = () => '_test_captcha_')
+    it('user can comment', () => {
+        browser.setValue('.comment-text', 'Test comment')
         browser.pause(2000)
-        browser.click('.add-warning')
+
+        browser.click('.save-comment')
         browser.pause(3000)
-        assert(browser.execute(() => FlowRouter.current().route.name === 'warnings').value, true)
-        assert(browser.execute(() => Array.from($('.card-title a')).some(i => $(i).text().trim() === 'Headline Test 2')).value, true)
+
+        assert(browser.execute(() => Array.from($('.comments').find('.card-body span')).some(i => $(i).text().includes('Test comment'))).value, true)
     })
 
-     it('user can post comments', () => {
-        browser.execute(() => FlowRouter.go('/scams/headline-test-1'))
-        browser.pause(5000)
-        browser.setValue('#comment', 'Test cool stuff')
-        browser.pause(2000)
-        browser.click('.new-comment')
-        browser.pause(3000)
-        assert(browser.execute(() => Array.from($('.comments').find('.card-body span')).some(i => $(i).text().includes('Test cool stuff'))).value, true)
-    })
-
-     it('user can reply to a comment', () => {
+    it('user can reply to a comment', () => {
         browser.click('.reply')
         browser.pause(2000)
-        let comment = browser.execute(() => testingComments.findOne()).value
-        browser.setValue(`.rep-comment-${comment._id}`, 'Test reply')
+
+        browser.setValue(`.comments .comment-text`, 'Test reply')
         browser.pause(1000)
-        browser.click('.reply-comment')
+
+        browser.click('.comments .save-comment')
         browser.pause(3000)
+
         assert(browser.execute(() => Array.from($('.comments').find('.card-body span')).some(i => $(i).text().includes('Test reply'))).value, true)
     })
-    
-     it('user can edit a comment', () => {
+
+    it('user can edit a comment', () => {
         browser.execute(() => $('.news-settings').find('.dropdown-menu').addClass('show'))
         browser.pause(3000)
+
         browser.click('.edit-mode')
         browser.pause(2000)
-        let comment = browser.execute(() => testingComments.findOne()).value
-        browser.setValue(`.edit-comment-${comment._id}`, 'Test comment 2')
+
+        browser.setValue(`.comments .comment-text`, 'Test comment 2')
         browser.pause(1000)
-        browser.click('.edit-comment')
+
+        browser.click('.comments .save-comment')
         browser.pause(3000)
+
         assert(browser.execute(() => Array.from($('.comments').find('.card-body span')).some(i => $(i).text().includes('Test comment 2'))).value, true)
     })
 
@@ -118,6 +106,23 @@ describe('Warnings page', function () {
         let countN = browser.execute(() => $('.comments').find('.card').length).value
         assert(count === countN + 1, true)
     })
+
+    it('user can edit a warning he/she created', () => {
+       browser.url(`${baseUrl}/scams`)
+       browser.pause(5000)
+       browser.execute(() => $($('.fa-ellipsis-h').get(0)).trigger('click'))
+       browser.pause(3000)
+       browser.click('#js-edit')
+       browser.pause(3000)
+       browser.setValue('#headline', 'Headline Test 2')
+       browser.pause(1000)
+       browser.execute(() => window.grecaptcha.getResponse = () => '_test_captcha_')
+       browser.pause(2000)
+       browser.click('.add-warning')
+       browser.pause(3000)
+       assert(browser.execute(() => FlowRouter.current().route.name === 'warnings').value, true)
+       assert(browser.execute(() => Array.from($('.card-title a')).some(i => $(i).text().trim() === 'Headline Test 2')).value, true)
+   })
 
     it('user can remove a warning he/she created', () => {
         browser.url(`${baseUrl}/scams`)

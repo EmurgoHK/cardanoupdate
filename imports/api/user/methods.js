@@ -380,7 +380,6 @@ if (Meteor.isDevelopment) {
       let user = Meteor.users.findOne({
         username: 'testing'
       })
-
       if (!user) {
         let uId = Accounts.createUser({
           username: 'testing',
@@ -476,7 +475,7 @@ export const hideInstructionModal = new ValidatedMethod({
   }),
   run({ modalId }) {
     if (!Meteor.userId()) {
-      throw new Meteor.Error('Error.', 'You have to be logged in.')
+      throw new Meteor.Error('Error.', 'messages.login')
     }
     return Meteor.users.update({
       _id: Meteor.userId()

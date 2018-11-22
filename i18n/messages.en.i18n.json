@@ -1,0 +1,57 @@
+{
+	"messages": {
+		"comments": {
+			"no_comment": "Comment doesn't exist.",
+			"cant_remove": "You can't remove a comment that you haven't posted.",
+			"cant_edit": "You can't edit a comment that you haven't posted."
+		},
+		"events": {
+			"no_event": "Event doesn't exist.",
+			"cant_edit": "You can't edit a event that you haven't added.",
+			"cant_remove": "You can't remove a event that you haven't added."
+		},
+		"faq": {
+			"no_faq": "FAQ doesn't exist.",
+			"cant_remove": "You can't remove a faq item that you haven't created.",
+			"cant_edit": "You can't edit a faq item that you haven't created."
+		},
+		"learn": {
+			"no_learn": "Learning item doesn't exist.",
+			"cant_remove": "You can't remove a learning item that you haven't created.",
+			"cant_edit": "You can't edit a learning item that you haven't created."
+		},
+		"projects": {
+			"no_project": "Project doesn't exist.",
+			"cant_remove": "You can't remove a project that you haven't created.",
+			"cant_edit": "You can't edit a project that you haven't created.",
+			"data": "Data already exists.",
+			"cant_merge": "You can only resolve data changes if you're a moderator or if you've created the project.",
+			"edit": "Edit doesn't exist."
+		},
+		"research": {
+			"no_research": "Research doesn't exist.",
+			"cant_remove": "You can't remove research that you haven't posted.",
+			"cant_edit": "You can't edit research that you haven't posted."
+		},
+		"communities": {
+			"no_community": "Community doesn't exist.",
+			"cant_remove": "You can't remove a community that you haven't added.",
+			"cant_edit": "You can't edit a community that you haven't added."
+		},
+		"uploader": {
+			"md5_fail": "Failed to validate md5 hash of the image. Please try again.",
+			"file_type": "File type is not supported. Only png, gif and jpeg are supported.",
+			"md5_fail_pdf": "Failed to validate md5 hash of the PDF. Please try again.",
+			"file_type_pdf": "File type is not supported. Only pdf is supported."
+		},
+		"warnings": {
+			"no_warning": "Warning doesn't exist.",
+			"cant_remove": "You can't remove a warning that you haven't added.",
+			"cant_edit": "You can't edit a warning that you haven't added."
+		},
+		"login": "You have to be logged in.",
+		"already_flagged": "You have already flagged this item.",
+		"moderator": "You have to be a moderator.",
+		"recaptcha": "Recaptcha failed please try again."
+	}
+}

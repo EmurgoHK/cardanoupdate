@@ -32,14 +32,14 @@ export const addWarning = new ValidatedMethod({
     run(data) {
         if (Meteor.isServer) {
             if (!Meteor.userId()) {
-                throw new Meteor.Error('Error.', 'You have to be logged in.')
+                throw new Meteor.Error('Error.', 'messages.login')
             }
     
             if(!isTesting) {
                 var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, data.captcha);
         
                 if (!verifyCaptchaResponse.success) {
-                    throw new Meteor.Error('recaptcha failed please try again');
+                    throw new Meteor.Error('messages.recaptcha');
                 } else
                     console.log('reCAPTCHA verification passed!');
             }
@@ -65,15 +65,15 @@ export const deleteWarning = new ValidatedMethod({
             let warning = Warnings.findOne({ _id: projectId })
 
             if (!warning) {
-                throw new Meteor.Error('Error.', 'Warning doesn\'t exist.')
+                throw new Meteor.Error('Error.', 'messages.warnings.no_warning')
             }
 
             if (!Meteor.userId()) {
-                throw new Meteor.Error('Error.', 'You have to be logged in.')
+                throw new Meteor.Error('Error.', 'messages.login')
             }
 
             if (warning.createdBy !== Meteor.userId()) {
-                throw new Meteor.Error('Error.', 'You can\'t remove a warning that you haven\'t added.')
+                throw new Meteor.Error('Error.', 'messages.warnings.cant_remove')
             }
 
             return Warnings.remove({ _id: projectId })
@@ -111,22 +111,22 @@ export const editWarning = new ValidatedMethod({
             let warning = Warnings.findOne({ _id: projectId })
 
             if (!warning) {
-                throw new Meteor.Error('Error.', 'Warning doesn\'t exist.')
+                throw new Meteor.Error('Error.', 'messages.warnings.no_warning')
             }
 
             if (!Meteor.userId()) {
-                throw new Meteor.Error('Error.', 'You have to be logged in.')
+                throw new Meteor.Error('Error.', 'messages.login')
             }
 
             if (warning.createdBy !== Meteor.userId()) {
-                throw new Meteor.Error('Error.', 'You can\'t edit a warning that you haven\'t added.')
+                throw new Meteor.Error('Error.', 'messages.warnings.cant_edit')
             }
 
             if(!isTesting) {
                 var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, captcha);
 
                 if (!verifyCaptchaResponse.success) {
-                    throw new Meteor.Error('recaptcha failed please try again');
+                    throw new Meteor.Error('messages.recaptcha');
                 } else
                     console.log('reCAPTCHA verification passed!');
             }
@@ -166,15 +166,15 @@ export const flagWarning = new ValidatedMethod({
         })
 
         if (!warning) {
-            throw new Meteor.Error('Error.', 'Warning doesn\'t exist.')
+            throw new Meteor.Error('Error.', 'messages.warnings.no_warning')
         }
 
         if (!Meteor.userId()) {
-            throw new Meteor.Error('Error.', 'You have to be logged in.')
+            throw new Meteor.Error('Error.', 'messages.login')
         }
       
         if ((warning.flags || []).some(i => i.flaggedBy === Meteor.userId())) {
-            throw new Meteor.Error('Error.', 'You have already flagged this item.')
+            throw new Meteor.Error('Error.', 'messages.already_flagged')
         }
 
         return Warnings.update({
@@ -208,11 +208,11 @@ export const resolveWarningFlags = new ValidatedMethod({
         }),
     run({ projectId, decision }) {
         if (!Meteor.userId()) {
-            throw new Meteor.Error('Error.', 'You have to be logged in.')
+            throw new Meteor.Error('Error.', 'messages.login')
         }
 
         if (!isModerator(Meteor.userId())) {
-            throw new Meteor.Error('Error.', 'You have to be a moderator.')
+            throw new Meteor.Error('Error.', 'messages.moderator')
         }
 
         let warning = Warnings.findOne({
@@ -220,7 +220,7 @@ export const resolveWarningFlags = new ValidatedMethod({
         })
 
         if (!warning) {
-            throw new Meteor.Error('Error.', 'Warning doesn\'t exist.')
+            throw new Meteor.Error('Error.', 'messages.warnings.no_warning')
         }
 
         if (decision === 'ignore') {

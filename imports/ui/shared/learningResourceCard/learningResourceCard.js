@@ -34,11 +34,11 @@ Template.learningResourceCard.helpers({
     let level = Template.currentData().learn.difficultyLevel;
     if(level){
       if(level === 'beginner'){
-        return `<span class="text-success" title="Difficulty Level"><i class="fa fa-circle"></i> ${level}</span>`
+        return `<span class="text-success" title="Difficulty Level"><i class="fa fa-circle"></i> ${TAPi18n.__(`learn.view.${level}`)}</span>`
       } else if (level === 'intermediate') {
-        return `<span class="text-warning" title="Difficulty Level"><i class="fa fa-circle"></i> ${level}</span>`
+        return `<span class="text-warning" title="Difficulty Level"><i class="fa fa-circle"></i> ${TAPi18n.__(`learn.view.${level}`)}</span>`
       } else {
-        return `<span class="text-danger" title="Difficulty Level"><i class="fa fa-circle"></i> ${level}</span>`
+        return `<span class="text-danger" title="Difficulty Level"><i class="fa fa-circle"></i> ${TAPi18n.__(`learn.view.${level}`)}</span>`
       }
     }
     return false
@@ -51,7 +51,7 @@ Template.learningResourceCard.events({
 
     const learn = Template.currentData().learn;
     swal({
-      text: `Are you sure you want to remove this learning resource? This action is not reversible.`,
+      text: TAPi18n.__('learn.card.are_you_sure'),
       type: "warning",
       showCancelButton: true
     }).then(confirmed => {
@@ -62,7 +62,7 @@ Template.learningResourceCard.events({
           },
           (err, data) => {
             if (err) {
-              notify(err.reason || err.message, "error");
+              notify(TAPi18n.__(err.reason || err.message), "error");
             }
           }
         );

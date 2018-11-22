@@ -41,9 +41,9 @@ Template.candidates.events({
 			userId: this._id
 		}, (err, data) => {
 			if (err) {
-				notify(err.reason || err.message, 'error')
+				notify(TAPi18n.__(err.reason || err.message), 'error')
 			} else {
-				notify('Successfully promoted.', 'success')
+				notify(TAPi18n.__('mod.candidates.success'), 'success')
 			}
 		})
 	}

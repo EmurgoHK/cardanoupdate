@@ -41,6 +41,16 @@ meteor npm install --save core-js
 
 If you already have the database but want to update it to the latest version, do a `meteor reset` before running the above.
 
+
+#### Email Setup   
+Create new file `.env` in project root and add `MAIL_URL`
+
+Example for sendgrid email
+
+```
+MAIL_URL = smtp://user:pass@smtp.sendgrid.net:587
+```
+
 #### Mongo errors   
 If Mongo exists with status 1:
 Quick fix: `export LC_ALL=C`   

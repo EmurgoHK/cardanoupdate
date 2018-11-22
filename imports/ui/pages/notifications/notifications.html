@@ -3,10 +3,10 @@
     <div class="card">
       <div class="card-body">
         <div class="card-title clearfix">
-          <h1 class="{{#if unreadCount}}float-left{{/if}}">My notifications</h1>
+          <h1 class="{{#if unreadCount}}float-left{{/if}}">{{_ "notifications.my"}}</h1>
           {{#if unreadCount}}
           <div class="float-right">
-            <a class="btn btn-sm btn-success" href="" role="button" id="markAllAsRead">Mark all as read</a>
+            <a class="btn btn-sm btn-success" href="" role="button" id="markAllAsRead">{{_ "notifications.all_read"}}</a>
           </div>
           {{/if}}
         </div>

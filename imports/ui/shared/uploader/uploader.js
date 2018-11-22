@@ -58,14 +58,14 @@ export const insertImage = (editor) => {
     let view
 
     swal({
-        title: 'Insert image',
+        title: TAPi18n.__('shared.uploader.insert_image'),
         html: '<div id="uploader"></div>',
         showCloseButton: true,
         showCancelButton: true,
         focusConfirm: false,
         confirmButtonText: '<i class="fa fa-plus"></i> Insert',
         confirmButtonAriaLabel: 'Insert image!',
-        cancelButtonText: 'Cancel',
+        cancelButtonText: TAPi18n.__('shared.uploader.cancel'),
         cancelButtonAriaLabel: 'Cancel',
     }).then(data => {
         if (data.value) {
@@ -101,7 +101,7 @@ export const getFiles = (id, reset) => {
     if (reset) {
         upInstance.files.set([])
 
-        $(`#fileUploadValue-${id}`).html('Upload')
+        $(`#fileUploadValue-${id}`).html(TAPi18n.__('shared.uploader.upload'))
         $(`#fileInputLabel-${id}`).addClass('btn-primary').removeClass('btn-success')          
     }              
 
@@ -148,7 +148,7 @@ Template.uploader.events({
         const file = event.target.files[0]
 
         if (file) {
-            $(`#fileUploadValue-${templateInstance.id}`).html('<i class=\'fas fa-circle-notch fa-spin\'></i> Uploading')
+            $(`#fileUploadValue-${templateInstance.id}`).html(`<i class=\'fas fa-circle-notch fa-spin\'></i> ${TAPi18n.__('shared.uploader.uploading')}`)
 
             const reader = new FileReader()
 
@@ -171,23 +171,23 @@ Template.uploader.events({
                     md5: CryptoJS.MD5(CryptoJS.enc.Latin1.parse(data.trim())).toString()
                 }, (err, data) => {
                     if (err) {
-                        notify(err.reason || err.message, 'error')
+                        notify(TAPi18n.__(err.reason || err.message), 'error')
 
                         // If any error generated while uploading image then
                         // Following line rever back button to original.
-                        $(`#fileUploadValue-${templateInstance.id}`).html('<span id="fileUploadValue-{{id}}">Upload</span>');
+                        $(`#fileUploadValue-${templateInstance.id}`).html(`<span id="fileUploadValue-{{id}}">${TAPi18n.__('shared.uploader.upload')}</span>`);
                     } else {
                         if (!templateInstance.data.single) {
                             let files = templateInstance.files.get()
                             files.push(data)
                             templateInstance.files.set(files)
 
-                            $(`#fileUploadValue-${templateInstance.id}`).html('Upload another')
+                            $(`#fileUploadValue-${templateInstance.id}`).html(TAPi18n.__('shared.uploader.another'))
                             $(`#fileInputLabel-${templateInstance.id}`).removeClass('btn-primary').removeClass('btn-danger').addClass('btn-success')
                         } else {
                             templateInstance.files.set([data])
 
-                            $(`#fileUploadValue-${templateInstance.id}`).html('Change')
+                            $(`#fileUploadValue-${templateInstance.id}`).html(TAPi18n.__('shared.uploader.change'))
                             $(`#fileInputLabel-${templateInstance.id}`).removeClass('btn-primary').removeClass('btn-danger').addClass('btn-success')
                         }
                     }

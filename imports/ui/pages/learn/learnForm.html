@@ -3,33 +3,33 @@
     <div class="card mb-5">
       <div class="card-body">
         <h2 class="card-title">
-          {{#if add}}New{{else}}Edit{{/if}} learning resource
+          {{#if add}}{{_ "learn.form.new"}}{{else}}{{_ "learn.form.edit"}}{{/if}} {{_ "learn.form.res"}}
         </h2>
         <hr>
         <form>
-          <div class="group-title">Title</div>
+          <div class="group-title">{{_ "learn.form.title"}}</div>
           <div class="input-group">
-            <input type="text" class="form-control" id="title" value="{{learn.title}}" placeholder="What are users going to learn about by reading or watching this? (in 25 chars or less)">
+            <input type="text" class="form-control" id="title" value="{{learn.title}}" placeholder='{{_ "learn.form.title_placeholder"}}'>
             <div id="titleError" class="invalid-feedback"></div>
           </div>
           <small><i id="title-chars" class="text-muted"></i></small>
-          <div class="group-title">Summary</div>
+          <div class="group-title">{{_ "learn.form.summary"}}</div>
           <div class="input-group">
-            <textarea class="form-control" id="summary" rows="8" value="{{learn.summary}}" placeholder="Learning resource summary in 260 characters or less"></textarea>
+            <textarea class="form-control" id="summary" rows="8" value="{{learn.summary}}" placeholder='{{_ "learn.form.summary_placeholder"}}'></textarea>
             <div id="summaryError" class="invalid-feedback"></div>
           </div>
           <small><i id="summary-chars" class="text-muted"></i></small>
-          <div class="group-title">Content</div>
+          <div class="group-title">{{_ "learn.form.content"}}</div>
           <div class="article-body">
-            <textarea class="form-control" id="content" rows="6" value="{{learn.content}}" placeholder="Learning resource content in 5000 characters or less"></textarea>
+            <textarea class="form-control" id="content" rows="6" value="{{learn.content}}" placeholder='{{_ "learn.form.content_placeholder"}}'></textarea>
             <div id="contentError" class="invalid-feedback"></div>
           </div>
           <small><i id="content-chars" class="text-muted"></i></small>
-          <div class="group-title">Difficulty level</div>
+          <div class="group-title">{{_ "learn.form.level"}}</div>
           <div>
-            <input type="radio" name="difficultyLevel" value="beginner"> Beginner
-            <input type="radio" name="difficultyLevel" value="intermediate"> Intermediate
-            <input type="radio" name="difficultyLevel" value="advanced"> Advanced
+            <input type="radio" name="difficultyLevel" value="beginner"> {{_ "learn.form.beginner"}}
+            <input type="radio" name="difficultyLevel" value="intermediate"> {{_ "learn.form.intermediate"}}
+            <input type="radio" name="difficultyLevel" value="advanced"> {{_ "learn.form.advanced"}}
             <div id="typeError" class="invalid-feedback"></div>
           </div>
           {{> tagInput values=learnTags}}
@@ -41,7 +41,7 @@
       </div>
       <div class="card-footer">
         <div>
-          <button type="submit" class="btn btn-lg btn-success new-learn">Submit</button>
+          <button type="submit" class="btn btn-lg btn-success new-learn">{{_ "learn.form.submit"}}</button>
         </div>
       </div>
     </div>

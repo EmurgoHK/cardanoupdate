@@ -4,11 +4,11 @@
       <div class="col-sm-12">
         {{#if SubsCacheReady}}
         {{#with event}}
-        {{#if isOwner}}<a href="/events/{{_id}}/edit" class="btn btn-primary btn-sm float-right"><i class="fas fa-edit"></i> Edit Event</a>{{/if}}
+        {{#if isOwner}}<a href="/events/{{_id}}/edit" class="btn btn-primary btn-sm float-right"><i class="fas fa-edit"></i> {{_ "events.view.edit"}}</a>{{/if}}
         <h1 class="card-title text-dark mt-3"><strong>{{headline}}</strong></h1>
         <h5 class="card-subtitle mb-3 mt-3">
           <ul class="list-inline">
-            <li class="list-inline-item">Added by <strong><span class="name">{{> userNameDisplay author}}</span></strong></li>
+            <li class="list-inline-item">{{_ "events.view.by"}} <strong><span class="name">{{> userNameDisplay author}}</span></strong></li>
             <li class="list-inline-item"><i class="icon-clock" style="vertical-align: middle"></i>&nbsp;{{showTimeAgoTimestamp createdAt}}</li>
             <li class="list-inline-item"><i class="icon-speech" style="vertical-align: middle"></i>&nbsp;{{commentCount}}</li>
           </ul>
@@ -17,10 +17,10 @@
           <div class="card-body">
             <div class="row mb-5">
               <div class="col-sm-12">
-               <i class="icon-calendar"></i> {{showLocalTimestamp start_date timezone.zoneName}} to {{showLocalTimestamp end_date timezone.zoneName}}
+               <i class="icon-calendar"></i> {{showLocalTimestamp start_date timezone.zoneName}} {{_ "events.view.to"}} {{showLocalTimestamp end_date timezone.zoneName}}
               </div>
               <div class="col-sm-12">
-                <i class="icon-check"></i> <a target="_blank" href={{rsvp}}>RSVP Link</a>
+                <i class="icon-check"></i> <a target="_blank" href={{rsvp}}>{{_ "events.view.rsvp"}}</a>
               </div>
               <div class="col-sm-12">
                 <i class="icon-location-pin"></i> <a target="_blank" href="https://www.google.com/maps/place/{{location}}/">{{location}}</a>
@@ -32,9 +32,9 @@
             <div class="row">
               <div class="col-sm-12 text-right">
                 {{#if watching}}
-                <a class="btn btn-success watch-event" href="#" title="Unfollow">Following</a>
+                <a class="btn btn-success watch-event" href="#" title='{{_ "events.view.unfollow"}}'>{{_ "events.view.following"}}</a>
                 {{else}}
-                <a class="btn btn-secondary watch-event" href="#" title="Follow">Follow</a>
+                <a class="btn btn-secondary watch-event" href="#" title='{{_ "events.view.follow"}}'>{{_ "events.view.follow"}}</a>
                 {{/if}}
                 {{> flagItem item="event"}}
               </div>
@@ -43,30 +43,7 @@
         </div>
         {{/with}}
         <hr class="mb-5 mt-5">
-          <div class="row">
-            <div class="col-sm-12 event-form">
-              <div class="card">
-                <div class="card-body">
-                  <div class="form-group">
-                    <textarea class="form-control" id="comments" name="comment" rows="3" placeholder="Leave a comment ..." required></textarea>
-                  </div>          
-                  <p class="text-danger">{{commentInvalidMessage}}</p>
-                  <div class="btn-group" role="group">
-                    <div class="btn-group" role="group">
-                      <button type="submit" class="btn btn-outline-primary mb-2 new-comment">Comment</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        <div class="row">
-          <div class="col-sm-12 event-form comments">
-            {{#each comments}}
-              {{> commentBody ident=0 comment=this _id=event._id}}
-            {{/each}}
-          </div>
-        </div>
+        {{> commentArea parentId=event._id type="comment" postType="event" commentSuccess=commentSuccess}}
         {{else}}
         {{> loader}}
         {{/if}}

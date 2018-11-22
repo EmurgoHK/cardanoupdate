@@ -1,5 +1,4 @@
 import './viewProject.html'
-import '../comments/commentBody'
 
 import { Template } from 'meteor/templating'
 import { FlowRouter } from 'meteor/kadira:flow-router'
@@ -7,7 +6,6 @@ import { FlowRouter } from 'meteor/kadira:flow-router'
 import { Projects } from '/imports/api/projects/projects'
 import { Comments } from '/imports/api/comments/comments'
 
-import { newComment } from '/imports/api/comments/methods' 
 import { flagProject, proposeNewData } from '/imports/api/projects/methods'
 
 import { notify } from '/imports/modules/notifier'
@@ -19,19 +17,8 @@ import swal from 'sweetalert2'
 Template.viewProject.onCreated(function() {
 	this.autorun(() => {
 		this.subscribe('projects.item', FlowRouter.getParam('slug'))
-		this.subscribe('users')
-
-		let project = Projects.findOne({
-			slug: FlowRouter.getParam('slug')
-		})
-
-		if (project) {
-			this.subscribe('comments.item', project._id)
-		}
-	})
-
-	this.coolMessage = new ReactiveVar('')
-	this.flagMessage = new ReactiveVar('')
+        this.subscribe('users')
+    });
 })
 
 Template.viewProject.helpers({
@@ -45,34 +32,6 @@ Template.viewProject.helpers({
 		slug: FlowRouter.getParam('slug')
 	}),
 	author: () => Meteor.users.findOne({_id: Template.currentData().createdBy}),
-    coolStuff: () => {
-    	let project = Projects.findOne({
-			slug: FlowRouter.getParam('slug')
-		}) || {}
-
-    	return Comments.find({
-        	parentId: project._id,
-        	type: 'coolstuff'
-    	}, {
-    		sort: {
-    			createdAt: -1
-    		}
-    	})
-    },
-    redFlags: () => {
-    	let project = Projects.findOne({
-			slug: FlowRouter.getParam('slug')
-		}) || {}
-
-    	return Comments.find({
-        	parentId: project._id,
-        	type: 'redflag'
-    	}, {
-    		sort: {
-    			createdAt: -1
-    		}
-    	})
-    },
 	coolCount: function () {
 		return Comments.find({
 		  	newsId: this._id,
@@ -89,7 +48,7 @@ Template.viewProject.helpers({
 	tagUrl: (tag) => `/tags?search=${encodeURIComponent(tag.name)}`,
 	commentSuccess: () => {
 		return () => {
-			notify('Successfully commented.', 'success');
+			notify(TAPi18n.__('projects.view.success'), 'success');
 		}
 	},
 })
@@ -108,7 +67,7 @@ Template.viewProject.events({
         }
 
         swal({
-            text: `GitHub repo is not available. If you know this information, please contribute below:`,
+            text: TAPi18n.__('projects.view.no_gh'),
             type: 'warning',
             showCancelButton: true,
             input: 'text'
@@ -121,9 +80,9 @@ Template.viewProject.events({
                     type: 'link'
                 }, (err, data) => {
                     if (err) {
-                        notify(err.reason || err.message, 'error')
+                        notify(TAPi18n.__(err.reason || err.message), 'error')
                     } else {
-                        notify('Successfully contributed.', 'success')
+                        notify(TAPi18n.__('projects.view.success_contrib'), 'success')
                     }
                 })
             }
@@ -135,7 +94,7 @@ Template.viewProject.events({
         }
 
         swal({
-            text: `Website is not available. If you know this information, please contribute below:`,
+            text: TAPi18n.__('projects.view.no_web'),
             type: 'warning',
             showCancelButton: true,
             input: 'text'
@@ -148,9 +107,9 @@ Template.viewProject.events({
                     type: 'link'
                 }, (err, data) => {
                     if (err) {
-                        notify(err.reason || err.message, 'error')
+                        notify(TAPi18n.__(err.reason || err.message), 'error')
                     } else {
-                        notify('Successfully contributed.', 'success')
+                        notify(TAPi18n.__('projects.view.success_contrib'), 'success')
                     }
                 })
             }
@@ -158,13 +117,12 @@ Template.viewProject.events({
     },
     'click .projectWarning' (event, _tpl) {
         event.preventDefault()
-        console.log('here')
         swal({
-            title: 'Missing source repository',
-            text: "This project does't contain any link to the source repository",
+            title: TAPi18n.__('projects.view.missing_repo'),
+            text: TAPi18n.__('projects.view.missing_info'),
             type: 'warning',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Okay'
+            confirmButtonText: TAPi18n.__('projects.view.ok')
         })
     }
 })

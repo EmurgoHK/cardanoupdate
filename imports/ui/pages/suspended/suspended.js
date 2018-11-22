@@ -9,8 +9,8 @@ import { applyForPardon } from '/imports/api/user/methods'
 
 const getName = (type) => {
 	const o = {
-		news: 'You have posted a news article that has been flagged and removed.',
-		comment: 'You have posted a comment that has been flagged and removed.'
+		news: TAPi18n.__('user.suspended.news'),
+		comment: TAPi18n.__('user.suspended.comment')
 	}
 
 	return o[type]
@@ -53,9 +53,9 @@ Template.suspended.events({
 			reason: $('#js-reason').val()
 		}, (err, data) => {
 			if (err) {
-				notify(err.message || err.reason, 'error')
+				notify(TAPi18n.__(err.message || err.reason), 'error')
 			} else {
-				notify('Successfully applied.', 'success')
+				notify(TAPi18n.__('user.suspended.success'), 'success')
 			}
 		})
 	}

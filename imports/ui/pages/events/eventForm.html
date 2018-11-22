@@ -2,7 +2,7 @@
   <div class="container event-form">
     <div class="row">
       <div class="col-sm-12">
-        <h2>{{#if add}} New Event {{else}} Edit Event {{/if}}</h2>
+        <h2>{{#if add}} {{_ "events.form.new"}} {{else}} {{_ "events.form.edit"}} {{/if}}</h2>
       </div>
     </div>
     <hr>
@@ -11,31 +11,31 @@
         <div class="card">
           <div class="card-body">
             <form class="news-form" id="event_form">
-              <div class="group-title">Name</div>
+              <div class="group-title">{{_ "events.form.name"}}</div>
               <div class="input-group">
-                <input type="text" class="form-control" id="headline" value="{{event.headline}}" placeholder="Name in 90 characters or less">
+                <input type="text" class="form-control" id="headline" value="{{event.headline}}" placeholder='{{_ "events.form.name_placeholder"}}'>
                 <div id="headlineError" class="invalid-feedback"></div>
               </div>
               <small><i id="headline-chars" class="text-muted"></i></small>
-              <div class="group-title">Event Duration</div>
+              <div class="group-title">{{_ "events.form.duration"}}</div>
               <div class="input-group">
                 <input type="text" class="form-control" id="event_duration" value="{{event.start_date}} - {{event.end_date}}">
               </div>
-              <div class="group-title">Description</div>
+              <div class="group-title">{{_ "events.form.desc"}}</div>
               <div class="article-body">
-                <textarea class="form-control" id="description" rows="6" value="{{event.description}}" placeholder="Event description"></textarea>
+                <textarea class="form-control" id="description" rows="6" value="{{event.description}}" placeholder='{{_ "events.form.desc_placeholder"}}'></textarea>
               </div>
               <div id="descriptionError" class="invalid-feedback"></div>
               <small><i id="description-chars" class="text-muted"></i></small>
 
-              <div class="group-title">Location</div>
+              <div class="group-title">{{_ "events.form.location"}}</div>
               <div class="input-group">
-                <input type="text" class="form-control" id="location" value="{{event.location}}" placeholder="Event Location">
+                <input type="text" class="form-control" id="location" value="{{event.location}}" placeholder='{{_ "events.form.location_placeholder"}}'>
                 <div id="locationError" class="invalid-feedback"></div>
               </div>
-              <div class="group-title">RSVP link</div>
+              <div class="group-title">{{_ "events.form.rsvp"}}</div>
               <div class="input-group">
-                <input type="text" class="form-control" id="rsvp" value="{{event.rsvp}}" placeholder="Where should people RSVP if they want to attend this event?">
+                <input type="text" class="form-control" id="rsvp" value="{{event.rsvp}}" placeholder='{{_ "events.form.rsvp_placeholder"}}'>
                 <div id="rsvpError" class="invalid-feedback"></div>
               </div>
               <div class="input-group">
@@ -46,7 +46,7 @@
           </div>
           <div class="card-footer">
             <div>
-              <button form="event_form" type="submit" class="btn btn-lg btn-success add-event">Submit</button>
+              <button form="event_form" type="submit" class="btn btn-lg btn-success add-event">{{_ "events.form.submit"}}</button>
             </div>
           </div>
         </div>

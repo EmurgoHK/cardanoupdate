@@ -172,7 +172,7 @@ Template.eventForm.events({
     let inputId = event.target.id
     let inputValue = event.target.value
     let inputMaxChars = maxCharValue(inputId) - parseInt(inputValue.length)
-    let charsLeftText = `${inputMaxChars} characters left`
+    let charsLeftText = `${inputMaxChars} ${TAPi18n.__('events.form.chars_left')}`
 
     $(`#${inputId}-chars`).text(charsLeftText)
 
@@ -214,7 +214,7 @@ Template.eventForm.events({
         }
       }, (err, _data) => {
         if (!err) {
-          notify('Successfully edited.', 'success')
+          notify(TAPi18n.__('events.form.success_edit'), 'success')
           FlowRouter.go('/events')
           return
         }
@@ -223,7 +223,7 @@ Template.eventForm.events({
           err.details.forEach(e => {
             $(`#${e.name}`).addClass('is-invalid')
             $(`#${e.name}Error`).show()
-            $(`#${e.name}Error`).text(e.message)
+            $(`#${e.name}Error`).text(TAPi18n.__(e.message))
           })
         }
       })
@@ -248,13 +248,13 @@ Template.eventForm.events({
       }
     }, (err, data) => {
       if (!err) {
-        notify('Successfully added.', 'success')
+        notify(TAPi18n.__('events.form.success_add'), 'success')
         FlowRouter.go('/events')
         return
       }
 
       if (err.details === undefined && err.reason) {
-        notify(err.reason, 'error')
+        notify(TAPi18n.__(err.reason), 'error')
         console.log(err)
         return
       }
@@ -263,7 +263,7 @@ Template.eventForm.events({
         err.details.forEach(e => {
           $(`#${e.name}`).addClass('is-invalid')
           $(`#${e.name}Error`).show()
-          $(`#${e.name}Error`).text(e.message)
+          $(`#${e.name}Error`).text(TAPi18n.__(e.message))
         })
       }
     })

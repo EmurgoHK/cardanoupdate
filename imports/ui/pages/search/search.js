@@ -39,7 +39,7 @@ Template.search.helpers({
     searchArgs() {
         const instance = Template.instance();
         return {
-            placeholder:"Search anything!",
+            placeholder: TAPi18n.__('search.anything'),
             searchTerm: instance.searchTerm.get(),
             onChange: (newTerm) => {
                 FlowRouter.setQueryParams({q: newTerm}); 

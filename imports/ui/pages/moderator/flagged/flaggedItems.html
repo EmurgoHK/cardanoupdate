@@ -2,7 +2,7 @@
     <div class="news-list container">
         <div class="row">
             <div class="col-sm-12">
-                <h2>Flagged items</h2>
+                <h2>{{_ "mod.flagged.flagged"}}</h2>
             </div>
         </div>
         <hr>
@@ -16,18 +16,18 @@
                         <div class="card">
                             <div class="card-body">
                                 <h4><a class="card-title" href="{{link}}">{{text}}</a></h4> 
-                                <h6 class="card-subtitle mt-2 mb-2 text-muted"><strong>Flagged {{times}}, because:</strong></h6>
+                                <h6 class="card-subtitle mt-2 mb-2 text-muted"><strong>{{_ "mod.flagged.flag"}} {{times}}, {{_ "mod.flagged.because"}}:</strong></h6>
                                 {{#each reasons}}
-                                    <p class="card-text">{{reason}} by {{> userNameDisplay author}}</p>
+                                    <p class="card-text">{{reason}} {{_ "mod.flagged.by"}} {{> userNameDisplay author}}</p>
                                 {{/each}}
                             </div>
 
                             <div class="card-footer">
-                                <button class="btn btn-sm btn-warning" id="js-ignore" href="#" role="button" title="Ignore">
-                                    <i class="fas fa-eye-slash"></i> <strong>Ignore</strong> 
+                                <button class="btn btn-sm btn-warning" id="js-ignore" href="#" role="button" title='{{_ "mod.flagged.ignore"}}'>
+                                    <i class="fas fa-eye-slash"></i> <strong>{{_ "mod.flagged.ignore"}}</strong> 
                                 </button>
-                                <button class="btn btn-sm btn-danger" id="js-remove" href="#" role="button" title="Remove">
-                                    <i class="fas fa-trash"></i> <strong>Delete</strong> 
+                                <button class="btn btn-sm btn-danger" id="js-remove" href="#" role="button" title='{{_ "mod.flagged.remove"}}'>
+                                    <i class="fas fa-trash"></i> <strong>{{_ "mod.flagged.remove"}}</strong> 
                                 </button>
                             </div>
                         </div>
@@ -35,7 +35,7 @@
                     
                 {{else}}
                     <div class="mt-3">
-                        <h3>No flagged items found!</h3>
+                        <h3>{{_ "mod.flagged.no_items"}}</h3>
                     </div>
                 {{/if}}
                 {{else}}
@@ -46,7 +46,7 @@
             
         </div>
         {{else}}
-                <h3>You have to be a moderator.</h3>
+                <h3>{{_ "mod.mod_only"}}</h3>
             {{/if}}
     </div>
 </template>

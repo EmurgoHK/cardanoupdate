@@ -4,11 +4,11 @@
       <div class="col-sm-12">
         {{#if SubsCacheReady}}
           {{#with warning}}
-          {{#if isOwner}}<a href="/scams/{{_id}}/edit" class="btn btn-primary btn-sm float-right"><i class="fas fa-edit"></i> Edit Scam</a>{{/if}}
+          {{#if isOwner}}<a href="/scams/{{_id}}/edit" class="btn btn-primary btn-sm float-right"><i class="fas fa-edit"></i> {{_ "warnings.view.edit"}}</a>{{/if}}
           <h1 class="card-title text-dark mt-3"><strong>{{headline}}</strong></h1>
           <h5 class="card-subtitle mb-3 mt-3">
               <ul class="list-inline">
-                <li class="list-inline-item">Posted by <strong><span class="name">{{> userNameDisplay author}}</span></strong></li>
+                <li class="list-inline-item">{{_ "warnings.view.by"}} <strong><span class="name">{{> userNameDisplay author}}</span></strong></li>
                 <li class="list-inline-item"><i class="icon-clock" style="vertical-align: middle"></i>&nbsp;{{showTimeAgoTimestamp createdAt}}</li>
                 <li class="list-inline-item"><i class="icon-speech" style="vertical-align: middle"></i>&nbsp;{{commentCount}}</li>
               </ul>
@@ -28,22 +28,9 @@
                </div>
             </div>
           {{/with}}
-          <div class="warning-form comments">
-            <div class="card">
-              <div class="card-body">
-                <h4 class="card-title text-dark mt-3">Comments</h4>
-                <div style="max-height: 500px;overflow-y: auto;">
-                {{#each comment}}
-                  {{> commentBody ident=0 comment=this _id=warning._id type="warning"}}
-                {{/each}}
-                </div>
-                <hr>
-                <div class="card">
-                  {{> commentForm wrapperClasses="card-body" newsId=warning._id parentId=warning._id type="warning" postType="scam" hideCancel=true onSuccess=commentSuccess}}
-                </div>
-              </div>
-            </div>
-          </div>
+          
+          <hr class="mb-5 mt-5">
+          {{> commentArea parentId=warning._id type="warning" postType="scam" commentSuccess=commentSuccess}}
         {{else}}
           {{> loader}}
         {{/if}}

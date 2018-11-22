@@ -24,15 +24,15 @@ Template.commentForm.helpers({
     if (data.saveButtonText) return data.saveButtonText;
 
     if (data.id)
-      return "Edit";
+      return TAPi18n.__('comments.edit');
 
     if (data.parentId !== data.newsId)
-      return "Reply";
+      return TAPi18n.__('comments.reply');
 
-    return "Comment";
+    return TAPi18n.__('comments.comment');
   },
   placeholder() {
-    return Template.currentData().placeholder || "Comment something!";
+    return Template.currentData().placeholder || TAPi18n.__('comments.placeholder');
   },
 
   wrapperClasses() {
@@ -58,9 +58,11 @@ Template.commentForm.events({
         if (!err) {
           templateInstance.text.set('');
           templateInstance.error.set('');
-          data.onSuccess(res);
+
+          if (data.onSuccess)
+            data.onSuccess(res);
         } else {
-          templateInstance.error.set(err.reason || err.message);
+          templateInstance.error.set(TAPi18n.__(err.reason || err.message));
         }
       });
     } else {
@@ -74,9 +76,11 @@ Template.commentForm.events({
         if (!err) {
           templateInstance.text.set('');
           templateInstance.error.set('');
-          data.onSuccess(res);
+
+          if (data.onSuccess)
+            data.onSuccess(res);
         } else {
-          templateInstance.error.set(err.reason || err.message);
+          templateInstance.error.set(TAPi18n.__(err.reason || err.message));
         }
       })
     }
