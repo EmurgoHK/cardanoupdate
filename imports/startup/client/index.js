@@ -9,6 +9,7 @@ import '/imports/ui/shared/sidebar/sidebar'
 import '/imports/ui/shared/loader/loader'
 import '/imports/ui/shared/empty-result/empty-result'
 import '/imports/ui/shared/uploader/uploader'
+import '/imports/ui/shared/footer/footer';
 
 import '/imports/ui/shared/eventCard/eventCard';
 import '/imports/ui/shared/learningResourceCard/learningResourceCard';
