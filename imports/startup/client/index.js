@@ -39,11 +39,10 @@ Meteor.startup(() => {
         publickey: Meteor.settings.public.RECAPTCHA_CLIENT
     });
     
-    TAPi18n.setLanguage(sessionStorage.getItem('uiLanguage') || 'en')
-      .done(function () {
-      })
+    const userLang = Meteor.user() && Meteor.user().profile && Meteor.user().profile.language;
+    TAPi18n.setLanguage(sessionStorage.getItem('uiLanguage') || userLang || 'en')
       .fail(function (error_message) {
         // Handle the situation
-        console.log(error_message);
+        console.error(error_message);
       });
 })
