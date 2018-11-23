@@ -62,6 +62,10 @@
 			"title": "Everything about Cardano.",
 			"title2": "Accurate up to the minute.",
 			"home": "Home"
+		},
+		"footer": {
+			"language": "Language",
+			"copyright": "Owned by <a href='https://emurgohk.io/'>EmurgoHK</a> and <a href='https://github.com/EmurgoHK/cardanoupdate/blob/master/AUTHORS'>contributors</a>. Licensed under <a href='https://github.com/EmurgoHK/cardanoupdate/blob/master/LICENSE'>Mozilla Public License 2.0.</a>"
 		}
 	}
 }
