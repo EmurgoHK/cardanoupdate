@@ -4,7 +4,7 @@
       {{> commentForm formArgs }}
     </div>
     
-    <div class="comments">
+    <div class="comments card">
       {{#each comment in comments}}
         {{> commentCard ident=0 comment=comment _id=comment._id onReplySuccess=replySuccess onEditSuccess=editSuccess}}
       {{/each}}
