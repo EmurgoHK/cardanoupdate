@@ -32,7 +32,7 @@ Template.commentCard.helpers({
     },
 	commentInvalidMessage: () => Template.instance().message.get(),
 	newIdent: () => Template.instance().data.ident + 10,
-	formIdent: () => Template.instance().data.ident - 5,
+	formIdent: () => (Template.instance().data.ident - 5) > 0 ? (Template.instance().data.ident - 5) : 0,
 	ident: () => Template.instance().data.ident,
 	childComments: function() {
 		return Comments.find({
@@ -57,7 +57,7 @@ Template.commentCard.helpers({
 		const data = Template.instance().data;
 
 		return {
-			ident: data.ident + 10,
+			ident: 15, // data.ident + 10
 			comment: comment,
 			_id: comment._id,
 			type: data.type,
@@ -72,7 +72,7 @@ Template.commentCard.helpers({
 			notify(TAPi18n.__('comments.success'), 'success');
 			templateInstance.showReplies.set(true);
 			templateInstance.replies.set(templateInstance.data._id, false);
-			
+
 			if (templateInstance.data.onReplySuccess)
 				templateInstance.data.onReplySuccess();
 		}
@@ -86,7 +86,7 @@ Template.commentCard.helpers({
 	},
 	editSuccess: () => {
 		const templateInstance = Template.instance();
-		
+
 		return () => {
 			notify(TAPi18n.__('comments.success_edit'), 'success');
 			templateInstance.edits.set(templateInstance.data._id, false);
@@ -98,7 +98,7 @@ Template.commentCard.helpers({
 	editCancel: () => {
 		const templateInstance = Template.instance();
 		const data = Template.currentData();
-		
+
 		return () => templateInstance.edits.set(data._id, false);
 	},
 })
