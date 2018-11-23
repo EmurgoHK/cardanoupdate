@@ -22,6 +22,15 @@
               <textarea class="form-control" id="bio" rows="3">{{user.bio}}</textarea>
               <div id="bioError" class="invalid-feedback"></div>
             </div>
+            <div  class="group-title" for="language">{{_ "user.edit.language"}}</div>
+            <div class="input-group">
+              <select name="language" class="form-control" id="language">
+                {{#each lang in languages user.language}}
+                  <option value={{lang.code}} selected={{lang.selected}}>{{lang.name}}</option>
+                {{/each}}
+              </select>
+              <div id="languageError" class="invalid-feedback"></div>
+            </div>
             <div  class="group-title" for="bio">{{_ "user.edit.image"}}</div>
             <div class="input-group">
               {{> uploader files=images single=true}}

@@ -17,7 +17,8 @@ Template.signup.events({
           email: target.email.value,
           password: target.password.value,
           profile: {
-            name : target.name.value
+            name: target.name.value,
+            language: sessionStorage.get('uiLanguage') || "en",
           }
         }, (err) => {
           if (err) {
