@@ -5,6 +5,7 @@ import { FlowRouter } from 'meteor/kadira:flow-router'
 
 import { Learn } from '/imports/api/learn/learn'
 import { Tags } from '/imports/api/tags/tags'
+import { TranslationGroups } from '../../../api/translationGroups/translationGroups';
 import { notify } from '/imports/modules/notifier'
 
 import { newLearningItem, editLearningItem } from '/imports/api/learn/methods'
@@ -53,9 +54,11 @@ const maxCharValue = (inputId) => {
 }
 
 Template.learnForm.onCreated(function() {
-	if (FlowRouter.current().route.name === 'editLearn') {
+	if (FlowRouter.current().route.name.startsWith('edit') || FlowRouter.current().route.name.startsWith('translate')) {
 		this.autorun(() => {
 			this.subscribe('learn.item', FlowRouter.getParam('slug'))
+				
+			this.subscribe('translationGroups.itemSlug', FlowRouter.getParam('slug'));
 		})
 	}
 
@@ -96,28 +99,44 @@ Template.learnForm.onRendered(function() {
 
   	window.mde = this.mde
 
-  	this.autorun(() => {
-    	let learn = Learn.findOne({
-      	slug: FlowRouter.getParam('slug')
-    	})
+	this.autorun(() => {
+		let learn = Learn.findOne({
+			slug: FlowRouter.getParam('slug')
+		});
+		if (learn) {
+			this.mde.value(learn.content);
 
-    	if (learn) {
-        this.mde.value(learn.content)
-        
-        // If dificulty level exist on editing
-        if(learn.difficultyLevel){
-          this.$('input[name="difficultyLevel"]').val(learn.difficultyLevel)
-        }
-    	}
-  	})
+			// If dificulty level exist on editing
+			if (learn.difficultyLevel) {
+				this.$('input[name="difficultyLevel"]').val(learn.difficultyLevel)
+			}
+		}
+	})
 })
 
 Template.learnForm.helpers({
+	isNew: () => (FlowRouter.current().route.name.startsWith('new')),
+	isEdit: () => (FlowRouter.current().route.name.startsWith('edit')),
+	isTranslate: () => FlowRouter.current().route.name.startsWith('translate'),
+
 	learn: () => Learn.findOne({
 		slug: FlowRouter.getParam('slug')
   	}),
-	add: () => !(FlowRouter.current().route.name === 'editLearn'),
-    learnTags: () => (Learn.findOne({ slug: FlowRouter.getParam('slug') }) || {}).tags || [] 
+	learnTags: () => (Learn.findOne({ slug: FlowRouter.getParam('slug') }) || {}).tags || [],
+	
+	languages: () => {
+		const group = TranslationGroups.findOne({});
+		const isTranslate = FlowRouter.current().route.name.startsWith('translate');
+		return Object.keys(TAPi18n.languages_names).map(key => {
+			const hasTranslation = group ? group.translations.some(t => t.language === key) : key === 'en';
+			return {
+				code: key,
+				name: TAPi18n.languages_names[key][1],
+				selected: !hasTranslation && key === TAPi18n.getLanguage(),
+				disabled: isTranslate && hasTranslation,
+			};
+		});
+	},
 })
 
 Template.learnForm.events({
@@ -176,62 +195,65 @@ Template.learnForm.events({
 				tagsToSave.push(tag);
 			}
 		}
+		const isTranslate = FlowRouter.current().route.name.startsWith('translate');
+			if (FlowRouter.current().route.name === 'newLearn' || isTranslate) {
+				const original = isTranslate ? FlowRouter.getParam('slug') : undefined;
+				newLearningItem.call({
+					title: $('#title').val(),
+					summary: $('#summary').val(),
+					content: templateInstance.mde.value(),
+					captcha: captchaData,
+					tags: tagsToSave,
+					difficultyLevel: $('input[name="difficultyLevel"]:checked').val(),
+					language: $("#language").val(),
+					original,
+				}, (err, data) => {
+					if (!err) {
+						notify(TAPi18n.__('learn.form.success_add'), 'success')
 
-    	if (FlowRouter.current().route.name === 'newLearn') {
-	    	newLearningItem.call({
-          title: $('#title').val(),
-          summary : $('#summary').val(),
-		  content: templateInstance.mde.value(),
-		  captcha: captchaData,
-          tags: tagsToSave,
-          difficultyLevel : $('input[name="difficultyLevel"]:checked').val()
-	    	}, (err, data) => {
-	    		if (!err) {
-	    			notify(TAPi18n.__('learn.form.success_add'), 'success')
+						FlowRouter.go('/learn')
 
-	        		FlowRouter.go('/learn')
+						return
+					}
 
-	        		return
-	      		}
+					if (err.details && err.details.length >= 1) {
+						err.details.forEach(e => {
+							$(`#${e.name}`).addClass('is-invalid')
+							$(`#${e.name}Error`).show()
+							$(`#${e.name}Error`).text(TAPi18n.__(e.message))
+						})
+					}
+				})
+		} else {
+			let learn = Learn.findOne({
+				slug: FlowRouter.getParam('slug')
+			})
 
-		      	if (err.details && err.details.length >= 1) {
-		        	err.details.forEach(e => {
-		          		$(`#${e.name}`).addClass('is-invalid')
-		          		$(`#${e.name}Error`).show()
-		          		$(`#${e.name}Error`).text(TAPi18n.__(e.message))
-		        	})
-		      	}
-	    	})
-    	} else {
-    		let learn = Learn.findOne({
-    			slug: FlowRouter.getParam('slug')
-    		})
-
-    		editLearningItem.call({
-    			learnId: learn._id,
-          title: $('#title').val(),
-          summary : $('#summary').val(),
+			editLearningItem.call({
+				learnId: learn._id,
+				title: $('#title').val(),
+				summary : $('#summary').val(),
 				content: templateInstance.mde.value(),
 				captcha: captchaData,
-          tags: tagsToSave,
-          difficultyLevel : $('input[name="difficultyLevel"]:checked').val()
-	    	}, (err, data) => {
-	    		if (!err) {
-	    			notify(TAPi18n.__('learn.form.success_edit'), 'success')
+				tags: tagsToSave,
+				difficultyLevel : $('input[name="difficultyLevel"]:checked').val()
+			}, (err, data) => {
+				if (!err) {
+					notify(TAPi18n.__('learn.form.success_edit'), 'success')
 
-	        		FlowRouter.go('/learn')
+						FlowRouter.go('/learn')
 
-	        		return
-	      		}
+						return
+					}
 
-		      	if (err.details && err.details.length >= 1) {
-		        	err.details.forEach(e => {
-		          		$(`#${e.name}`).addClass('is-invalid')
-		          		$(`#${e.name}Error`).show()
-		          		$(`#${e.name}Error`).text(TAPi18n.__(e.message))
-		        	})
-		      	}
-	    	})
-    	}
-    }
+					if (err.details && err.details.length >= 1) {
+						err.details.forEach(e => {
+								$(`#${e.name}`).addClass('is-invalid')
+								$(`#${e.name}Error`).show()
+								$(`#${e.name}Error`).text(TAPi18n.__(e.message))
+						})
+					}
+			})
+		}
+	}
 })

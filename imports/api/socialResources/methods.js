@@ -6,6 +6,7 @@ import { Comments } from '/imports/api/comments/comments'
 
 import { isModerator, userStrike } from '/imports/api/user/methods'
 import { addTag, mentionTag, removeTag } from '../tags/methods';
+import { addTranslation, removeTranslation, checkTranslation } from '../translationGroups/methods';
 
 import { isTesting } from '../utilities';
 
@@ -43,9 +44,17 @@ export const addSocialResource = new ValidatedMethod({
                 type: String,
                 optional: true
             },
+            language: {
+              type: String,
+              optional: false,
+            },
             captcha: {
+              type: String,
+              optional: isTesting
+            },
+            original: {
                 type: String,
-                optional: isTesting
+                optional: true,
             },
             tags: {
                 type: Array,
@@ -97,7 +106,19 @@ export const addSocialResource = new ValidatedMethod({
                 })
             }
 
-            return socialResources.insert(data)
+            const original = data.original ? socialResources.findOne({$or: [{_id: data.original}, {slug: data.original}]}) : undefined;
+            
+            if (data.original && !original)
+              throw new Meteor.Error('Error.', 'messages.originalNotFound');
+            delete data.original;
+            
+            if (original && checkTranslation(original, data.language)) 
+              throw new Meteor.Error('Error.', 'messages.alreadyTranslated');
+
+            const id = socialResources.insert(data);
+      
+            addTranslation(socialResources.findOne({_id: id}), data.language, 'socialResource', original);
+            return id;
         }
     }
 })
@@ -133,6 +154,8 @@ export const deleteSocialResource = new ValidatedMethod({
                     removeTag(t.id)
                 })
             }
+
+            removeTranslation(projectId);
             
             return socialResources.remove({ _id: projectId })
         }

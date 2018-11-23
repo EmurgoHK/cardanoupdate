@@ -2,42 +2,62 @@ import './warningForm.html'
 import './warnings.scss'
  import { Template } from 'meteor/templating'
 import { FlowRouter } from 'meteor/kadira:flow-router'
- import { Warnings } from '/imports/api/warnings/warnings'
+
+import { Warnings } from '/imports/api/warnings/warnings'
+import { TranslationGroups } from '../../../api/translationGroups/translationGroups';
+
 import { notify } from '/imports/modules/notifier'
- import { addWarning, editWarning } from '/imports/api/warnings/methods'
+
+import { addWarning, editWarning } from '/imports/api/warnings/methods'
 import { hideInstructionModal } from '/imports/api/user/methods'
+
 import _ from 'lodash'
- const maxCharValue = (inputId) => {
+const maxCharValue = (inputId) => {
     if (inputId === 'headline') { return 90 } 
-     return 260
+        return 260
 }
- Template.warningForm.onCreated(function() {
-	if (FlowRouter.current().route.name === 'editWarning') {
-		this.autorun(() => {
-			this.subscribe('warnings.item', FlowRouter.getParam('id'))
-             let warning = Warnings.findOne({
-                _id: FlowRouter.getParam('id')
-            })
-		})
-	} else {
-    let user = Meteor.users.findOne({_id : Meteor.userId()})
-    // check if user is already hidden modal for instruction
-    if(user && _.includes(user.hidden, 'addWarning')) {
-      Meteor.setTimeout(() => {
-        $('#projectInstruction').modal('hide')
-      }, 100)
+
+Template.warningForm.onCreated(function () {
+    if (FlowRouter.current().route.name.startsWith('edit') || FlowRouter.current().route.name.startsWith('translate')) {
+        this.autorun(() => {
+            this.subscribe('warnings.item', FlowRouter.getParam('id'));
+            this.subscribe('translationGroups.item', FlowRouter.getParam('id'));
+        });
     } else {
-      Meteor.setTimeout(() => {
-        $('#projectInstruction').modal('show')
-      }, 100)
+        let user = Meteor.users.findOne({ _id: Meteor.userId() });
+        // check if user is already hidden modal for instruction
+        if (user && _.includes(user.hidden, 'addWarning')) {
+            Meteor.setTimeout(() => {
+                $('#projectInstruction').modal('hide');
+            }, 100);
+        } else {
+            Meteor.setTimeout(() => {
+                $('#projectInstruction').modal('show');
+            }, 100);
+        }
     }
-  }
-  
 })
 
  Template.warningForm.helpers({
-    add: () => FlowRouter.current().route.name === 'editWarning' ? false : true,
+    isNew: () => (FlowRouter.current().route.name.startsWith('new')),
+    isEdit: () => (FlowRouter.current().route.name.startsWith('edit')),
+    isTranslate: () => FlowRouter.current().route.name.startsWith('translate'),
+
     warning: () => Warnings.findOne({ _id: FlowRouter.getParam('id') }),
+
+    languages: () => {
+        const group = TranslationGroups.findOne({});
+        const isTranslate =  FlowRouter.current().route.name.startsWith('translate');
+        return Object.keys(TAPi18n.languages_names).map(key => {
+            const hasTranslation = group ? group.translations.some(t => t.language === key) : key === 'en';
+            return {
+                code: key,
+                name: TAPi18n.languages_names[key][1],
+                selected: !hasTranslation && key === TAPi18n.getLanguage(),
+                disabled: isTranslate && hasTranslation,
+            };
+        });
+	},
 })
  Template.warningForm.events({
   // Hide Instruction Modal
@@ -94,10 +114,13 @@ import _ from 'lodash'
 	    	})
              return
         }
-         addWarning.call({
+		const original = FlowRouter.current().route.name.startsWith('translate') ? FlowRouter.getParam('id') : undefined;
+        addWarning.call({
             headline: $('#headline').val(),
             captcha: captchaData,
-            summary: $('#description').val()
+            summary: $('#description').val(),
+            language: $("#language").val(),
+            original,
         }, (err, data) => {
             if (!err) {
                 notify(TAPi18n.__('warnings.form.success_add'), 'success')

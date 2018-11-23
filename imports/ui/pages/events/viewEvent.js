@@ -3,6 +3,7 @@ import './viewEvent.html'
 import { Template } from 'meteor/templating'
 import { FlowRouter } from 'meteor/kadira:flow-router'
 import { Events } from '/imports/api/events/events'
+import { TranslationGroups } from '../../../api/translationGroups/translationGroups';
 import { Comments } from '/imports/api/comments/comments'
 import { flagEvent, toggleWatchEvents } from '/imports/api/events/methods'
 import { notify } from '/imports/modules/notifier'
@@ -13,6 +14,7 @@ import { flagDialog } from '/imports/modules/flagDialog'
 Template.viewEvent.onCreated(function () {
   this.autorun(() => {
     this.subscribe('events.item', FlowRouter.getParam('slug'))
+    this.subscribe('translationGroups.itemSlug', FlowRouter.getParam('slug'));
     this.subscribe('users')
 
     let event = Events.findOne({
@@ -48,7 +50,15 @@ Template.viewEvent.helpers({
 	},
 	commentSucccess: () => {
 		return () => notify(TAPi18n.__('events.view.success'), 'success');
-	}
+	},
+	translations: () => {
+		const group = TranslationGroups.findOne({});
+		return group 
+			? group.translations
+				.filter(t => t.slug !== FlowRouter.getParam('slug'))
+				.map(t => ({language: t.language, href: `/events/${t.slug}`}))
+			: [];
+	},
 })
 
 Template.viewEvent.events({

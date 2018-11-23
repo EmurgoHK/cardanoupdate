@@ -10,6 +10,7 @@ import { addTag, mentionTag, getTag } from '/imports/api/tags/methods'
 
 import { sendNotification } from '/imports/api/notifications/methods'
 import { isTesting } from '../utilities';
+import { addTranslation, removeTranslation, checkTranslation } from '../translationGroups/methods';
 
 export const addToSubscribers = (newsId, userId) => {
   let learn = Learn.findOne({
@@ -63,9 +64,17 @@ export const newLearningItem = new ValidatedMethod({
               type: String,
               optional: false
             },
+            language: {
+              type: String,
+              optional: false,
+            },
             captcha: {
+              type: String,
+              optional: isTesting
+            },
+            original: {
                 type: String,
-                optional: false
+                optional: true,
             },
             tags: {
                 type: Array,
@@ -86,7 +95,7 @@ export const newLearningItem = new ValidatedMethod({
         }).validator({
             clean: true
         }),
-    run({ title, summary, content, tags, captcha, difficultyLevel }) {
+    run({ title, summary, content, original, tags, captcha, difficultyLevel, language }) {
         if (Meteor.isServer) {
             if (!Meteor.userId()) {
                 throw new Meteor.Error('Error.', 'messages.login')
@@ -99,6 +108,7 @@ export const newLearningItem = new ValidatedMethod({
                     throw new Meteor.Error('messages.recaptcha');
                 }
             }
+
             if (tags) {
                 tags.forEach(tag => {
                     if (tag.id) {
@@ -109,16 +119,29 @@ export const newLearningItem = new ValidatedMethod({
                     }
                 })
             }
+
+            const originalDoc = original ? Learn.findOne({$or: [{_id: original}, {slug: original}]}) : undefined;
+
+            if (original && !originalDoc)
+                throw new Meteor.Error('Error.', 'messages.originalNotFound');
+
+            if (originalDoc && checkTranslation(originalDoc, language)) 
+                throw new Meteor.Error('Error.', 'messages.alreadyTranslated');
     
-            return Learn.insert({
+            const id = Learn.insert({
                 title: title,
                 summary: summary,
                 content: content,
                 difficultyLevel: difficultyLevel,
                 tags: tags,
+                language,
                 createdAt: new Date().getTime(),
                 createdBy: Meteor.userId()
-            })
+            });
+
+            addTranslation(Learn.findOne({_id: id}), language, 'learn', originalDoc);
+
+            return id;
         }
     }
 })
@@ -148,6 +171,8 @@ export const removeLearningItem = new ValidatedMethod({
         if (learn.createdBy !== Meteor.userId()) {
             throw new Meteor.Error('Error.', 'messages.learn.cant_remove')
         }
+
+        removeTranslation(learnId);
 
         Comments.remove({
             newsId: learnId

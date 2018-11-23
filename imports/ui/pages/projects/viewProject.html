@@ -4,7 +4,8 @@
       <div class="col-sm-12">
         {{#if SubsCacheReady}}
           {{#with project}}
-          {{#if isOwner}}<a href="/projects/{{_id}}/edit" class="btn btn-primary btn-sm float-right"><i class="fas fa-edit"></i> {{_ "projects.view.edit"}}</a>{{/if}}
+          {{#if isOwner}}<a href="/projects/{{_id}}/edit" class="btn btn-primary btn-sm mr-2 float-right"><i class="fas fa-edit"></i> {{_ "projects.view.edit"}}</a>{{/if}}
+          <a href="/projects/{{_id}}/translate" class="btn btn-primary btn-sm mr-2 float-right"><i class="fas fa-globe"></i> {{_ "projects.view.translate"}}</a>
           <h1 class="card-title text-dark mt-3"><strong>{{headline}}</strong></h1>
           <h5 class="card-subtitle mb-3 mt-3">
               <ul class="list-inline">
@@ -44,7 +45,7 @@
                         target="_blank">
                         <i class="fas fa-external-link-alt fa-lg"></i>
                       </a>
-                      {{> flagItem item="project"}}
+                      {{> flagItem item="project" translations=translations}}
                   </div>
                 </div>
 

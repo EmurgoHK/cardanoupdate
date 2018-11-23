@@ -5,6 +5,7 @@
         {{#if SubsCacheReady}}
         {{#with event}}
         {{#if isOwner}}<a href="/events/{{_id}}/edit" class="btn btn-primary btn-sm float-right"><i class="fas fa-edit"></i> {{_ "events.view.edit"}}</a>{{/if}}
+        <a href="/events/{{_id}}/translate" class="btn btn-primary btn-sm mr-2 float-right"><i class="fas fa-globe"></i> {{_ "events.view.translate"}}</a>
         <h1 class="card-title text-dark mt-3"><strong>{{headline}}</strong></h1>
         <h5 class="card-subtitle mb-3 mt-3">
           <ul class="list-inline">
@@ -36,7 +37,7 @@
                 {{else}}
                 <a class="btn btn-secondary watch-event" href="#" title='{{_ "events.view.follow"}}'>{{_ "events.view.follow"}}</a>
                 {{/if}}
-                {{> flagItem item="event"}}
+                {{> flagItem item="event" translations=translations}}
               </div>
             </div>
           </div>

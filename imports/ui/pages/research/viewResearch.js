@@ -5,6 +5,7 @@ import { FlowRouter } from 'meteor/kadira:flow-router'
 
 import { Research } from '/imports/api/research/research'
 import { Comments } from '/imports/api/comments/comments'
+import { TranslationGroups } from '../../../api/translationGroups/translationGroups';
 
 import { flagResearch } from '/imports/api/research/methods'
 
@@ -16,6 +17,8 @@ Template.viewResearch.onCreated(function() {
 	this.autorun(() => {
 		this.subscribe('research.item', FlowRouter.getParam('slug'))
 		this.subscribe('users')
+
+		this.subscribe('translationGroups.itemSlug', FlowRouter.getParam('slug'));
 	})
 })
 
@@ -34,6 +37,14 @@ Template.viewResearch.helpers({
 	},
 	commentSuccess: () => {
 		return () => notify(TAPi18n.__('research.view.success'), 'success');
+	},
+	translations: () => {
+		const group = TranslationGroups.findOne({});
+		return group 
+			? group.translations
+				.filter(t => t.slug !== FlowRouter.getParam('slug'))
+				.map(t => ({language: t.language, href: `/research/${t.slug}`}))
+			: [];
 	},
 })
 

@@ -5,6 +5,7 @@ import { FlowRouter } from 'meteor/kadira:flow-router'
 
 import { Projects } from '/imports/api/projects/projects'
 import { Comments } from '/imports/api/comments/comments'
+import { TranslationGroups } from '../../../api/translationGroups/translationGroups';
 
 import { flagProject, proposeNewData } from '/imports/api/projects/methods'
 
@@ -18,6 +19,8 @@ Template.viewProject.onCreated(function() {
 	this.autorun(() => {
 		this.subscribe('projects.item', FlowRouter.getParam('slug'))
         this.subscribe('users')
+
+        this.subscribe('translationGroups.itemSlug', FlowRouter.getParam('slug'));
     });
 })
 
@@ -50,6 +53,14 @@ Template.viewProject.helpers({
 		return () => {
 			notify(TAPi18n.__('projects.view.success'), 'success');
 		}
+	},
+	translations: () => {
+        const group = TranslationGroups.findOne({});
+		return group 
+			? group.translations
+				.filter(t => t.slug !== FlowRouter.getParam('slug'))
+				.map(t => ({language: t.language, href: `/projects/${t.slug}`}))
+			: [];
 	},
 })
 

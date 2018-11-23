@@ -3,12 +3,16 @@ import './viewWarning.html'
 import { FlowRouter } from 'meteor/kadira:flow-router'
  import { Warnings } from '/imports/api/warnings/warnings'
 import { Comments } from '/imports/api/comments/comments'
+import { TranslationGroups } from '../../../api/translationGroups/translationGroups';
 import { flagWarning } from '/imports/api/warnings/methods'
  import { notify } from '/imports/modules/notifier'
  import swal from 'sweetalert2'
+
  Template.viewWarning.onCreated(function() {
 	this.autorun(() => {
 		this.subscribe('warnings.item', FlowRouter.getParam('slug'))
+		this.subscribe('translationGroups.itemSlug', FlowRouter.getParam('slug'));
+
 		this.subscribe('users')
  		let warning = Warnings.findOne({
 			slug: FlowRouter.getParam('slug')
@@ -41,6 +45,14 @@ import { flagWarning } from '/imports/api/warnings/methods'
 		return () => {
 			notify(TAPi18n.__('warnings.view.success'), 'success');
 		}
+	},
+	translations: () => {
+		const group = TranslationGroups.findOne({});
+		return group 
+			? group.translations
+				.filter(t => t.slug !== FlowRouter.getParam('slug'))
+				.map(t => ({language: t.language, href: `/scams/${t.slug}`}))
+			: [];
 	},
 })
  Template.viewWarning.events({

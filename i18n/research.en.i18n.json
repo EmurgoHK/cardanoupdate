@@ -9,6 +9,8 @@
 		"form": {
 			"new": "New research",
 			"edit": "Edit research",
+			"translate": "Translate research",
+			"language": "Language",
 			"name": "Name",
 			"name_placeholder": "Name in 160 characters or less",
 			"abstract": "Abstract",
@@ -24,6 +26,7 @@
 		},
 		"view": {
 			"edit": "Edit research",
+			"translate": "Translate research",
 			"by": "Posted by",
 			"external": "External resources:",
 			"download_pdf": "Download PDF",

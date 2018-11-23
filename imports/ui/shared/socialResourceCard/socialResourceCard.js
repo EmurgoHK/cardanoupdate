@@ -45,6 +45,10 @@ Template.socialResourceCard.helpers({
     const transformer = Template.currentData().textTransformer;
     return transformer ? transformer(text) : text;
   },
+  translationsWithHref() {
+    const data = Template.currentData();
+    return data.translations.filter(t => t.id !== data.socialResource._id).map((t) => ({language: t.language, href: `/community/${t.id}`}));
+  },
 });
 
 Template.socialResourceCard.events({

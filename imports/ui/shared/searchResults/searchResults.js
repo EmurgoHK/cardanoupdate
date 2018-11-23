@@ -9,12 +9,15 @@ import { socialResources } from '/imports/api/socialResources/socialResources';
 import { Warnings } from '/imports/api/warnings/warnings';
 
 import moment from "moment";
+import { TranslationGroups } from "../../../api/translationGroups/translationGroups";
 
 Template.searchResults.onCreated(function() {
   this.sort = new ReactiveVar("date-desc");
   this.titleSort = new ReactiveVar("");
 
   this.results = new ReactiveVar({ count: () => 0 });
+
+  this.subscribe('translationGroups');
 });
 
 Template.searchResults.onRendered(function() {
@@ -108,6 +111,24 @@ Template.searchResults.onRendered(function() {
       if (data.types.includes('warnings'))
         res = res.concat(Warnings.find({}, opts).map(p => ({type: 'warning', res: p, date: p.createdAt, titleText: p.headline})));
     }
+
+    res.forEach(curr => {
+      const group = TranslationGroups.findOne({translations: {$elemMatch: {id: curr.res._id}}});
+      curr.translations = group && group.translations || [];
+    });
+
+    if (data.doLanguageFilter) {
+      const uiLang = TAPi18n.getLanguage();
+      // We drop a result if it has a translation on the ui language also in the results
+      res = res.filter(curr => !curr.translations || // It has translations AND
+        !curr.translations.some(t => // It has a translation that is:
+          t.language === uiLang &&          // same language as the UI AND
+          t.id !== curr.res._id &&          // it's not the current one AND
+          res.some(c => t.id === c.res._id) // we find it in the results
+        )
+      );
+    }
+
     Template.instance().results.set(res);
   })
 })

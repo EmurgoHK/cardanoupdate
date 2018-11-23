@@ -4,6 +4,7 @@ import { addSocialResource, editSocialResource } from '/imports/api/socialResour
 import { notify } from '/imports/modules/notifier'
 import { FlowRouter } from 'meteor/kadira:flow-router'
 import { socialResources } from '/imports/api/socialResources/socialResources'
+import { TranslationGroups } from '../../../api/translationGroups/translationGroups';
 import { Tags } from '../../../api/tags/tags';
 
 import _ from 'lodash'
@@ -15,9 +16,10 @@ const maxCharValue = (inputId) => {
 }
 
 Template.socialResourceFormTemp.onCreated(function() {
-	if (FlowRouter.current().route.name === 'editSocialResource') {
+	if (FlowRouter.current().route.name.startsWith('edit') || FlowRouter.current().route.name.startsWith('translate')) {
 		this.autorun(() => {
-			this.subscribe('socialResources.item', FlowRouter.getParam('id'))
+            this.subscribe('socialResources.item', FlowRouter.getParam('id'))
+            this.subscribe('translationGroups.item', FlowRouter.getParam('id'));
 		})
     }
     
@@ -38,9 +40,26 @@ Template.socialResourceFormTemp.onRendered(function() {
 
 
 Template.socialResourceFormTemp.helpers({
-    add: () => FlowRouter.current().route.name === 'editSocialResource' ? false : true,
     Resource: () => {return socialResources.findOne({ _id: FlowRouter.getParam('id') })},
-    socialTags: () => (socialResources.findOne({ _id: FlowRouter.getParam('id') }) || {}).tags || []
+    socialTags: () => (socialResources.findOne({ _id: FlowRouter.getParam('id') }) || {}).tags || [],
+	
+    isNew: () => (FlowRouter.current().route.name.startsWith('new')),
+    isEdit: () => (FlowRouter.current().route.name.startsWith('edit')),
+    isTranslate: () => FlowRouter.current().route.name.startsWith('translate'),
+    
+    languages: () => {
+        const group = TranslationGroups.findOne({});
+        const isTranslate =  FlowRouter.current().route.name.startsWith('translate');
+        return Object.keys(TAPi18n.languages_names).map(key => {
+            const hasTranslation = group ? group.translations.some(t => t.language === key) : key === 'en';
+            return {
+                code: key,
+                name: TAPi18n.languages_names[key][1],
+                selected: !hasTranslation && key === TAPi18n.getLanguage(),
+                disabled: isTranslate && hasTranslation,
+            };
+        });
+	},
 })
 
 Template.socialResourceFormTemp.events({
@@ -128,12 +147,16 @@ Template.socialResourceFormTemp.events({
             return
         }
 
+        const original = FlowRouter.current().route.name.startsWith('translate') ? FlowRouter.getParam('id') : undefined;
+
         addSocialResource.call({
             Name: $('#Name').val(),
             description: $('#description').val(),
             Resource_url: $('#Resource_url').val() || '',
             captcha: captchaData,
             tags: tagsToSave,
+            language: $('#language').val(),
+            original,
         }, (err, data) => {
             if (!err) {
                 notify(TAPi18n.__('community.form.success_add'), 'success')

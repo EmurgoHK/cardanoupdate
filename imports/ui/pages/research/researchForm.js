@@ -5,6 +5,7 @@ import { Template } from 'meteor/templating'
 import { FlowRouter } from 'meteor/kadira:flow-router'
 
 import { Research } from '/imports/api/research/research'
+import { TranslationGroups } from '../../../api/translationGroups/translationGroups';
 import { notify } from '/imports/modules/notifier'
 
 import { newResearch, editResearch } from '/imports/api/research/methods'
@@ -20,8 +21,9 @@ const maxCharValue = (inputId) => {
 
 Template.researchForm.onCreated(function() {
 	this.links = new ReactiveVar([]);
-	if (FlowRouter.current().route.name === 'editResearch') {
+	if (FlowRouter.current().route.name.startsWith('edit') || FlowRouter.current().route.name.startsWith('translate')) {
 		this.autorun(() => {
+			this.subscribe('translationGroups.itemSlug', FlowRouter.getParam('slug'));
 			this.subscribe('research.item', FlowRouter.getParam('slug'), () => {
 				const research = Research.findOne({slug: FlowRouter.getParam('slug')});
 
@@ -34,13 +36,16 @@ Template.researchForm.onCreated(function() {
 });
 
 Template.researchForm.helpers({
+	isNew: () => FlowRouter.current().route.name.startsWith('new'),
+	isEdit: () => FlowRouter.current().route.name.startsWith('edit'),
+	isTranslate: () => FlowRouter.current().route.name.startsWith('translate'),
+
 	links: () => Template.instance().links.get(),
 	research: () => Research.findOne({
 		slug: FlowRouter.getParam('slug')
   	}),
-  	add: () => !(FlowRouter.current().route.name === 'editResearch'),
   	pdf: () => {
-  		if (FlowRouter.current().route.name === 'editResearch') {
+  		if (FlowRouter.current().route.name.startsWith('edit') || FlowRouter.current().route.name.startsWith('translate')) {
   			let research = Research.findOne({
 				slug: FlowRouter.getParam('slug')
   			}) || {}
@@ -53,7 +58,21 @@ Template.researchForm.helpers({
   		}
 
   		return []
-	}
+	},
+
+	languages: () => {
+		const group = TranslationGroups.findOne({});
+		const isTranslate =  FlowRouter.current().route.name.startsWith('translate');
+		return Object.keys(TAPi18n.languages_names).map(key => {
+			const hasTranslation = group ? group.translations.some(t => t.language === key) : key === 'en';
+			return {
+				code: key,
+				name: TAPi18n.languages_names[key][1],
+				selected: !hasTranslation && key === TAPi18n.getLanguage(),
+				disabled: isTranslate && hasTranslation,
+			};
+		});
+	},
 })
 
 Template.researchForm.events({
@@ -79,34 +98,39 @@ Template.researchForm.events({
     },
     'click .new-research': function(event, templateInstance) {
 		event.preventDefault()
+			var captchaData = grecaptcha.getResponse();
 
-        var captchaData = grecaptcha.getResponse();
+			const isTranslate = FlowRouter.current().route.name.startsWith('translate');
 
-    	if (FlowRouter.current().route.name === 'newResearch') {
-	    	newResearch.call({
-	    		headline: $('#headline').val(),
-	    		abstract: $('#abstract').val(),
-				pdf: getFiles()[0],
-				links: templateInstance.links.get(),
-				captcha: captchaData,
-	    	}, (err, data) => {
-	    		if (!err) {
-	    			notify(TAPi18n.__('research.form.success_add'), 'success')
+			if (FlowRouter.current().route.name === 'newResearch' || isTranslate) {
+				const original = isTranslate ? FlowRouter.getParam('slug') : undefined;
 
-	        		FlowRouter.go('/research')
+				newResearch.call({
+					headline: $('#headline').val(),
+					abstract: $('#abstract').val(),
+					pdf: getFiles()[0],
+					links: templateInstance.links.get(),
+					captcha: captchaData,
+					language: $('#language').val(),
+					original,
+				}, (err, data) => {
+					if (!err) {
+						notify(TAPi18n.__('research.form.success_add'), 'success')
 
-	        		return
-	      		}
+						FlowRouter.go('/research')
 
-		      	if (err.details && err.details.length >= 1) {
-		        	err.details.forEach(e => {
-		          		$(`#${e.name}`).addClass('is-invalid')
-		          		$(`#${e.name}Error`).show()
-		          		$(`#${e.name}Error`).text(TAPi18n.__(e.message))
-		        	})
-		      	}
-	    	})
-    	} else {
+						return
+					}
+
+					if (err.details && err.details.length >= 1) {
+						err.details.forEach(e => {
+							$(`#${e.name}`).addClass('is-invalid')
+							$(`#${e.name}Error`).show()
+							$(`#${e.name}Error`).text(TAPi18n.__(e.message))
+						})
+					}
+				})
+			} else {
     		let research = Research.findOne({
     			slug: FlowRouter.getParam('slug')
     		})

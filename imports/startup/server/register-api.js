@@ -60,5 +60,8 @@ import '/imports/api/tags/server/publications'
 import '/imports/api/faq/methods'
 import '/imports/api/faq/server/publications' 
 
+// Translation groups
+import '/imports/api/translationGroups/server/publications';
+
 // config
 import '/imports/api/config/server/publications' 
