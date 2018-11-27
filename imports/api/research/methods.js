@@ -6,8 +6,9 @@ import { Research } from './research'
 import { Comments } from '/imports/api/comments/comments'
 
 import { isModerator, userStrike } from '/imports/api/user/methods'
-
 import { sendNotification } from '/imports/api/notifications/methods'
+import { addTranslation, removeTranslation, checkTranslation } from '../translationGroups/methods';
+
 import { isTesting } from '../utilities';
 
 export const newResearch = new ValidatedMethod({
@@ -28,9 +29,17 @@ export const newResearch = new ValidatedMethod({
                 type: String,
                 optional: false
             },
+            language: {
+                type: String,
+                optional: false,
+            },
             captcha: {
                 type: String,
                 optional: isTesting
+            },
+            original: {
+                type: String,
+                optional: true,
             },
             links: {
                 type: Array,
@@ -51,7 +60,7 @@ export const newResearch = new ValidatedMethod({
         }).validator({
             clean: true
         }),
-    run({ headline, abstract, pdf, captcha, links }) {
+    run({ headline, abstract, pdf, captcha, links, language, original }) {
         if(Meteor.isServer) {
             if (!Meteor.userId()) {
                 throw new Meteor.Error('Error.', 'messages.login')
@@ -64,15 +73,28 @@ export const newResearch = new ValidatedMethod({
                     throw new Meteor.Error('messages.recaptcha');
                 }
             }
+
+            const originalDoc = original ? Research.findOne({$or: [{_id: original}, {slug: original}]}) : undefined;
+
+            if (original && !originalDoc)
+                throw new Meteor.Error('Error.', 'messages.originalNotFound');
+
+            if (originalDoc && checkTranslation(originalDoc, language)) 
+                throw new Meteor.Error('Error.', 'messages.alreadyTranslated');
             
-            return Research.insert({
+            const id = Research.insert({
                 headline: headline,
                 abstract: abstract,
                 pdf: pdf,
                 createdAt: new Date().getTime(),
                 createdBy: Meteor.userId(),
                 links,
-            })
+                language,
+            });
+
+            addTranslation(Research.findOne({_id: id}), language, 'research', originalDoc);
+
+            return id;
         }
     }
 })
@@ -106,6 +128,8 @@ export const removeResearch = new ValidatedMethod({
         Comments.remove({
             newsId: researchId
         })
+
+        removeTranslation(researchId);
 
         return Research.remove({
             _id: researchId

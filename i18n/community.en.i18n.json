@@ -3,6 +3,8 @@
 		"form": {
 			"new": "New Community",
 			"edit": "Edit Community",
+			"translate": "Translate Community",
+			"language": "Language",
 			"name": "Name",
 			"name_placeholder": "Name in 25 characters or less",
 			"url": "URL",
@@ -23,6 +25,7 @@
 		},
 		"view": {
 			"edit": "Edit Community",
+			"translate": "Translate Community",
 			"by": "Posted by",
 			"tags": "Tags",
 			"go_to": "Go to",

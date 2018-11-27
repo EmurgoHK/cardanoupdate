@@ -3,7 +3,12 @@
     <div class="card mb-5">
       <div class="card-body">
         <h2 class="card-title">
-            {{#if add}}{{_ "research.form.new"}}{{else}}{{_ "research.form.edit"}}{{/if}}
+            <h2>
+              {{#if isNew}} {{_ "research.form.new"}} 
+              {{else if isEdit}} {{_ "research.form.edit"}} 
+              {{else if isTranslate }} {{_ "research.form.translate"}} 
+              {{/if}}
+            </h2>
         </h2>
         <hr>
         <form class="researchForm">
@@ -13,6 +18,17 @@
             <div id="headlineError" class="invalid-feedback"></div>
           </div>
           <small><i id="headline-chars" class="text-muted"></i></small>
+              
+          <div class="group-title">{{_ "research.form.language"}}</div>
+          <div class="input-group">
+            <select name="language" id="language" disabled={{isEdit}}>
+              {{#each languages}}
+                <option value={{code}} selected={{selected}} disabled={{disabled}}>{{name}}</option>
+              {{/each}}
+            </select>
+          </div>
+          <div id="languageError" class="invalid-feedback"></div>
+
           <div class="group-title">{{_ "research.form.abstract"}}</div>
           <div class="input-group">
             <textarea class="form-control" id="abstract" rows="6" value="{{research.abstract}}" placeholder='{{_ "research.form.abstract_placeholder"}}'></textarea>

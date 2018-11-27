@@ -52,6 +52,8 @@
 		"login": "You have to be logged in.",
 		"already_flagged": "You have already flagged this item.",
 		"moderator": "You have to be a moderator.",
-		"recaptcha": "Recaptcha failed please try again."
+		"recaptcha": "Recaptcha failed please try again.",
+		"originalNotFound": "The original content may have been deleted. Please try again",
+		"alreadyTranslated": "The original was already translated to this language."
 	}
 }

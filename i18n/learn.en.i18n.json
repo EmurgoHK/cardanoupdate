@@ -3,6 +3,8 @@
 		"form": {
 			"new": "New",
 			"edit": "Edit",
+			"translate": "Translate",
+			"language": "Language",
 			"res": "learning resource",
 			"title": "Title",
 			"title_placeholder": "What are users going to learn about by reading or watching this? (in 25 chars or less)",
@@ -29,6 +31,7 @@
 		},
 		"view": {
 			"edit": "Edit learning resource",
+			"translate": "Translate learning resource",
 			"by": "Posted by",
 			"tags": "Tags",
 			"level": "Difficulty Level",

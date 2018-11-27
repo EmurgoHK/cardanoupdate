@@ -5,6 +5,7 @@
       {{#if SubsCacheReady}}
         {{#with socialResource}}
         {{#if isOwner}}<a href="/community/{{_id}}/edit" class="btn btn-primary btn-sm float-right"><i class="fas fa-edit"></i> {{_ "community.view.edit"}}</a>{{/if}}
+        <a href="/community/{{_id}}/translate" class="btn btn-primary btn-sm mr-2 float-right"><i class="fas fa-globe"></i> {{_ "community.view.translate"}}</a>
         <h1 class="card-title text-dark mt-3"><strong>{{Name}}</strong></h1>
         <h5 class="card-subtitle mb-3 mt-3">
             <ul class="list-inline">

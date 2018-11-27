@@ -4,6 +4,7 @@ import { Template } from 'meteor/templating'
 import { FlowRouter } from 'meteor/kadira:flow-router'
 
 import { Learn } from '/imports/api/learn/learn'
+import { TranslationGroups } from '../../../api/translationGroups/translationGroups';
 
 import { flagLearningItem } from '/imports/api/learn/methods'
 
@@ -15,9 +16,7 @@ Template.viewLearn.onCreated(function() {
 		this.subscribe('learn.item', FlowRouter.getParam('slug'))
 		this.subscribe('users')
 
-		let learn = Learn.findOne({
-			slug: FlowRouter.getParam('slug')
-		})
+		this.subscribe('translationGroups.itemSlug', FlowRouter.getParam('slug'));
 	})
 
 	this.message = new ReactiveVar('')
@@ -50,6 +49,14 @@ Template.viewLearn.helpers({
 		return () => {
 			notify(TAPi18n.__('learn.view.success'), 'success');
 		}
+	},
+	translations: () => {
+		const group = TranslationGroups.findOne({});
+		return group 
+			? group.translations
+				.filter(t => t.slug !== FlowRouter.getParam('slug'))
+				.map(t => ({language: t.language, href: `/learn/${t.slug}`}))
+			: [];
 	},
 })
 

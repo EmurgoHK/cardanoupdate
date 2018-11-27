@@ -8,6 +8,9 @@
       {{else}}
         <a class="dropdown-item flag-{{item}}" href="#" title='{{_ "shared.flag.report"}}'><i class="icon-flag"></i> {{_ "shared.flag.report"}}</a>
       {{/if}}
+      {{#each translation in translations}}
+        <a class="dropdown-item" href="{{translation.href}}">{{ languageName translation.language }}</a>
+      {{/each}}
     </div>
   </div>
 </template>

@@ -21,17 +21,17 @@
   {{#if resultCount}}
       {{#each result in results}}
         {{#if isTypeOf result "event"}}
-          {{> eventCard event=result.res displayTypeLabel=displayTypeLabel textTransformer=highlighter}}
+          {{> eventCard event=result.res displayTypeLabel=displayTypeLabel textTransformer=highlighter translations=result.translations}}
         {{else if isTypeOf result "learningResource"}}
-          {{> learningResourceCard learn=result.res displayTypeLabel=displayTypeLabel textTransformer=highlighter}}
+          {{> learningResourceCard learn=result.res displayTypeLabel=displayTypeLabel textTransformer=highlighter translations=result.translations}}
         {{else if isTypeOf result "project"}}
-          {{> projectCard project=result.res displayTypeLabel=displayTypeLabel textTransformer=highlighter}}
+          {{> projectCard project=result.res displayTypeLabel=displayTypeLabel textTransformer=highlighter translations=result.translations}}
         {{else if isTypeOf result "research"}}
-          {{> researchCard research=result.res displayTypeLabel=displayTypeLabel textTransformer=highlighter}}
+          {{> researchCard research=result.res displayTypeLabel=displayTypeLabel textTransformer=highlighter translations=result.translations}}
         {{else if isTypeOf result "socialResource"}}
-          {{> socialResourceCard socialResource=result.res displayTypeLabel=displayTypeLabel textTransformer=highlighter}}
+          {{> socialResourceCard socialResource=result.res displayTypeLabel=displayTypeLabel textTransformer=highlighter translations=result.translations}}
         {{else if isTypeOf result "warning"}}
-          {{> warningCard warning=result.res displayTypeLabel=displayTypeLabel textTransformer=highlighter}}
+          {{> warningCard warning=result.res displayTypeLabel=displayTypeLabel textTransformer=highlighter translations=result.translations}}
         {{/if}}
       {{/each}}
   {{else}}

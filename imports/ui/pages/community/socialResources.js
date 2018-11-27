@@ -26,6 +26,7 @@ Template.socialResourcesTemp.helpers({
         return {
             types: ['socialResources'],
             searchTerm: Template.instance().searchFilter.get(),
+            doLanguageFilter: true,
         }
     },
 })

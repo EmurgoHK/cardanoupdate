@@ -38,7 +38,11 @@ Template.eventCard.helpers({
     } else {
       return TAPi18n.__('events.card.past')
     }
-  }
+  },
+  translationsWithHref() {
+    const data = Template.currentData();
+    return data.translations.filter(t => t.slug !== data.event.slug).map((t) => ({language: t.language, href: `/events/${t.slug}`}));
+  },
 });
 
 Template.eventCard.events({

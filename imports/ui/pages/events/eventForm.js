@@ -3,6 +3,7 @@ import './events.scss'
 import { Template } from 'meteor/templating'
 import { FlowRouter } from 'meteor/kadira:flow-router'
 import { Events } from '/imports/api/events/events'
+import { TranslationGroups } from '../../../api/translationGroups/translationGroups';
 import { notify } from '/imports/modules/notifier'
 import daterangepicker from 'daterangepicker'
 import SimpleMDE from 'simplemde'
@@ -91,9 +92,10 @@ Template.eventForm.onCreated(function () {
   this.location = new ReactiveVar({})
   this.timezone = new ReactiveVar({})
 
-  if (FlowRouter.current().route.name === 'editEvent') {
+  if (FlowRouter.current().route.name.startsWith('edit') || FlowRouter.current().route.name.startsWith('translate')) {
     this.autorun(() => {
       this.subscribe('events.item', FlowRouter.getParam('id'))
+      this.subscribe('translationGroups.item', FlowRouter.getParam('id'));
 
       let event = Events.findOne({
         _id: FlowRouter.getParam('id')
@@ -163,10 +165,27 @@ Template.eventForm.onRendered(function() {
 })
 
 Template.eventForm.helpers({
-  add: () => FlowRouter.current().route.name === 'editEvent' ? false : true,
+  isNew: () => (FlowRouter.current().route.name.startsWith('new')),
+  isEdit: () => (FlowRouter.current().route.name.startsWith('edit')),
+  isTranslate: () => FlowRouter.current().route.name.startsWith('translate'),
+  
   event: () => Events.findOne({
     _id: FlowRouter.getParam('id')
-  })
+  }),
+
+  languages: () => {
+    const group = TranslationGroups.findOne({});
+    const isTranslate =  FlowRouter.current().route.name.startsWith('translate');
+    return Object.keys(TAPi18n.languages_names).map(key => {
+      const hasTranslation = group ? group.translations.some(t => t.language === key) : key === 'en';
+      return {
+        code: key,
+        name: TAPi18n.languages_names[key][1],
+        selected: !hasTranslation && key === TAPi18n.getLanguage(),
+        disabled: isTranslate && hasTranslation,
+      };
+    });
+	},
 })
 
 Template.eventForm.events({
@@ -242,6 +261,7 @@ Template.eventForm.events({
       return
     }
 
+    const original = FlowRouter.current().route.name.startsWith('translate') ? FlowRouter.getParam('id') : undefined;
     newEvent.call({
       headline: $('#headline').val(),
       description: _tpl.mde.value(),
@@ -256,7 +276,9 @@ Template.eventForm.events({
         zoneName: _tpl.timezone.get().zoneName,
         gmtOffset: _tpl.timezone.get().gmtOffset + '',
         dst: _tpl.timezone.get().dst
-      }
+      },
+      language: $('#language').val(),
+      original,
     }, (err, data) => {
       if (!err) {
         notify(TAPi18n.__('events.form.success_add'), 'success')
