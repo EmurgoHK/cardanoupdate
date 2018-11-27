@@ -2,6 +2,8 @@ import { chai, assert } from 'chai'
 import { Meteor } from 'meteor/meteor'
 
 import { Warnings } from './warnings'
+import { TranslationGroups } from '../translationGroups/translationGroups';
+
 import { callWithPromise } from '/imports/api/utilities'
 
 import './methods'
@@ -15,7 +17,8 @@ describe('warning methods', () => {
         return callWithPromise('addWarning', {
             headline: 'Test headline',
             summary: 'Test summary',
-            captcha:'_test_captcha_'
+            captcha:'_test_captcha_',
+            language: 'en',
         }).then(data => {
             let warning = Warnings.findOne({
                 _id: data
@@ -23,8 +26,16 @@ describe('warning methods', () => {
 
             assert.ok(warning)
 
-            assert.ok(warning.headline === 'Test headline')
-            assert.ok(warning.summary === 'Test summary')
+            assert.equal(warning.headline, 'Test headline');
+            assert.equal(warning.summary, 'Test summary');
+            assert.equal(warning.language, 'en');
+      
+            const translationGroup = TranslationGroups.findOne({translations: {$elemMatch: {id: data}}});
+            assert.ok(translationGroup);
+            assert.equal(translationGroup.contentType, 'warning');
+            assert.includeDeepMembers(translationGroup.translations, [
+              {language: 'en', id: data, slug: warning.slug},
+            ]);
         })
     })
 
@@ -32,10 +43,89 @@ describe('warning methods', () => {
         return callWithPromise('addWarning', {
             headline: 'Test headline',
             summary: '',
-            captcha:'_test_captcha_'
+            captcha:'_test_captcha_',
+            language: 'en',
         }).then(data => {}).catch(error => {
             assert.ok(error)
         })
+    })
+
+    it('user can add a translation of a warning by id', () => {
+      const original = Warnings.findOne({});
+      return callWithPromise('addWarning', {
+        headline: 'Test headline',
+        summary: 'Test summary',
+        captcha:'_test_captcha_',
+        language: 'sr',
+        original: original._id,
+      }).then(data => {
+        let warning = Warnings.findOne({
+          _id: data
+        })
+  
+        assert.ok(warning)
+
+        assert.equal(warning.headline, 'Test headline');
+        assert.equal(warning.summary, 'Test summary');
+        assert.equal(warning.language, 'sr');
+  
+        const translationGroup = TranslationGroups.findOne({translations: {$elemMatch: {id: data}}});
+        assert.ok(translationGroup);
+        assert.equal(translationGroup.contentType, 'warning');
+        assert.includeDeepMembers(translationGroup.translations, [
+          {language: 'sr', id: data, slug: warning.slug},
+          {language: original.language, id: original._id, slug: original.slug}
+        ]);
+      })
+    });
+  
+    it('user can add a translation of a warning by id if it was created before translations', () => {
+      const originalId = Warnings.insert({
+        headline: 'Test headline',
+        summary: 'Test summary',
+        captcha:'_test_captcha_',
+      });
+      const original = Warnings.findOne({_id: originalId});
+  
+      return callWithPromise('addWarning', {
+        headline: 'Test headline',
+        summary: 'Test summary',
+        captcha:'_test_captcha_',
+        language: 'sr',
+        original: original._id,
+      }).then(data => {
+        let warning = Warnings.findOne({
+          _id: data
+        })
+  
+        assert.ok(warning)
+
+        assert.equal(warning.headline, 'Test headline');
+        assert.equal(warning.summary, 'Test summary');
+        assert.equal(warning.language, 'sr');
+
+        const translationGroup = TranslationGroups.findOne({translations: {$elemMatch: {id: data}}});
+        assert.ok(translationGroup);
+        assert.equal(translationGroup.contentType, 'warning');
+        assert.includeDeepMembers(translationGroup.translations, [
+          {language: 'sr', id: data, slug: warning.slug},
+          {language: 'en', id: original._id, slug: original.slug}
+        ]);
+      })
+    });
+    
+    it('user can not add a warning by wrong original id/slug', () => {
+      return callWithPromise('addWarning', {
+        headline: 'Test headline',
+        summary: 'Test summary',
+        captcha:'_test_captcha_',
+        language: 'en',
+        original: 'nope',
+      }).then(data => {
+        assert.fail('', '', 'Did not throw');
+      }, err => {
+        assert(err, 'messages.originalNotFound');
+      })
     })
    
     it('user can edit a warning', () => {
@@ -95,6 +185,7 @@ describe('warning methods', () => {
             })
 
             assert.notOk(warning2)
+            assert.notOk(TranslationGroups.findOne({translations: {$elemMatch: {id: warning._id}}}));
         })
     })
 
@@ -135,7 +226,7 @@ describe('warning methods', () => {
         })
     })
 
-    it('moderator can remove a flagged project', () => {
+    it('moderator can remove a flagged warning', () => {
         let warning = Warnings.findOne({
             flags: {
                 $exists: true

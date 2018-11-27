@@ -19,7 +19,7 @@ if (Meteor.isClient) {
   import '../../../api/comments/methods';
   import { Comments } from '../../../api/comments/comments';
 
-  describe.only('commentArea', function() {
+  describe('commentArea', function() {
     this.timeout(30000);
     const defaultComment = {
       parentId: 'test-news-id',
