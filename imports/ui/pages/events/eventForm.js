@@ -58,6 +58,11 @@ const initLocationSearch = function() {
 
     let timestamp = $('#event_duration').val().split(' - ')
 
+    // convert from European dd/mm/yyyy to ISO yyyy/mm/dd that's required by the API
+    for (let i = 0; i < 2; i++) {
+      timestamp[i] = timestamp[i].split('/').reverse().join('/')
+    }
+
     HTTP.get(`https://api.timezonedb.com/v2.1/get-time-zone?key=5S42VGHOV6HK&format=json&by=position&lat=${lat}&lng=${lng}&time=${new Date(timestamp[0] || timestamp[1] || Date.now()).getTime() / 1000}`, (err, data) => {
       this.timezone.set(data.data)
     })
