@@ -260,10 +260,11 @@ export const editLearningItem = new ValidatedMethod({
                 } 
             }
 
-            learn.tags.filter(tag => 
-                !tags.some(t => t.id == tag.id)).forEach(tag => {
+            (learn.tags || []) // The old learning resource might not have tags.
+                .filter(tag => !tags.some(t => t.id == tag.id))
+                .forEach(tag => {
                     removeTag(tag.id)
-                })
+                });
                 
             if (tags) {
                 tags.forEach(tag => {

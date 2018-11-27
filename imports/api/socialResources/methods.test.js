@@ -2,10 +2,12 @@ import { chai, assert } from 'chai'
 import { Meteor } from 'meteor/meteor'
 
 import { socialResources } from './socialResources'
+import { Tags } from '../tags/tags';
+import { TranslationGroups } from '../translationGroups/translationGroups';
+
 import { callWithPromise } from '/imports/api/utilities'
 
 import './methods'
-import { Tags } from '../tags/tags';
 
 Meteor.userId = () => 'test-user' // override the meteor userId, so we can test methods that require a user
 Meteor.users.findOne = () => ({ _id: 'test-user', profile: { name: 'Test User'}, moderator: true }) // stub user data as well
@@ -28,7 +30,8 @@ describe('social resources methods', () => {
             description: 'Test Resource',
             Resource_url: 'https://gitter.im/meteor/meteor',
             tags: [{name: 'testTag'}],
-            captcha:'_test_captcha_'
+            captcha:'_test_captcha_',
+            language: 'en',
         }).then(data => {
             let resource = socialResources.findOne({
                 _id: data
@@ -42,6 +45,13 @@ describe('social resources methods', () => {
             assert.lengthOf(resource.tags, 1);
             assert.equal(resource.tags[0].name, 'testTag');
             assert.equal(resource.resourceUrlType, 'GITTER');
+      
+            const translationGroup = TranslationGroups.findOne({translations: {$elemMatch: {id: data}}});
+            assert.ok(translationGroup);
+            assert.equal(translationGroup.contentType, 'socialResource');
+            assert.includeDeepMembers(translationGroup.translations, [
+              {language: 'en', id: data},
+            ]);
         })
     })
 
@@ -50,16 +60,25 @@ describe('social resources methods', () => {
             Name: 'Test Resource',
             description: 'Test Resource',
             Resource_url: 'test',
-            captcha:'_test_captcha_'
+            captcha:'_test_captcha_',
+            language: 'en',
         }).then(data => {
             let resource = socialResources.findOne({
                 _id: data
-            })
+            });
 
-            assert.ok(resource)
-            assert.ok(resource.Name === 'Test Resource')
-            assert.ok(resource.description === 'Test Resource')
-            assert.ok(resource.Resource_url === 'test')
+            assert.ok(resource);
+
+            assert.equal(resource.Name, 'Test Resource');
+            assert.equal(resource.description, 'Test Resource');
+            assert.equal(resource.Resource_url, 'test');
+      
+            const translationGroup = TranslationGroups.findOne({translations: {$elemMatch: {id: data}}});
+            assert.ok(translationGroup);
+            assert.equal(translationGroup.contentType, 'socialResource');
+            assert.includeDeepMembers(translationGroup.translations, [
+              {language: 'en', id: data},
+            ]);
         })
     })
 
@@ -70,6 +89,91 @@ describe('social resources methods', () => {
         }).then(data => {}).catch(error => {
             assert.ok(error)
         })
+    })
+
+    it('user can add a translation of a social resource by id', () => {
+      const original = socialResources.findOne({});
+      return callWithPromise('addSocialResource', {
+        Name: 'Test Resource',
+        description: 'Test Resource',
+        Resource_url: 'https://gitter.im/meteor/meteor',
+        tags: [{name: 'testTag'}],
+        captcha:'_test_captcha_',
+        language: 'sr',
+        original: original._id,
+      }).then(data => {
+        let resource = socialResources.findOne({
+          _id: data
+        })
+  
+        assert.ok(resource)
+
+        assert.equal(resource.Name, 'Test Resource');
+        assert.equal(resource.description, 'Test Resource');
+        assert.equal(resource.Resource_url, 'https://gitter.im/meteor/meteor');
+  
+        const translationGroup = TranslationGroups.findOne({translations: {$elemMatch: {id: data}}});
+        assert.ok(translationGroup);
+        assert.equal(translationGroup.contentType, 'socialResource');
+        assert.includeDeepMembers(translationGroup.translations, [
+          {language: 'sr', id: data},
+          {language: original.language || 'en', id: original._id},
+        ]);
+      })
+    });
+  
+    it('user can add a translation of a social resource by id if it was created before translations', () => {
+      const originalId = socialResources.insert({
+        Name: 'Test Resource',
+        description: 'Test Resource',
+        Resource_url: 'https://gitter.im/meteor/meteor',
+        captcha:'_test_captcha_',
+      });
+      const original = socialResources.findOne({_id: originalId});
+  
+      return callWithPromise('addSocialResource', {
+        Name: 'Test Resource',
+        description: 'Test Resource',
+        Resource_url: 'https://gitter.im/meteor/meteor',
+        tags: [{name: 'testTag'}],
+        captcha:'_test_captcha_',
+        language: 'sr',
+        original: original._id,
+      }).then(data => {
+        let resource = socialResources.findOne({
+          _id: data
+        })
+  
+        assert.ok(resource)
+
+        assert.equal(resource.Name, 'Test Resource');
+        assert.equal(resource.description, 'Test Resource');
+        assert.equal(resource.Resource_url, 'https://gitter.im/meteor/meteor');
+
+        const translationGroup = TranslationGroups.findOne({translations: {$elemMatch: {id: data}}});
+        assert.ok(translationGroup);
+        assert.equal(translationGroup.contentType, 'socialResource');
+        assert.includeDeepMembers(translationGroup.translations, [
+          {language: 'sr', id: data},
+          {language: 'en', id: original._id}
+        ]);
+      })
+    });
+    
+    it('user can not add a social resource by wrong original id/slug', () => {
+      return callWithPromise('addSocialResource', {
+        Name: 'Test Resource',
+        description: 'Test Resource',
+        Resource_url: 'https://gitter.im/meteor/meteor',
+        tags: [{name: 'testTag'}],
+        captcha:'_test_captcha_',
+        language: 'en',
+        original: 'nope',
+      }).then(data => {
+        assert.fail('', '', 'Did not throw');
+      }, err => {
+        assert(err, 'messages.originalNotFound');
+      })
     })
 
     it('user can edit a social resource he/she created adding new tags', () => {

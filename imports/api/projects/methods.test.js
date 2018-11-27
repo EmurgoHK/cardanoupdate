@@ -2,6 +2,8 @@ import { chai, assert } from 'chai'
 import { Meteor } from 'meteor/meteor'
 
 import { Projects } from './projects'
+import { TranslationGroups } from '../translationGroups/translationGroups';
+
 import { callWithPromise } from '/imports/api/utilities'
 
 import './methods'
@@ -17,7 +19,8 @@ describe('project methods', () => {
             description: 'Test description',
             github_url: 'test',
             type: 'built-on-cardano',
-            captcha:'_test_captcha_'
+            captcha:'_test_captcha_',
+            language: 'en',
         }).then(data => {
             let project = Projects.findOne({
                 _id: data
@@ -25,10 +28,18 @@ describe('project methods', () => {
 
             assert.ok(project)
 
-            assert.ok(project.headline === 'Test headline')
-            assert.ok(project.description === 'Test description')
-            assert.ok(project.github_url === 'test')
-            assert.ok(project.type === 'built-on-cardano')
+            assert.equal(project.headline, 'Test headline');
+            assert.equal(project.description, 'Test description');
+            assert.equal(project.github_url, 'test');
+            assert.equal(project.type, 'built-on-cardano');
+            assert.equal(project.language, 'en');
+      
+            const translationGroup = TranslationGroups.findOne({translations: {$elemMatch: {id: data}}});
+            assert.ok(translationGroup);
+            assert.equal(translationGroup.contentType, 'project');
+            assert.includeDeepMembers(translationGroup.translations, [
+              {language: 'en', id: data, slug: project.slug},
+            ]);
         })
     })
 
@@ -84,6 +95,96 @@ describe('project methods', () => {
             assert.ok(p2.edits[0].status === 'merged')
             assert.ok(p2[p2.edits[0].datapoint] === p2.edits[0].newData)
         })
+    })
+
+    it('user can add a translation of a project by id', () => {
+      const original = Projects.findOne({});
+      return callWithPromise('addProject', {
+        headline: 'Test headline',
+        description: 'Test description',
+        github_url: 'test',
+        type: 'built-on-cardano',
+        captcha:'_test_captcha_',
+        language: 'sr',
+        original: original._id,
+      }).then(data => {
+        let project = Projects.findOne({
+          _id: data
+        })
+  
+        assert.ok(project)
+
+        assert.equal(project.headline, 'Test headline');
+        assert.equal(project.description, 'Test description');
+        assert.equal(project.github_url, 'test');
+        assert.equal(project.type, 'built-on-cardano');
+        assert.equal(project.language, 'sr');
+  
+        const translationGroup = TranslationGroups.findOne({translations: {$elemMatch: {id: data}}});
+        assert.ok(translationGroup);
+        assert.equal(translationGroup.contentType, 'project');
+        assert.includeDeepMembers(translationGroup.translations, [
+          {language: 'sr', id: data, slug: project.slug},
+          {language: original.language, id: original._id, slug: original.slug}
+        ]);
+      })
+    });
+  
+    it('user can add a translation of a project by id if it was created before translations', () => {
+      const originalId = Projects.insert({
+        headline: 'Test headline old',
+        description: 'Test description',
+        github_url: 'test',
+        type: 'built-on-cardano',
+        captcha:'_test_captcha_',
+      });
+      const original = Projects.findOne({_id: originalId});
+  
+      return callWithPromise('addProject', {
+        headline: 'Test headline',
+        description: 'Test description',
+        github_url: 'test',
+        type: 'built-on-cardano',
+        captcha:'_test_captcha_',
+        language: 'sr',
+        original: original._id,
+      }).then(data => {
+        let project = Projects.findOne({
+          _id: data
+        })
+  
+        assert.ok(project)
+
+        assert.equal(project.headline, 'Test headline');
+        assert.equal(project.description, 'Test description');
+        assert.equal(project.github_url, 'test');
+        assert.equal(project.type, 'built-on-cardano');
+        assert.equal(project.language, 'sr');
+
+        const translationGroup = TranslationGroups.findOne({translations: {$elemMatch: {id: data}}});
+        assert.ok(translationGroup);
+        assert.equal(translationGroup.contentType, 'project');
+        assert.includeDeepMembers(translationGroup.translations, [
+          {language: 'sr', id: data, slug: project.slug},
+          {language: 'en', id: original._id, slug: original.slug}
+        ]);
+      })
+    });
+    
+    it('user can not add an project by wrong original id/slug', () => {
+      return callWithPromise('addProject', {
+        headline: 'Test headline',
+        description: 'Test description',
+        github_url: 'test',
+        type: 'built-on-cardano',
+        captcha:'_test_captcha_',
+        language: 'en',
+        original: 'nope',
+      }).then(data => {
+        assert.fail('', '', 'Did not throw');
+      }, err => {
+        assert(err, 'messages.originalNotFound');
+      })
     })
 
     it('user can edit a project', () => {
@@ -151,6 +252,7 @@ describe('project methods', () => {
             })
 
             assert.notOk(project2)
+            assert.notOk(TranslationGroups.findOne({translations: {$elemMatch: {id: project._id}}}));
         })
     })
 

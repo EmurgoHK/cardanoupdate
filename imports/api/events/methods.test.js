@@ -1,6 +1,9 @@
 import { chai, assert } from 'chai'
 import { Meteor } from 'meteor/meteor'
+
 import { Events } from './events'
+import { TranslationGroups } from '../translationGroups/translationGroups';
+
 import { callWithPromise } from '/imports/api/utilities'
 
 import './methods'
@@ -31,7 +34,8 @@ describe('event methods', () => {
       location: 'test loc',
       placeId: 'tt',
       rsvp: 'test rsvp',
-      captcha:'_test_captcha_'
+      captcha:'_test_captcha_',
+      language: 'en',
     }).then(data => {
       let event = Events.findOne({
         _id: data
@@ -46,6 +50,14 @@ describe('event methods', () => {
       assert.ok(event.rsvp === 'test rsvp')
       assert.ok(event.location === 'test loc')
       assert.ok(event.placeId === 'tt')
+      assert.ok(event.language === 'en');
+
+      const translationGroup = TranslationGroups.findOne({translations: {$elemMatch: {id: data}}});
+      assert.ok(translationGroup);
+      assert.equal(translationGroup.contentType, 'event');
+      assert.includeDeepMembers(translationGroup.translations, [
+        {language: 'en', id: data, slug: event.slug},
+      ]);
     })
   })
 
@@ -56,6 +68,113 @@ describe('event methods', () => {
       captcha:'_test_captcha_'
     }).then(data => {}).catch(error => {
       assert.ok(error)
+    })
+  })
+
+  it('user can add a translation of an event by id', () => {
+    const original = Events.findOne({});
+    return callWithPromise('newEvent', {
+      headline: 'Test headline',
+      description: 'Test description',
+      start_date: 'test',
+      end_date: 'test2',
+      location: 'test loc',
+      placeId: 'tt',
+      rsvp: 'test rsvp',
+      captcha:'_test_captcha_', 
+      language: 'sr',
+      original: original._id,
+    }).then(data => {
+      let event = Events.findOne({
+        _id: data
+      })
+
+      assert.ok(event)
+
+      assert.equal(event.headline, 'Test headline');
+      assert.equal(event.description, 'Test description');
+      assert.equal(event.start_date, 'test');
+      assert.equal(event.end_date, 'test2');
+      assert.equal(event.rsvp, 'test rsvp');
+      assert.equal(event.location, 'test loc');
+      assert.equal(event.placeId, 'tt');
+      assert.equal(event.language, 'sr');
+
+      const translationGroup = TranslationGroups.findOne({translations: {$elemMatch: {id: data}}});
+      assert.ok(translationGroup);
+      assert.equal(translationGroup.contentType, 'event');
+      assert.includeDeepMembers(translationGroup.translations, [
+        {language: 'sr', id: data, slug: event.slug},
+        {language: original.language, id: original._id, slug: original.slug}
+      ]);
+    })
+  });
+
+  it('user can add a translation of an event by id if the event was created before translations', () => {
+    const originalId = Events.insert({
+      headline: 'Test headline old',
+      description: 'Test description',
+      start_date: 'test',
+      end_date: 'test2',
+      location: 'test loc',
+      placeId: 'tt',
+      rsvp: 'test rsvp',
+    });
+    const original = Events.findOne({_id: originalId});
+
+    return callWithPromise('newEvent', {
+      headline: 'Test headline',
+      description: 'Test description',
+      start_date: 'test',
+      end_date: 'test2',
+      location: 'test loc',
+      placeId: 'tt',
+      rsvp: 'test rsvp',
+      captcha:'_test_captcha_', 
+      language: 'sr',
+      original: original._id,
+    }).then(data => {
+      let event = Events.findOne({
+        _id: data
+      })
+
+      assert.ok(event)
+
+      assert.equal(event.headline, 'Test headline');
+      assert.equal(event.description, 'Test description');
+      assert.equal(event.start_date, 'test');
+      assert.equal(event.end_date, 'test2');
+      assert.equal(event.rsvp, 'test rsvp');
+      assert.equal(event.location, 'test loc');
+      assert.equal(event.placeId, 'tt');
+      assert.equal(event.language, 'sr');
+
+      const translationGroup = TranslationGroups.findOne({translations: {$elemMatch: {id: data}}});
+      assert.ok(translationGroup);
+      assert.equal(translationGroup.contentType, 'event');
+      assert.includeDeepMembers(translationGroup.translations, [
+        {language: 'sr', id: data, slug: event.slug},
+        {language: 'en', id: original._id, slug: original.slug}
+      ]);
+    })
+  });
+  
+  it('user can not add an event by wrong original id/slug', () => {
+    return callWithPromise('newEvent', {
+      headline: 'Test headline',
+      description: 'Test description',
+      start_date: 'test',
+      end_date: 'test2',
+      location: 'test loc',
+      placeId: 'tt',
+      rsvp: 'test rsvp',
+      captcha:'_test_captcha_', 
+      language: 'sr',
+      original: 'nope',
+    }).then(data => {
+      assert.fail('', '', 'Did not throw');
+    }, err => {
+      assert(err, 'messages.originalNotFound');
     })
   })
 
@@ -134,7 +253,8 @@ describe('event methods', () => {
         _id: event._id
       })
 
-      assert.notOk(event2)
+      assert.notOk(event2);
+      assert.notOk(TranslationGroups.findOne({translations: {$elemMatch: {id: event._id}}}));
     })
   })
 

@@ -2,6 +2,8 @@ import { chai, assert } from 'chai'
 import { Meteor } from 'meteor/meteor'
 
 import { Research } from './research'
+import { TranslationGroups } from '../translationGroups/translationGroups';
+
 import { callWithPromise } from '/imports/api/utilities'
 
 import './methods'
@@ -19,7 +21,8 @@ describe('research methods', () => {
             captcha:'_test_captcha_',
             links: [
                 {url: 'https://google.com', displayName: 'google'},
-            ]
+            ],
+            language: 'en',
         }).then(data => {
             let research = Research.findOne({
                 _id: data
@@ -27,14 +30,22 @@ describe('research methods', () => {
 
             assert.ok(research)
 
-            assert.ok(research.headline === 'Test headline')
-            assert.ok(research.abstract === 'Test abstract')
-            assert.ok(research.pdf === '/test.pdf')
+            assert.equal(research.headline, 'Test headline');
+            assert.equal(research.abstract, 'Test abstract');
+            assert.equal(research.pdf, '/test.pdf');
+            assert.equal(research.language, 'en');
 
             assert.ok(research.links);
             assert.lengthOf(research.links, 1);
             assert.equal(research.links[0].url, "https://google.com");
             assert.equal(research.links[0].displayName, "google");
+      
+            const translationGroup = TranslationGroups.findOne({translations: {$elemMatch: {id: data}}});
+            assert.ok(translationGroup);
+            assert.equal(translationGroup.contentType, 'research');
+            assert.includeDeepMembers(translationGroup.translations, [
+              {language: 'en', id: data, slug: research.slug},
+            ]);
         })
     })
 
@@ -43,7 +54,8 @@ describe('research methods', () => {
             headline: 'Test headline',
             abstract: 'Test abstract',
             pdf: '/test.pdf',
-            captcha:'_test_captcha_'
+            captcha:'_test_captcha_',
+            language: 'en',
         }).then(data => {
             let research = Research.findOne({
                 _id: data
@@ -51,9 +63,17 @@ describe('research methods', () => {
 
             assert.ok(research)
 
-            assert.ok(research.headline === 'Test headline')
-            assert.ok(research.abstract === 'Test abstract')
-            assert.ok(research.pdf === '/test.pdf')
+            assert.equal(research.headline, 'Test headline');
+            assert.equal(research.abstract, 'Test abstract');
+            assert.equal(research.pdf, '/test.pdf');
+            assert.equal(research.language, 'en');
+      
+            const translationGroup = TranslationGroups.findOne({translations: {$elemMatch: {id: data}}});
+            assert.ok(translationGroup);
+            assert.equal(translationGroup.contentType, 'research');
+            assert.includeDeepMembers(translationGroup.translations, [
+              {language: 'en', id: data, slug: research.slug},
+            ]);
         })
     })
 
@@ -65,6 +85,90 @@ describe('research methods', () => {
         }).then(data => {}).catch(error => {
             assert.ok(error)
         })
+    })
+
+    it('user can add a translation of a research by id', () => {
+      const original = Research.findOne({});
+      return callWithPromise('newResearch', {
+        headline: 'Test headline',
+        abstract: 'Test abstract',
+        pdf: '/test.pdf',
+        captcha:'_test_captcha_',
+        language: 'sr',
+        original: original._id,
+      }).then(data => {
+        let research = Research.findOne({
+          _id: data
+        })
+  
+        assert.ok(research)
+
+        assert.equal(research.headline, 'Test headline');
+        assert.equal(research.abstract, 'Test abstract');
+        assert.equal(research.pdf, '/test.pdf');
+        assert.equal(research.language, 'sr');
+  
+        const translationGroup = TranslationGroups.findOne({translations: {$elemMatch: {id: data}}});
+        assert.ok(translationGroup);
+        assert.equal(translationGroup.contentType, 'research');
+        assert.includeDeepMembers(translationGroup.translations, [
+          {language: 'sr', id: data, slug: research.slug},
+          {language: original.language, id: original._id, slug: original.slug}
+        ]);
+      })
+    });
+  
+    it('user can add a translation of a research by id if it was created before translations', () => {
+      const originalId = Research.insert({
+        headline: 'Test headline old',
+        abstract: 'Test abstract',
+        pdf: '/test.pdf',
+        captcha:'_test_captcha_',
+      });
+      const original = Research.findOne({_id: originalId});
+  
+      return callWithPromise('newResearch', {
+        headline: 'Test headline',
+        abstract: 'Test abstract',
+        pdf: '/test.pdf',
+        captcha:'_test_captcha_',
+        language: 'sr',
+        original: original._id,
+      }).then(data => {
+        let research = Research.findOne({
+          _id: data
+        })
+  
+        assert.ok(research)
+
+        assert.equal(research.headline, 'Test headline');
+        assert.equal(research.abstract, 'Test abstract');
+        assert.equal(research.pdf, '/test.pdf');
+        assert.equal(research.language, 'sr');
+
+        const translationGroup = TranslationGroups.findOne({translations: {$elemMatch: {id: data}}});
+        assert.ok(translationGroup);
+        assert.equal(translationGroup.contentType, 'research');
+        assert.includeDeepMembers(translationGroup.translations, [
+          {language: 'sr', id: data, slug: research.slug},
+          {language: 'en', id: original._id, slug: original.slug}
+        ]);
+      })
+    });
+    
+    it('user can not add an research by wrong original id/slug', () => {
+      return callWithPromise('newResearch', {
+        headline: 'Test headline',
+        abstract: 'Test abstract',
+        pdf: '/test.pdf',
+        captcha:'_test_captcha_',
+        language: 'en',
+        original: 'nope',
+      }).then(data => {
+        assert.fail('', '', 'Did not throw');
+      }, err => {
+        assert(err, 'messages.originalNotFound');
+      })
     })
 
     it('user can edit a research item', () => {
@@ -128,6 +232,7 @@ describe('research methods', () => {
             })
 
             assert.notOk(research2)
+            assert.notOk(TranslationGroups.findOne({translations: {$elemMatch: {id: research._id}}}));
         })
     })
 
