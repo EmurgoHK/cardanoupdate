@@ -19,7 +19,7 @@
       <p class="location">
         <i class="icon-location-pin"></i> <a target="_blank" href="https://www.google.com/maps/place/{{event.location}}/">{{transform event.location}}</a>
       </p>
-      {{> flagItem item="event" edit=editURL _id=event._id}}
+      {{> flagItem item="event" edit=editURL _id=event._id translations=translationsWithHref}}
     </div>
   </div>
   </template>

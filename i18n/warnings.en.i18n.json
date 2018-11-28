@@ -2,6 +2,7 @@
 	"warnings": {
 		"view": {
 			"edit": "Edit Scam",
+			"translate": "Translate Scam",
 			"by": "Posted by",
 			"comments": "Comments",
 			"success": "Successfully commented.",
@@ -12,6 +13,8 @@
 		"form": {
 			"new": "New Scam",
 			"edit": "Edit Scam",
+			"translate": "Translate Scam",
+			"language": "Language",
 			"name": "Name",
 			"name_placeholder": "Headline in 90 characters or less",
 			"desc": "Description",

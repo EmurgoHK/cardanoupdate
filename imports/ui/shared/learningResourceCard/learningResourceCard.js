@@ -42,7 +42,11 @@ Template.learningResourceCard.helpers({
       }
     }
     return false
-  }
+  },
+  translationsWithHref() {
+    const data = Template.currentData();
+    return data.translations.filter(t => t.slug !== data.learn.slug).map((t) => ({language: t.language, href: `/learn/${t.slug}`}));
+  },
 });
 
 Template.learningResourceCard.events({

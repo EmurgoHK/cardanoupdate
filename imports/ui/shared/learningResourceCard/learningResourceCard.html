@@ -11,7 +11,7 @@
       <p class="card-text">{{limitChars learn.summary}}</p>
       <hr />
       {{#if learningLevel}} {{{learningLevel}}} {{/if}}
-      {{> flagItem item="learn" edit=editURL _id=learn._id}}
+      {{> flagItem item="learn" edit=editURL _id=learn._id translations=translationsWithHref}}
     </div>
   </div>
 </template>

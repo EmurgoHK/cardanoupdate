@@ -3,7 +3,7 @@ import { Mongo } from 'meteor/mongo'
 export const socialResources = new Mongo.Collection('socialResources')
 
 socialResources.friendlySlugs({
-  	slugFrom: 'headline',
+  	slugFrom: 'Name',
   	slugField: 'slug',
   	distinct: true,
   	updateSlug: true,

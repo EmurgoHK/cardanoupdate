@@ -35,6 +35,7 @@ Template.events.helpers({
       return {
           types: ['events'],
           searchTerm: Template.instance().searchFilter.get(),
+          doLanguageFilter: true,
       }
   },
 })

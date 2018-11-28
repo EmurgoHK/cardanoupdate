@@ -1,0 +1,35 @@
+.comment.card, .comment-form.card {
+  + .comment.card, .replies > .comment.card { 
+    border-top: 1px solid #cccccc !important;
+    border-radius: 0 !important;
+  }
+
+  box-shadow: none !important;
+  margin-bottom: 0;
+
+  .card-body {
+    margin: 0;
+    padding-bottom: 0.5rem;
+  }
+  .show-hide-action { margin-left: 0.5rem; }
+  .reply, .show-hide-action {
+    font-size: 0.75rem;
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .news-form {
+    .card {
+      box-shadow: none !important; margin-bottom: 0.25rem;
+
+      .card-body { padding: 0.25rem 1rem 1rem 0.25rem; }
+      p.text-danger { margin-bottom: 0.5rem; }
+    }
+  }
+
+  .replies {
+    margin: 0rem 0 0.5rem 1rem;
+    padding: 0rem 0 0 0.5rem;
+    border-left: 4px solid #cccccc60;
+  }
+}

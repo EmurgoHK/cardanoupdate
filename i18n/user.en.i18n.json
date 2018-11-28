@@ -20,7 +20,9 @@
 			"save": "Save changes",
 			"no_name": "No Name",
 			"rank": "users, based on comments and contributions.",
-			"out": "out of"
+			"out": "out of",
+			"language": "Language",
+			"update_success": "Successfully updated."
 		},
 		"view": {
 			"moderator": "moderator",

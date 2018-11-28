@@ -38,10 +38,10 @@ Template.viewProfile.helpers({
     })
     if(user){
       return {
-        id : user._id,
-        name : user.profile.name ? user.profile.name : TAPi18n.__('user.edit.no_name'),
-        bio : user.profile.bio ? user.profile.bio : '',
-        picture: user.profile.picture || '',
+        id: user._id,
+        name: user.profile && user.profile.name ? user.profile.name : TAPi18n.__('user.edit.no_name'),
+        bio: user.profile && user.profile.bio ? user.profile.bio : '',
+        picture: user.profile && user.profile.picture || '',
         profile: user.profile,
         emails: user.emails
         // email : user.emails[0].address,
@@ -181,13 +181,23 @@ Template.editProfile.onCreated(function(){
 })
 
 Template.editProfile.helpers({
+  languages: (userLan) => {
+    return Object.keys(TAPi18n.languages_names).map(key => {
+      return {
+        code: key,
+        name: TAPi18n.languages_names[key][1],
+        selected: key === userLan
+      }
+    })
+  },
   user(){
     let user = Meteor.users.findOne({_id : Meteor.userId()})
     return {
-      name : user.profile.name ? user.profile.name : TAPi18n.__('user.edit.no_name'),
-      email : user.emails[0].address,
-      bio : user.profile.bio ? user.profile.bio : '',
-      picture: user.profile.picture || ''
+      name: user.profile && user.profile.name ? user.profile.name : TAPi18n.__('user.edit.no_name'),
+      email: user.emails[0].address,
+      bio: user.profile && user.profile.bio ? user.profile.bio : '',
+      picture: user.profile && user.profile.picture || '',
+      language: user.profile && user.profile.language ? user.profile.language : 'en',
     }
   },
   images: () => {
@@ -207,14 +217,17 @@ Template.editProfile.events({
   'click .save-changes': (event, templateInstance) => {
     event.preventDefault()
     updateProfile.call({
-      uId : Meteor.userId(),
-      name : $('#userName').val(),
-      email : $('#userEmail').val(),
-      bio : $('#bio').val(),
+      uId: Meteor.userId(),
+      name: $('#userName').val(),
+      email: $('#userEmail').val(),
+      bio: $('#bio').val(),
+      language: $('#language').val(),
       image: getFiles()[0] || ''
     }, (err, res) => {
       if (!err) {
-        notify('Successfully updated.')
+        sessionStorage.setItem('uiLanguage', $('#language').val());
+        TAPi18n.setLanguage($('#language').val());
+        notify(TAPi18n.__('user.edit.update_success'), 'success');
 
         history.back()
 

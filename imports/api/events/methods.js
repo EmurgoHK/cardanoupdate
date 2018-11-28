@@ -5,6 +5,7 @@ import { Events } from './events'
 import { Comments } from '../comments/comments'
 import { isModerator, userStrike } from '/imports/api/user/methods'
 import { isTesting } from '../utilities';
+import { addTranslation, removeTranslation, checkTranslation, updateTranslationSlug } from '../translationGroups/methods';
 
 export const newEvent = new ValidatedMethod({
   name: 'newEvent',
@@ -40,9 +41,17 @@ export const newEvent = new ValidatedMethod({
       type: String,
       optional: false
     },
+    language: {
+      type: String,
+      optional: false,
+    },
     captcha: {
       type: String,
       optional: isTesting
+    },
+    original: {
+        type: String,
+        optional: true,
     },
     timezone: {
       type: Object,
@@ -78,7 +87,21 @@ export const newEvent = new ValidatedMethod({
       }
       data.createdBy = Meteor.userId()
       data.createdAt = new Date().getTime()
-      return Events.insert(data)
+      
+      const original = data.original ? Events.findOne({$or: [{_id: data.original}, {slug: data.original}]}) : undefined;
+      
+      if (data.original && !original)
+        throw new Meteor.Error('Error.', 'messages.originalNotFound');
+      delete data.original;
+      
+      if (original && checkTranslation(original, data.language)) 
+        throw new Meteor.Error('Error.', 'messages.alreadyTranslated');
+
+      const id = Events.insert(data);
+      
+      addTranslation(Events.findOne({_id: id}), data.language, 'event', original);
+      
+      return id;
     }
   }
 })
@@ -110,6 +133,8 @@ export const deleteEvent = new ValidatedMethod({
       if (event.createdBy !== Meteor.userId()) {
         throw new Meteor.Error('Error.', 'messages.events.cant_remove')
       }
+
+      removeTranslation(eventId);
 
       return Events.remove({
         _id: eventId
@@ -216,7 +241,7 @@ export const editEvent = new ValidatedMethod({
         } else
             console.log('reCAPTCHA verification passed!');
       }
-      return Events.update({
+      Events.update({
         _id: eventId
       }, {
         $set: {
@@ -230,7 +255,9 @@ export const editEvent = new ValidatedMethod({
           timezone: timezone,
           updatedAt: new Date().getTime()
         }
-      })
+      });
+
+      updateTranslationSlug(eventId, Events.findOne({_id: eventId}).slug);
     }
   }
 })

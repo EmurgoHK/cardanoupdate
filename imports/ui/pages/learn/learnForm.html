@@ -3,7 +3,12 @@
     <div class="card mb-5">
       <div class="card-body">
         <h2 class="card-title">
-          {{#if add}}{{_ "learn.form.new"}}{{else}}{{_ "learn.form.edit"}}{{/if}} {{_ "learn.form.res"}}
+            <h2>
+              {{#if isNew}} {{_ "learn.form.new"}} 
+              {{else if isEdit}} {{_ "learn.form.edit"}} 
+              {{else if isTranslate }} {{_ "learn.form.translate"}} 
+              {{/if}}
+            </h2>
         </h2>
         <hr>
         <form>
@@ -13,6 +18,15 @@
             <div id="titleError" class="invalid-feedback"></div>
           </div>
           <small><i id="title-chars" class="text-muted"></i></small>
+          <div class="group-title">{{_ "learn.form.language"}}</div>
+          <div class="input-group">
+            <select name="language" id="language" disabled={{isEdit}}>
+              {{#each languages}}
+                <option value={{code}} selected={{selected}} disabled={{disabled}}>{{name}}</option>
+              {{/each}}
+            </select>
+          </div>
+          <div id="languageError" class="invalid-feedback"></div>
           <div class="group-title">{{_ "learn.form.summary"}}</div>
           <div class="input-group">
             <textarea class="form-control" id="summary" rows="8" value="{{learn.summary}}" placeholder='{{_ "learn.form.summary_placeholder"}}'></textarea>

@@ -2,7 +2,12 @@
   <div class="container">
   <div class="row">
       <div class="col-sm-12">
-          <h2>{{#if add}} {{_ "community.form.new"}} {{else}} {{_ "community.form.edit"}} {{/if}}</h2>
+            <h2>
+              {{#if isNew}} {{_ "community.form.new"}} 
+              {{else if isEdit}} {{_ "community.form.edit"}} 
+              {{else if isTranslate }} {{_ "community.form.translate"}} 
+              {{/if}}
+            </h2>
       </div>
   </div>
   <hr>
@@ -18,6 +23,16 @@
                           <div id="NameError" class="invalid-feedback"></div>
                       </div>
                       <small><i id="Name-chars" class="text-muted"></i></small>
+
+                      <div class="group-title">{{_ "community.form.language"}}</div>
+                      <div class="input-group">
+                        <select name="language" id="language" disabled={{isEdit}}>
+                          {{#each languages}}
+                            <option value={{code}} selected={{selected}} disabled={{disabled}}>{{name}}</option>
+                          {{/each}}
+                        </select>
+                      </div>
+                      <div id="languageError" class="invalid-feedback"></div>
 
                       <div class="group-title">{{_ "community.form.url"}}</div>
                       <div class="input-group">

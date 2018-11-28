@@ -5,12 +5,14 @@ import { Template } from 'meteor/templating'
 import { FlowRouter } from 'meteor/kadira:flow-router'
 
 import { Projects } from '/imports/api/projects/projects'
+import { TranslationGroups } from '../../../api/translationGroups/translationGroups';
 import { notify } from '/imports/modules/notifier'
 
 import { Tags } from '/imports/api/tags/tags'
 
 import { addProject, editProject, resolveProjectDataUpdate } from '/imports/api/projects/methods'
 import { hideInstructionModal } from '/imports/api/user/methods'
+
 import _ from 'lodash'
 
 import 'select2'
@@ -20,11 +22,12 @@ const maxCharValue = (inputId) => {
 }
 
 Template.projectForm.onCreated(function() {
-	if (FlowRouter.current().route.name === 'editProject') {
-		this.autorun(() => {
-			this.subscribe('projects.item', FlowRouter.getParam('id'))
+    if (FlowRouter.current().route.name.startsWith('edit') || FlowRouter.current().route.name.startsWith('translate')) {
+        this.autorun(() => {
+            this.subscribe('projects.item', FlowRouter.getParam('id'))
+            this.subscribe('translationGroups.item', FlowRouter.getParam('id'));
         })
-	} else {
+    } else {
         this.autorun(() => {
             this.subscribe('users')
 
@@ -59,7 +62,10 @@ Template.projectForm.onRendered(function() {
 })
 
 Template.projectForm.helpers({
-    add: () => FlowRouter.current().route.name === 'editProject' ? false : true,
+    isNew: () => (FlowRouter.current().route.name.startsWith('new')),
+    isEdit: () => (FlowRouter.current().route.name.startsWith('edit')),
+    isTranslate: () => FlowRouter.current().route.name.startsWith('translate'),
+
     project: () => Projects.findOne({ _id: FlowRouter.getParam('id') }),
     changedItems: () => {
         let projects = Projects.find({
@@ -83,7 +89,21 @@ Template.projectForm.helpers({
             createdAt: j.createdAt
         })).filter(i => i.status === 'open')))
     },
-    projectTags: () => (Projects.findOne({ _id: FlowRouter.getParam('id') }) || {}).tags || []
+    projectTags: () => (Projects.findOne({ _id: FlowRouter.getParam('id') }) || {}).tags || [],
+
+    languages: () => {
+        const group = TranslationGroups.findOne({});
+        const isTranslate =  FlowRouter.current().route.name.startsWith('translate');
+        return Object.keys(TAPi18n.languages_names).map(key => {
+            const hasTranslation = group ? group.translations.some(t => t.language === key) : key === 'en';
+            return {
+                code: key,
+                name: TAPi18n.languages_names[key][1],
+                selected: !hasTranslation && key === TAPi18n.getLanguage(),
+                disabled: isTranslate && hasTranslation,
+            };
+        });
+	},
 })
 
 Template.projectForm.events({
@@ -191,6 +211,7 @@ Template.projectForm.events({
             return
         }
 
+        const original = FlowRouter.current().route.name.startsWith('translate') ? FlowRouter.getParam('id') : undefined;
         addProject.call({
             headline: $('#headline').val(),
             description: $('#description').val(),
@@ -198,7 +219,9 @@ Template.projectForm.events({
             website: $('#website').val() || '',
             captcha: captchaData,
             tags: tagsToSave,
-            type: $('input[name="type"]:checked').val()
+            type: $('input[name="type"]:checked').val(),
+            language: $('#language').val(),
+            original,
         }, (err, data) => {
             if (!err) {
                 notify(TAPi18n.__('projects.form.success_add'), 'success')

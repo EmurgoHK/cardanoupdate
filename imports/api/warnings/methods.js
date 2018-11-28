@@ -6,6 +6,8 @@ import { Warnings } from './warnings'
 import { Comments } from '../comments/comments'
 
 import { isModerator, userStrike } from '/imports/api/user/methods'
+import { addTranslation, removeTranslation, checkTranslation, updateTranslationSlug } from '../translationGroups/methods';
+
 import { isTesting } from '../utilities';
 
 export const addWarning = new ValidatedMethod({
@@ -22,9 +24,17 @@ export const addWarning = new ValidatedMethod({
                 max: 260,
                 optional: false
             },
+            language: {
+              type: String,
+              optional: false,
+            },
             captcha: {
+              type: String,
+              optional: isTesting
+            },
+            original: {
                 type: String,
-                optional: isTesting
+                optional: true,
             },
         }).validator({
             clean: true
@@ -46,7 +56,19 @@ export const addWarning = new ValidatedMethod({
             data.createdBy = Meteor.userId()
             data.createdAt = new Date().getTime()
     
-            return Warnings.insert(data)
+            const original = data.original ? Warnings.findOne({$or: [{_id: data.original}, {slug: data.original}]}) : undefined;
+            
+            if (data.original && !original)
+              throw new Meteor.Error('Error.', 'messages.originalNotFound');
+            delete data.original;
+            
+            if (original && checkTranslation(original, data.language)) 
+              throw new Meteor.Error('Error.', 'messages.alreadyTranslated');
+
+            const id = Warnings.insert(data);
+      
+            addTranslation(Warnings.findOne({_id: id}), data.language, 'warning', original);
+            return id;
         }
     }
 })
@@ -75,6 +97,8 @@ export const deleteWarning = new ValidatedMethod({
             if (warning.createdBy !== Meteor.userId()) {
                 throw new Meteor.Error('Error.', 'messages.warnings.cant_remove')
             }
+
+            removeTranslation(projectId);
 
             return Warnings.remove({ _id: projectId })
         }
@@ -131,7 +155,7 @@ export const editWarning = new ValidatedMethod({
                     console.log('reCAPTCHA verification passed!');
             }
 
-            return Warnings.update({
+            Warnings.update({
                 _id: projectId
             }, {
                 $set: {
@@ -140,6 +164,8 @@ export const editWarning = new ValidatedMethod({
                     updatedAt: new Date().getTime()
                 }
             })
+
+            updateTranslationSlug(projectId, Warnings.findOne({_id: projectId}).slug);
         }
     }
 })

@@ -2,6 +2,8 @@ import { chai, assert } from 'chai'
 import { Meteor } from 'meteor/meteor'
 
 import { Learn } from './learn'
+import { TranslationGroups } from '../translationGroups/translationGroups';
+
 import { callWithPromise } from '/imports/api/utilities'
 
 import './methods'
@@ -17,7 +19,8 @@ describe('Learning items methods', () => {
             content: 'Test content',
             summary: 'Test summary',
             difficultyLevel: 'Test level',
-            captcha:'_test_captcha_'
+            captcha:'_test_captcha_',
+            language: 'en',
         }).then(data => {
             let learn = Learn.findOne({
                 _id: data
@@ -25,10 +28,18 @@ describe('Learning items methods', () => {
 
             assert.ok(learn)
 
-            assert.ok(learn.title === 'Test title')
-            assert.ok(learn.summary === 'Test summary')
-            assert.ok(learn.content === 'Test content')
-            assert.ok(learn.difficultyLevel === 'Test level')
+            assert.equal(learn.title, 'Test title');
+            assert.equal(learn.summary, 'Test summary');
+            assert.equal(learn.content, 'Test content');
+            assert.equal(learn.difficultyLevel, 'Test level');
+            assert.equal(learn.language, 'en');
+      
+            const translationGroup = TranslationGroups.findOne({translations: {$elemMatch: {id: data}}});
+            assert.ok(translationGroup);
+            assert.equal(translationGroup.contentType, 'learn');
+            assert.includeDeepMembers(translationGroup.translations, [
+              {language: 'en', id: data, slug: learn.slug},
+            ]);
         })
     })
 
@@ -43,6 +54,96 @@ describe('Learning items methods', () => {
         })
     })
 
+    it('user can add a translation of a learning resource by id', () => {
+      const original = Learn.findOne({});
+      return callWithPromise('newLearningItem', {
+        title: 'Test title',
+        content: 'Test content',
+        summary: 'Test summary',
+        difficultyLevel: 'Test level',
+        captcha:'_test_captcha_',
+        language: 'sr',
+        original: original._id,
+      }).then(data => {
+        let learn = Learn.findOne({
+          _id: data
+        })
+  
+        assert.ok(learn)
+
+        assert.equal(learn.title, 'Test title');
+        assert.equal(learn.summary, 'Test summary');
+        assert.equal(learn.content, 'Test content');
+        assert.equal(learn.difficultyLevel, 'Test level');
+        assert.equal(learn.language, 'sr');
+  
+        const translationGroup = TranslationGroups.findOne({translations: {$elemMatch: {id: data}}});
+        assert.ok(translationGroup);
+        assert.equal(translationGroup.contentType, 'learn');
+        assert.includeDeepMembers(translationGroup.translations, [
+          {language: 'sr', id: data, slug: learn.slug},
+          {language: original.language, id: original._id, slug: original.slug}
+        ]);
+      })
+    });
+  
+    it('user can add a translation of a learning resource by id if it was created before translations', () => {
+      const originalId = Learn.insert({
+        title: 'Test title old',
+        content: 'Test content',
+        summary: 'Test summary',
+        difficultyLevel: 'Test level',
+        captcha:'_test_captcha_',
+      });
+      const original = Learn.findOne({_id: originalId});
+  
+      return callWithPromise('newLearningItem', {
+        title: 'Test title',
+        content: 'Test content',
+        summary: 'Test summary',
+        difficultyLevel: 'Test level',
+        captcha:'_test_captcha_',
+        language: 'sr',
+        original: original._id,
+      }).then(data => {
+        let learn = Learn.findOne({
+          _id: data
+        })
+  
+        assert.ok(learn)
+
+        assert.equal(learn.title, 'Test title');
+        assert.equal(learn.summary, 'Test summary');
+        assert.equal(learn.content, 'Test content');
+        assert.equal(learn.difficultyLevel, 'Test level');
+        assert.equal(learn.language, 'sr');
+
+        const translationGroup = TranslationGroups.findOne({translations: {$elemMatch: {id: data}}});
+        assert.ok(translationGroup);
+        assert.equal(translationGroup.contentType, 'learn');
+        assert.includeDeepMembers(translationGroup.translations, [
+          {language: 'sr', id: data, slug: learn.slug},
+          {language: 'en', id: original._id, slug: original.slug}
+        ]);
+      })
+    });
+    
+    it('user can not add an learn by wrong original id/slug', () => {
+      return callWithPromise('newLearningItem', {
+        title: 'Test title old',
+        content: 'Test content',
+        summary: 'Test summary',
+        difficultyLevel: 'Test level',
+        captcha:'_test_captcha_',
+        language: 'en',
+        original: 'nope',
+      }).then(data => {
+        assert.fail('', '', 'Did not throw');
+      }, err => {
+        assert(err, 'messages.originalNotFound');
+      })
+    })
+
     it('user can edit a learning item', () => {
         let learn = Learn.findOne({})
 
@@ -54,7 +155,7 @@ describe('Learning items methods', () => {
             summary: 'Test summary 2',
             difficultyLevel: 'Test level 2',
             content: 'Test content 2',
-            captcha:'_test_captcha_'
+            captcha:'_test_captcha_',
         }).then(data => {
             let l2 = Learn.findOne({
                 _id: learn._id
@@ -66,6 +167,11 @@ describe('Learning items methods', () => {
             assert.ok(l2.content === 'Test content 2')
             assert.ok(l2.summary === 'Test summary 2')
             assert.ok(l2.difficultyLevel === 'Test level 2')
+
+            const translationGroup = TranslationGroups.findOne({translations: {$elemMatch: {id: learn._id}}});
+            assert.ok(translationGroup);
+            assert.equal(translationGroup.contentType, 'learn');
+            assert.deepInclude(translationGroup.translations, {language: learn.language, id: learn._id, slug: l2.slug});
         })
     })
 
@@ -108,7 +214,8 @@ describe('Learning items methods', () => {
                 _id: learn._id
             })
 
-            assert.notOk(learn2)
+            assert.notOk(learn2);
+            assert.notOk(TranslationGroups.findOne({translations: {$elemMatch: {id: learn._id}}}));
         })
     })
 

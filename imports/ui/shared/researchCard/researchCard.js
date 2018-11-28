@@ -26,7 +26,11 @@ Template.researchCard.helpers({
       return `/research/${research.slug}/edit`;
     }
     return false;
-  }
+  },
+  translationsWithHref() {
+    const data = Template.currentData();
+    return data.translations.filter(t => t.slug !== data.research.slug).map((t) => ({language: t.language, href: `/research/${t.slug}`}));
+  },
 });
 
 Template.researchCard.events({

@@ -8,6 +8,8 @@ import { Comments } from '../comments/comments'
 import { Tags } from '/imports/api/tags/tags'
 import { addTag, mentionTag, getTag, removeTag } from '/imports/api/tags/methods'
 
+import { addTranslation, removeTranslation, checkTranslation, updateTranslationSlug } from '../translationGroups/methods';
+
 import { isModerator, userStrike } from '/imports/api/user/methods'
 import { isTesting } from '../utilities';
 
@@ -33,9 +35,17 @@ export const addProject = new ValidatedMethod({
                 type: String,
                 optional: true
             },
+            language: {
+              type: String,
+              optional: false,
+            },
             captcha: {
+              type: String,
+              optional: isTesting
+            },
+            original: {
                 type: String,
-                optional: isTesting
+                optional: true,
             },
             tags: {
                 type: Array,
@@ -73,6 +83,7 @@ export const addProject = new ValidatedMethod({
                     throw new Meteor.Error('messages.recaptcha');
                 }
             }   
+
             data.tags = data.tags || []
 
             // find the type tag
@@ -99,7 +110,20 @@ export const addProject = new ValidatedMethod({
 
             data.createdBy = Meteor.userId()
             data.createdAt = new Date().getTime()
-            return Projects.insert(data)
+
+            const original = data.original ? Projects.findOne({$or: [{_id: data.original}, {slug: data.original}]}) : undefined;
+
+            if (data.original && !original)
+              throw new Meteor.Error('Error.', 'messages.originalNotFound');
+            delete data.original;
+            
+            if (original && checkTranslation(original, data.language)) 
+              throw new Meteor.Error('Error.', 'messages.alreadyTranslated');
+
+            const id = Projects.insert(data);
+
+            addTranslation(Projects.findOne({_id: id}), data.language, 'project', original);
+            return id;
         }
     }
 })
@@ -135,6 +159,8 @@ export const deleteProject = new ValidatedMethod({
                     removeTag(t.id)
                 })
             }
+
+            removeTranslation(projectId);
 
             return Projects.remove({ _id: projectId })
         }
@@ -255,7 +281,7 @@ export const editProject = new ValidatedMethod({
                 })
             }
 
-            return Projects.update({
+            Projects.update({
                 _id: projectId
             }, {
                 $set: {
@@ -268,6 +294,8 @@ export const editProject = new ValidatedMethod({
                     updatedAt: new Date().getTime()
                 }
             })
+
+            updateTranslationSlug(projectId, Projects.findOne({_id: projectId}).slug);
         }
     }
 })

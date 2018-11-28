@@ -1,4 +1,5 @@
 import './commentCard.html'
+import './commentCard.scss';
 
 import { Template } from 'meteor/templating'
 
@@ -134,7 +135,10 @@ Template.commentCard.events({
 		event.preventDefault()
 		event.stopImmediatePropagation()
 
-		templateInstance.replies.set(this._id, true)
+		if (templateInstance.data.comment._id === event.target.getAttribute('data-id')) {
+			templateInstance.showReplies.set(true);
+			templateInstance.replies.set(this._id, true);
+		}
 	},
 	'click .edit-mode': function(event, templateInstance) {
 		event.preventDefault()
