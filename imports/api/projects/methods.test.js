@@ -212,6 +212,11 @@ describe('project methods', () => {
             assert.ok(project2.github_url === 'test')
             assert.ok(project2.website === 'test web')
             assert.ok(project2.type === 'built-for-cardano')
+
+            const translationGroup = TranslationGroups.findOne({translations: {$elemMatch: {id: project._id}}});
+            assert.ok(translationGroup);
+            assert.equal(translationGroup.contentType, 'project');
+            assert.deepInclude(translationGroup.translations, {language: project.language, id: project._id, slug: project2.slug});
         })
     })
 

@@ -6,7 +6,7 @@ import { Comments } from '/imports/api/comments/comments'
 
 import { isModerator, userStrike } from '/imports/api/user/methods'
 import { addTag, mentionTag, removeTag } from '../tags/methods';
-import { addTranslation, removeTranslation, checkTranslation } from '../translationGroups/methods';
+import { addTranslation, removeTranslation, checkTranslation, updateTranslationSlug } from '../translationGroups/methods';
 
 import { isTesting } from '../utilities';
 
@@ -254,7 +254,7 @@ export const editSocialResource = new ValidatedMethod({
 
             resourceUrlType = guessResourceType(Resource_url);
 
-            return socialResources.update({
+            socialResources.update({
                 _id: projectId
             }, {
                 $set: {
@@ -266,6 +266,8 @@ export const editSocialResource = new ValidatedMethod({
                     tags,
                 }
             })
+
+            updateTranslationSlug(projectId, socialResources.findOne({_id: projectId}).slug);
         }
     }
 });

@@ -50,7 +50,7 @@ describe('social resources methods', () => {
             assert.ok(translationGroup);
             assert.equal(translationGroup.contentType, 'socialResource');
             assert.includeDeepMembers(translationGroup.translations, [
-              {language: 'en', id: data},
+              {language: 'en', id: data, slug: resource.slug},
             ]);
         })
     })
@@ -77,7 +77,7 @@ describe('social resources methods', () => {
             assert.ok(translationGroup);
             assert.equal(translationGroup.contentType, 'socialResource');
             assert.includeDeepMembers(translationGroup.translations, [
-              {language: 'en', id: data},
+              {language: 'en', id: data, slug: resource.slug},
             ]);
         })
     })
@@ -116,8 +116,8 @@ describe('social resources methods', () => {
         assert.ok(translationGroup);
         assert.equal(translationGroup.contentType, 'socialResource');
         assert.includeDeepMembers(translationGroup.translations, [
-          {language: 'sr', id: data},
-          {language: original.language || 'en', id: original._id},
+          {language: 'sr', id: data, slug: resource.slug},
+          {language: original.language || 'en', id: original._id, slug: original.slug},
         ]);
       })
     });
@@ -154,8 +154,8 @@ describe('social resources methods', () => {
         assert.ok(translationGroup);
         assert.equal(translationGroup.contentType, 'socialResource');
         assert.includeDeepMembers(translationGroup.translations, [
-          {language: 'sr', id: data},
-          {language: 'en', id: original._id}
+          {language: 'sr', id: data, slug: resource.slug},
+          {language: 'en', id: original._id, slug: original.slug}
         ]);
       })
     });
@@ -221,6 +221,11 @@ describe('social resources methods', () => {
                     assert.equal(updatedTag.mentions, 1);
                 }
             }
+
+            const translationGroup = TranslationGroups.findOne({translations: {$elemMatch: {id: resource._id}}});
+            assert.ok(translationGroup);
+            assert.equal(translationGroup.contentType, 'socialResource');
+            assert.deepInclude(translationGroup.translations, {language: resource.language, id: resource._id, slug: resource2.slug});
         })
     })
 

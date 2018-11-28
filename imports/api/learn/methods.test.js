@@ -167,6 +167,11 @@ describe('Learning items methods', () => {
             assert.ok(l2.content === 'Test content 2')
             assert.ok(l2.summary === 'Test summary 2')
             assert.ok(l2.difficultyLevel === 'Test level 2')
+
+            const translationGroup = TranslationGroups.findOne({translations: {$elemMatch: {id: learn._id}}});
+            assert.ok(translationGroup);
+            assert.equal(translationGroup.contentType, 'learn');
+            assert.deepInclude(translationGroup.translations, {language: learn.language, id: learn._id, slug: l2.slug});
         })
     })
 

@@ -10,7 +10,7 @@ import { addTag, mentionTag, getTag } from '/imports/api/tags/methods'
 
 import { sendNotification } from '/imports/api/notifications/methods'
 import { isTesting } from '../utilities';
-import { addTranslation, removeTranslation, checkTranslation } from '../translationGroups/methods';
+import { addTranslation, removeTranslation, checkTranslation, updateTranslationSlug } from '../translationGroups/methods';
 
 export const addToSubscribers = (newsId, userId) => {
   let learn = Learn.findOne({
@@ -277,7 +277,7 @@ export const editLearningItem = new ValidatedMethod({
                 })
             }
     
-            return Learn.update({
+            Learn.update({
                 _id: learnId
             }, {
                 $set: {
@@ -288,7 +288,9 @@ export const editLearningItem = new ValidatedMethod({
                     tags: tags,
                     editedAt: new Date().getTime()
                 }
-            })
+            });
+
+            updateTranslationSlug(learnId, Learn.findOne({_id: learnId}).slug);
         }
     }
 })
