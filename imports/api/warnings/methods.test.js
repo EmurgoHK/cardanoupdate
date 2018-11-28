@@ -147,6 +147,11 @@ describe('warning methods', () => {
 
             assert.ok(warning2.headline === 'Test headline 2')
             assert.ok(warning2.summary === 'Test summary 2')
+
+            const translationGroup = TranslationGroups.findOne({translations: {$elemMatch: {id: warning._id}}});
+            assert.ok(translationGroup);
+            assert.equal(translationGroup.contentType, 'warning');
+            assert.deepInclude(translationGroup.translations, {language: warning.language, id: warning._id, slug: warning2.slug});
         })
     })
 

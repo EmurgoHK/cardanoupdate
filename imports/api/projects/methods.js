@@ -8,7 +8,7 @@ import { Comments } from '../comments/comments'
 import { Tags } from '/imports/api/tags/tags'
 import { addTag, mentionTag, getTag, removeTag } from '/imports/api/tags/methods'
 
-import { addTranslation, removeTranslation, checkTranslation } from '../translationGroups/methods';
+import { addTranslation, removeTranslation, checkTranslation, updateTranslationSlug } from '../translationGroups/methods';
 
 import { isModerator, userStrike } from '/imports/api/user/methods'
 import { isTesting } from '../utilities';
@@ -281,7 +281,7 @@ export const editProject = new ValidatedMethod({
                 })
             }
 
-            return Projects.update({
+            Projects.update({
                 _id: projectId
             }, {
                 $set: {
@@ -294,6 +294,8 @@ export const editProject = new ValidatedMethod({
                     updatedAt: new Date().getTime()
                 }
             })
+
+            updateTranslationSlug(projectId, Projects.findOne({_id: projectId}).slug);
         }
     }
 })

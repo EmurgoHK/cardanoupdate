@@ -5,7 +5,7 @@ import { Events } from './events'
 import { Comments } from '../comments/comments'
 import { isModerator, userStrike } from '/imports/api/user/methods'
 import { isTesting } from '../utilities';
-import { addTranslation, removeTranslation, checkTranslation } from '../translationGroups/methods';
+import { addTranslation, removeTranslation, checkTranslation, updateTranslationSlug } from '../translationGroups/methods';
 
 export const newEvent = new ValidatedMethod({
   name: 'newEvent',
@@ -241,7 +241,7 @@ export const editEvent = new ValidatedMethod({
         } else
             console.log('reCAPTCHA verification passed!');
       }
-      return Events.update({
+      Events.update({
         _id: eventId
       }, {
         $set: {
@@ -255,7 +255,9 @@ export const editEvent = new ValidatedMethod({
           timezone: timezone,
           updatedAt: new Date().getTime()
         }
-      })
+      });
+
+      updateTranslationSlug(eventId, Events.findOne({_id: eventId}).slug);
     }
   }
 })

@@ -4,7 +4,7 @@ import { Meteor } from 'meteor/meteor';
 import { TranslationGroups } from './translationGroups';
 import { callWithPromise } from '/imports/api/utilities';
 
-import {addTranslation, removeTranslation} from './methods';
+import {addTranslation, removeTranslation, updateTranslationSlug} from './methods';
 
 Meteor.userId = () => 'test-user' // override the meteor userId, so we can test methods that require a user
 Meteor.users.findOne = () => ({ _id: 'test-user', profile: { name: 'Test User'}, moderator: true }) // stub user data as well
@@ -53,6 +53,20 @@ describe('Translation group methods', function() {
         assert.deepInclude(newGroup.translations, {id: 'asdf1', slug: 'noslug', language: 'en'});
         assert.notDeepInclude(newGroup.translations, {id: 'asdf2', slug: 'noslug-1', language: 'jp'});
     });
+
+    it('should update slugs', () => {
+        addTranslation({_id: 'asdfxxx', slug: 'slug0'}, 'en', 'testcontent');
+        addTranslation({_id: 'asdf2', slug: 'noslug-1'}, 'jp', 'testcontent', {_id: 'asdf1', slug: 'noslug'});
+        addTranslation({_id: 'asdf3', slug: 'noslug-2'}, 'sr', 'testcontent', {_id: 'asdf1', slug: 'noslug'});
+
+        updateTranslationSlug('asdf1', 'slug');
+
+        const newGroup = TranslationGroups.findOne({translations: {$elemMatch: {id: 'asdf1'}}});
+        assert.ok(newGroup);
+        assert.deepInclude(newGroup.translations, {id: 'asdf1', slug: 'slug', language: 'en'});
+        assert.deepInclude(newGroup.translations, {id: 'asdf2', slug: 'noslug-1', language: 'jp'});
+        assert.deepInclude(newGroup.translations, {id: 'asdf3', slug: 'noslug-2', language: 'sr'});
+    })
 
     afterEach(function() {
         TranslationGroups.remove({});

@@ -6,7 +6,7 @@ import { Warnings } from './warnings'
 import { Comments } from '../comments/comments'
 
 import { isModerator, userStrike } from '/imports/api/user/methods'
-import { addTranslation, removeTranslation, checkTranslation } from '../translationGroups/methods';
+import { addTranslation, removeTranslation, checkTranslation, updateTranslationSlug } from '../translationGroups/methods';
 
 import { isTesting } from '../utilities';
 
@@ -155,7 +155,7 @@ export const editWarning = new ValidatedMethod({
                     console.log('reCAPTCHA verification passed!');
             }
 
-            return Warnings.update({
+            Warnings.update({
                 _id: projectId
             }, {
                 $set: {
@@ -164,6 +164,8 @@ export const editWarning = new ValidatedMethod({
                     updatedAt: new Date().getTime()
                 }
             })
+
+            updateTranslationSlug(projectId, Warnings.findOne({_id: projectId}).slug);
         }
     }
 })

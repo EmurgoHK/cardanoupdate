@@ -192,6 +192,11 @@ describe('research methods', () => {
             assert.ok(research2.headline === 'Test headline 2')
             assert.ok(research2.abstract === 'Test abstract 2')
             assert.ok(research2.pdf === '/test2.pdf')
+
+            const translationGroup = TranslationGroups.findOne({translations: {$elemMatch: {id: research._id}}});
+            assert.ok(translationGroup);
+            assert.equal(translationGroup.contentType, 'research');
+            assert.deepInclude(translationGroup.translations, {language: research.language, id: research._id, slug: research2.slug});
         })
     })
 

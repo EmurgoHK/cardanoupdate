@@ -38,3 +38,7 @@ export function removeTranslation(id) {
 export function checkTranslation(original, language) {
   return TranslationGroups.findOne({$and: [{translations: {$elemMatch: {id: original._id}}}, {translations: {$elemMatch: {language}}}]})
 }
+
+export function updateTranslationSlug(id, slug) {
+  TranslationGroups.update({translations: {$elemMatch: {id}}}, {$set: {"translations.$.slug": slug}});
+}

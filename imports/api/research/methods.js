@@ -7,7 +7,7 @@ import { Comments } from '/imports/api/comments/comments'
 
 import { isModerator, userStrike } from '/imports/api/user/methods'
 import { sendNotification } from '/imports/api/notifications/methods'
-import { addTranslation, removeTranslation, checkTranslation } from '../translationGroups/methods';
+import { addTranslation, removeTranslation, checkTranslation, updateTranslationSlug } from '../translationGroups/methods';
 
 import { isTesting } from '../utilities';
 
@@ -209,7 +209,7 @@ export const editResearch = new ValidatedMethod({
                 }
             }
     
-            return Research.update({
+            Research.update({
                 _id: researchId
             }, {
                 $set: {
@@ -220,6 +220,8 @@ export const editResearch = new ValidatedMethod({
                     links,
                 }
             })
+
+            updateTranslationSlug(researchId, Research.findOne({_id: researchId}).slug);
         }
     }
 })

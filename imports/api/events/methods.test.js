@@ -208,6 +208,10 @@ describe('event methods', () => {
       assert.ok(event2.rsvp === 'test')
       assert.ok(event2.placeId === 'ttt')
 
+      const translationGroup = TranslationGroups.findOne({translations: {$elemMatch: {id: event._id}}});
+      assert.ok(translationGroup);
+      assert.equal(translationGroup.contentType, 'event');
+      assert.deepInclude(translationGroup.translations, {language: event.language, id: event._id, slug: event2.slug});
     })
   })
 
