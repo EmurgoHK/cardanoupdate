@@ -1,6 +1,6 @@
 <template name="commentCard">
 	{{#with comment}}
-		<div style="margin-left: {{ident}}px;" class="comment card" id="comment-{{_id}}">
+		<div class="comment card" id="comment-{{_id}}">
       <div class="card-body">
         <div class="news-settings float-right dropdown" style="margin-top: -10px;">
           <i class="nav-icon icon-settings dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
@@ -22,39 +22,32 @@
           {{/if}}
         </p>
       	<div>
-					<a href="#" class="reply"><i class="fa fa-reply"></i>&nbsp; {{_ "comments.reply"}}</a>
+					<a href="#" class="reply" data-id="{{_id}}"><i class="fa fa-reply"></i>&nbsp; {{_ "comments.reply"}}</a>
 					{{#if childCommentCount}}
 						{{#if showReplies}}
-							<a href="#" class="hideReplies show-hide-action" data-id="{{_id}}">{{_ "comments.hide_replies"}}</a>
+							<a href="#" class="hideReplies show-hide-action" data-id="{{_id}}">{{_ "comments.hide_replies"}} ({{childCommentCount}})</a>
 						{{else}}
-							<a href="#" class="showReplies show-hide-action" data-id="{{_id}}">{{_ "comments.show_replies"}}</a>
+							<a href="#" class="showReplies show-hide-action" data-id="{{_id}}">{{_ "comments.show_replies"}} ({{childCommentCount}})</a>
 						{{/if}}
 					{{/if}}
 				</div>
     	</div>
-			{{#if replyMode}}
-	    <div style="margin-left: {{formIdent}}px" class="row">
-	        <div class="col-sm-12 news-form">
-	            <div class="card">
-	                {{> commentForm wrapperClasses="card-body" parentId=_id newsId=newsId postType="reply" type=type onSuccess=replySuccess onCancel=replyCancel}}
-	            </div>
-	        </div>
-	    </div>
-	    {{/if}}
-	    {{#if childCommentCount}}
-	        {{#if showReplies}}
-		        {{#each comment in childComments}}
-		            {{> commentCard subCommentArgs comment}}
-		        {{/each}}
-            <!-- <div style="margin-left: {{ident}}px;" class="row mb-2">
-              <button class="btn btn-link btn-primary hideReplies" data-id="{{_id}}">{{_ "comments.hide_replies"}}</button><br>
-            </div> -->
-	        {{else}}
-            <!-- <div style="margin-left: {{ident}}px;" class="row mb-2">
-              <button class="btn btn-link btn-primary showReplies" data-id="{{_id}}">{{_ "comments.show_replies"}}</button><br>
-            </div> -->
-	        {{/if}}
-	    {{/if}}
+			{{#if showReplies}}
+				<div class="replies">
+					{{#if replyMode}}
+					<div class="row">
+							<div class="col-sm-12 news-form">
+									<div class="card">
+											{{> commentForm wrapperClasses="card-body" parentId=_id newsId=newsId postType="reply" type=type onSuccess=replySuccess onCancel=replyCancel}}
+									</div>
+							</div>
+					</div>
+					{{/if}}
+					{{#each comment in childComments}}
+						{{> commentCard subCommentArgs comment}}
+					{{/each}}
+				</div>
+			{{/if}}
     </div>
   {{/with}}
 </template>

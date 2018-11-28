@@ -1,0 +1,1 @@
+export const TranslationGroups = new Mongo.Collection('translationGroups');

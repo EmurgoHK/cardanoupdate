@@ -2,6 +2,7 @@ import './viewSocialResource.html'
 
 import { Template } from 'meteor/templating'
 import { socialResources } from '/imports/api/socialResources/socialResources'
+import { TranslationGroups } from '../../../api/translationGroups/translationGroups';
 import { FlowRouter } from 'meteor/kadira:flow-router'
 import { Comments } from '/imports/api/comments/comments'
 import { notify } from '/imports/modules/notifier'
@@ -11,6 +12,8 @@ Template.viewSocialResourceTemp.onCreated(function() {
 	this.autorun(() => {
 		this.subscribe('socialResources.item', FlowRouter.getParam('slug'))
 		this.subscribe('users')
+
+		this.subscribe('translationGroups.itemSlug', FlowRouter.getParam('slug'));
 	})
 })
 
@@ -62,5 +65,13 @@ Template.viewSocialResourceTemp.helpers({
 		return () => {
 			notify(TAPi18n.__('community.view.success'), 'success');
 		}
+	},
+	translations: () => {
+		const group = TranslationGroups.findOne({});
+		return group 
+			? group.translations
+				.filter(t => t.slug !== FlowRouter.getParam('slug'))
+				.map(t => ({language: t.language, href: `/community/${t.slug}`}))
+			: [];
 	},
 })

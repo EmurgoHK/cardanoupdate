@@ -3,6 +3,8 @@
 		"form": {
 			"new": "New Event",
 			"edit": "Edit Event",
+			"translate": "Translate Event",
+			"language": "Language",
 			"name": "Name",
 			"name_placeholder": "Name in 90 characters or less",
 			"duration": "Event Duration",
@@ -24,6 +26,7 @@
 		},
 		"view": {
 			"edit": "Edit Event",
+			"translate": "Translate Event",
 			"by": "Added by",
 			"to": "to",
 			"rsvp": "RSVP Link",

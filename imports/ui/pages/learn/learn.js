@@ -33,6 +33,7 @@ Template.learn.helpers({
         return {
             types: ['learn'],
             searchTerm: Template.instance().searchFilter.get(),
+            doLanguageFilter: true,
         }
     },
 })

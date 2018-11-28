@@ -282,6 +282,29 @@ FlowRouter.route('/projects/:id/edit', {
   }
 })
 
+FlowRouter.route('/projects/:id/translate', {
+  name: 'translateProject',
+  breadcrumb: (params) => {
+    return ({
+      text: 'projects_translate',
+      urls: ['/projects']
+    })
+  },
+  triggersEnter: [userLoginFilter],
+  subscriptions: function(params, queryParams) {
+    this.register('projects.item', Meteor.subscribe('projects.item', params.id))
+    this.register('tags', Meteor.subscribe('tags'))
+  },
+  action: () => {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'projectForm'
+    })
+  }
+})
+
+
 FlowRouter.route('/projects/:slug', {
   name: 'viewProject',
   breadcrumb: (params) => {
@@ -350,6 +373,27 @@ FlowRouter.route('/scams/:id/edit', {
   breadcrumb: (params) => {
     return ({
       text: 'scams_edit',
+      urls: ['/scams']
+    })
+  },
+  triggersEnter: [userLoginFilter],
+  subscriptions: function(params, queryParams) {
+    this.register('warnings.item', Meteor.subscribe('warnings.item', params.id))
+  },
+  action: () => {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'warningForm'
+    })
+  }
+})
+
+FlowRouter.route('/scams/:id/translate', {
+  name: 'translateWarning',
+  breadcrumb: (params) => {
+    return ({
+      text: 'scams_translate',
       urls: ['/scams']
     })
   },
@@ -452,6 +496,27 @@ FlowRouter.route('/community/:id/edit', {
   }
 })
 
+FlowRouter.route('/community/:id/translate', {
+  name: 'translateSocialResource',
+  breadcrumb: (params) => {
+    return ({
+      text: 'community_translate',
+      urls: ['/community']
+    })
+  },
+  subscriptions: function(params, queryParams) {
+    this.register('socialResources.item', Meteor.subscribe('socialResources.item', params.id))
+  },
+  action: () => {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'socialResourceFormTemp'
+    })
+  }
+})
+
+
 FlowRouter.route('/community/:slug', {
   name: 'viewSocialResource',
   breadcrumb: (params) => {
@@ -520,6 +585,27 @@ FlowRouter.route('/research/:slug/edit', {
   breadcrumb: (params) => {
     return ({
       text: 'research_edit',
+      urls: ['/research']
+    })
+  },
+  triggersEnter: [userLoginFilter],
+  subscriptions: function(params, queryParams) {
+    this.register('research.item', Meteor.subscribe('research.item', params.slug))
+  },
+  action: () => {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'researchForm'
+    })
+  }
+})
+
+FlowRouter.route('/research/:slug/translate', {
+  name: 'translateResearch',
+  breadcrumb: (params) => {
+    return ({
+      text: 'research_translate',
       urls: ['/research']
     })
   },
@@ -624,6 +710,28 @@ FlowRouter.route('/learn/:slug/edit', {
   }
 })
 
+FlowRouter.route('/learn/:slug/translate/', {
+  name: 'translateLearn',
+  breadcrumb: (params) => {
+    return ({
+      text: 'learn_translate',
+      urls: ['/learn']
+    })
+  },
+  triggersEnter: [userLoginFilter],
+  subscriptions: function(params, queryParams) {
+    this.register('learn.item', Meteor.subscribe('learn.item', params.slug))
+    this.register('tags', Meteor.subscribe('tags'))
+  },
+  action: () => {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'learnForm'
+    })
+  }
+})
+
 FlowRouter.route('/learn/:slug', {
   name: 'viewLearn',
   breadcrumb: (params) => {
@@ -698,6 +806,28 @@ FlowRouter.route('/events/:id/edit', {
   breadcrumb: (params) => {
     return ({
       text: 'events_edit',
+      urls: ['/events']
+    })
+  },
+  triggersEnter: [userLoginFilter],
+  subscriptions: function(params, queryParams) {
+    this.register('config', Meteor.subscribe('config'))
+    this.register('events.item', Meteor.subscribe('events.item', params.id))
+  },
+  action: () => {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'eventForm'
+    })
+  }
+})
+
+FlowRouter.route('/events/:id/translate', {
+  name: 'translateEvent',
+  breadcrumb: (params) => {
+    return ({
+      text: 'events_translate',
       urls: ['/events']
     })
   },

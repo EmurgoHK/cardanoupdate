@@ -28,6 +28,10 @@ Template.warningCard.helpers({
     const transformer = Template.currentData().textTransformer;
     return transformer ? transformer(text) : text;
   },
+  translationsWithHref() {
+    const data = Template.currentData();
+    return data.translations.filter(t => t.slug !== data.warning.slug).map((t) => ({language: t.language, href: `/scams/${t.slug}`}));
+  },
 });
 Template.warningCard.events({
   "click #js-remove": function(event, _) {

@@ -2,7 +2,12 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-12">
-          <h2>{{#if add}} {{_ "warnings.form.new"}} {{else}} {{_ "warnings.form.edit"}} {{/if}}</h2>
+            <h2>
+              {{#if isNew}} {{_ "warnings.form.new"}} 
+              {{else if isEdit}} {{_ "warnings.form.edit"}} 
+              {{else if isTranslate }} {{_ "warnings.form.translate"}} 
+              {{/if}}
+            </h2>
         </div>
       </div>
       <hr>
@@ -17,6 +22,17 @@
                   <div id="headlineError" class="invalid-feedback"></div>
                 </div>
                 <small><i id="headline-chars" class="text-muted"></i></small>
+                
+                <div class="group-title">{{_ "warnings.form.language"}}</div>
+                <div class="input-group">
+                  <select name="language" id="language" disabled={{isEdit}}>
+                    {{#each languages}}
+                      <option value={{code}} selected={{selected}} disabled={{disabled}}>{{name}}</option>
+                    {{/each}}
+                  </select>
+                </div>
+                <div id="languageError" class="invalid-feedback"></div>
+
                 <div class="group-title">{{_ "warnings.form.desc"}}</div>
                 <div class="input-group">
                   <textarea class="form-control" id="description" rows="8" value="{{warning.summary}}" placeholder='{{_ "warnings.form.desc_placeholder"}}'></textarea>

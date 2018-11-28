@@ -25,6 +25,7 @@ Template.projects.helpers({
         return {
             types: ['projects'],
             searchTerm: Template.instance().searchFilter.get(),
+            doLanguageFilter: true,
         }
     },
 })

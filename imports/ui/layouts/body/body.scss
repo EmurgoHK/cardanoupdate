@@ -34,3 +34,10 @@
 .breadcrumb-item a:hover{
   color:#392557;
 }
+
+#__blaze-root {
+  height: 100%;
+  min-height: 100vh;
+  position: relative;
+  padding-bottom: 4em;
+}

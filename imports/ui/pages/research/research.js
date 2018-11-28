@@ -43,6 +43,7 @@ Template.research.helpers({
         return {
             types: ['research'],
             searchTerm: Template.instance().searchFilter.get(),
+            doLanguageFilter: true,
         }
     },
 })

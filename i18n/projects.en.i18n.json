@@ -3,6 +3,8 @@
 		"form": {
 			"new": "New Project",
 			"edit": "Edit Project",
+			"translate": "Translate Project",
+			"language": "Language",
 			"name": "Name",
 			"name_placeholder": "Name in 90 characters or less",
 			"desc": "Description",
@@ -38,6 +40,7 @@
 		},
 		"view": {
 			"edit": "Edit Project",
+			"translate": "Translate Project",
 			"by": "Posted by",
 			"tags": "Tags",
 			"go_to": "Go to",

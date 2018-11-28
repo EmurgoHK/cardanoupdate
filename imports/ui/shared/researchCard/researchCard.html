@@ -15,7 +15,7 @@
       {{#each link in research.links}}
           <a href="{{link.url}}" class="card-link" target="_blank"><i class="fas fa-external-link-alt"></i></a>
       {{/each}}
-      {{> flagItem item="research" edit=editURL _id=research._id}}
+      {{> flagItem item="research" edit=editURL _id=research._id translations=translationsWithHref}}
     </div>
   </div>
 </template>

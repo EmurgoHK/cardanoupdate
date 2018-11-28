@@ -3,9 +3,11 @@ import './events.scss'
 import { Template } from 'meteor/templating'
 import { FlowRouter } from 'meteor/kadira:flow-router'
 import { Events } from '/imports/api/events/events'
+import { TranslationGroups } from '../../../api/translationGroups/translationGroups';
 import { notify } from '/imports/modules/notifier'
 import daterangepicker from 'daterangepicker'
 import SimpleMDE from 'simplemde'
+import marked from 'marked';
 import moment from 'moment-timezone'
 import { newEvent, editEvent } from '/imports/api/events/methods'
 import '../../../../node_modules/daterangepicker/daterangepicker.css';
@@ -56,6 +58,11 @@ const initLocationSearch = function() {
 
     let timestamp = $('#event_duration').val().split(' - ')
 
+    // convert from European dd/mm/yyyy to ISO yyyy/mm/dd that's required by the API
+    for (let i = 0; i < 2; i++) {
+      timestamp[i] = timestamp[i].split('/').reverse().join('/')
+    }
+
     HTTP.get(`https://api.timezonedb.com/v2.1/get-time-zone?key=5S42VGHOV6HK&format=json&by=position&lat=${lat}&lng=${lng}&time=${new Date(timestamp[0] || timestamp[1] || Date.now()).getTime() / 1000}`, (err, data) => {
       this.timezone.set(data.data)
     })
@@ -89,19 +96,11 @@ Template.eventForm.onCreated(function () {
 
   this.location = new ReactiveVar({})
   this.timezone = new ReactiveVar({})
-  Meteor.setTimeout(() => {
-    $('input#event_duration').daterangepicker({
-      timePicker: true,
-      startDate: moment().startOf('hour'),
-      endDate: moment().startOf('hour').add(32, 'hour'),
-      locale: {
-        format: 'DD/MM/YYYY hh:mm A'
-      }
-    })
-  })
-  if (FlowRouter.current().route.name === 'editEvent') {
+
+  if (FlowRouter.current().route.name.startsWith('edit') || FlowRouter.current().route.name.startsWith('translate')) {
     this.autorun(() => {
       this.subscribe('events.item', FlowRouter.getParam('id'))
+      this.subscribe('translationGroups.item', FlowRouter.getParam('id'));
 
       let event = Events.findOne({
         _id: FlowRouter.getParam('id')
@@ -119,6 +118,24 @@ Template.eventForm.onCreated(function () {
 })
 
 Template.eventForm.onRendered(function() {
+  this.autorun(() => {
+    const event = Events.findOne({
+      _id: FlowRouter.getParam('id')
+    });
+
+    const start = event ? moment(event.start_date) : moment().startOf('hour');
+    const end = event ? moment(event.end_date) : moment().startOf('hour').add(32, 'hour');
+
+    $('input#event_duration').daterangepicker({
+      timePicker: true,
+      startDate: start,
+      endDate: end,
+      locale: {
+        format: 'DD/MM/YYYY hh:mm A'
+      }
+    })
+  })
+
   if (window.google && google && google.maps && !this.loaded.get()) { // initialize the location search if the script has loaded already
     initLocationSearch.call(this)
   }
@@ -136,6 +153,7 @@ Template.eventForm.onRendered(function() {
       className: 'fa fa-file-video-o',
       title: 'Insert YouTube video'
     }, '|', 'preview', 'side-by-side', 'fullscreen', '|', 'guide'],
+    previewRender: (content) => marked(content, {sanitize: true}),
   })
 
   window.mde = this.mde
@@ -152,10 +170,27 @@ Template.eventForm.onRendered(function() {
 })
 
 Template.eventForm.helpers({
-  add: () => FlowRouter.current().route.name === 'editEvent' ? false : true,
+  isNew: () => (FlowRouter.current().route.name.startsWith('new')),
+  isEdit: () => (FlowRouter.current().route.name.startsWith('edit')),
+  isTranslate: () => FlowRouter.current().route.name.startsWith('translate'),
+  
   event: () => Events.findOne({
     _id: FlowRouter.getParam('id')
-  })
+  }),
+
+  languages: () => {
+    const group = TranslationGroups.findOne({});
+    const isTranslate =  FlowRouter.current().route.name.startsWith('translate');
+    return Object.keys(TAPi18n.languages_names).map(key => {
+      const hasTranslation = group ? group.translations.some(t => t.language === key) : key === 'en';
+      return {
+        code: key,
+        name: TAPi18n.languages_names[key][1],
+        selected: !hasTranslation && key === TAPi18n.getLanguage(),
+        disabled: isTranslate && hasTranslation,
+      };
+    });
+	},
 })
 
 Template.eventForm.events({
@@ -231,6 +266,7 @@ Template.eventForm.events({
       return
     }
 
+    const original = FlowRouter.current().route.name.startsWith('translate') ? FlowRouter.getParam('id') : undefined;
     newEvent.call({
       headline: $('#headline').val(),
       description: _tpl.mde.value(),
@@ -245,7 +281,9 @@ Template.eventForm.events({
         zoneName: _tpl.timezone.get().zoneName,
         gmtOffset: _tpl.timezone.get().gmtOffset + '',
         dst: _tpl.timezone.get().dst
-      }
+      },
+      language: $('#language').val(),
+      original,
     }, (err, data) => {
       if (!err) {
         notify(TAPi18n.__('events.form.success_add'), 'success')

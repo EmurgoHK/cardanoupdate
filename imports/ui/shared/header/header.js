@@ -53,10 +53,6 @@ Template.header.events({
     $(".searchModal").fadeOut();
     $(".backdrop").fadeOut();
   },
-  'change #selectLanguage': (event, templateInstance) => {
-    event.preventDefault()
-    TAPi18n.setLanguage(event.target.value)
-  }
 })
 
 Template.header.helpers({

@@ -9,6 +9,7 @@ import '/imports/ui/shared/sidebar/sidebar'
 import '/imports/ui/shared/loader/loader'
 import '/imports/ui/shared/empty-result/empty-result'
 import '/imports/ui/shared/uploader/uploader'
+import '/imports/ui/shared/footer/footer';
 
 import '/imports/ui/shared/eventCard/eventCard';
 import '/imports/ui/shared/learningResourceCard/learningResourceCard';
@@ -37,4 +38,11 @@ Meteor.startup(() => {
     reCAPTCHA.config({
         publickey: Meteor.settings.public.RECAPTCHA_CLIENT
     });
+    
+    const userLang = Meteor.user() && Meteor.user().profile && Meteor.user().profile.language;
+    TAPi18n.setLanguage(sessionStorage.getItem('uiLanguage') || userLang || 'en')
+      .fail(function (error_message) {
+        // Handle the situation
+        console.error(error_message);
+      });
 })

@@ -422,10 +422,14 @@ export const updateProfile = new ValidatedMethod({
       type: String,
       optional: false
     },
+    language: {
+      type: String,
+      optional: false
+    },
     image: {
       type: String,
       optional: true
-    }
+    },
   }).validator({
     clean: true
   }),
@@ -434,7 +438,8 @@ export const updateProfile = new ValidatedMethod({
     name,
     email,
     bio,
-    image
+    language,
+    image,
   }) {
     Meteor.users.update({
       _id: Meteor.userId()
@@ -442,6 +447,7 @@ export const updateProfile = new ValidatedMethod({
       $set: {
         'profile.name': name,
         'profile.bio': bio,
+        'profile.language': language,
         'profile.picture': image,
         'emails.0.address': email
       }
