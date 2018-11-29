@@ -37,8 +37,8 @@ Template.searchResults.onRendered(function() {
       if (data.types.includes('events')) {
         res = res.concat((Events.find({
           $or: [
-            {description: regex}, 
-            {headline: regex}, 
+            {description: regex},
+            {headline: regex},
             {location: regex}
           ],
         }, opts)).map(p => ({type: 'event', res: p, date: p.createdAt, titleText: p.headline})));
@@ -47,8 +47,8 @@ Template.searchResults.onRendered(function() {
       if (data.types.includes('projects')) {
         res = res.concat((Projects.find({
           $or: [
-            {description: regex}, 
-            {headline: regex}, 
+            {description: regex},
+            {headline: regex},
             {tags: regex}
           ],
         }, opts)).map(p => ({type: 'project', res: p, date: p.createdAt, titleText: p.headline})));
@@ -57,9 +57,9 @@ Template.searchResults.onRendered(function() {
       if (data.types.includes('learn')) {
         res = res.concat((Learn.find({
           $or: [
-            {content: regex}, 
-            {title: regex}, 
-            {summary: regex}, 
+            {content: regex},
+            {title: regex},
+            {summary: regex},
           ],
         }, opts)).map(p => ({type: 'learningResource', res: p, date: p.createdAt, titleText: p.title})));
       }
@@ -67,8 +67,8 @@ Template.searchResults.onRendered(function() {
       if (data.types.includes('research')) {
         res = res.concat((Research.find({
           $or: [
-            {abstract: regex}, 
-            {headline: regex}, 
+            {abstract: regex},
+            {headline: regex},
           ],
         }, opts)).map(p => ({type: 'research', res: p, date: p.createdAt, titleText: p.headline})));
       }
@@ -76,18 +76,18 @@ Template.searchResults.onRendered(function() {
       if (data.types.includes('socialResources')) {
         res = res.concat((socialResources.find({
           $or: [
-            {Name: regex}, 
-            {description: regex}, 
+            {Name: regex},
+            {description: regex},
           ],
         }, opts)).map(p => ({type: 'socialResource', res: p, date: p.createdAt, titleText: p.name})));
       }
-      
+
       if (data.types.includes('warnings')) {
         res = res.concat((Warnings.find({
           $or: [
-            {summary: regex}, 
+            {summary: regex},
             {headline: regex},
-            {tags: regex}, 
+            {tags: regex},
           ],
         }, opts)).map(p => ({type: 'warning', res: p, date: p.createdAt, titleText: p.headline})));
       }
@@ -95,13 +95,13 @@ Template.searchResults.onRendered(function() {
       const now = moment().utc().format('YYYY-MM-DD[T]HH:mm');
       if (data.types.includes('events'))
         res = res.concat(Events.find(data.hidePastEvents ? {end_date: {$gt: now}} : {}, opts).map(p => ({type: 'event', res: p, date: p.createdAt, titleText: p.headline})));
-      
+
       if (data.types.includes('projects'))
         res = res.concat(Projects.find({}, opts).map(p => ({type: 'project', res: p, date: p.createdAt, titleText: p.headline})));
-        
+
       if (data.types.includes('learn'))
         res = res.concat(Learn.find({}, opts).map(p => ({type: 'learningResource', res: p, date: p.createdAt, titleText: p.title})));
-      
+
       if (data.types.includes('research'))
         res = res.concat(Research.find({}, opts).map(p => ({type: 'research', res: p, date: p.createdAt})));
 
@@ -137,13 +137,17 @@ Template.searchResults.helpers({
   results: () => {
     const tpl = Template.instance();
     let results = tpl.results.get();
-    
+
     if (tpl.titleSort.get()) {
       switch (tpl.titleSort.get()) { //sort by titles
         case "title-asc":
-          return results.sort((a,b) => a.titleText.localeCompare(b.titleText));
+          return results.sort((a,b) => {
+            a.titleText ? a.titleText.localeCompare(b.titleText) : 0
+          });
         case "title-desc":
-          return results.sort((a,b) => b.titleText.localeCompare(a.titleText));
+          return results.sort((a,b) => {
+            b.titleText ? b.titleText.localeCompare(a.titleText) : 0
+          });
       }
     } else { // we only need to sort by date if the user has not selected sort by title
       switch (tpl.sort.get()) { //sort by date
@@ -162,9 +166,9 @@ Template.searchResults.helpers({
 
   isDateAsc(val) {
     // we must check if the title sort is active. if the title sort is active we must not show asc or desc icons on date.
-    if (Template.instance().titleSort.get() == '') return Template.instance().sort.get() === val; 
+    if (Template.instance().titleSort.get() == '') return Template.instance().sort.get() === val;
   },
-  
+
   isTitleAsc(val) {
       return Template.instance().titleSort.get() === val
   },
@@ -172,7 +176,7 @@ Template.searchResults.helpers({
   highlighter(){
     let searchVal = Template.currentData().searchTerm;
     return (text) => {
-      return searchVal && text ? 
+      return searchVal && text ?
         new Handlebars.SafeString(text.replace(RegExp('('+ searchVal.split(" ").join('|') + ')', 'img'), '<span class="SearchMarker" >$1</span>')) :
         text;
     };
