@@ -60,6 +60,19 @@
           </ul>
         </li>
         {{/if}}
+        <li class="nav-item">
+          <div class="change-language">
+              <select name="selectLanguage" id="selectLanguage" style="width:90%">
+                {{#each languages}}
+                  {{#if selected}}
+                    <option value={{code}} selected>{{name}}</option>
+                  {{else}}
+                    <option value={{code}}>{{name}}</option>
+                  {{/if}}
+                {{/each}}
+              </select>
+            </div>
+        </li>
       </ul>
     </nav>
     <button class="sidebar-minimizer brand-minimizer bg-dark" type="button"></button>

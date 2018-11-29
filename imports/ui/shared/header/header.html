@@ -79,6 +79,18 @@
           <a class="dropdown-item" href="/profile/{{userId}}"><i class="nav-icon icon-user"></i> {{_ "shared.header.my_profile"}}</a>
           <a class="dropdown-item" href="/profile/{{userId}}/edit"><i class="nav-icon icon-settings"></i> {{_ "shared.header.edit_profile"}}</a>
           <a class="dropdown-item" id="signOut" style="cursor: pointer;"><i class="nav-icon icon-logout"></i> {{_ "shared.header.signout"}}</a>
+          <div class="change-language dropdown-item">
+              {{{_ "shared.footer.language"}}} 
+              <select name="selectLanguage" id="selectLanguage">
+                {{#each languages}}
+                  {{#if selected}}
+                    <option value={{code}} selected>{{name}}</option>
+                  {{else}}
+                    <option value={{code}}>{{name}}</option>
+                  {{/if}}
+                {{/each}}
+              </select>
+            </div>
         </div>
         {{else}}
         <a class="nav-link" href="/login" id="signIn" style="cursor: pointer;">{{_ "shared.header.signin"}}</a>
