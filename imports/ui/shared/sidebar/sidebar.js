@@ -6,6 +6,15 @@ Template.sidebar.helpers({
     activeClass: function(name) {
         FlowRouter.watchPathChange();
         return FlowRouter.current().route.name === name ? 'active' : '';
+    },
+    languages: () => {
+      return Object.keys(TAPi18n.languages_names).map(key => {
+        return {
+          code: key,
+          name: TAPi18n.languages_names[key][1],
+          selected: key === TAPi18n.getLanguage()
+        };
+      });
     }
 });
 
@@ -23,5 +32,9 @@ Template.sidebar.events({
     'click .nav-dropdown-toggle' (event, template) {
       event.preventDefault()
       $(event.currentTarget).closest('.nav-dropdown').toggleClass('open')
+    },
+    "change #selectLanguage"(event) {
+      event.preventDefault();
+      TAPi18n.setLanguage(event.target.value);
     }
 })
