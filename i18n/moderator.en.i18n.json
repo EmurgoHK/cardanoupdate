@@ -9,6 +9,16 @@
 			"no_candidates": "No candidates found!",
 			"success": "Successfully promoted."
 		},
+		"translation": {
+			"translation": "Translation",
+			"vote": "Vote",
+			"back": "Back to all data",
+			"only_mod": "Only moderators can vote",
+			"success": "Translation successfully approved.",
+			"deleted": "Translation has been deleted.",
+			"no_more": "No more translations",
+			"skip": "Skip"
+		},
 		"changes": {
 			"proposed": "Proposed changes",
 			"merge": "Merge",
