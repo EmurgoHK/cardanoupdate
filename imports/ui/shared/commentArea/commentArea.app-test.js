@@ -89,7 +89,7 @@ if (Meteor.isClient) {
         async el => {
           const root = $(el);
 
-          root.find('.comment-text').val('Freshly added comment');
+          root.find('textarea.comment-text').val('Freshly added comment');
 
           cbTester.expect();
           root.find('.save-comment').click();
@@ -119,7 +119,7 @@ if (Meteor.isClient) {
           $(cards[0]).find('.reply').click();
 
           // Changes to reply ui
-          (await waitUntil(() => root.find('.comments .comment-text'))).val('asdf')
+          (await waitUntil(() => root.find('.comments textarea.comment-text'))).val('asdf')
           
           // successfully calls callbacks
           cbTester.expect();
@@ -155,7 +155,7 @@ if (Meteor.isClient) {
           $(cards[0]).find('.news-settings .edit-mode').click();
           
           // successfully loads text
-          const input = await waitUntil(() => $(cards[0]).find('.comment-text'));
+          const input = await waitUntil(() => $(cards[0]).find('textarea.comment-text'));
           assert.equal(input.val(), 'edit test');
 
           // Setting changed text

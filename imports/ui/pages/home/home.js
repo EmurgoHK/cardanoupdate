@@ -44,7 +44,7 @@ Template.home.helpers({
 
   totalUsers: () => Meteor.users.find({}).count() || 0,
   resultArgs: () => ({
-    types: ['events', 'learn', 'projects', 'research', 'socialResource', 'warnings'],
+    types: ['events', 'learn', 'projects', 'research', 'socialResources', 'warnings'],
     searchTerm: undefined,
     displayTypeLabel: true,
     hidePastEvents: true,

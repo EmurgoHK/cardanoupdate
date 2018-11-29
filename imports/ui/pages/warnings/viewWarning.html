@@ -5,7 +5,7 @@
         {{#if SubsCacheReady}}
           {{#with warning}}
           {{#if isOwner}}<a href="/scams/{{_id}}/edit" class="btn btn-primary btn-sm float-right"><i class="fas fa-edit"></i> {{_ "warnings.view.edit"}}</a>{{/if}}
-          <a href="/scams/{{_id}}/translate" class="btn btn-primary btn-sm mr-2 float-right"><i class="fas fa-globe"></i> {{_ "warnings.view.translate"}}</a>
+          <a href="/scams/{{_id}}/translate" class="btn btn-primary btn-sm mr-2 float-right translate-link"><i class="fas fa-globe"></i> {{_ "warnings.view.translate"}}</a>
           <h1 class="card-title text-dark mt-3"><strong>{{headline}}</strong></h1>
           <h5 class="card-subtitle mb-3 mt-3">
               <ul class="list-inline">

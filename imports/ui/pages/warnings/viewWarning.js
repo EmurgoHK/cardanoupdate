@@ -11,7 +11,7 @@ import { flagWarning } from '/imports/api/warnings/methods'
  Template.viewWarning.onCreated(function() {
 	this.autorun(() => {
 		this.subscribe('warnings.item', FlowRouter.getParam('slug'))
-		this.subscribe('translationGroups.itemSlug', FlowRouter.getParam('slug'));
+		this.subscribe('translationGroups.itemSlug', {slug: FlowRouter.getParam('slug'), contentType: 'warning'});
 
 		this.subscribe('users')
  		let warning = Warnings.findOne({

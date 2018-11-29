@@ -42,14 +42,14 @@ Template.commentForm.helpers({
 
 Template.commentForm.events({
   'keyup/blur comment-text': (event, templateInstance) => {
-    templateInstance.text.set(templateInstance.$('.comment-text').val());
+    templateInstance.text.set(templateInstance.$('textarea.comment-text').val());
 
     return false;
   },
 
   'click .save-comment': (event, templateInstance) => { 
     const data = Template.currentData();
-    const text = templateInstance.$('.comment-text').val();
+    const text = templateInstance.$('textarea.comment-text').val();
     if (data.id) {
       editComment.call({
         commentId: data.id,

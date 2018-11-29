@@ -1,140 +1,223 @@
-const assert = require('assert')
-const baseUrl = 'http://localhost:3000'
-describe('Warnings page', function () {
-    before(() => {
-        browser.url(`${baseUrl}/`)
-        browser.pause(5000)
+const assert = require("assert");
+const baseUrl = "http://localhost:3000";
+const { waitForPageLoad, callMethod } = require("../../uiTestUtils");
 
-        browser.execute(() => {
-            Meteor.call('generateTestUser', (err, data) => {})
-             return 'ok'
-        })
-        
-        browser.pause(5000)
+describe.only("Warnings page", function() {
+  before(() => {
+    browser.url(`${baseUrl}/`);
+    waitForPageLoad(browser, `/`);
 
-        browser.execute(() => Meteor.loginWithPassword('testing', 'testing'))
+    callMethod(browser, "generateTestUser");
 
-        browser.pause(5000)
-    })
+    browser.executeAsync(done =>
+      Meteor.loginWithPassword("testing", "testing", done)
+    );
+  });
 
-     it('user can add a new warning', function () {
-        browser.url(`${baseUrl}/scams`)
-        browser.pause(5000)
-        browser.click('#add-warning')
-        browser.pause(3000)
-        browser.setValue('#headline', 'Headline Test')
-        browser.pause(1000)
-        browser.execute(() => window.grecaptcha.getResponse = () => '_test_captcha_')
-        browser.pause(2000)
-        browser.click('.add-warning')
-        browser.pause(2000)
-        assert(browser.execute(() => $('#summaryError').text().trim() === 'Description is required').value, true)
-        browser.setValue('#description', 'Summary Test')
-        browser.pause(2000)
-        browser.click('.add-warning')
-        browser.pause(500)
-        browser.click('.add-warning')
-        browser.pause(7000)
-        assert(browser.execute(() => FlowRouter.current().route.name === 'warnings').value, true)
-    })
+  it("user can add a new warning", function() {
+    browser.url(`${baseUrl}/scams`);
+    waitForPageLoad(browser, "/scams");
 
-     it('user can see warning info', () => {
-        browser.execute(() => FlowRouter.go('/scams/headline-test'))
-        browser.pause(3000)
-        assert(browser.execute(() => $('h1.card-title').text() === 'Headline Test').value, true)
-        assert(browser.execute(() => $('.news-body').text().trim() === 'Summary Test').value, true)
-    })
+    browser.waitForEnabled("#add-warning");
+    browser.click("#add-warning");
 
-    it('user can comment', () => {
-        browser.setValue('.comment-text', 'Test comment')
-        browser.pause(2000)
+    waitForPageLoad(browser, "/scams/new");
+    browser.waitForEnabled(".add-warning");
+    browser.click(".add-warning");
 
-        browser.click('.save-comment')
-        browser.pause(3000)
+    browser.waitForText("#headlineError");
+    assert.equal(browser.getText("#headlineError"), "Headline is required");
+    browser.waitForText("#summaryError");
+    assert.equal(browser.getText("#summaryError"), "Description is required");
 
-        assert(browser.execute(() => Array.from($('.comments').find('.card-body span')).some(i => $(i).text().includes('Test comment'))).value, true)
-    })
+    browser.setValue("input#headline", "Headline Test");
+    browser.waitUntil(
+      () => browser.getText("#headlineError") !== "Headline is required"
+    );
+    browser.setValue("textarea#description", "Description Test");
+    browser.waitForEnabled(".add-warning");
+    browser.click(".add-warning");
+    browser.click(".add-warning"); // TODO: figure out why do we need to call this twice
+    waitForPageLoad(browser, "/scams");
+  });
 
-    it('user can reply to a comment', () => {
-        browser.click('.reply')
-        browser.pause(2000)
+  it("user can see warning info", () => {
+    browser.url("/scams/headline-test");
+    waitForPageLoad(browser, "/scams/headline-test");
 
-        browser.setValue(`.comments .comment-text`, 'Test reply')
-        browser.pause(1000)
+    browser.waitForText("h1.card-title");
+    assert.equal(browser.getText("h1.card-title"), "Headline Test");
+    assert.equal(browser.getText(".news-body"), "Description Test");
+  });
 
-        browser.click('.comments .save-comment')
-        browser.pause(3000)
+  it("user can comment", () => {
+    browser.waitForEnabled("textarea.comment-text");
+    browser.setValue("textarea.comment-text", "Test comment");
 
-        assert(browser.execute(() => Array.from($('.comments').find('.card-body span')).some(i => $(i).text().includes('Test reply'))).value, true)
-    })
+    browser.waitForEnabled(".save-comment");
+    browser.click(".save-comment");
 
-    it('user can edit a comment', () => {
-        browser.execute(() => $('.news-settings').find('.dropdown-menu').addClass('show'))
-        browser.pause(3000)
+    browser.waitUntil(() =>
+      browser
+        .elements(".comments .card-body span")
+        .value.some(i => i.getText().includes("Test comment"))
+    );
+  });
 
-        browser.click('.edit-mode')
-        browser.pause(2000)
+  it("user can reply to a comment", () => {
+    browser.click(".reply");
 
-        browser.setValue(`.comments .comment-text`, 'Test comment 2')
-        browser.pause(1000)
+    browser.waitForExist(`.comments textarea.comment-text`);
+    browser.setValue(`.comments textarea.comment-text`, "Test reply");
 
-        browser.click('.comments .save-comment')
-        browser.pause(3000)
+    browser.click(".comments .save-comment");
 
-        assert(browser.execute(() => Array.from($('.comments').find('.card-body span')).some(i => $(i).text().includes('Test comment 2'))).value, true)
-    })
+    browser.waitUntil(() =>
+      browser
+        .elements(".comments .card-body span")
+        .value.some(i => i.getText().includes("Test reply"))
+    );
+  });
 
-     it('user can flag a comment', () => {
-        browser.execute(() => $('.news-settings').find('.dropdown-menu').addClass('show'))
-        browser.pause(3000)
-        browser.click('.flag-comment')
-        browser.pause(2000)
-        browser.setValue('.swal2-input', 'Test flag')
-        browser.pause(1000)
-        browser.click('.swal2-confirm')
-        browser.pause(3000)
-    })
+  it("user can edit a comment", () => {
+    browser.execute(() =>
+      $(".news-settings")
+        .find(".dropdown-menu")
+        .addClass("show")
+    );
+    browser.waitForEnabled(".edit-mode");
 
-    it('user can remove a comment', () => {
-        let count = browser.execute(() => $('.comments').find('.card').length).value
-        browser.execute(() => $('.news-settings').find('.dropdown-menu').addClass('show'))
-        browser.pause(3000)
-        browser.click('.delete-comment')
-        browser.pause(2000)
-        browser.click('.swal2-confirm')
-        browser.pause(2000)
-        let countN = browser.execute(() => $('.comments').find('.card').length).value
-        assert(count === countN + 1, true)
-    })
+    browser.click(".edit-mode");
 
-    it('user can edit a warning he/she created', () => {
-       browser.url(`${baseUrl}/scams`)
-       browser.pause(5000)
-       browser.execute(() => $($('.fa-ellipsis-h').get(0)).trigger('click'))
-       browser.pause(3000)
-       browser.click('#js-edit')
-       browser.pause(3000)
-       browser.setValue('#headline', 'Headline Test 2')
-       browser.pause(1000)
-       browser.execute(() => window.grecaptcha.getResponse = () => '_test_captcha_')
-       browser.pause(2000)
-       browser.click('.add-warning')
-       browser.pause(3000)
-       assert(browser.execute(() => FlowRouter.current().route.name === 'warnings').value, true)
-       assert(browser.execute(() => Array.from($('.card-title a')).some(i => $(i).text().trim() === 'Headline Test 2')).value, true)
-   })
+    browser.waitForExist(".comments textarea.comment-text");
+    browser.setValue(`.comments textarea.comment-text`, "Test comment 2");
+    browser.click(".comments .save-comment");
 
-    it('user can remove a warning he/she created', () => {
-        browser.url(`${baseUrl}/scams`)
-        browser.pause(5000)
-        let count = browser.execute(() => $('.card').length).value
-        browser.execute(() => $($('.fa-ellipsis-h').get(0)).trigger('click'))
-        browser.pause(1000)
-        browser.click('#js-remove')
-        browser.pause(2000)
-        browser.click('.swal2-confirm')
-        browser.pause(3000)
-        let countN = browser.execute(() => $('.card').length).value
-        assert(count === countN + 1, true)
-    })
-}) 
+    browser.waitUntil(() =>
+      browser
+        .elements(".comments .card-body span")
+        .value.some(i => i.getText().includes("Test comment 2"))
+    );
+  });
+
+  it("user can flag a comment", () => {
+    browser.click(".comment.card .icon-settings.dropdown-toggle");
+    browser.waitForEnabled(".comment.card .flag-comment");
+    browser.click(".comment.card .flag-comment");
+
+    browser.waitForVisible(".swal2-input");
+    browser.setValue(".swal2-input", "Test flag");
+    browser.click(".swal2-confirm");
+    browser.waitUntil(
+      () => !browser.isVisible(".swal2-container"),
+      "swal did not go away"
+    );
+  });
+
+  it("user can remove a comment", () => {
+    let count = browser.execute(() => $(".comments").find(".card").length)
+      .value;
+    browser.execute(() =>
+      $(".news-settings")
+        .find(".dropdown-menu")
+        .addClass("show")
+    );
+    browser.click(".delete-comment");
+    browser.waitForEnabled(".swal2-confirm");
+    browser.click(".swal2-confirm");
+    browser.waitUntil(
+      () => browser.elements(".comments .card").value.length === count - 1
+    );
+  });
+
+  it("users can translate warnings", () => {
+    browser.scroll(".translate-link", -1000, -1000);
+    browser.pause(500);
+
+    const href = browser.getAttribute(".translate-link", "href");
+    browser.click(".translate-link");
+    waitForPageLoad(browser, href);
+
+    browser.setValue("input#headline", "Headline Test SR");
+    browser.setValue("textarea#description", "Description Test SR");
+
+    browser.click(".add-warning");
+    browser.click(".add-warning");
+    waitForPageLoad(browser, "/scams");
+  });
+
+  it("users can view different translations of a warning", () => {
+    const card = browser
+      .element('a[href="/scams/headline-test"]')
+      .$("..")
+      .$("..");
+    card.click(".flagItem > i");
+
+    // Testing to see if this is actually in the list
+    card.waitForEnabled('a[href="/scams/headline-test-sr"]');
+    card.click('a[href="/scams/headline-test-sr"]');
+
+    waitForPageLoad(browser, "/scams/headline-test-sr");
+
+    assert.equal(browser.getText("h1.card-title"), "Headline Test SR");
+    assert.equal(browser.getText(".news-body"), "Description Test SR");
+
+    browser.click(".flagItem > i");
+    // Testing to see if this is actually in the list
+    browser.waitForEnabled('a[href="/scams/headline-test"]');
+    browser.click('a[href="/scams/headline-test"]');
+
+    waitForPageLoad(browser, "/scams/headline-test");
+  });
+
+  it("user can edit a warning he/she created", () => {
+    browser.url(`${baseUrl}/scams`);
+    waitForPageLoad(browser, "/scams");
+
+    browser.element(".flagItem > i").click();
+    const href = browser.element("#js-edit").getAttribute("href");
+    assert(href.includes("/scams/"));
+    browser.click("#js-edit");
+
+    waitForPageLoad(browser, href);
+    browser.setValue("#headline", "Headline Test 2");
+    browser.click(".add-warning");
+    waitForPageLoad(browser, "/scams");
+
+    browser.waitUntil(() =>
+      browser
+        .elements(".card-title a")
+        .value.some(i => i.getText().trim() === "Headline Test 2")
+    );
+  });
+
+  it("user can remove a warning he/she created", () => {
+    browser.url(`${baseUrl}/scams`);
+    waitForPageLoad(browser, "/scams");
+
+    let count = browser.execute(() => $(".card").length).value;
+    browser.element(".flagItem > i").click();
+
+    browser.waitForEnabled("#js-remove");
+    browser.click("#js-remove");
+
+    browser.waitUntil(() => browser.isVisible(".swal2-container"));
+    browser.waitForEnabled(".swal2-confirm");
+    browser.click(".swal2-confirm");
+
+    browser.waitUntil(() => !browser.isVisible(".swal2-container"));
+
+    browser.element(".flagItem > i").click();
+
+    browser.waitForEnabled("#js-remove");
+    browser.click("#js-remove");
+
+    browser.waitUntil(() => browser.isVisible(".swal2-container"));
+    browser.waitForEnabled(".swal2-confirm");
+    browser.click(".swal2-confirm");
+
+    browser.waitUntil(
+      () => browser.elements(".card").value.length === count - 1
+    );
+  });
+});

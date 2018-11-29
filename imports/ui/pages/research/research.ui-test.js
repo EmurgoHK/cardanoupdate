@@ -1,63 +1,94 @@
 const assert = require('assert')
-const baseUrl = 'http://localhost:3000'
-
 const path = require('path')
+
+const { waitForPageLoad, callMethod, clickUntil } = require("../../uiTestUtils");
+
+const baseUrl = 'http://localhost:3000'
 
 describe('Research page', function () {
     before(() => {
-        browser.url(`${baseUrl}/`)
-        browser.pause(5000)
-
-        browser.execute(() => {
-            Meteor.call('generateTestUser', (err, data) => {})
-
-            return 'ok'
-        })
-
-        browser.pause(5000)
-
-        browser.execute(() => Meteor.loginWithPassword('testing', 'testing'))
-
-        browser.pause(10000)
+        browser.url(`${baseUrl}/`);
+        waitForPageLoad(browser, `/`);
+    
+        callMethod(browser, "generateTestUser");
+    
+        browser.executeAsync(done =>
+          Meteor.loginWithPassword("testing", "testing", done)
+        );
     })
 
-    it('user can add a new research paper', function () {
-        browser.url(`${baseUrl}/research`)
-        browser.pause(5000)
+    it('user can add a new research paper', () => {
+        browser.url(`${baseUrl}/research`);
+        waitForPageLoad(browser, '/research');
 
-        browser.click('#new-research')
+        browser.click('#new-research');
+        waitForPageLoad(browser, '/research/new');
 
-        browser.pause(3000)
+        browser.setValue('#headline', 'Headline Test');
 
-        browser.setValue('#headline', 'Headline Test')
-        browser.pause(8000)
+        clickUntil(browser, '.new-research', () => browser.getText('#abstractError'));
 
-        browser.execute(() => window.grecaptcha.getResponse = () => '_test_captcha_')
-        browser.pause(2000)
+        assert.equal(browser.getText('#abstractError').trim(), 'Abstract is required');
 
-        browser.click('.new-research')
-        browser.pause(2000)
+        browser.setValue('#abstract', 'Abstract Test');
 
-        assert(browser.execute(() => $('#abstractError').text().trim() === 'Abstract is required').value, true)
+        const file = path.join(__dirname, '..', '..', '..', '..', 'public', 'pdf', 'test.pdf');
+        browser.chooseFile('#fileInput-default', file);
 
-        browser.setValue('#abstract', 'Abstract Test')
-        browser.pause(1000)
+        browser.waitUntil(() => browser.getText('#fileUploadValue-default').trim() === 'Change')
 
-        const file = path.join(__dirname, '..', '..', '..', '..', 'public', 'pdf', 'test.pdf')
+        const hrefs = browser.elements('#preview-default a').value.map((el) => el.getAttribute('href'));
+        assert.equal(hrefs.length, 1);
 
-        browser.chooseFile('#fileInput-default', file)
-        browser.pause(15000)
-
-        assert(browser.execute(() => $('#fileUploadValue-default').text() === 'Change').value, true)
-        assert(browser.execute(() => Array.from($('#preview-default a').map((i, el) => $(el).attr('href'))).length > 0).value, true)
-
-        browser.click('.new-research')
-        browser.pause(3000)
-
-        assert(browser.execute(() => FlowRouter.current().route.name === 'research').value, true)
+        clickUntil(browser, '.new-research', () => browser.getUrl().endsWith('/research'));
     })
+
+    it("users can translate a research", () => {
+        browser.url('/research/headline-test');
+        waitForPageLoad(browser, '/research/headline-test');
+
+        browser.scroll(".translate-link", -1000, -1000);
+        browser.pause(10);
+
+        const href = browser.getAttribute(".translate-link", "href");
+        browser.click(".translate-link");
+        waitForPageLoad(browser, href);
+
+        browser.setValue("input#headline", "Headline Test SR");
+        browser.setValue("#abstract", "Abstract Test SR");
+
+        clickUntil(browser, '.new-research', () => browser.getUrl().endsWith('/research'));
+    });
+
+    it("users can view different translations of a research", () => {
+        waitForPageLoad(browser, "/research");
+        const card = browser
+            .element('a[href="/research/headline-test"]')
+            .$("..")
+            .$("..");
+        card.click(".flagItem > i");
+
+        // Testing to see if this is actually in the list
+        card.waitForEnabled('a[href="/research/headline-test-sr"]');
+        card.click('a[href="/research/headline-test-sr"]');
+
+        waitForPageLoad(browser, "/research/headline-test-sr");
+
+        assert.equal(browser.getText("h1.card-title"), "Headline Test SR");
+        assert.equal(browser.getText(".abstract"), "Abstract Test SR");
+
+        browser.click(".flagItem > i");
+        // Testing to see if this is actually in the list
+        browser.waitForEnabled('a[href="/research/headline-test"]');
+        browser.click('a[href="/research/headline-test"]');
+
+        waitForPageLoad(browser, "/research/headline-test");
+    });
 
     it('user can edit research he/she created', () => {
+        browser.url('/research');
+        waitForPageLoad(browser, '/research');
+        
         browser.execute(() => $($('.fa-ellipsis-h').get(0)).trigger('click'))
         browser.pause(3000)
 
@@ -66,14 +97,8 @@ describe('Research page', function () {
 
         browser.setValue('#headline', 'Headline Test 2')
         browser.pause(8000)
-
-        browser.execute(() => window.grecaptcha.getResponse = () => '_test_captcha_')
-        browser.pause(2000)
         
-        browser.click('.new-research')
-        browser.pause(3000)
-
-        assert(browser.execute(() => FlowRouter.current().route.name === 'research').value, true)
+        clickUntil(browser, '.new-research', () => browser.getUrl().endsWith('/research'));
 
         assert(browser.execute(() => Array.from($('.card-title a')).some(i => $(i).text().trim() === 'Headline Test 2')).value, true)
     })
@@ -87,7 +112,7 @@ describe('Research page', function () {
     })
 
     it('user can comment', () => {
-        browser.setValue('.comment-text', 'Test comment')
+        browser.setValue('textarea.comment-text', 'Test comment')
         browser.pause(2000)
 
         browser.click('.save-comment')
@@ -100,7 +125,7 @@ describe('Research page', function () {
         browser.click('.reply')
         browser.pause(2000)
 
-        browser.setValue(`.comments .comment-text`, 'Test reply')
+        browser.setValue(`.comments textarea.comment-text`, 'Test reply')
         browser.pause(1000)
 
         browser.click('.comments .save-comment')
@@ -116,7 +141,7 @@ describe('Research page', function () {
         browser.click('.edit-mode')
         browser.pause(2000)
 
-        browser.setValue(`.comments .comment-text`, 'Test comment 2')
+        browser.setValue(`.comments textarea.comment-text`, 'Test comment 2')
         browser.pause(1000)
 
         browser.click('.comments .save-comment')
@@ -162,6 +187,17 @@ describe('Research page', function () {
 
         let count = browser.execute(() => $('.card').length).value
 
+        // Remove original
+        browser.execute(() => $($('.fa-ellipsis-h').get(0)).trigger('click'))
+        browser.pause(3000)
+
+        browser.click('#js-remove')
+        browser.pause(2000)
+
+        browser.click('.swal2-confirm')
+        browser.pause(3000)
+
+        // Remove translation
         browser.execute(() => $($('.fa-ellipsis-h').get(0)).trigger('click'))
         browser.pause(3000)
 

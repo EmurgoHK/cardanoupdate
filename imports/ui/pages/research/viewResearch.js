@@ -18,7 +18,7 @@ Template.viewResearch.onCreated(function() {
 		this.subscribe('research.item', FlowRouter.getParam('slug'))
 		this.subscribe('users')
 
-		this.subscribe('translationGroups.itemSlug', FlowRouter.getParam('slug'));
+		this.subscribe('translationGroups.itemSlug', {slug: FlowRouter.getParam('slug'), contentType: 'research'});
 	})
 })
 
