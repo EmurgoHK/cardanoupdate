@@ -23,7 +23,7 @@ Template.researchForm.onCreated(function() {
 	this.links = new ReactiveVar([]);
 	if (FlowRouter.current().route.name.startsWith('edit') || FlowRouter.current().route.name.startsWith('translate')) {
 		this.autorun(() => {
-			this.subscribe('translationGroups.itemSlug', FlowRouter.getParam('slug'));
+			this.subscribe('translationGroups.itemSlug', {slug: FlowRouter.getParam('slug'), contentType: 'research'});
 			this.subscribe('research.item', FlowRouter.getParam('slug'), () => {
 				const research = Research.findOne({slug: FlowRouter.getParam('slug')});
 

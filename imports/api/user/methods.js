@@ -381,6 +381,7 @@ if (Meteor.isDevelopment) {
         username: 'testing'
       })
       if (!user) {
+        try {
         let uId = Accounts.createUser({
           username: 'testing',
           password: 'testing',
@@ -397,6 +398,14 @@ if (Meteor.isDevelopment) {
             moderator: true
           }
         })
+        } catch(ex) {
+          // This may have been because of concurrent user creation.
+          let user = Meteor.users.findOne({
+            username: 'testing'
+          });
+          if (!user)
+            throw(ex);
+        }
       }
     }
   })

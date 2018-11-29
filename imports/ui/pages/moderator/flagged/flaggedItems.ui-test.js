@@ -1,31 +1,21 @@
 const assert = require('assert')
+
+const { waitForPageLoad, callMethod, clickUntil } = require("../../../uiTestUtils");
+
 const baseUrl = 'http://localhost:3000'
 
 describe('Flagged items page', function () {
     before(() => {
-        browser.url(`${baseUrl}/`)
-        browser.pause(5000)
-
-        browser.execute(() => {
-            Meteor.call('generateTestFlaggedProject', (err, data) => {})
-
-            return 'ok'
-        })
-
-        browser.pause(5000)
-
-        browser.execute(() => {
-            Meteor.call('generateTestUser', (err, data) => {})
-
-            return 'ok'
-        })
-
-        browser.pause(5000)
-
-        browser.execute(() => Meteor.loginWithPassword('testing', 'testing'))
-
-        browser.pause(10000)
-    })
+        browser.url(`${baseUrl}/`);
+        waitForPageLoad(browser, `/`);
+    
+        callMethod(browser, "generateTestUser");
+        callMethod(browser, "generateTestFlaggedProject");
+    
+        browser.executeAsync(done =>
+          Meteor.loginWithPassword("testing", "testing", done)
+        );
+    });
 
     it('moderator can see flagged items', function () {
         browser.url(`${baseUrl}/moderator/flagged`)
@@ -41,8 +31,7 @@ describe('Flagged items page', function () {
         browser.pause(3000)
 
         // confirm swal dialog
-        browser.execute(() => $('.swal2-confirm').click())
-        browser.pause(3000)
+        clickUntil(browser, '.swal2-confirm', () => browser.isVisible('.swal2-container'));
 
         let countN = browser.execute(() => $('.card').length).value
 
