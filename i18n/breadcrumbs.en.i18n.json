@@ -40,6 +40,7 @@
 		"community_view": "Communities / %s",
 		"research_view": "Research / %s",
 		"learn_view": "Learn / %s",
-		"event_view": "Events / %s"
+		"event_view": "Events / %s",
+		"translations": "Translations"
 	}
 }
