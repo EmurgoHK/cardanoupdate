@@ -21,8 +21,9 @@ Template.search.onCreated(function() {
         ];
         this.typeFilters.set(typeFilters);
         
+        const profileContentLanguages = Meteor.user() && Meteor.user().profile && Meteor.user().profile.contentLanguages;
         const langParam = FlowRouter.getQueryParam('lang');
-        const langFilters = langParam !== undefined ? langParam.split('-').filter(a => a) : Object.keys(TAPi18n.languages_names);
+        const langFilters = langParam !== undefined ? langParam.split('-').filter(a => a) : profileContentLanguages || Object.keys(TAPi18n.languages_names);
         this.langFilters.set(langFilters);
 
         this.searchTerm.set(FlowRouter.getQueryParam('q'));

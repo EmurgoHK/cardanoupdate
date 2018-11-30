@@ -435,6 +435,14 @@ export const updateProfile = new ValidatedMethod({
       type: String,
       optional: false
     },
+    contentLanguages: {
+      type: Array,
+      optional: true,
+    },
+    "contentLanguages.$": {
+      type: String,
+      optional: false,
+    },
     image: {
       type: String,
       optional: true
@@ -449,6 +457,7 @@ export const updateProfile = new ValidatedMethod({
     bio,
     language,
     image,
+    contentLanguages,
   }) {
     Meteor.users.update({
       _id: Meteor.userId()
@@ -458,6 +467,7 @@ export const updateProfile = new ValidatedMethod({
         'profile.bio': bio,
         'profile.language': language,
         'profile.picture': image,
+        'profile.contentLanguages': contentLanguages,
         'emails.0.address': email
       }
     }, {

@@ -24,6 +24,7 @@ Template.warnings.onCreated(function () {
             types: ['warnings'],
             searchTerm: Template.instance().searchFilter.get(),
             doLanguageGrouping: true,
+            languages: Meteor.user() && Meteor.user().profile && Meteor.user().profile.contentLanguages,
         }
     },
 })
