@@ -2,7 +2,7 @@
 	"warnings": {
 		"view": {
 			"edit": "Edit Scam",
-			"translate": "Translate Scam",
+			"translate": "Add a translation",
 			"by": "Posted by",
 			"comments": "Comments",
 			"success": "Successfully commented.",

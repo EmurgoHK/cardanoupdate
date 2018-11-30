@@ -31,7 +31,7 @@
 		},
 		"view": {
 			"edit": "Edit learning resource",
-			"translate": "Translate learning resource",
+			"translate": "Add a translation",
 			"by": "Posted by",
 			"tags": "Tags",
 			"level": "Difficulty Level",
