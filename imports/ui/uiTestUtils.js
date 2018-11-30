@@ -24,8 +24,11 @@ function waitForPageLoad(browser, url) {
 
 function clickUntil(browser, sel, fn, maxTries = 10) {
   if (!fn()) {
-    browser.click(sel);
-
+    try {
+      browser.click(sel);
+    } catch(ex) { 
+      // We can ignore click errors as they may have been covered by something else during a transition (e.g.: swal)
+    }
     try {
       browser.waitUntil(fn, 500)
     } catch(ex) {

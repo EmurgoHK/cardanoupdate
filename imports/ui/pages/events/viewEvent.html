@@ -5,7 +5,6 @@
         {{#if SubsCacheReady}}
         {{#with event}}
         {{#if isOwner}}<a href="/events/{{_id}}/edit" class="btn btn-primary btn-sm float-right"><i class="fas fa-edit"></i> {{_ "events.view.edit"}}</a>{{/if}}
-        <a href="/events/{{_id}}/translate" class="btn btn-primary btn-sm mr-2 float-right translate-link"><i class="fas fa-globe"></i> {{_ "events.view.translate"}}</a>
         <h1 class="card-title text-dark mt-3"><strong>{{headline}}</strong></h1>
         <h5 class="card-subtitle mb-3 mt-3">
           <ul class="list-inline">
@@ -28,6 +27,9 @@
               </div>
               <div class="col-sm-12 news-body pt-4 pl-3 pr-3 text-justify">
                 {{{md description}}}
+              </div>
+              <div class="col-sm-12 pl-3 pr-3 text-justify">
+                <a href="/events/{{_id}}/translate" class="btn btn-link translate-link">{{_ "events.view.translate"}}</a>
               </div>
             </div>
             <div class="row">
