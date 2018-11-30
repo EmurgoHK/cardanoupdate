@@ -37,7 +37,6 @@ Template.socialResourceCard.helpers({
   limitChars(val) {
     const limitedText = val && val.length > 50 ? val.slice(0, 50) + " ... " : val;
     const transformer = Template.currentData().textTransformer;
-    console.log(Template.currentData(), transformer(limitedText));
     if (transformer) return transformer(limitedText);
     return limitedText;
   },

@@ -61,8 +61,7 @@ describe('Search page', function() {
     browser.url('/');
     waitForPageLoad(browser, '/');
 
-    browser.setValue('.searchHeader', `${prefix}testquery`);
-    browser.submitForm('.searchHeader');
+    browser.setValue('.searchHeader', `${prefix}testquery\uE007`); // Pressing enter on the end
     
     waitForPageLoad(browser, `/search?q=${prefix}testquery`);
     assert.equal(browser.getValue('.searchBar #searchBox'),`${prefix}testquery`);
@@ -128,8 +127,8 @@ describe('Search page', function() {
       tags: [{ name: "testTag" }],
     });
 
-    browser.url(`/search?q=${prefix}&type=events-learn-projects-research-warnings`);
-    waitForPageLoad(browser, `/search?q=${prefix}&type=events-learn-projects-research-warnings`);
+    browser.url(`/search?q=${prefix}&type=events-learn-projects-research-warnings&lang=en`);
+    waitForPageLoad(browser, `/search?q=${prefix}&type=events-learn-projects-research-warnings&lang=en`);
 
     assert.equal(browser.isSelected('#eventsCheckbox'), true);
     assert.equal(browser.isSelected('#learnCheckbox'), true);
@@ -137,6 +136,10 @@ describe('Search page', function() {
     assert.equal(browser.isSelected('#researchCheckbox'), true);
     assert.equal(browser.isSelected('#scamsCheckbox'), true);
     assert.equal(browser.isSelected('#communityCheckbox'), false);
+
+    assert.equal(browser.isSelected('#enLangCheckbox'), true);
+    assert.equal(browser.isSelected('#srLangCheckbox'), false);
+
     browser.waitUntil(() => browser.getText('.searchBar ~ p').trim() === 'Found 0 items');
   });
   
@@ -158,6 +161,50 @@ describe('Search page', function() {
 
     browser.waitUntil(() => browser.getText('.searchBar ~ p').trim() === 'Found 0 items');
   });
+
+  it('should filter items based on the language type checkboxes', () => {
+    callMethod(browser, 'addTestSocialResource',{
+      Name: prefix + "Test Name OLD",
+      description: "Test description",
+      Resource_url: "https://twitter.com/hashtag/TestTwitterUrl",
+      tags: [{ name: "testTag" }],
+    });
+    callMethod(browser, 'addTestSocialResource',{
+      Name: prefix + "Test Name EN",
+      description: "Test description",
+      Resource_url: "https://twitter.com/hashtag/TestTwitterUrl",
+      tags: [{ name: "testTag" }],
+      language: 'en',
+    });
+    callMethod(browser, 'addTestSocialResource',{
+      Name: prefix + "Test Name SR",
+      description: "Test description",
+      Resource_url: "https://twitter.com/hashtag/TestTwitterUrl",
+      tags: [{ name: "testTag" }],
+      language: 'sr',
+    });
+    
+    browser.url(`/search?q=${prefix}`);
+    waitForPageLoad(browser, `/search?q=${prefix}`);
+    
+    browser.waitUntil(() => browser.getText('.searchBar ~ p').trim() === 'Found 3 items');
+    
+    browser.click('#srLangCheckbox');
+    waitForPageLoad(browser, `/search?q=${prefix}&lang=en`);
+    browser.waitUntil(() => browser.getText('.searchBar ~ p').trim() === 'Found 2 items');
+    
+    browser.click('#enLangCheckbox');
+    waitForPageLoad(browser, `/search?q=${prefix}&lang=`);
+    browser.waitUntil(() => browser.getText('.searchBar ~ p').trim() === 'Found 0 items');
+
+    browser.click('#srLangCheckbox');
+    waitForPageLoad(browser, `/search?q=${prefix}&lang=sr`);
+    browser.waitUntil(() => browser.getText('.searchBar ~ p').trim() === 'Found 1 items');
+
+    browser.click('#enLangCheckbox');
+    waitForPageLoad(browser, `/search?q=${prefix}&lang=en-sr`);
+    browser.waitUntil(() => browser.getText('.searchBar ~ p').trim() === 'Found 3 items');
+  });
   
   it('should filter items based on the content type filters in query', () => {
     callMethod(browser, 'addTestSocialResource',{
@@ -174,6 +221,49 @@ describe('Search page', function() {
     browser.url(`/search?q=${prefix}&type=events-learn-projects-research-warnings`);
     waitForPageLoad(browser, `/search?q=${prefix}&type=events-learn-projects-research-warnings`);
     browser.waitUntil(() => browser.getText('.searchBar ~ p').trim() === 'Found 0 items');
+  });
+
+  it('should filter items based on the language type checkboxes', () => {
+    callMethod(browser, 'addTestSocialResource',{
+      Name: prefix + "Test Name",
+      description: "Test description",
+      Resource_url: "https://twitter.com/hashtag/TestTwitterUrl",
+      tags: [{ name: "testTag" }],
+    });
+    callMethod(browser, 'addTestSocialResource',{
+      Name: prefix + "Test Name",
+      description: "Test description",
+      Resource_url: "https://twitter.com/hashtag/TestTwitterUrl",
+      tags: [{ name: "testTag" }],
+      language: 'en',
+    });
+    callMethod(browser, 'addTestSocialResource',{
+      Name: prefix + "Test Name",
+      description: "Test description",
+      Resource_url: "https://twitter.com/hashtag/TestTwitterUrl",
+      tags: [{ name: "testTag" }],
+      language: 'sr',
+    });
+    
+    browser.url(`/search?q=${prefix}`);
+    waitForPageLoad(browser, `/search?q=${prefix}`);
+    browser.waitUntil(() => browser.getText('.searchBar ~ p').trim() === 'Found 3 items');
+    
+    browser.url(`/search?q=${prefix}&lang=en`);
+    waitForPageLoad(browser, `/search?q=${prefix}&lang=en`);
+    browser.waitUntil(() => browser.getText('.searchBar ~ p').trim() === 'Found 2 items');
+    
+    browser.url(`/search?q=${prefix}&lang=`);
+    waitForPageLoad(browser, `/search?q=${prefix}&lang=`);
+    browser.waitUntil(() => browser.getText('.searchBar ~ p').trim() === 'Found 0 items');
+
+    browser.url(`/search?q=${prefix}&lang=sr`);
+    waitForPageLoad(browser, `/search?q=${prefix}&lang=sr`);
+    browser.waitUntil(() => browser.getText('.searchBar ~ p').trim() === 'Found 1 items');
+
+    browser.url(`/search?q=${prefix}&lang=en-sr`);
+    waitForPageLoad(browser, `/search?q=${prefix}&lang=en-sr`);
+    browser.waitUntil(() => browser.getText('.searchBar ~ p').trim() === 'Found 3 items');
   });
 
   it('should order items properly', () => {
