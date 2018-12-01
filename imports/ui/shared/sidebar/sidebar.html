@@ -67,8 +67,8 @@
         </li>
         {{/if}}
         <li class="nav-item">
-          <div class="change-language">
-              <select name="selectLanguage" id="selectLanguage" style="width:90%">
+          <div class="change-language nav-link">
+              <select name="selectLanguage" id="selectLanguage" class="form-control" style="width:100%">
                 {{#each languages}}
                   {{#if selected}}
                     <option value={{code}} selected>{{name}}</option>
