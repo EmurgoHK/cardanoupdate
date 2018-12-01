@@ -310,6 +310,34 @@ body .select2-dropdown {
   border-color: #8ad4ee;
 }
 
+.comment.card {
+  .card-body { padding: 1.25rem 1.25rem 0.5rem 1rem; }
+  > .comment.card {
+    box-shadow: none !important;
+    margin-bottom: 0.25rem;
+
+    > .card-body { padding: 1rem 1.25rem 0.5rem 0.75rem; border-top: 1px solid #cccccc; }
+  }
+  .comment-text {
+    p { margin-bottom: 0.5rem; }
+  }
+  .show-hide-action { margin-left: 0.5rem; }
+  .reply, .show-hide-action {
+    font-size: 0.75rem;
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .news-form {
+    .card {
+      box-shadow: none !important; margin-bottom: 0.25rem;
+
+      .card-body { padding: 0.25rem 1rem 1rem 0.25rem; }
+      p.text-danger { margin-bottom: 0.5rem; }
+    }
+  }
+}
+
 @media (max-width: 575.98px) {
   .sidebar-show .main::before, .aside-menu-show .main::before { position: fixed; }
 }
