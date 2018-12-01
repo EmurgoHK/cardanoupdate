@@ -190,6 +190,14 @@ Template.editProfile.helpers({
       }
     })
   },
+  hasContentLangsSet() {
+    let user = Meteor.users.findOne({_id : Meteor.userId()});
+    return !user || !user.profile || !user.profile.contentLanguages || user.profile.contentLanguages.length === Object.keys(TAPi18n.languages_names).length;
+  },
+  isContentLangChecked(code) {
+    let user = Meteor.users.findOne({_id : Meteor.userId()})
+    return !user || !user.profile || !user.profile.contentLanguages || user.profile.contentLanguages.includes(code);
+  },
   user(){
     let user = Meteor.users.findOne({_id : Meteor.userId()})
     return {
@@ -222,7 +230,8 @@ Template.editProfile.events({
       email: $('#userEmail').val(),
       bio: $('#bio').val(),
       language: $('#language').val(),
-      image: getFiles()[0] || ''
+      image: getFiles()[0] || '',
+      contentLanguages: Array.from($('.contentLang')).filter(a => a.checked).map(a=> a.value),
     }, (err, res) => {
       if (!err) {
         sessionStorage.setItem('uiLanguage', $('#language').val());

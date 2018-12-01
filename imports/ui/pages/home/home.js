@@ -50,6 +50,7 @@ Template.home.helpers({
     hidePastEvents: true,
     showAddNew: true,
     typeLimit: 6,
+    languages: Meteor.user() && Meteor.user().profile && Meteor.user().profile.contentLanguages,
     addNewCallback: () => {
       $('#newModal').modal('show')
     }

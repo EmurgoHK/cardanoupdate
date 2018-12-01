@@ -127,6 +127,11 @@ describe('Search page', function() {
       tags: [{ name: "testTag" }],
     });
 
+    
+    browser.url(`/search?q=${prefix}&type=events-learn-projects-research-warnings`);
+    waitForPageLoad(browser, `/search?q=${prefix}&type=events-learn-projects-research-warnings`);
+    browser.elements('.langCheckbox').value.forEach(e => assert(e.isSelected()));
+
     browser.url(`/search?q=${prefix}&type=events-learn-projects-research-warnings&lang=en`);
     waitForPageLoad(browser, `/search?q=${prefix}&type=events-learn-projects-research-warnings&lang=en`);
 
@@ -141,6 +146,48 @@ describe('Search page', function() {
     assert.equal(browser.isSelected('#srLangCheckbox'), false);
 
     browser.waitUntil(() => browser.getText('.searchBar ~ p').trim() === 'Found 0 items');
+  });
+
+  it('should properly set language filters based on user profile', () => {
+    browser.url(`/search?q=${prefix}`);
+    waitForPageLoad(browser, `/search?q=${prefix}`);
+    callMethod(browser, "generateTestUser");
+    const uid = browser.executeAsync(done =>
+      Meteor.loginWithPassword("testing", "testing", () => done(Meteor.userId()))
+    ).value;
+
+    callMethod(browser, 'updateProfile', {
+      name: 'Tester',
+      bio: 'asdf',
+      email: 'testing@testing.test',
+      language: 'en',
+      uId: uid,
+      contentLanguages: ['en'],
+    });
+    waitForPageLoad(browser, `/search?q=${prefix}`);
+    browser.waitUntil(() => browser.elements('.langFilter').value.every(e => e.isSelected() === (e.getValue() === 'en')));
+
+    callMethod(browser, 'updateProfile', {
+      name: 'Tester',
+      bio: 'asdf',
+      email: 'testing@testing.test',
+      language: 'sr',
+      uId: uid,
+      contentLanguages: ['sr'],
+    });
+    waitForPageLoad(browser, `/search?q=${prefix}`);
+    browser.waitUntil(() => browser.elements('.langFilter').value.every(e => e.isSelected() === (e.getValue() === 'sr')));
+
+    callMethod(browser, 'updateProfile', {
+      name: 'Tester',
+      bio: 'asdf',
+      email: 'testing@testing.test',
+      language: 'en',
+      uId: uid,
+      contentLanguages: ['en', 'sr'],
+    });
+    waitForPageLoad(browser, `/search?q=${prefix}`);
+    browser.waitUntil(() => browser.elements('.langFilter').value.every(e => e.isSelected()));
   });
   
   it('should filter items based on the content type checkboxes', () => {
