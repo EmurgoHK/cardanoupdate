@@ -5,12 +5,13 @@ import { FlowRouter } from 'meteor/kadira:flow-router'
 import './search.scss'
 
 Template.search.onCreated(function() {
-    this.filters= new ReactiveVar([]);
+    this.typeFilters= new ReactiveVar([]);
+    this.langFilters= new ReactiveVar(undefined);
     this.searchTerm = new ReactiveVar("");
     
     this.autorun(() => {
         const typeParam = FlowRouter.getQueryParam('type');
-        let filters =  typeParam !== undefined ? typeParam.split('-') : [
+        const typeFilters =  typeParam !== undefined ? typeParam.split('-').filter(a => a) : [
             'projects',
             'events',
             'learn',
@@ -18,23 +19,28 @@ Template.search.onCreated(function() {
             'warnings',
             'socialResources',
         ];
+        this.typeFilters.set(typeFilters);
+        
+        const langParam = FlowRouter.getQueryParam('lang');
+        const langFilters = langParam !== undefined ? langParam.split('-').filter(a => a) : Object.keys(TAPi18n.languages_names);
+        this.langFilters.set(langFilters);
+
         this.searchTerm.set(FlowRouter.getQueryParam('q'));
-        this.filters.set(filters);
     });
 })
 
 Template.search.helpers({
-    showProjects: () => Template.instance().filters.get().indexOf('projects') !== -1,
+    showProjects: () => Template.instance().typeFilters.get().indexOf('projects') !== -1,
     
-    showEvents: () => Template.instance().filters.get().indexOf('events') !== -1,
+    showEvents: () => Template.instance().typeFilters.get().indexOf('events') !== -1,
     
-    showLearn: () => Template.instance().filters.get().indexOf('learn') !== -1,
+    showLearn: () => Template.instance().typeFilters.get().indexOf('learn') !== -1,
     
-    showResearch: () => Template.instance().filters.get().indexOf('research') !== -1,
+    showResearch: () => Template.instance().typeFilters.get().indexOf('research') !== -1,
     
-    showWarnings: () => Template.instance().filters.get().indexOf('warnings') !== -1,
+    showWarnings: () => Template.instance().typeFilters.get().indexOf('warnings') !== -1,
     
-    showSocialResources: () => Template.instance().filters.get().indexOf('socialResources') !== -1,
+    showSocialResources: () => Template.instance().typeFilters.get().indexOf('socialResources') !== -1,
 
     searchArgs() {
         const instance = Template.instance();
@@ -51,35 +57,60 @@ Template.search.helpers({
         const instance = Template.instance();
         return {
             searchTerm: instance.searchTerm.get(),
-            types: instance.filters.get(),
+            types: instance.typeFilters.get(),
             displayTypeLabel: true,
+            languages: instance.langFilters.get(),
         }
+    },
+
+    isLangChecked: (code) => Template.instance().langFilters.get().indexOf(code) !== -1,
+    languages: () => {
+        return Object.keys(TAPi18n.languages_names).map(key => ({
+            code: key,
+            name: TAPi18n.languages_names[key][1],
+        }));
     },
 })
 
 Template.search.events({
     'click #projectCheckbox': (event, templateInstance) => {
-        toggleFilter(templateInstance, 'projects');
+        toggleTypeFilter(templateInstance, 'projects');
     },
     'click #eventsCheckbox': (event, templateInstance) => {
-        toggleFilter(templateInstance, 'events');
+        toggleTypeFilter(templateInstance, 'events');
     },
     'click #learnCheckbox': (event, templateInstance) => {
-        toggleFilter(templateInstance, 'learn');
+        toggleTypeFilter(templateInstance, 'learn');
     },
     'click #researchCheckbox': (event, templateInstance) => {
-        toggleFilter(templateInstance, 'research');
+        toggleTypeFilter(templateInstance, 'research');
     },
     'click #scamsCheckbox': (event, templateInstance) => {
-        toggleFilter(templateInstance, 'warnings');
+        toggleTypeFilter(templateInstance, 'warnings');
     },
     'click #communityCheckbox': (event, templateInstance) => {
-        toggleFilter(templateInstance, 'socialResources');
+        toggleTypeFilter(templateInstance, 'socialResources');
+    },
+    'click .langFilter': (event, templateInstance) => {
+        const filter = event.target.value;
+
+        const filters = templateInstance.langFilters.get();
+        const index = filters.indexOf(filter);
+        // We push filter in if it wasn't present and remove it if it was
+        if (index === -1)
+            filters.push(filter)
+        else 
+            filters.splice(index, 1);
+        
+        templateInstance.langFilters.set(filters);
+        // We save to a queryparam to preserve it after refresh
+        // It's sorted to have consistent urls for filters
+        FlowRouter.setQueryParams({'lang': filters.sort().join('-')});
     }
 })
 
-function toggleFilter(templateInstance, filter) {
-    const filters = templateInstance.filters.get();
+function toggleTypeFilter(templateInstance, filter) {
+    const filters = templateInstance.typeFilters.get();
     const index = filters.indexOf(filter);
     
     // We push filter in if it wasn't present and remove it if it was
@@ -88,7 +119,7 @@ function toggleFilter(templateInstance, filter) {
     else 
         filters.splice(index, 1);
     
-    templateInstance.filters.set(filters);
+    templateInstance.typeFilters.set(filters);
 
     // We save to a queryparam to preserve it after refresh
     // It's sorted to have consistent urls for filters

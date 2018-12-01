@@ -37,6 +37,8 @@ if (Meteor.isClient) {
   import '/imports/ui/pages/learn/learnForm'
   import '/imports/ui/pages/learn/viewLearn'
 
+  import '/imports/ui/pages/translations/translations'
+
   import '/imports/ui/pages/events/events'
   import '/imports/ui/pages/events/eventForm'
   import '/imports/ui/pages/events/viewEvent'
@@ -50,6 +52,8 @@ if (Meteor.isClient) {
   import '/imports/ui/pages/moderator/pardon/pardon'
   import '/imports/ui/pages/moderator/pardon/pardonUser'
   import '/imports/ui/pages/addNewModal/addNewModal'
+  import '/imports/ui/pages/moderator/translations/translation'
+  import '/imports/ui/pages/moderator/translations/translations'
 
   import '/imports/ui/pages/search/search'
 }
@@ -214,6 +218,26 @@ FlowRouter.route('/tags', {
       header: 'header',
       sidebar: 'sidebar',
       main: 'tags'
+    })
+  }
+})
+
+FlowRouter.route('/translations', {
+  name: 'translations',
+  breadcrumb: (params) => {
+    return ({
+      text: 'translations',
+      urls: ['/translations']
+    })
+  },
+  subscriptions: function(params, queryParams) {
+    this.register('translations', Meteor.subscribe('translations'))
+  },
+  action: () => {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'translations'
     })
   }
 })
@@ -1057,6 +1081,34 @@ modRoutes.route('/changes', {
     		main: 'changes'
     	})
 	}
+})
+
+modRoutes.route('/translations', {
+  name: 'modTranslations',
+  subscriptions: function(params, queryParams) {
+      this.register('translations', Meteor.subscribe('translations'))
+    },
+  action: () => {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+        main: 'modTranslations'
+      })
+  }
+})
+
+modRoutes.route('/translations/:id', {
+  name: 'modTranslation',
+  subscriptions: function(params, queryParams) {
+      this.register('translations', Meteor.subscribe('translations'))
+    },
+  action: () => {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+        main: 'modTranslation'
+      })
+  }
 })
 
 modRoutes.route('/candidates', {

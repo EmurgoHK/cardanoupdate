@@ -23,7 +23,7 @@ Template.warnings.onCreated(function () {
         return {
             types: ['warnings'],
             searchTerm: Template.instance().searchFilter.get(),
-            doLanguageFilter: true,
+            doLanguageGrouping: true,
         }
     },
 })

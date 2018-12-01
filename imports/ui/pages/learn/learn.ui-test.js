@@ -1,61 +1,88 @@
 const assert = require('assert')
-const baseUrl = 'http://localhost:3000'
 
-const path = require('path')
+const { waitForPageLoad, callMethod, clickUntil } = require("../../uiTestUtils");
+
+const baseUrl = 'http://localhost:3000'
 
 describe('Learn page', function () {
     before(() => {
-        browser.url(`${baseUrl}/`)
-        browser.pause(5000)
-
-        browser.execute(() => {
-            Meteor.call('generateTestUser', (err, data) => {})
-
-            return 'ok'
-        })
-
-        browser.pause(5000)
-
-        browser.execute(() => Meteor.loginWithPassword('testing', 'testing'))
-
-        browser.pause(10000)
-    })
+        browser.url(`${baseUrl}/`);
+        waitForPageLoad(browser, `/`);
+    
+        callMethod(browser, "generateTestUser");
+    
+        browser.executeAsync(done =>
+          Meteor.loginWithPassword("testing", "testing", done)
+        );
+    });
 
     it('user can add a new learning item', function () {
         browser.url(`${baseUrl}/learn`)
-        browser.pause(5000)
+        waitForPageLoad(browser, '/learn');
 
         browser.click('#new-learn')
-
-        browser.pause(3000)
+        waitForPageLoad(browser, '/learn/new');
 
         browser.setValue('#title', 'Title test')
-        browser.pause(1000)
-
         browser.setValue('#summary', 'Summary test')
-        browser.pause(1000)
-
         browser.click('input[name="difficultyLevel"]')
-        browser.pause(2000)
-
-        browser.execute(() => window.grecaptcha.getResponse = () => '_test_captcha_')
-        browser.pause(2000)
-
-        browser.click('.new-learn')
-        browser.pause(8000)
+        
+        clickUntil(browser, '.new-learn', () => browser.getText('#contentError'));
 
         assert(browser.execute(() => $('#contentError').text().trim() === 'Content is required').value, true)
 
         browser.execute(() => { window.mde.value('Content test') })
-        browser.pause(1000)
 
-        browser.click('.new-learn')
-        browser.pause(3000)
+        clickUntil(browser, '.new-learn', () => browser.getUrl().endsWith('/learn'));
+    });
 
-        assert(browser.execute(() => FlowRouter.current().route.name === 'learn').value, true)
-    })
+    it("users can translate a research", () => {
+        browser.url('/learn/title-test');
+        waitForPageLoad(browser, '/learn/title-test');
+
+        browser.scroll(".translate-link", -1000, -1000);
+        browser.pause(10);
+
+        const href = browser.getAttribute(".translate-link", "href");
+        browser.click(".translate-link");
+        waitForPageLoad(browser, href);
+
+        browser.setValue('#title', 'Title Test SR')
+        browser.setValue('#summary', 'Summary Test SR')
+
+        clickUntil(browser, '.new-learn', () => browser.getUrl().endsWith('/learn'));
+    });
+
+    it("users can view different translations of a research", () => {
+        waitForPageLoad(browser, "/learn");
+        const card = browser
+            .element('a[href="/learn/title-test"]')
+            .$("..")
+            .$("..");
+        card.click(".flagItem > i");
+
+        // Testing to see if this is actually in the list
+        card.waitForEnabled('a[href="/learn/title-test-sr"]');
+        card.click('a[href="/learn/title-test-sr"]');
+
+        waitForPageLoad(browser, "/learn/title-test-sr");
+
+        assert.equal(browser.getText('h1.card-title'), 'Title Test SR');
+        assert.equal(browser.getText('.summary').trim(), 'Summary Test SR');
+        assert.equal(browser.getText('.content').trim(), 'Content test');
+
+        browser.click(".flagItem > i");
+        // Testing to see if this is actually in the list
+        browser.waitForEnabled('a[href="/learn/title-test"]');
+        browser.click('a[href="/learn/title-test"]');
+
+        waitForPageLoad(browser, "/learn/title-test");
+    });
 
     it('user can edit a learning resource he/she created', () => {
+        browser.url('/learn');
+        waitForPageLoad(browser, '/learn');
+
         browser.execute(() => $($('.fa-ellipsis-h').get(0)).trigger('click'))
         browser.pause(3000)
 
@@ -88,7 +115,7 @@ describe('Learn page', function () {
     })
 
     it('user can comment', () => {
-        browser.setValue('.comment-text', 'Test comment')
+        browser.setValue('textarea.comment-text', 'Test comment')
         browser.pause(2000)
 
         browser.click('.save-comment')
@@ -101,7 +128,7 @@ describe('Learn page', function () {
         browser.click('.reply')
         browser.pause(2000)
 
-        browser.setValue(`.comments .comment-text`, 'Test reply')
+        browser.setValue(`.comments textarea.comment-text`, 'Test reply')
         browser.pause(1000)
 
         browser.click('.comments .save-comment')
@@ -117,7 +144,7 @@ describe('Learn page', function () {
         browser.click('.edit-mode')
         browser.pause(2000)
 
-        browser.setValue(`.comments .comment-text`, 'Test comment 2')
+        browser.setValue(`.comments textarea.comment-text`, 'Test comment 2')
         browser.pause(1000)
 
         browser.click('.comments .save-comment')
@@ -163,6 +190,17 @@ describe('Learn page', function () {
 
         let count = browser.execute(() => $('.card').length).value
 
+        // Removing original
+        browser.execute(() => $($('.fa-ellipsis-h').get(0)).trigger('click'))
+        browser.pause(3000)
+
+        browser.click('#js-remove')
+        browser.pause(2000)
+
+        browser.click('.swal2-confirm')
+        browser.pause(3000)
+
+        // Removing translation
         browser.execute(() => $($('.fa-ellipsis-h').get(0)).trigger('click'))
         browser.pause(3000)
 

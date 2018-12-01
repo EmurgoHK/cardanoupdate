@@ -65,3 +65,8 @@ import '/imports/api/translationGroups/server/publications';
 
 // config
 import '/imports/api/config/server/publications' 
+
+// translation api
+import '/imports/api/translations/methods'
+import '/imports/api/translations/server/startup'
+import '/imports/api/translations/server/publications'

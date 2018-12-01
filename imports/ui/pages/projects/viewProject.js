@@ -20,7 +20,7 @@ Template.viewProject.onCreated(function() {
 		this.subscribe('projects.item', FlowRouter.getParam('slug'))
         this.subscribe('users')
 
-        this.subscribe('translationGroups.itemSlug', FlowRouter.getParam('slug'));
+        this.subscribe('translationGroups.itemSlug', {slug: FlowRouter.getParam('slug'), contentType: 'project'});
     });
 })
 

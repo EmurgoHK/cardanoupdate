@@ -11,6 +11,7 @@
     "@coreui/coreui": "2.0.0",
     "@coreui/coreui-plugin-chartjs-custom-tooltips": "1.2.0",
     "@coreui/icons": "^0.1.1",
+    "@octokit/rest": "^16.1.0",
     "assert": "^1.4.1",
     "bcrypt": "^3.0.1",
     "bootstrap": "^4.1.1",
@@ -19,6 +20,7 @@
     "daterangepicker": "^3.0.3",
     "fibers": "^1.0.15",
     "flag-icon-css": "3.0.0",
+    "git-commit-push-via-github-api": "^1.0.1",
     "jquery": "3.3.1",
     "lodash": "^4.17.11",
     "marked": "^0.5.0",
@@ -32,7 +34,8 @@
     "simpl-schema": "^1.4.3",
     "simplemde": "^1.11.2",
     "sweetalert": "^2.1.0",
-    "sweetalert2": "^7.26.29"
+    "sweetalert2": "^7.26.29",
+    "xss": "^1.0.3"
   },
   "devDependencies": {
     "chai": "^4.1.2",

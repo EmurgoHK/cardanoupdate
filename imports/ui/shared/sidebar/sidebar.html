@@ -30,6 +30,9 @@
           <a class="nav-link" href="/faqs">
             <i class="nav-icon icon-book-open"></i> {{_ "shared.sidebar.faqs"}}
           </a>
+          <a class="nav-link {{activeClass 'translations'}}" href="/translations">
+            <i class="nav-icon icon-book-open"></i> {{_ "shared.sidebar.translations"}}
+          </a>
         </li>
         {{#if isModerator}}
         <li class="nav-item nav-dropdown open">
@@ -57,6 +60,9 @@
                 <i class="nav-icon fas fa-users"></i> {{_ "shared.sidebar.candidates"}}
               </a>
             </li>
+            <a class="nav-link {{activeClass 'modTranslations'}}" href="/moderator/translations">
+            <i class="nav-icon icon-book-open"></i> {{_ "shared.sidebar.translations"}}
+          </a>
           </ul>
         </li>
         {{/if}}

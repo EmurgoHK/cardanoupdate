@@ -16,7 +16,7 @@ Template.viewLearn.onCreated(function() {
 		this.subscribe('learn.item', FlowRouter.getParam('slug'))
 		this.subscribe('users')
 
-		this.subscribe('translationGroups.itemSlug', FlowRouter.getParam('slug'));
+		this.subscribe('translationGroups.itemSlug', {slug: FlowRouter.getParam('slug'), contentType: 'learn'});
 	})
 
 	this.message = new ReactiveVar('')

@@ -333,6 +333,10 @@ export const addTestSocialResource = new ValidatedMethod({
                 type: Number,
                 optional: true,
             },
+            language: {
+                type: String,
+                optional: true, // This is optional to allow adding resources in test that look like ones from before translations
+            },
         }).validator({
             clean: true
         }),
