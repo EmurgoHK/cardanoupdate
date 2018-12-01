@@ -232,11 +232,11 @@ Template.searchResults.helpers({
       ) {
         case "title-asc":
           return results.sort((a, b) => {
-            a.titleText ? a.titleText.localeCompare(b.titleText) : 0;
+            return a.titleText ? a.titleText.localeCompare(b.titleText) : 0;
           });
         case "title-desc":
           return results.sort((a, b) => {
-            b.titleText ? b.titleText.localeCompare(a.titleText) : 0;
+            return b.titleText ? b.titleText.localeCompare(a.titleText) : 0;
           });
       }
     } else {
