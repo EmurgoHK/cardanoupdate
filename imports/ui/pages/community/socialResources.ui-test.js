@@ -1,16 +1,15 @@
 const assert = require("assert");
-const baseUrl = "http://localhost:3000";
 
-const {waitForPageLoad, callMethod} = require('../../uiTestUtils');
+const { waitForPageLoad, callMethod, clickUntil } = require("../../uiTestUtils");
+
+const baseUrl = "http://localhost:3000";
 
 describe("Communities page", function() {
   before(() => {
     browser.url(`${baseUrl}/`);
-    browser.waitForExist(".app-header");
+    waitForPageLoad(browser, `/`);
 
-    browser.executeAsync(done => {
-      Meteor.call("generateTestUser", done);
-    });
+    callMethod(browser, "generateTestUser");
 
     browser.executeAsync(done =>
       Meteor.loginWithPassword("testing", "testing", done)
@@ -52,10 +51,12 @@ describe("Communities page", function() {
   it("new resource appears in list", () => {
     browser.url(`${baseUrl}/community`);
     waitForPageLoad(browser, "/community");
+    
     const newResourceId = callMethod(browser, "addSocialResource", {
       Name: "Test Name for list appearance test",
       description: "Test description for list test",
       Resource_url: "https://twitter.com/hashtag/TestTwitterUrl",
+      language: 'en',
       tags: [{ name: "testTag" }]
     });
 
@@ -85,13 +86,79 @@ describe("Communities page", function() {
       "Wrong class on card-link"
     );
   });
+  
+  it("users can translate a community", () => {
+    const newResourceId = callMethod(browser, "addSocialResource", {
+      Name: "Test Name for view appearance test",
+      description: "Test description for view test",
+      Resource_url: "https://twitter.com/hashtag/TestTwitterUrl",
+      language: 'en',
+      tags: [{ name: "testTag" }]
+    });
+
+    browser.url(`${baseUrl}/community/${newResourceId}`);
+    waitForPageLoad(browser, `/community/${newResourceId}`);
+
+    const href = browser.getAttribute(".translate-link", "href");
+    browser.click(".translate-link");
+    waitForPageLoad(browser, href);
+
+    browser.setValue("input#Name", "Name Test SR");
+
+    clickUntil(browser, '.add-socialResource', () => browser.getUrl().endsWith('/community'));
+  });
+
+  it("users can view different translations of a community", () => {
+    const origResourceId = callMethod(browser, "addSocialResource", {
+      Name: "Test Name for translation view test",
+      description: "Test description for translation view test",
+      Resource_url: "https://twitter.com/hashtag/TestTwitterUrl",
+      language: 'en',
+      tags: [{ name: "testTag" }]
+    });
+
+    const newResourceId = callMethod(browser, "addSocialResource", {
+      Name: "Test Name for translation view test SR",
+      description: "Test description for translation view test SR",
+      Resource_url: "https://twitter.com/hashtag/TestTwitterUrl",
+      language: 'sr',
+      original: origResourceId,
+      tags: [{ name: "testTag" }]
+    });
+
+    browser.url(`${baseUrl}/community`);
+    waitForPageLoad(browser, "/community");
+
+    const card = browser
+        .element(`a[href="/community/${origResourceId}"]`)
+        .$("..")
+        .$("..");
+    card.click(".flagItem > i");
+
+    // Testing to see if this is actually in the list
+    card.waitForEnabled(`a[href="/community/${newResourceId}"]`);
+    card.click(`a[href="/community/${newResourceId}"]`);
+
+    waitForPageLoad(browser, `/community/${newResourceId}`);
+
+    assert.equal(browser.getText('h1.card-title'), 'Test Name for translation view test SR');
+/*
+    browser.click(".flagItem > i");
+
+    // Testing to see if this is actually in the list
+    card.waitForEnabled(`a[href="/community/${origResourceId}"]`);
+    card.click(`a[href="/community/${origResourceId}"]`);
+
+    waitForPageLoad(browser, `/community/${origResourceId}`);*/
+  });
 
   it("users can view social resources", () => {
     const newResourceId = callMethod(browser, "addSocialResource", {
       Name: "Test Name for view appearance test",
       description: "Test description for view test",
       Resource_url: "https://twitter.com/hashtag/TestTwitterUrl",
-      tags: [{ name: "testTag" }]
+      language: 'en',
+      tags: [{ name: "testTag" }],
     });
 
     browser.url(`${baseUrl}/community/${newResourceId}`);
@@ -132,6 +199,7 @@ describe("Communities page", function() {
       Name: "Test Name for edit test",
       description: "Test description for edit test",
       Resource_url: "https://twitter.com/hashtag/TestTwitterUrl",
+      language: 'en',
       tags: [{ name: "testTag" }]
     });
 
@@ -189,6 +257,7 @@ describe("Communities page", function() {
       Name: "Test Name for edit test",
       description: "Test description for edit test",
       Resource_url: "https://twitter.com/hashtag/TestTwitterUrl",
+      language: 'en',
       tags: [{ name: "testTag" }]
     });
 
@@ -198,7 +267,7 @@ describe("Communities page", function() {
     const commentAreas = browser.elements(".comment-area").value;
 
     for (const elem of commentAreas) {
-      elem.$(".comment-text").setValue("test comment Lorem Ipsum");
+      elem.$("textarea.comment-text").setValue("test comment Lorem Ipsum");
       elem.$(".save-comment").click();
 
       elem.waitUntil(() => {
@@ -210,9 +279,10 @@ describe("Communities page", function() {
 
   it("user can remove a community he/she created", () => {
     const newResourceId = callMethod(browser, "addSocialResource", {
-      Name: "Test Name by other user",
-      description: "Test description by other user",
+      Name: "Test Name for removal",
+      description: "Test description for removal",
       Resource_url: "https://twitter.com/hashtag/TestTwitterUrl",
+      language: 'en',
       tags: [{ name: "testTag" }]
     });
 
@@ -244,7 +314,7 @@ describe("Communities page", function() {
       Name: "Test Name for edit test",
       description: "Test description for edit test",
       Resource_url: "https://twitter.com/hashtag/TestTwitterUrl",
-      tags: [{ name: "testTag" }],
+      tags: [{ name: "testTag" }]
     });
 
     browser.url(`${baseUrl}/community`);
@@ -262,7 +332,9 @@ describe("Communities page", function() {
     browser.waitForEnabled(".swal2-content .btn#spam");
     browser.click(".swal2-content .btn#spam");
 
-    browser.waitUntil(() => !browser.isVisible('.swal2-content'));
-    browser.waitUntil(() => browser.getText('.noty_body').startsWith('Successfully flagged.'));
+    browser.waitUntil(() => !browser.isVisible(".swal2-content"));
+    browser.waitUntil(() =>
+      browser.getText(".noty_body").startsWith("Successfully flagged.")
+    );
   });
 });

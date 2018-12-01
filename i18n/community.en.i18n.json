@@ -25,7 +25,7 @@
 		},
 		"view": {
 			"edit": "Edit Community",
-			"translate": "Translate Community",
+			"translate": "Add a translation",
 			"by": "Posted by",
 			"tags": "Tags",
 			"go_to": "Go to",

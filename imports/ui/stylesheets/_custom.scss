@@ -341,3 +341,7 @@ body .select2-dropdown {
 @media (max-width: 575.98px) {
   .sidebar-show .main::before, .aside-menu-show .main::before { position: fixed; }
 }
+
+.translate-link.btn.btn-link {
+    padding: 0;
+}

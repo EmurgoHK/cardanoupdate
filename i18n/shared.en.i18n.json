@@ -34,7 +34,8 @@
 			"flagged": "Flagged items",
 			"pardon": "Pardon requests",
 			"changes": "Proposed changes",
-			"candidates": "Candidates"
+			"candidates": "Candidates",
+			"translations": "Translations"
 		},
 		"tags": {
 			"tags": "Tags",

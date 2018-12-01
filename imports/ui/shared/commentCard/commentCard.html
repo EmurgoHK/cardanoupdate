@@ -18,7 +18,7 @@
           {{#if editMode}}
             {{> commentForm parentId=parentId newsId=newsId id=_id postType=postType type=type onSuccess=editSuccess onCancel=editCancel text=text}}
           {{else}}
-            <span class="comment-text">{{{md text}}}</span>
+            <span class="comment-message">{{{md text}}}</span>
           {{/if}}
         </p>
       	<div>

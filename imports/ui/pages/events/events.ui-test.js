@@ -1,60 +1,88 @@
 const assert = require('assert')
+
+const { waitForPageLoad, callMethod, clickUntil } = require("../../uiTestUtils");
+
 const baseUrl = 'http://localhost:3000'
 
 describe('Events page', function () {
     before(() => {
-        browser.url(`${baseUrl}/`)
-        browser.pause(5000)
-
-        browser.execute(() => {
-            Meteor.call('generateTestUser', (err, data) => {})
-            return 'ok'
-        })
-
-        browser.pause(5000)
-
-        browser.execute(() => Meteor.loginWithPassword('testing', 'testing'))
-
-        browser.pause(10000)
-    })
+        browser.url(`${baseUrl}/`);
+        waitForPageLoad(browser, `/`);
+    
+        callMethod(browser, "generateTestUser");
+    
+        browser.executeAsync(done =>
+          Meteor.loginWithPassword("testing", "testing", done)
+        );
+    });
 
     it('user can add a new event', function () {
-        browser.url(`${baseUrl}/events`)
-        browser.pause(5000)
+        browser.url(`${baseUrl}/events`);
+        waitForPageLoad(browser, '/events');
 
-        browser.click('#add-event')
+        browser.click('#add-event');
+        waitForPageLoad(browser, '/events/new');
 
-        browser.pause(3000)
+        browser.setValue('#headline', 'Headline Test');
+        browser.click('.add-event');
 
-        browser.setValue('#headline', 'Headline Test')
-        browser.pause(1000)
+        clickUntil(browser, '.add-event', () => browser.getText('#descriptionError'));
+        assert.equal(browser.getText('#descriptionError').trim(), 'Description is required');
 
-        browser.click('.add-event')
-        browser.pause(2000)
+        browser.execute(() => { window.mde.value('Description Test') });
+        browser.setValue('#location', 'Novi Sad, S');
+        
+        browser.waitForEnabled('.pac-item');
+        browser.click('.pac-item');
+        browser.setValue('#rsvp', 'test');
+        
+        clickUntil(browser, '.add-event', () => browser.getUrl().endsWith('/events'));
+    });
 
-        assert(browser.execute(() => $('#descriptionError').text().trim() === 'Description is required').value, true)
+    it("users can translate an event", () => {
+        browser.url('/events/headline-test');
+        waitForPageLoad(browser, '/events/headline-test');
 
-        browser.execute(() => { window.mde.value('Description Test') })
-        browser.pause(1000)
+        browser.scroll(".translate-link", -1000, -1000);
+        browser.pause(10);
 
-        browser.setValue('#location', 'Novi Sad, S')
-        browser.pause(1000)
-        browser.click('.pac-item')
-        browser.pause(2000)
+        const href = browser.getAttribute(".translate-link", "href");
+        browser.click(".translate-link");
+        waitForPageLoad(browser, href);
 
-        browser.setValue('#rsvp', 'test')
-        browser.pause(1000)
+        browser.setValue('#headline', 'Headline Test SR')
 
-        browser.execute(() => window.grecaptcha.getResponse = () => '_test_captcha_')
-        browser.pause(2000)
+        clickUntil(browser, '.add-event', () => browser.getUrl().endsWith('/events'));
+    });
 
-        browser.click('.add-event')
-        browser.pause(3000)
+    it("users can view different translations of an event", () => {
+        waitForPageLoad(browser, "/events");
+        const card = browser
+            .element('a[href="/events/headline-test"]')
+            .$("..")
+            .$("..");
+        card.click(".flagItem > i");
 
-        assert(browser.execute(() => FlowRouter.current().route.name === 'events').value, true)
-    })
+        // Testing to see if this is actually in the list
+        card.waitForEnabled('a[href="/events/headline-test-sr"]');
+        card.click('a[href="/events/headline-test-sr"]');
+
+        waitForPageLoad(browser, "/events/headline-test-sr");
+
+        assert.equal(browser.getText('h1.card-title'), 'Headline Test SR');
+
+        browser.click(".flagItem > i");
+        // Testing to see if this is actually in the list
+        browser.waitForEnabled('a[href="/events/headline-test"]');
+        browser.click('a[href="/events/headline-test"]');
+
+        waitForPageLoad(browser, "/events/headline-test");
+    });
 
     it('user can edit a event he/she created', () => {
+        browser.url('/events');
+        waitForPageLoad(browser, '/events');
+
         browser.execute(() => $($('.fa-ellipsis-h').get(0)).trigger('click'))
         browser.pause(3000)
 
@@ -83,7 +111,7 @@ describe('Events page', function () {
     })
 
     it('user can comment', () => {
-        browser.setValue('.comment-text', 'Test comment')
+        browser.setValue('textarea.comment-text', 'Test comment')
         browser.pause(2000)
 
         browser.click('.save-comment')
@@ -96,7 +124,7 @@ describe('Events page', function () {
         browser.click('.reply')
         browser.pause(2000)
 
-        browser.setValue(`.comments .comment-text`, 'Test reply')
+        browser.setValue(`.comments textarea.comment-text`, 'Test reply')
         browser.pause(1000)
 
         browser.click('.comments .save-comment')
@@ -112,7 +140,7 @@ describe('Events page', function () {
         browser.click('.edit-mode')
         browser.pause(2000)
 
-        browser.setValue(`.comments .comment-text`, 'Test comment 2')
+        browser.setValue(`.comments textarea.comment-text`, 'Test comment 2')
         browser.pause(1000)
 
         browser.click('.comments .save-comment')
@@ -158,8 +186,19 @@ describe('Events page', function () {
 
         let count = browser.execute(() => $('.card').length).value
 
+        // Removing original 
         browser.execute(() => $($('.fa-ellipsis-h').get(0)).trigger('click'))
+        browser.pause(1000)
+
+        browser.click('#js-remove')
         browser.pause(2000)
+
+        browser.click('.swal2-confirm')
+        browser.pause(3000)
+
+        // Removing translation 
+        browser.execute(() => $($('.fa-ellipsis-h').get(0)).trigger('click'))
+        browser.pause(1000)
 
         browser.click('#js-remove')
         browser.pause(2000)

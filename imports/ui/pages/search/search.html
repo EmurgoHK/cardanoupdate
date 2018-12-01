@@ -29,6 +29,14 @@
                         <label class="form-check-label" for="scamsCheckbox">{{_ "search.scams"}}</label>
                     </div>
                 </div>
+                <div class="row justify-content-center">
+                    {{#each lang in languages}}
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input langFilter" type="checkbox" value="{{lang.code}}" id="{{lang.code}}LangCheckbox" checked={{isLangChecked lang.code}}>
+                            <label class="form-check-label" for="{{lang.code}}LangCheckbox">{{ lang.name }}</label>
+                        </div>
+                    {{/each}}
+                </div>
             </div>
         </div>
         <br />

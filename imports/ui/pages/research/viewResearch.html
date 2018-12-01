@@ -5,7 +5,6 @@
         {{#if SubsCacheReady}}
           {{#with research}}
           {{#if isOwner}}<a href="/research/{{slug}}/edit" class="btn btn-primary btn-sm float-right"><i class="fas fa-edit"></i> {{_ "research.view.edit"}}</a>{{/if}}
-          <a href="/research/{{slug}}/translate" class="btn btn-primary btn-sm mr-2 float-right"><i class="fas fa-globe"></i> {{_ "research.view.translate"}}</a>
           <h1 class="card-title text-dark mt-3"><strong>{{headline}}</strong></h1>
           <h5 class="card-subtitle mb-3 mt-3">
               <ul class="list-inline">
@@ -17,8 +16,11 @@
             <div class="card">
               <div class="card-body">
                 <div class="row">
-                  <div class="col-sm-12 abstract mt-3 mb-3 text-justify">
+                  <div class="col-sm-12 abstract mt-3 text-justify">
                     {{abstract}}
+                  </div>
+                  <div class="col-sm-12 mb-3 text-justify">
+                    <a href="/research/{{slug}}/translate" class="btn btn-link translate-link">{{_ "research.view.translate"}}</a>
                   </div>
                 </div>
 

@@ -26,7 +26,7 @@
 		},
 		"view": {
 			"edit": "Edit Event",
-			"translate": "Translate Event",
+			"translate": "Add a translation",
 			"by": "Added by",
 			"to": "to",
 			"rsvp": "RSVP Link",

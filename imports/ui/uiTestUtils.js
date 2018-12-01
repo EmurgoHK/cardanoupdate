@@ -10,19 +10,38 @@ function callMethod(browser, methodName, ...args) {
     ...args
   );
 
-  if (result.value.err) throw result.err;
+  if (result.value.err) throw result.value.err;
 
   return result.value.res;
 }
 
 function waitForPageLoad(browser, url) {
-  browser.waitUntil(() => browser.getUrl() === baseUrl + url);
+  browser.waitUntil(() => browser.getUrl().endsWith(url));
   browser.executeAsync(done => FlowRouter.subsReady(done));
   browser.executeAsync(done => Tracker.afterFlush(done));
   browser.pause(500); // TODO: figure out a method to wait for event subscriptions/dataloading to finish
 }
 
+function clickUntil(browser, sel, fn, maxTries = 10) {
+  if (!fn()) {
+    try {
+      browser.click(sel);
+    } catch(ex) { 
+      // We can ignore click errors as they may have been covered by something else during a transition (e.g.: swal)
+    }
+    try {
+      browser.waitUntil(fn, 500)
+    } catch(ex) {
+      if (maxTries > 0)
+        clickUntil(browser, sel, fn, maxTries - 1);
+      else 
+        throw ex;
+    }
+  }
+}
+
 module.exports = {
   callMethod,
   waitForPageLoad,
+  clickUntil,
 }

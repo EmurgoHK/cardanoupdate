@@ -5,7 +5,6 @@
         {{#if SubsCacheReady}}
           {{#with learn}}
           {{#if isOwner}}<a href="/learn/{{slug}}/edit" class="btn btn-primary btn-sm float-right"><i class="fas fa-edit"></i> {{_ "learn.view.edit"}}</a>{{/if}}
-          <a href="/learn/{{slug}}/translate" class="btn btn-primary btn-sm mr-2 float-right"><i class="fas fa-globe"></i> {{_ "learn.view.translate"}}</a>
           <h1 class="card-title text-dark mt-3"><strong>{{title}}</strong></h1>
           <h5 class="card-subtitle mb-3 mt-3">
               <ul class="list-inline">
@@ -23,8 +22,11 @@
                       {{{md summary}}}
                     </div>
                   {{/if}}
-                  <div class="col-sm-12 content mt-3 mb-3 text-justify">
+                  <div class="col-sm-12 content mt-3 text-justify">
                     {{{md content}}}
+                  </div>
+                  <div class="col-sm-12 mb-3 text-justify">
+                    <a href="/learn/{{slug}}/translate" class="btn btn-link translate-link">{{_ "learn.view.translate"}}</a>
                   </div>
                 </div>
                 {{#if tags.length}}

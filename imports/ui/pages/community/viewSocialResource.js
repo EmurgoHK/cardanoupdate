@@ -13,7 +13,7 @@ Template.viewSocialResourceTemp.onCreated(function() {
 		this.subscribe('socialResources.item', FlowRouter.getParam('slug'))
 		this.subscribe('users')
 
-		this.subscribe('translationGroups.itemSlug', FlowRouter.getParam('slug'));
+		this.subscribe('translationGroups.itemSlug', {slug: FlowRouter.getParam('slug'), contentType: 'socialResource'});
 	})
 })
 
