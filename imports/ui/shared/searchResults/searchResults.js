@@ -70,27 +70,27 @@ function getFilters(contentType, regex, languages, data) {
         break;
       case "learningResource":
         orFilters = [
-          { content: regex }, 
-          { title: regex }, 
+          { content: regex },
+          { title: regex },
           { summary: regex },
         ];
         break;
       case "research":
         orFilters = [
-          { abstract: regex }, 
+          { abstract: regex },
           { headline: regex }
         ];
         break;
       case "socialResource":
         orFilters = [
-          { Name: regex }, 
+          { Name: regex },
           { description: regex }
         ];
         break;
       case "warning":
         orFilters = [
-          { summary: regex }, 
-          { headline: regex }, 
+          { summary: regex },
+          { headline: regex },
           { tags: regex }];
         break;
       default:
@@ -100,8 +100,8 @@ function getFilters(contentType, regex, languages, data) {
   }
   if (languages) { // We filter for language if we have something to filter for
     const langFilter = {language: {$in: languages}}
-    filter = addFilter(filter, 
-      languages.includes('en') 
+    filter = addFilter(filter,
+      languages.includes('en')
         ? {$or: [langFilter, {language: {$exists: false}}]} // This is necessary for compatibility with old content that don't have the language field set.
         : langFilter);
   }
@@ -232,11 +232,11 @@ Template.searchResults.helpers({
       ) {
         case "title-asc":
           return results.sort((a, b) => {
-            a.titleText ? a.titleText.localeCompare(b.titleText) : 0;
+            return a.titleText ? a.titleText.localeCompare(b.titleText) : 0;
           });
         case "title-desc":
           return results.sort((a, b) => {
-            b.titleText ? b.titleText.localeCompare(a.titleText) : 0;
+            return b.titleText ? b.titleText.localeCompare(a.titleText) : 0;
           });
       }
     } else {
