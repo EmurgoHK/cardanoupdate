@@ -204,7 +204,7 @@ Solution: Translate ${translatedScopes}.
         	_id: translationId
         }) || {}
 
-        if (!(translation.votes || []).filter(i => i.userId === this.userId).length) {
+        if (!(translation.votes || []).filter(i => i.userId === Meteor.userId()).length) {
         	Translations.update({
         		_id: translation._id
         	}, {
@@ -214,7 +214,7 @@ Solution: Translate ${translatedScopes}.
         		},
         		$push: {
         			votes: {
-        				userId: this.userId,
+        				userId: Meteor.userId(),
         				type: type,
         				time: new Date().getTime()
         			}
