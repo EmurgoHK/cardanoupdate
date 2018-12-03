@@ -4,9 +4,9 @@
       <div class="card-body">
         <h2 class="card-title">
             <h2>
-              {{#if isNew}} {{_ "research.form.new"}} 
-              {{else if isEdit}} {{_ "research.form.edit"}} 
-              {{else if isTranslate }} {{_ "research.form.translate"}} 
+              {{#if isNew}} {{_ "research.form.new"}}
+              {{else if isEdit}} {{_ "research.form.edit"}}
+              {{else if isTranslate }} {{_ "research.form.translate"}}
               {{/if}}
             </h2>
         </h2>
@@ -18,10 +18,10 @@
             <div id="headlineError" class="invalid-feedback"></div>
           </div>
           <small><i id="headline-chars" class="text-muted"></i></small>
-              
+
           <div class="group-title">{{_ "research.form.language"}}</div>
           <div class="input-group">
-            <select name="language" id="language" disabled={{isEdit}}>
+            <select name="language" id="language" class="form-control" disabled={{isEdit}}>
               {{#each languages}}
                 <option value={{code}} selected={{selected}} disabled={{disabled}}>{{name}}</option>
               {{/each}}
