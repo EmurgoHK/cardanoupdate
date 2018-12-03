@@ -4,9 +4,9 @@
       <div class="card-body">
         <h2 class="card-title">
             <h2>
-              {{#if isNew}} {{_ "learn.form.new"}} 
-              {{else if isEdit}} {{_ "learn.form.edit"}} 
-              {{else if isTranslate }} {{_ "learn.form.translate"}} 
+              {{#if isNew}} {{_ "learn.form.new"}}
+              {{else if isEdit}} {{_ "learn.form.edit"}}
+              {{else if isTranslate }} {{_ "learn.form.translate"}}
               {{/if}}
             </h2>
         </h2>
@@ -20,7 +20,7 @@
           <small><i id="title-chars" class="text-muted"></i></small>
           <div class="group-title">{{_ "learn.form.language"}}</div>
           <div class="input-group">
-            <select name="language" id="language" disabled={{isEdit}}>
+            <select name="language" id="language" class="form-control" disabled={{isEdit}}>
               {{#each languages}}
                 <option value={{code}} selected={{selected}} disabled={{disabled}}>{{name}}</option>
               {{/each}}

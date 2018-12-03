@@ -3,9 +3,9 @@
       <div class="row">
         <div class="col-sm-12">
             <h2>
-              {{#if isNew}} {{_ "warnings.form.new"}} 
-              {{else if isEdit}} {{_ "warnings.form.edit"}} 
-              {{else if isTranslate }} {{_ "warnings.form.translate"}} 
+              {{#if isNew}} {{_ "warnings.form.new"}}
+              {{else if isEdit}} {{_ "warnings.form.edit"}}
+              {{else if isTranslate }} {{_ "warnings.form.translate"}}
               {{/if}}
             </h2>
         </div>
@@ -22,10 +22,10 @@
                   <div id="headlineError" class="invalid-feedback"></div>
                 </div>
                 <small><i id="headline-chars" class="text-muted"></i></small>
-                
+
                 <div class="group-title">{{_ "warnings.form.language"}}</div>
                 <div class="input-group">
-                  <select name="language" id="language" disabled={{isEdit}}>
+                  <select name="language" id="language" class="form-control" disabled={{isEdit}}>
                     {{#each languages}}
                       <option value={{code}} selected={{selected}} disabled={{disabled}}>{{name}}</option>
                     {{/each}}
