@@ -4,10 +4,10 @@ import "./researchCard.scss";
 import { Template } from "meteor/templating";
 
 import { removeResearch, flagResearch } from "/imports/api/research/methods";
-import swal from "sweetalert2";
 
 import { notify } from "/imports/modules/notifier";
 import { flagDialog } from "/imports/modules/flagDialog";
+import { loggedInSWAL } from "../../helpers/loggedInSWAL";
 
 Template.researchCard.helpers({
   limitChars(val) {
@@ -38,7 +38,8 @@ Template.researchCard.events({
     event.preventDefault();
 
     const research = Template.currentData().research;
-    swal({
+    loggedInSWAL({
+			action: 'shared.loginModal.action.delete',
       text: TAPi18n.__('research.card.are_you_sure'),
       type: "warning",
       showCancelButton: true

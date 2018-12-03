@@ -7,8 +7,8 @@ import {
   proposeNewDataWarning,
   flagWarning
 } from "/imports/api/warnings/methods";
-import swal from "sweetalert2";
 import { notify } from "/imports/modules/notifier";
+import { loggedInSWAL } from "../../helpers/loggedInSWAL";
 
 Template.warningCard.helpers({
   editURL() {
@@ -38,7 +38,8 @@ Template.warningCard.events({
     event.preventDefault();
 
     const warning = Template.currentData().warning;
-    swal({
+    loggedInSWAL({
+			action: 'shared.loginModal.action.delete',
       text: TAPi18n.__('warnings.card.are_you_sure'),
       type: "warning",
       showCancelButton: true
@@ -59,9 +60,10 @@ Template.warningCard.events({
   },
   "click .flag-warning": function(event, templateInstance) {
     event.preventDefault();
-    
+
     const warning = Template.currentData().warning;
-    swal({
+    loggedInSWAL({
+			action: 'shared.loginModal.action.flag',
       title: TAPi18n.__('warnings.card.flag_reason'),
       input: "text",
       showCancelButton: true,

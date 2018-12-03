@@ -8,11 +8,12 @@ import {
   proposeNewData,
   flagProject
 } from "/imports/api/projects/methods";
-import swal from "sweetalert2";
+import swal from 'sweetalert2';
 
 import { notify } from "/imports/modules/notifier";
 
 import { flagDialog } from "/imports/modules/flagDialog";
+import { loggedInSWAL } from "../../helpers/loggedInSWAL";
 
 Template.projectCard.helpers({
   editURL() {
@@ -45,7 +46,8 @@ Template.projectCard.events({
     }
     const project = Template.currentData().project;
 
-    swal({
+    loggedInSWAL({
+			action: 'shared.loginModal.action.suggest',
       text: TAPi18n.__('projects.view.no_web'),
       type: "warning",
       showCancelButton: true,
@@ -73,7 +75,8 @@ Template.projectCard.events({
   "click #js-remove": (event, templateInstance) => {
     event.preventDefault();
     const project = Template.currentData().project;
-    swal({
+    loggedInSWAL({
+			action: 'shared.loginModal.action.delete',
       text: TAPi18n.__('projects.card.are_you_sure'),
       type: "warning",
       showCancelButton: true

@@ -5,8 +5,8 @@ import { FlowRouter } from 'meteor/kadira:flow-router'
 import { Faq } from '/imports/api/faq/faq'
 
 import { removeFaqItem } from '/imports/api/faq/methods'
-import swal from 'sweetalert2'
 import { notify } from '/imports/modules/notifier'
+import { loggedInSWAL } from '../../helpers/loggedInSWAL';
 
 Template.faqPage.onRendered(function(){
   this.autorun(() => {
@@ -38,7 +38,8 @@ Template.faqItem.events({
   },
   "click .delete-faq": function(event, templateInstance) {
     event.preventDefault()
-    swal({
+    loggedInSWAL({
+      action: 'shared.loginModal.action.delete',
       text: TAPi18n.__('faq.are_you_sure'),
       type: "warning",
       showCancelButton: true

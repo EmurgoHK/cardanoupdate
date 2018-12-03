@@ -27,10 +27,10 @@ Template.login.events({
             if (Meteor.user().profile && Meteor.user().profile.language) {
                 sessionStorage.setItem('uiLanguage', Meteor.user().profile.language)
                 TAPi18n.setLanguage(Meteor.user().profile.language).always( () => {
-                    FlowRouter.go(window.last || '/')
+                    FlowRouter.go(FlowRouter.getQueryParam('from') || window.last || '/');
                 });
             } else {
-                FlowRouter.go(window.last || '/')
+                FlowRouter.go(FlowRouter.getQueryParam('from') || window.last || '/');
             }
         })
     },
@@ -42,10 +42,10 @@ Template.login.events({
                 if (Meteor.user().profile && Meteor.user().profile.language) {
                     sessionStorage.setItem('uiLanguage', Meteor.user().profile.language)
                     TAPi18n.setLanguage(Meteor.user().profile.language).always( () => {
-                        FlowRouter.go(window.last || '/')
+                        FlowRouter.go(FlowRouter.getQueryParam('from') || window.last || '/');
                     });
                 } else {
-                    FlowRouter.go(window.last || '/')
+                    FlowRouter.go(FlowRouter.getQueryParam('from') || window.last || '/');
                 }
             } else {
                 notify(TAPi18n.__(err.message), 'error')

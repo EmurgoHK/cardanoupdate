@@ -7,10 +7,10 @@ import {
   removeLearningItem,
   flagLearningItem
 } from "/imports/api/learn/methods";
-import swal from "sweetalert2";
 
 import { notify } from "/imports/modules/notifier";
 import { flagDialog } from "/imports/modules/flagDialog";
+import { loggedInSWAL } from "../../helpers/loggedInSWAL";
 
 Template.learningResourceCard.helpers({
   editURL() {
@@ -54,7 +54,8 @@ Template.learningResourceCard.events({
     event.preventDefault();
 
     const learn = Template.currentData().learn;
-    swal({
+    loggedInSWAL({
+			action: 'shared.loginModal.action.delete',
       text: TAPi18n.__('learn.card.are_you_sure'),
       type: "warning",
       showCancelButton: true
