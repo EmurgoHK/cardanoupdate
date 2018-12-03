@@ -13,7 +13,7 @@ import { notify } from '/imports/modules/notifier'
 
 import { flagDialog } from '/imports/modules/flagDialog'
 
-import swal from 'sweetalert2'
+import { loggedInSWAL } from '../../helpers/loggedInSWAL';
 
 Template.viewProject.onCreated(function() {
 	this.autorun(() => {
@@ -77,7 +77,8 @@ Template.viewProject.events({
             return
         }
 
-        swal({
+        loggedInSWAL({
+            action: 'shared.loginModal.action.suggest',
             text: TAPi18n.__('projects.view.no_gh'),
             type: 'warning',
             showCancelButton: true,
@@ -104,7 +105,8 @@ Template.viewProject.events({
             return
         }
 
-        swal({
+        loggedInSWAL({
+            action: 'shared.loginModal.action.suggest',
             text: TAPi18n.__('projects.view.no_web'),
             type: 'warning',
             showCancelButton: true,
@@ -128,7 +130,8 @@ Template.viewProject.events({
     },
     'click .projectWarning' (event, _tpl) {
         event.preventDefault()
-        swal({
+        loggedInSWAL({
+            action: 'shared.loginModal.action.suggest',
             title: TAPi18n.__('projects.view.missing_repo'),
             text: TAPi18n.__('projects.view.missing_info'),
             type: 'warning',

@@ -1,6 +1,7 @@
 import './commentForm.html';
 
 import { newComment, editComment } from '/imports/api/comments/methods';
+import { loggedInSWAL } from '../../helpers/loggedInSWAL';
 
 Template.commentForm.onCreated(function () {
   this.text = new ReactiveVar("");
@@ -48,6 +49,11 @@ Template.commentForm.events({
   },
 
   'click .save-comment': (event, templateInstance) => { 
+    if (!Meteor.userId()) {
+      return loggedInSWAL({
+        action: 'shared.loginModal.action.comment',
+      });
+    }
     const data = Template.currentData();
     const text = templateInstance.$('textarea.comment-text').val();
     if (data.id) {

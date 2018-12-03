@@ -67,16 +67,16 @@ const userLoginFilter = (context, redirect, _stop) => {
   }
 
   // restrict access to auth pages when user is signed in
-  if (Meteor.userId() && authRoutes.includes(context.path)) {
+  if (Meteor.userId() && authRoutes.some(a => context.path.startsWith(a))) {
     redirect(oldRoute)
   }
 
-  if (!Meteor.userId() && !authRoutes.includes(context.path)) {
+  if (!Meteor.userId() && !authRoutes.some(a => context.path.startsWith(a))) {
     if (Meteor.isClient) {
       import { notify } from '/imports/modules/notifier'
       if (notify) notify('Login to continue!', 'error')
     }
-    redirect('/login')
+    redirect('/login?from=' + context.path)
   }
 }
 
@@ -508,6 +508,7 @@ FlowRouter.route('/community/:id/edit', {
       urls: ['/community']
     })
   },
+  triggersEnter: [userLoginFilter],
   subscriptions: function(params, queryParams) {
     this.register('socialResources.item', Meteor.subscribe('socialResources.item', params.id))
   },
@@ -528,6 +529,7 @@ FlowRouter.route('/community/:id/translate', {
       urls: ['/community']
     })
   },
+  triggersEnter: [userLoginFilter],
   subscriptions: function(params, queryParams) {
     this.register('socialResources.item', Meteor.subscribe('socialResources.item', params.id))
   },
@@ -992,6 +994,7 @@ FlowRouter.route('/notifications', {
 
 FlowRouter.route('/login', {
   name: 'login',
+  triggersEnter: [userLoginFilter],
   action: () => {
     BlazeLayout.render('auth', {
       main: 'login'
@@ -1016,6 +1019,7 @@ FlowRouter.route('/password-reset', {
 
 FlowRouter.route('/signup', {
   name: 'signup',
+  triggersEnter: [userLoginFilter],
   action: () => {
     BlazeLayout.render('auth', {
       main: 'signup'

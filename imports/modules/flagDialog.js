@@ -1,5 +1,6 @@
 import swal from 'sweetalert2'
 import { notify } from '/imports/modules/notifier'
+import { loggedInSWAL } from '../ui/helpers/loggedInSWAL';
 
 // modularize the flag dialog so we don't have to repeat this code everywhere
 // plus, it's also a lot easier to modify it this way
@@ -8,7 +9,8 @@ import { notify } from '/imports/modules/notifier'
 // field represents the field name for _id in method call (i.e. projectId)
 // msg is a custom message that will be displayed to the user on successfull flagging
 export const flagDialog = function(fnc, field, msg) {
-    swal({
+    loggedInSWAL({
+        action: 'shared.loginModal.action.flag',
         title: 'Why are you reporting this?',
         html: `<div class="p-3"><span id="spam" class="flag-action btn btn-warning p-3" style="width: 40%">This is spam</span>
                <span id="scam" class="flag-action btn btn-danger p-3" style="width: 40%">This is a scam</span></div>`,
