@@ -34,6 +34,7 @@ Template.learn.helpers({
             types: ['learn'],
             searchTerm: Template.instance().searchFilter.get(),
             doLanguageGrouping: true,
+            languages: Meteor.user() && Meteor.user().profile && Meteor.user().profile.contentLanguages,
         }
     },
 })
