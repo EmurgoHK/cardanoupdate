@@ -13,8 +13,8 @@ import { TranslationGroups } from "../../../api/translationGroups/translationGro
 import { Meteor } from "meteor/meteor";
 
 Template.searchResults.onCreated(function() {
-  this.sort = new ReactiveVar("date-desc");
-  this.titleSort = new ReactiveVar("");
+  this.sort = new ReactiveVar("date-desc"); // state of the sort by date
+  this.titleSort = new ReactiveVar(""); // state of the sort by title
 
   this.results = new ReactiveVar({ count: () => 0 });
 
@@ -132,7 +132,7 @@ Template.searchResults.onRendered(function() {
           type: "event",
           res: p,
           date: p.createdAt,
-          titleText: p.headline
+          titleText: p.headline // use the headline field of events as title
         }))
       );
     }
@@ -143,7 +143,7 @@ Template.searchResults.onRendered(function() {
           type: "project",
           res: p,
           date: p.createdAt,
-          titleText: p.headline
+          titleText: p.headline // use the headline field of projects as title
         }))
       );
     }
@@ -154,7 +154,7 @@ Template.searchResults.onRendered(function() {
           type: "learningResource",
           res: p,
           date: p.createdAt,
-          titleText: p.title
+          titleText: p.title // use the title field of learn as title
         }))
       );
     }
@@ -165,7 +165,7 @@ Template.searchResults.onRendered(function() {
           type: "research",
           res: p,
           date: p.createdAt,
-          titleText: p.headline
+          titleText: p.headline // use the headline field of research as title
         }))
       );
     }
@@ -176,7 +176,7 @@ Template.searchResults.onRendered(function() {
             type: "socialResource",
             res: p,
             date: p.createdAt,
-            titleText: p.name
+            titleText: p.Name // use the Name field of social resources as title
           }))
       );
     }
@@ -232,11 +232,13 @@ Template.searchResults.helpers({
       ) {
         case "title-asc":
           return results.sort((a, b) => {
-            return a.titleText ? a.titleText.localeCompare(b.titleText) : 0;
+            // check if the titleText is not undefined for a & b, if anyone is undefined we return 0
+            return a.titleText && b.titleText ? a.titleText.localeCompare(b.titleText) : 0;
           });
         case "title-desc":
           return results.sort((a, b) => {
-            return b.titleText ? b.titleText.localeCompare(a.titleText) : 0;
+            // check if the titleText is not undefined for a & b, if anyone is undefined we return 0
+            return b.titleText && a.titleText ? b.titleText.localeCompare(a.titleText) : 0;
           });
       }
     } else {
