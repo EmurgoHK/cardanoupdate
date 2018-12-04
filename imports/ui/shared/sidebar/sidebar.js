@@ -8,13 +8,16 @@ Template.sidebar.helpers({
         return FlowRouter.current().route.name === name ? 'active' : '';
     },
     languages: () => {
-      return Object.keys(TAPi18n.languages_names).map(key => {
+      return _.union(Object.keys(TAPi18n.languages_names).map(key => {
         return {
           code: key,
           name: TAPi18n.languages_names[key][1],
           selected: key === TAPi18n.getLanguage()
         };
-      });
+      }), [{
+        code: 'new',
+        name: TAPi18n.__('shared.add_language')
+      }]);
     }
 });
 
@@ -35,6 +38,10 @@ Template.sidebar.events({
     },
     "change #selectLanguage"(event) {
       event.preventDefault();
-      TAPi18n.setLanguage(event.target.value);
+      if (event.target.value === 'new') {
+        FlowRouter.go('/translations')
+      } else {
+        TAPi18n.setLanguage(event.target.value);
+      }
     }
 })

@@ -79,6 +79,7 @@
 				"comment": "comment",
 				"suggest": "suggest new data"
 			}
-		}
+		},
+		"add_language": "+ Add new language"
 	}
 }
