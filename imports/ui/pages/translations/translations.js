@@ -1,7 +1,11 @@
 import { Template } from 'meteor/templating'
 import { FlowRouter } from 'meteor/kadira:flow-router'
 
+import { notify } from '/imports/modules/notifier'
+
 import './translations.html'
+
+import { Translations } from '/imports/api/translations/translations'
 
 import swal from 'sweetalert2'
 import xss from 'xss'
@@ -31,29 +35,36 @@ Template.translations.onCreated(function() {
 	Meteor.call('getLanguageScopes', 'en', (err, data) => {
 		this.scopes.set(data)
 	})
+
+	this.autorun(() => {
+		this.subscribe('langs')
+	})
+
+	this.addNew = new ReactiveVar(false)
 })
 
 Template.translations.helpers({
 	langs: () => {
 		let langs = Object.keys(TAPi18n.languages_names).filter(i => i !== 'en') // english shouldn't be on the list
-		langs = _.union(langs, ['de', 'es', 'ru', 'fr', 'zh']) // fallback
-		langCodes = {
-			de: 'Deutsch',
-			es: 'Español',
-			ru: 'Русский язык',
-			fr: 'Français',
-			zh: '普通話'
-		}
+		let langsFallback = Translations.findOne({
+			_id: 'languages'
+		}) || {}
 
-		return langs.sort().map(i => {
+		langs = _.union(langs, Object.keys(langsFallback.langs || {})) // fallback
+
+		return _.union(langs.sort().map(i => {
 			let lang = TAPi18n.languages_names[i] || []
 
 			return {
 				code: i,
-				name: lang[1] || lang[1] || langCodes[i]
+				name: lang[1] || langsFallback.langs[i]
 			}
+		}), {
+			code: 'new',
+			name: TAPi18n.__('shared.add_language')
 		})
 	},
+	addNew: () => Template.instance().addNew.get(),
 	scopes: () => {
 		return Template.instance().scopes.get()
 	},
@@ -107,21 +118,41 @@ Template.translations.events({
 	    	})
     	}
 	},
+	'click .add-lang': (event, templateInstance) => {
+		event.preventDefault()
+
+		Meteor.call('addLanguage', $('#js-code').val(), $('#js-lang-name').val(), (err, data) => {
+			if (!err) {
+				templateInstance.addNew.set(false)
+			} else {
+				notify(TAPi18n.__(err.reason || err.message), 'error')
+			}
+		})
+	},
+	'click .cancel': (event, templateInstance) => {
+		event.preventDefault()
+
+		templateInstance.addNew.set(false)
+	},
 	'change .language': (event, templateInstance) => {
 		event.preventDefault()
 
-		templateInstance.currentLanguage.set({
-			key: $(event.currentTarget).val(),
-			name: $(event.currentTarget).find('option:selected').text()
-		})
+		if ($(event.currentTarget).val() === 'new') {
+			templateInstance.addNew.set(true)
+		} else {
+			templateInstance.currentLanguage.set({
+				key: $(event.currentTarget).val(),
+				name: $(event.currentTarget).find('option:selected').text()
+			})
 
-		Meteor.call('getLanguageData', templateInstance.currentData.get().scope,  $(event.currentTarget).val(), (err, data) => {
-    		if (!err) {
-	    		templateInstance.translatedData.set(data)
-    		} else {
-    			templateInstance.translatedData.set({})
-    		}
-    	})
+			Meteor.call('getLanguageData', templateInstance.currentData.get().scope,  $(event.currentTarget).val(), (err, data) => {
+	    		if (!err) {
+		    		templateInstance.translatedData.set(data)
+	    		} else {
+	    			templateInstance.translatedData.set({})
+	    		}
+	    	})
+		}
 	},
 	'click .save-data': (event, templateInstance) => {
 		event.preventDefault()
