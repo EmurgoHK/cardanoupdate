@@ -6,6 +6,15 @@
                 <div class="row">
                     <select class="form-control language"><option value="-">{{_ "translations.language"}}</option>{{#each langs}}<option value="{{code}}">{{name}}</option>{{/each}}</select>
                 </div>
+                {{#if addNew}}
+                <div class="row">
+                    {{_ "translations.lang_code"}}: <input type="text" class="form-control" id="js-code" />
+                    {{_ "translations.lang_name"}}: <input type="text" class="form-control" id="js-lang-name" />
+
+                    <a class="btn btn-success add-lang">{{_ "translations.add"}}</a>
+                    <a class="btn btn-danger cancel">{{_ "translations.cancel"}}</a>
+                </div>
+                {{/if}}
                 {{#if translations.length}}
                 <form action="#" id="myForm" role="form" data-toggle="validator" method="post" accept-charset="utf-8">
                     <span><i>* {{_ "translations.notice"}}</i></span>

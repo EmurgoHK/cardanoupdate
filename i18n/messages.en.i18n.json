@@ -49,6 +49,9 @@
 			"cant_remove": "You can't remove a warning that you haven't added.",
 			"cant_edit": "You can't edit a warning that you haven't added."
 		},
+		"translations": {
+			"two_only": "Language code has to have only 2 characters."
+		},
 		"login": "You have to be logged in.",
 		"already_flagged": "You have already flagged this item.",
 		"moderator": "You have to be a moderator.",
