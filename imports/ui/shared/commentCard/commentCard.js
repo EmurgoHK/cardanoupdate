@@ -9,7 +9,7 @@ import { removeComment, flagComment } from '/imports/api/comments/methods'
 
 import { notify } from '/imports/modules/notifier'
 
-import swal from 'sweetalert2'
+import { loggedInSWAL } from '../../helpers/loggedInSWAL';
 
 Template.commentCard.onCreated(function() {
 	this.edits = new ReactiveDict()
@@ -109,7 +109,8 @@ Template.commentCard.events({
 		event.preventDefault()
 		event.stopImmediatePropagation()
 
-		swal({
+		loggedInSWAL({
+			action: 'shared.loginModal.action.flag',
 		  	title: TAPi18n.__('comments.flag_reason'),
 		  	input: 'text',
 		  	showCancelButton: true,
@@ -150,21 +151,22 @@ Template.commentCard.events({
 		event.preventDefault()
 		event.stopImmediatePropagation()
 
-		swal({
-            text: TAPi18n.__('comments.remove_question'),
-            type: 'warning',
-            showCancelButton: true
-        }).then(confirmed => {
-            if (confirmed.value) {
-                removeComment.call({
-                    commentId: this._id
-                }, (err, data) => {
-                    if (err) {
-                        notify(TAPi18n.__(err.reason || err.message), 'error')
-                    }
-                })
-            }
-        })
+		loggedInSWAL({
+			action: 'shared.loginModal.action.delete',
+			text: TAPi18n.__('comments.remove_question'),
+			type: 'warning',
+			showCancelButton: true
+		}).then(confirmed => {
+			if (confirmed.value) {
+				removeComment.call({
+					commentId: this._id
+				}, (err, data) => {
+					if (err) {
+						notify(TAPi18n.__(err.reason || err.message), 'error')
+					}
+				})
+			}
+		})
 	},
 	'click .showReplies': (event, templateInstance) => {
 		event.preventDefault();

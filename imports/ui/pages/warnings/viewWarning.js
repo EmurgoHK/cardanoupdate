@@ -6,7 +6,7 @@ import { Comments } from '/imports/api/comments/comments'
 import { TranslationGroups } from '../../../api/translationGroups/translationGroups';
 import { flagWarning } from '/imports/api/warnings/methods'
  import { notify } from '/imports/modules/notifier'
- import swal from 'sweetalert2'
+import { loggedInSWAL } from '../../helpers/loggedInSWAL';
 
  Template.viewWarning.onCreated(function() {
 	this.autorun(() => {
@@ -60,13 +60,15 @@ import { flagWarning } from '/imports/api/warnings/methods'
 		let warning = Warnings.findOne({
 			slug: FlowRouter.getParam('slug')
 		}) || {}
- 		swal({
-		  	title: TAPi18n.__('warnings.view.flag_reason'),
-		  	input: 'text',
-		  	showCancelButton: true,
-		  	inputValidator: (value) => {
-		    	return !value && TAPi18n.__('warnings.view.invalid_reason')
-		  	}
+
+		loggedInSWAL({
+			action: 'shared.loginModal.action.flag',
+			title: TAPi18n.__('warnings.view.flag_reason'),
+			input: 'text',
+			showCancelButton: true,
+			inputValidator: (value) => {
+				return !value && TAPi18n.__('warnings.view.invalid_reason')
+			}
 		}).then(data => {
 			if (data.value) {
 				flagWarning.call({

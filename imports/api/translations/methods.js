@@ -23,6 +23,29 @@ const deepMerge = (target, source) => {
 }
 
 Meteor.methods({
+	addLanguage: (langCode, langName) => {
+		let langs = Translations.findOne({
+			_id: 'languages'
+		})
+
+		if (!langs || !langs.langs) {
+			throw new Meteor.Error('Error.', 'Internal error.')
+		}
+
+		if (langCode.length !== 2) {
+			throw new Meteor.Error('Error.', 'messages.translations.two_only')
+		}
+
+		langs.langs[langCode] = langName
+
+		Translations.update({
+			_id: 'languages'
+		}, {
+			$set: {
+				langs: langs.langs
+			}
+		})
+	},
 	getLanguageScopes: (lang) => {
 		return fs.readdirSync(`${dirname}/i18n`).filter(i => i.includes(`${lang}.i18n.json`)).map(i => i.replace(`.${lang}.i18n.json`, ''))
 	},

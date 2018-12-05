@@ -67,6 +67,19 @@
 		"footer": {
 			"language": "Language",
 			"copyright": "Owned by <a href='https://emurgohk.io/'>EmurgoHK</a> and <a href='https://github.com/EmurgoHK/cardanoupdate/blob/master/AUTHORS'>contributors</a>. Licensed under <a href='https://github.com/EmurgoHK/cardanoupdate/blob/master/LICENSE'>Mozilla Public License 2.0.</a>"
-		}
+		},
+		"loginModal": {
+			"login": "Go to login",
+			"cancel": "Cancel",
+			"title": "You have to sign in to __action__!",
+			"default_action": "continue",
+			"action": {
+				"flag": "flag stuff",
+				"delete": "remove stuff",
+				"comment": "comment",
+				"suggest": "suggest new data"
+			}
+		},
+		"add_language": "+ Add new language"
 	}
 }

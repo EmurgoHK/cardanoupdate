@@ -5,7 +5,7 @@ import { Template } from "meteor/templating";
 import { deleteEvent, flagEvent } from "/imports/api/events/methods";
 import { notify } from "/imports/modules/notifier";
 
-import swal from "sweetalert2";
+import { loggedInSWAL } from '../../helpers/loggedInSWAL';
 import moment from "moment";
 
 import { flagDialog } from "/imports/modules/flagDialog";
@@ -50,7 +50,8 @@ Template.eventCard.events({
     ev.preventDefault();
 
     const event = Template.currentData().event;
-    swal({
+    loggedInSWAL({
+			action: 'shared.loginModal.action.delete',
       text: TAPi18n.__('events.card.are_you_sure'),
       type: "warning",
       showCancelButton: true

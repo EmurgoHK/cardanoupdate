@@ -3,12 +3,6 @@ import './research.scss'
 
 import { Template } from 'meteor/templating'
 import { FlowRouter } from 'meteor/kadira:flow-router'
-import { Research } from '/imports/api/research/research'
-
-import { removeResearch } from '/imports/api/research/methods'
-import swal from 'sweetalert2'
-
-import { notify } from '/imports/modules/notifier'
 
 const CHUNK_SIZE = 3
 

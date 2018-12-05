@@ -5,7 +5,7 @@ import { Template } from "meteor/templating";
 import { deleteSocialResource, flagSocialResource } from "/imports/api/socialResources/methods";
 
 import { flagDialog } from "/imports/modules/flagDialog";
-import swal from "sweetalert2";
+import { loggedInSWAL } from "../../helpers/loggedInSWAL";
 
 Template.socialResourceCard.helpers({
   editURL() {
@@ -55,7 +55,8 @@ Template.socialResourceCard.events({
     event.preventDefault();
 
     const socialResource = Template.currentData().socialResource;
-    swal({
+    loggedInSWAL({
+			action: 'shared.loginModal.action.delete',
       text: TAPi18n.__('community.card.are_you_sure'),
       type: "warning",
       showCancelButton: true
