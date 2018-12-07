@@ -1,21 +1,28 @@
 <template name="translations">
-    <div class="container-fluid">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <select class="form-control view-scope"><option value="-">{{_ "translations.scope"}}</option>{{#each scopes}}<option value="{{this}}">{{this}}</option>{{/each}}</select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <select class="form-control language"><option value="-">{{_ "translations.language"}}</option>{{#each langs}}<option value="{{code}}">{{name}}</option>{{/each}}</select>
+            </div>
+        </div>
+        {{#if addNew}}
             <div class="row">
-                    <select class="form-control view-scope"><option value="-">{{_ "translations.scope"}}</option>{{#each scopes}}<option value="{{this}}">{{this}}</option>{{/each}}</select>
-                </div>
-                <div class="row">
-                    <select class="form-control language"><option value="-">{{_ "translations.language"}}</option>{{#each langs}}<option value="{{code}}">{{name}}</option>{{/each}}</select>
-                </div>
-                {{#if addNew}}
-                <div class="row">
+                <div class="col-lg-12">
                     {{_ "translations.lang_code"}}: <input type="text" class="form-control" id="js-code" />
                     {{_ "translations.lang_name"}}: <input type="text" class="form-control" id="js-lang-name" />
 
                     <a class="btn btn-success add-lang">{{_ "translations.add"}}</a>
                     <a class="btn btn-danger cancel">{{_ "translations.cancel"}}</a>
                 </div>
-                {{/if}}
-                {{#if translations.length}}
+            </div>
+        {{/if}}
+        {{#if translations.length}}
+            <div class="col-lg-12">
                 <form action="#" id="myForm" role="form" data-toggle="validator" method="post" accept-charset="utf-8">
                     <span><i>* {{_ "translations.notice"}}</i></span>
                     <table class="table table-responsive-sm table-hover table-outline mb-0 bg-white">
@@ -38,7 +45,8 @@
                     </table>
                 </form>
                 <a href="#" class="btn btn-success pull-right save-data">{{_ "translations.save_data"}}</a>
-                {{/if}}
+            </div>
+        {{/if}}
     </div>
 
 </template>
