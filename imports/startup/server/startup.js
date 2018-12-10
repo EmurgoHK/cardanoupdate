@@ -13,5 +13,9 @@ Meteor.startup(() => {
 
 	reCAPTCHA.config({
         privatekey: isTest ? '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe' : config.privateKey || ''
-	});
+	})
+
+	Kadira.connect('sq5LGeYZH5K8MXkTC', '825ce47a-32e5-4685-bfd8-96ad5d446f47', {
+		endpoint: 'https://kadira.emurgolance.org'
+	})
 })
