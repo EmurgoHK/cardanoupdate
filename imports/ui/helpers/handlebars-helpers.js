@@ -12,7 +12,7 @@ Template.registerHelper('isModerator', () => isModerator(Meteor.userId()))
 Template.registerHelper('LimitChars', (val) => val&&val.length>100?val.slice(0,100)+' ... ':val )
 
 Template.registerHelper('md', content => {
-	return this.innerHTML = marked(content || '', {sanitize: true})
+	return this.innerHTML = marked(content || '', {sanitize: false})
 });
 
 Template.registerHelper('showTimeAgoTimestamp', (date, timezone) => {
