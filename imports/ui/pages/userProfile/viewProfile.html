@@ -25,8 +25,8 @@
               </a>
             </li>
           </ul>
-          
-          <div class="tab-content border-0 rounded shadow mb-4" id="myTabContent">
+
+          <div class="tab-content border-0 rounded shadow mb-4 user-main-tabs" id="myTabContent">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
               <li class="nav-item">
                 <a class="nav-link active" id="project-tab" data-toggle="tab" href="#project" role="tab" aria-controls="home" aria-selected="true">{{_ "user.view.projects"}}</a>
@@ -52,11 +52,11 @@
             </ul>
             <div class="tab-content" id="myTabContent">
               <div class="tab-pane fade show active" id="project" role="tabpanel" aria-labelledby="project-tab">
-                {{#each projects}} 
+                {{#each projects}}
                   <div class="card">
                     <div class="card-body">
                     <div ><a href="/projects/{{slug}}" class="card-title" >{{headline}}</a> {{_ "user.view.created"}} {{showTimeAgoTimestamp createdAt}}</div>
-                    <p class="card-text">{{description}}</p>              
+                    <p class="card-text">{{description}}</p>
                     </div>
                   </div>
                 {{else}}
@@ -64,7 +64,7 @@
                 {{/each}}
               </div>
               <div class="tab-pane fade" id="events" role="tabpanel" aria-labelledby="events-tab">
-                {{#each events}} 
+                {{#each events}}
                   <div class="card">
                     <div class="card-body">
                     <div ><a href="/events/{{slug}}" class="card-title" >{{headline}}</a> {{_ "user.view.created"}} {{showTimeAgoTimestamp createdAt}}</div>
@@ -75,11 +75,11 @@
                 {{/each}}
               </div>
               <div class="tab-pane fade" id="research" role="tabpanel" aria-labelledby="research-tab">
-                {{#each research}} 
+                {{#each research}}
                   <div class="card">
                     <div class="card-body">
                     <div ><a href="/research/{{slug}}" class="card-title" >{{headline}}</a> {{_ "user.view.posted"}} {{showTimeAgoTimestamp createdAt}}</div>
-                    <p class="card-text">{{abstract}}</p>              
+                    <p class="card-text">{{abstract}}</p>
                     </div>
                   </div>
                 {{else}}
@@ -87,7 +87,7 @@
                 {{/each}}
               </div>
               <div class="tab-pane fade" id="learn" role="tabpanel" aria-labelledby="learn-tab">
-                {{#each learn}} 
+                {{#each learn}}
                   <div class="card">
                     <div class="card-body">
                     <div ><a href="/research/{{slug}}" class="card-title" >{{title}}</a> {{_ "user.view.added"}} {{showTimeAgoTimestamp createdAt}}</div>
@@ -98,7 +98,7 @@
                 {{/each}}
               </div>
               <div class="tab-pane fade" id="community" role="tabpanel" aria-labelledby="community-tab">
-                {{#each community}} 
+                {{#each community}}
                   <div class="card">
                     <div class="card-body">
                     <div ><a href="/research/{{slug}}" class="card-title" >{{Name}}</a> {{_ "user.view.created"}} {{showTimeAgoTimestamp createdAt}}</div>
@@ -109,7 +109,7 @@
                 {{/each}}
               </div>
               <div class="tab-pane fade" id="scam" role="tabpanel" aria-labelledby="scam-tab">
-                {{#each scams}} 
+                {{#each scams}}
                   <div class="card">
                     <div class="card-body">
                     <div ><a href="/research/{{slug}}" class="card-title" >{{headline}}</a> {{_ "user.view.created"}} {{showTimeAgoTimestamp createdAt}}</div>
@@ -120,7 +120,7 @@
                 {{/each}}
               </div>
               <div class="tab-pane fade" id="comment" role="tabpanel" aria-labelledby="comment-tab">
-                {{#each comments}} 
+                {{#each comments}}
                   <div class="card">
                     <div class="card-body">
                         <i class="far fa-comments" style="vertical-align: middle"></i>&nbsp;{{_ "user.view.commented"}} {{text}} {{showTimeAgoTimestamp createdAt}}
