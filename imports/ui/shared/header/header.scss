@@ -28,6 +28,13 @@
     margin-left: 0!important;
     justify-content: flex-start!important;
     padding-top: 5px!important;
+    
+    // Mobile Logo
+    img {
+      width: 50px;
+      margin-left: -10px;
+      margin-top: -5px;
+    }
   }
   .navbar-nav .nav-link{
     color: #73818f !important;
