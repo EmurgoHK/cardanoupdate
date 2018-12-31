@@ -73,9 +73,10 @@ Template.learnForm.onRendered(function() {
             slug: FlowRouter.getParam('slug')
         })
 
-        // preselect the correct type if it's on the project edit page
+        //preselect the correct type if it's on the project edit page
         if (learn) {
-            $('[name=difficultyLevel]').val([learn.difficultyLevel])
+			// Check the radio button for the existing difficulty level 
+			this.$(`input[name="difficultyLevel"][value = ${learn.difficultyLevel}]`).prop("checked", true);
         }
     })
 })
@@ -108,7 +109,8 @@ Template.learnForm.onRendered(function() {
 
 			// If dificulty level exist on editing
 			if (learn.difficultyLevel) {
-				this.$('input[name="difficultyLevel"]').val(learn.difficultyLevel)
+				// Check the radio button for the existing difficulty level 
+				this.$(`input[name="difficultyLevel"][value = ${learn.difficultyLevel}]`).prop("checked", true);
 			}
 		}
 	})
@@ -229,6 +231,7 @@ Template.learnForm.events({
 				slug: FlowRouter.getParam('slug')
 			})
 
+			console.log($('input[name="difficultyLevel"]:checked').val())
 			editLearningItem.call({
 				learnId: learn._id,
 				title: $('#title').val(),

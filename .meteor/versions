@@ -69,6 +69,7 @@ matb33:collection-hooks@0.7.15
 mdg:validated-method@1.1.0
 meteor@1.9.0
 meteor-base@1.4.0
+meteorhacks:kadira@2.30.4
 meteorhacks:meteorx@1.4.1
 meteorhacks:picker@1.0.3
 meteorspark:util@0.2.0
@@ -86,6 +87,7 @@ momentjs:moment@2.22.2
 mongo@1.5.0
 mongo-dev-server@1.1.0
 mongo-id@1.0.7
+mongo-livedata@1.0.12
 npm-bcrypt@0.9.3
 npm-mongo@3.0.7
 oauth@1.2.3
