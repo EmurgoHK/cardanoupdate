@@ -19,4 +19,18 @@
       }
     }
   }
+
+  @media(max-width: 767px) {
+    .user-main-tabs {
+      .nav-tabs {
+        padding: 10px; border-bottom: none;
+
+        .nav-item { display: block; width: 100%; text-align: center; }
+        .nav-link.active { border-radius: 0.25rem; border-color: #dcdcdc; }
+      }
+      .tab-content {
+        border-width: 1px 0px 0px;
+      }
+    }
+  }
 }
