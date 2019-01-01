@@ -1,8 +1,10 @@
 import { Meteor } from 'meteor/meteor'
+import { Accounts } from 'meteor/accounts-base'
 import { ValidatedMethod } from 'meteor/mdg:validated-method'
 import SimpleSchema from 'simpl-schema'
 import { Projects } from '../projects/projects'
 import { Comments } from '../comments/comments'
+
 export const isModerator = userId => {
   let user = Meteor.users.findOne({
     _id: userId
@@ -487,7 +489,6 @@ Meteor.methods({
 })
 
 // Hide Instruction Modals
-
 export const hideInstructionModal = new ValidatedMethod({
   name: 'hideInstructionModal',
   validate: new SimpleSchema({
@@ -509,5 +510,20 @@ export const hideInstructionModal = new ValidatedMethod({
           hidden: modalId
       }
     })
+  }
+})
+
+
+// Resend Email Verification
+export const resendVerificationEmail = new ValidatedMethod({
+  name : 'resendVerificationEmail',
+  validate : null,
+  run (userId) {
+    if (!Meteor.userId()) {
+      throw new Meteor.Error('Error.', 'messages.login')
+    }
+    if(Meteor.isServer) {
+      return Accounts.sendVerificationEmail(userId)
+    }
   }
 })

@@ -4,6 +4,8 @@ import './body.scss'
 import { Template } from 'meteor/templating'
 import { FlowRouter } from 'meteor/kadira:flow-router'
 import { Session } from 'meteor/session'
+import { notify } from '/imports/modules/notifier'
+import { resendVerificationEmail } from '/imports/api/user/methods'
 
 Template.main.helpers({
     breadcrumbs: () => {
@@ -32,5 +34,32 @@ Template.main.helpers({
               }
           })
         }
+    },
+
+    showVerification: () => {
+      if(Meteor.user()) {
+        if(Meteor.user().emails[0].verified) {
+          return false
+        }
+        return true
+      }
+      return false;
+    },
+
+    userEmail: () => {
+      return Meteor.user().emails[0].address;
     }
+})
+
+Template.main.events({
+  'click .resend_verification_email' (event) {
+    event.preventDefault()
+    resendVerificationEmail.call(Meteor.userId(), (err, res) => {
+      if (!err) {
+      notify('Verification link sent.', 'success')
+        return
+      }
+      notify(err.reason, 'error')
+    })
+  }
 })
