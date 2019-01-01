@@ -55,10 +55,36 @@ export const calculateStats = new ValidatedMethod({
         }).count()
 
         Stats.upsert({
-            _id: 'last-month'
+          _id: 'last-month'
         }, {
             _id: 'last-month',
             count: comments + projects + events + research + social + learn
         })
 	}
+})
+
+export const calculateContent = new ValidatedMethod({
+  name: 'calculateContent',
+  validate:
+      new SimpleSchema({}).validator({
+          clean: true
+      }),
+  run({}) {
+      let projects = Projects.find({}).count()
+
+      let events = Events.find({}).count()
+
+      let research = Research.find({}).count()
+
+      let learn = Learn.find({}).count()
+
+      Stats.upsert({
+        _id: 'content'
+      }, {
+          projects: projects,
+          events: events,
+          research: research,
+          learn : learn
+      })
+    }
 })
