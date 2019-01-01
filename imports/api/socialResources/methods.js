@@ -42,6 +42,7 @@ export const addSocialResource = new ValidatedMethod({
             },
             Resource_url: {
                 type: String,
+                regEx: SimpleSchema.RegEx.Url,
                 optional: true
             },
             language: {
@@ -182,6 +183,7 @@ export const editSocialResource = new ValidatedMethod({
             },
             Resource_url: {
                 type: String,
+                regEx: SimpleSchema.RegEx.Url,
                 optional: true
             },
             captcha: {
