@@ -13,11 +13,29 @@
       <p class="mt-5">{{_ "shared.tags.nothing_found"}}</p>
     {{/unless}}
     <div class="card-columns">
-      {{> projectList projects=projects containerClass="row" cardWrapperClass="col-md-4" isHome=true}}
-      {{> warningList warnings=warnings containerClass="row" cardWrapperClass="col-md-4" isHome=true}}
-      {{> eventList eventList=events containerClass="row" cardWrapperClass="col-md-4" isHome=true}}
-      {{> researchList research=research containerClass="row" cardWrapperClass="col-md-4" isHome=true}}
-      {{> learningResourceList learningResources=learn containerClass="row" cardWrapperClass="col-md-4" isHome=true}}
+      {{#each projects}}
+        {{> projectCard project=this displayTypeLabel=displayTypeLabel textTransformer=highlighter translations=translationsList}}
+      {{/each}}
+      {{#each warnings}}
+        {{> warningCard warning=this displayTypeLabel=displayTypeLabel textTransformer=highlighter translations=translationsList}}
+      {{/each}}
+      {{#each events}}
+        {{> eventCard event=this displayTypeLabel=displayTypeLabel textTransformer=highlighter translations=translationsList}}
+      {{/each}}
+      {{#each research}}
+        {{> researchCard research=this displayTypeLabel=displayTypeLabel textTransformer=highlighter translations=translationsList}}
+      {{/each}}
+      {{#each learn}}
+        {{> learningResourceCard learn=this displayTypeLabel=displayTypeLabel textTransformer=highlighter translations=translationsList}}
+      {{/each}}
+
+      {{#if oldCodeRequired}}
+        <!-- {{> projectList projects=projects containerClass="row" cardWrapperClass="col-md-4" isHome=true}}
+        {{> warningList warnings=warnings containerClass="row" cardWrapperClass="col-md-4" isHome=true}}
+        {{> eventList eventList=events containerClass="row" cardWrapperClass="col-md-4" isHome=true}}
+        {{> researchList research=research containerClass="row" cardWrapperClass="col-md-4" isHome=true}}
+        {{> learningResourceList learningResources=learn containerClass="row" cardWrapperClass="col-md-4" isHome=true}} -->
+      {{/if}}
     </div>
   </div>
 </template>
