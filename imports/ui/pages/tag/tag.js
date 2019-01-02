@@ -8,6 +8,7 @@ import { Events } from "/imports/api/events/events";
 import { Warnings } from "/imports/api/warnings/warnings";
 import { Learn } from "/imports/api/learn/learn";
 import { socialResources } from "/imports/api/socialResources/socialResources";
+import { TranslationGroups } from "/imports/api/translationGroups/translationGroups";
 
 Template.tags.onCreated(function() {
   this.sort = new ReactiveVar("date-desc");
@@ -39,7 +40,7 @@ Template.tags.onRendered(function() {
   // We set the value of the searchbox here, to avoid updating it later while the user is typing
   const tpl = Template.instance();
   let searchTags = tpl.searchFilter.get();
-  
+
   tpl.$("#searchBox").val(searchTags.join(', '));
   this.autorun(() => {
     let searchTags = Template.instance().searchFilter.get();
@@ -143,6 +144,13 @@ Template.tags.helpers({
            (warnings && warnings.count() > 0) ||
            (learn && learn.count() > 0) ||
            (socialResources && socialResources.count() > 0);
+  },
+  translationsList() {
+    const _id = this._id
+    const group = TranslationGroups.findOne({
+      translations: { $elemMatch: { id: _id } }
+    });
+    return (group && group.translations) || [];
   }
 });
 
