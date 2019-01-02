@@ -24,16 +24,17 @@ export const addProject = new ValidatedMethod({
             },
             description: {
                 type: String,
-                // max: 260,
                 optional: false
             },
             github_url: {
-                type: String,
-                optional: true
+              type: String,
+              regEx: SimpleSchema.RegEx.Url,
+              optional: true
             },
             website: {
-                type: String,
-                optional: true
+              type: String,
+              regEx: SimpleSchema.RegEx.Url,
+              optional: true
             },
             language: {
               type: String,
@@ -187,10 +188,12 @@ export const editProject = new ValidatedMethod({
             },
             github_url: {
                 type: String,
+                regEx: SimpleSchema.RegEx.Url,
                 optional: true
             },
             website: {
                 type: String,
+                regEx: SimpleSchema.RegEx.Url,
                 optional: true
             },
             captcha: {

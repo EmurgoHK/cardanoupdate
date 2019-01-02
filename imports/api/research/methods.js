@@ -51,6 +51,7 @@ export const newResearch = new ValidatedMethod({
             },
             'links.$.url': {
                 type: String,
+                regEx: SimpleSchema.RegEx.Url,
                 optional: false
             },
             'links.$.displayName': {
@@ -173,6 +174,7 @@ export const editResearch = new ValidatedMethod({
             },
             'links.$.url': {
                 type: String,
+                regEx: SimpleSchema.RegEx.Url,
                 optional: false
             },
             'links.$.displayName': {

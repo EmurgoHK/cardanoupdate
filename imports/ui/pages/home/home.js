@@ -28,21 +28,13 @@ Template.home.onCreated(function () {
 })
 
 Template.home.helpers({
-  // User Stats
-  signedUp: () => (UsersStats.findOne({
-    _id: 'lastMonth'
-  }) || {}).created || 0,
+  // Stats
+  totalProject: () => (Stats.findOne('content') || {}).projects,
 
-    commentsLastMonth: () => (Stats.findOne({
-        _id: 'last-month'
-    }) || {}).count || 0,
+  totalLearningContent: () => (Stats.findOne('content') || {}).learn,
 
-  onlineUsers() {
-    let connectionUsers = ((UsersStats.findOne("connected") || {}).userIds || []).length;
-    return connectionUsers ? connectionUsers : 0;
-  },
+  totalResearch: () => (Stats.findOne('content') || {}).research,
 
-  totalUsers: () => Meteor.users.find({}).count() || 0,
   resultArgs: () => ({
     types: ['events', 'learn', 'projects', 'research', 'socialResources', 'warnings'],
     searchTerm: undefined,

@@ -39,6 +39,7 @@ export const newEvent = new ValidatedMethod({
     },
     rsvp: {
       type: String,
+      regEx: SimpleSchema.RegEx.Url,
       optional: false
     },
     language: {
@@ -179,6 +180,7 @@ export const editEvent = new ValidatedMethod({
     },
     rsvp: {
       type: String,
+      regEx: SimpleSchema.RegEx.Url,
       optional: false
     },
     captcha: {
