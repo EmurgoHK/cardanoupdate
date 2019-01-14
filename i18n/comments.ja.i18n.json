@@ -1,0 +1,20 @@
+{
+	"comments": {
+		"flag": "フラグ",
+		"edit": "編集",
+		"delete": "削除,
+		"by": "オーサー",
+		"reply": "返信",
+		"hide_replies": "返信を非表示",
+		"show_replies": "返信を表示",
+		"success": "コメントの送信に成功しました.",
+		"success_edit": "コメントの編集に成功しました",
+		"flag_reason": "あなたがフラグを立てる理由は?",
+		"invalid_reason": "正当な理由をご記入ください",
+		"success_flag": "フラグが立ちました。モデレータが次に何をするか決定します.",
+		"remove_question": "このコメントを削除してもよろしいでしょうか? 削除後、元に戻すことはできません。",
+		"cancel": "キャンセル",
+		"comment": "コメントする",
+		"placeholder": "何かコメントをする!"
+	}
+}
