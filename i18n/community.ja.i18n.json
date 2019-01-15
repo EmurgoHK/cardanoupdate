@@ -1,0 +1,44 @@
+{
+	"community": {
+		"form": {
+			"new": "新しいコミュニティー",
+			"edit": "コミュニティーを編集",
+			"translate": "コミュニティーを翻訳",
+			"language": "言語",
+			"name": "名前",
+			"name_placeholder": "名前（25文字以内で入力）",
+			"url": "URL",
+			"url_placeholder": "コミュニティーリンク",
+			"desc": "詳細情報",
+			"desc_placeholder": "コミュニティーの詳細（260文字以内で入力）",
+			"submit": "提出",
+			"tags_placeholder": "タグをカンマで区切って追加してください、 例:クリプト,ウォレット",
+			"chars_left": "残文字数",
+			"success_edit": "編集に成功しました。",
+			"success_add": "追加に成功しました。"
+		},
+		"main": {
+			"add": "コミュニティーを追加",
+			"community": "コミュニティー",
+			"desc": "テレグラムグループ, Meetup（ミートアップ）グループ,フェイスブックグループ, forums, その他。",
+			"search": "コミュニティーを検索"
+		},
+		"view": {
+			"edit": "コミュニティーを編集",
+			"translate": "翻訳を追加",
+			"by": "投稿者",
+			"tags": "タグ",
+			"go_to": "アクセス",
+			"suggest": "おすすめサイト",
+			"cool": "良い情報",
+			"red_flags": "注意情報",
+			"success": "コメントの送信に成功しました。"
+		},
+		"card": {
+			"community": "コミュニティー",
+			"go_to": "アクセス",
+			"suggest": "おすすめサイト",
+			"are_you_sure": "このプロジェクトを削除しますか? 削除後、元に戻すことはできません。"
+		}
+	}
+}
