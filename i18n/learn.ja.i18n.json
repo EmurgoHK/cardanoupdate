@@ -1,0 +1,51 @@
+{
+	"learn": {
+		"form": {
+			"new": "新規投稿",
+			"edit": "編集",
+			"translate": "翻訳",
+			"language": "言語",
+			"res": "教育リソース",
+			"title": "タイトル",
+			"title_placeholder": "このサイトを閲覧することでユーザーは何が学べるんですか？ (260文字以内で入力してください）",
+			"summary": "概要",
+			"summary_placeholder": "教育リソースの本文",
+			"content": "本文",
+			"content_placeholder": "教育リソースの本文（5000文字以内で入力してください）",
+			"level": "難易度",
+			"beginner": "初級",
+			"intermediate": "中級",
+			"advanced": "上級",
+			"submit": "提出",
+			"youtube": "Youtube動画のリンクをご提供ください。",
+			"invalid_yt": "YouTube動画のリンクが無効です。",
+			"chars_left": "残文字数",
+			"success_add": "追加に成功しました。",
+			"success_edit": "編集に成功しました。"
+		}, 
+		"main": {
+			"new": "新しい教育リソース",
+			"res": "教育リソース",
+			"desc": "初歩的な内容から開発者向けのドキュメントまでそろっています。",
+			"search": "教育リソースを検索"
+		},
+		"view": {
+			"edit": "教育リソースを編集",
+			"translate": "翻訳を追加",
+			"by": "投稿者",
+			"tags": "タグ",
+			"level": "難易度",
+			"success": "コメントの送信に成功しました。",
+			"beginner": "初級",
+			"intermediate": "中級",
+			"advanced": "上級"
+		},
+		"card": {
+			"learn": "教育",
+			"beginner": "初級",
+			"intermediate": "中級",
+			"advanced": "上級",
+			"are_you_sure": "この教育リソースを削除しますか? ※削除後、元に戻すことはできません。."
+		}
+	}
+}
