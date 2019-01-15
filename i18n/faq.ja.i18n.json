@@ -1,0 +1,21 @@
+{
+	"faq": {
+		"new": "新FAQ",
+		"desc": "カルダノ・アップデートスペースのよくあるご質問ページです。",
+		"faqs": "FAQ（よくあるご質問）",
+		"no_faqs": "該当するキーワードは見つかりませんでした。",
+		"edit": "編集",
+		"delete": "削除",
+		"are_you_sure": "このFAQ（よくあるご質問）を削除しますか? ※削除後、元に戻すことはできません。",
+		"success": "FAQ（よくあるご質問）の削除に成功しました。",
+		"new_form": "新しい",
+		"question": "質問",
+		"question_placeholder": "ご質問を入力（90文字以内）",
+		"answer": "回答",
+		"answer_placeholder": "回答を入力（260文字以内）",
+		"submit": "提出",
+		"chars_left": "残文字数",
+		"success_add": "追加に成功しました",
+		"success_edit": "編集に成功しました."
+	}
+}
