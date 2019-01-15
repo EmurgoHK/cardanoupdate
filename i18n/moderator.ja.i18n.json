@@ -1,0 +1,57 @@
+{
+	"mod": {
+		"candidates": {
+			"candidates": "モデレータ候補",
+			"promote": "昇進",
+			"rating": "レート評価する",
+			"total": "評価集計",
+			"rank": "ランク",
+			"no_candidates": "候補者が見つかりませんでした!",
+			"success": "昇進しました。"
+		},
+		"translation": {
+			"translation": "翻訳",
+			"vote": "投票",
+			"back": "すべてのデータに戻る",
+			"only_mod": "モデレータのみ投票が可能です。",
+			"success": "翻訳が承認されました。",
+			"deleted": "翻訳が削除されました。",
+			"no_more": "翻訳するものがありません",
+			"skip": "スキップ"
+		},
+		"changes": {
+			"proposed": "変更された内容",
+			"merge": "Merge（マージ）",
+			"reject": "Reject（リジェクト）",
+			"new_data": "新しいデータに変更",
+			"no_changes": "変更された内容が見つかりませんでした。",
+			"success_merge": "Merge(マージ）に成功しました。",
+			"success_reject": "Reject（リジェクト）に成功しました。"
+		},
+		"flagged": {
+			"flagged": "フラグ項目",
+			"flag": "フラグが立てられたもの",
+			"because": "理由：",
+			"by": "によって",
+			"ignore": "無視",
+			"remove": "削除",
+			"no_items": "フラグ項目が見つかりませんでした!",
+			"content_ignore": "コンテンツは無視され、フラグが立てられたものとしてマークされなくなりました。",
+			"content_remove": "赤いフラグを削除しますと、フラグが立てられたコンテンツも削除されます。※削除後、元に戻すことはできません。",
+			"are_you_sure": "削除してもよろしいですか？",
+			"success_ignore": "無視しました。",
+			"success_remove": "削除に成功しました。"
+		},
+		"pardon": {
+			"no_more": "ブラックリストから外すユーザーがいません。",
+			"req": "ブラックリストから外す申請",
+			"user": "ユーザーネーム",
+			"offences": "犯罪",
+			"reason": "理由",
+			"upvotes": "Upvote",
+			"downvotes": "Downvotes",
+			"skip": "スキップ"
+		},
+		"mod_only": "モデレータになる必要があります。"
+	}
+}
