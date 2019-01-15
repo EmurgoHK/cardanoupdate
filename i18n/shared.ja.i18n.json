@@ -1,0 +1,85 @@
+{
+	"shared": {
+		"not_found": {
+			"not_found": "このページは存在しません",
+			"go_home": "ホームへアクセス"
+		},
+		"header": {
+			"projects": "プロジェクト",
+			"events": "イベント",
+			"research": "リサーチ",
+			"learn": "教育",
+			"community": "コミュニティー",
+			"scams": "スキャム",
+			"faqs": "FAQ（よくあるご質問）",
+			"search": "ここで検索",
+			"username": "ユーザー名",
+			"account": "アカウント",
+			"my_profile": "プロフィール",
+			"edit_profile": "プロフィールを編集",
+			"signout": "サインアウト",
+			"signin": "サインイン"
+		},
+		"sidebar": {
+			"home": "ホーム",
+			"projects": "プロジェクト",
+			"events": "イベント",
+			"research": "リサーチ・ペーパー",
+			"learn": "教育",
+			"community": "コミュニティー",
+			"scams": "スキャム",
+			"gh": "GitHub",
+			"faqs": "FAQ（よくあるご質問）",
+			"moderator": "モデレータ",
+			"flagged": "フラグ項目",
+			"pardon": "“ブラックリストから外す”を申請",
+			"changes": "変更された内容",
+			"candidates": "候補者",
+			"translations": "翻訳"
+		},
+		"tags": {
+			"tags": "タグ",
+			"placeholder": "タグをカンマで区切って追加してください、 例:クリプト,ウォレット",
+			"nothing_found": "該当する情報がみつかりませんでした。",
+			"search": "タグ検索"
+		},
+		"uploader": {
+			"upload": "アップロード",
+			"insert_image": "画像を挿入",
+			"cancel": "キャンセル",
+			"uploading": "アップロード中",
+			"another": "他をアップロード",
+			"change": "変更"
+		},
+		"user": {
+			"no_name": "無名"
+		},
+		"flag": {
+			"edit": "編集",
+			"delete": "削除",
+			"report": "報告"
+		},
+		"main": {
+			"title": "カルダノのすべて",
+			"title2": "Accurate up to the minute.",
+			"home": "ホーム"
+		},
+		"footer": {
+			"language": "言語",
+			"copyright": "所有者 <a href='https://emurgohk.io/'>EmurgoHK</a> と <a href='https://github.com/EmurgoHK/cardanoupdate/blob/master/AUTHORS'>contributors</a>.  <a href='https://github.com/EmurgoHK/cardanoupdate/blob/master/LICENSE'>Mozilla Public License 2.0のライセンスの下で利用</a>"
+		},
+		"loginModal": {
+			"login": "サイトへログイン",
+			"cancel": "キャンセル",
+			"title": "You have to sign in to __action__!",
+			"default_action": "次へ",
+			"action": {
+				"flag": "フラグ関連",
+				"delete": "削除関連",
+				"comment": "コメント",
+				"suggest": "新しいデータをおすすめする"
+			}
+		},
+		"add_language": "+ 言語の追加"
+	}
+}
