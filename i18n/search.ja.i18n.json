@@ -1,0 +1,18 @@
+{
+	"search": {
+		"projects": "プロジェクト",
+		"events": "イベント",
+		"research": "リサーチ",
+		"learn": "教育",
+		"community": "コミュニティー",
+		"scams": "スキャム",
+		"anything": "何か検索する!",
+		"advanced": "高度な検索",
+		"date": "日付",
+		"title": "タイトル",
+		"found": "発見",
+		"items": "項目",
+		"add_new": "新規コンテンツを追加",
+		"nothing": "該当する情報は見つかりませんでした。"
+	}
+}
