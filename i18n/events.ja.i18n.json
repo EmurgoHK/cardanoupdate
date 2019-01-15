@@ -1,0 +1,48 @@
+{
+	"events": {
+		"form": {
+			"new": "新しいイベント",
+			"edit": "イベントを編集",
+			"translate": "イベントを翻訳",
+			"language": "言語",
+			"name": "名前",
+			"name_placeholder": "名前（名前（90文字以内で入力）",
+			"duration": "イベント期間",
+			"desc": "詳細情報",
+			"desc_placeholder": "イベントの詳細",
+			"location": "場所",
+			"location_placeholder": "イベント会場",
+			"rsvp": "参加リンク",
+			"rsvp_placeholder": "このイベントに参加したい場合、どこに連絡したらいいですか？",
+			"submit": "提出",
+			"chars_left": "残文字数",
+			"success_edit": "編集に成功しました。",
+			"success_add": "追加に成功しました。"
+		},
+		"main": {
+			"add": "イベントを追加",
+			"events": "イベント",
+			"desc": "カルダノ関連のイベントは、世界中のどこでもにでも"
+		},
+		"view": {
+			"edit": "イベントを編集",
+			"translate": "翻訳を追加",
+			"by": "追加した人",
+			"to": "へ",
+			"rsvp": "参加リンク",
+			"following": "フォロー中",
+			"follow": "フォロー",
+			"unfollow": "解除",
+			"success": "コメントの送信に成功しました。"
+		},
+		"card": {
+			"started": "開始したイベント",
+			"starts": "開始日",
+			"rsvp": "参加リンク",
+			"are_you_sure": "このイベントを削除しますか? 削除後、元に戻すことはできません。",
+			"past": "過去のイベント",
+			"ongoing": "進行中のイベント",
+			"upcoming": "今後のイベント"
+		}
+	}
+}
