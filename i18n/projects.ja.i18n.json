@@ -29,7 +29,7 @@
 			"success_merge": "Merge(マージ）に成功しました。",
 			"success_add": "追加されました。",
 			"success_edit": "編集されました。",
-			"chars_left": "残文字数",
+			"chars_left": "残り文字数",
 			"success_update": "アップデートされました。",
 			"error": "アップデート中にエラーが発生しました"
 		},
