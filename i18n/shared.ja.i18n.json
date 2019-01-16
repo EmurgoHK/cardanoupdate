@@ -60,8 +60,7 @@
 			"report": "報告"
 		},
 		"main": {
-			"title": "カルダノのすべて",
-			"title2": "Accurate up to the minute.",
+			"title": "カルダノの最新情報をいち早くお届け",
 			"home": "ホーム"
 		},
 		"footer": {
@@ -71,15 +70,15 @@
 		"loginModal": {
 			"login": "サイトへログイン",
 			"cancel": "キャンセル",
-			"title": "You have to sign in to __action__!",
+			"title": "こちらへサインインしてください： __action__!",
 			"default_action": "次へ",
 			"action": {
 				"flag": "フラグ関連",
 				"delete": "削除関連",
 				"comment": "コメント",
-				"suggest": "新しいデータをおすすめする"
+				"suggest": "新規データをおすすめする"
 			}
 		},
-		"add_language": "+ 言語の追加"
+		"add_language": "+ 言語を追加"
 	}
 }
