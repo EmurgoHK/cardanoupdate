@@ -1,7 +1,7 @@
 {
 	"community": {
 		"form": {
-			"new": "新しいコミュニティー",
+			"new": "新規コミュニティー",
 			"edit": "コミュニティーを編集",
 			"translate": "コミュニティーを翻訳",
 			"language": "言語",
@@ -13,7 +13,7 @@
 			"desc_placeholder": "コミュニティーの詳細（260文字以内で入力）",
 			"submit": "提出",
 			"tags_placeholder": "タグをカンマで区切って追加してください、 例:クリプト,ウォレット",
-			"chars_left": "残文字数",
+			"chars_left": "残り文字数",
 			"success_edit": "編集に成功しました。",
 			"success_add": "追加に成功しました。"
 		},
@@ -30,8 +30,8 @@
 			"tags": "タグ",
 			"go_to": "アクセス",
 			"suggest": "おすすめサイト",
-			"cool": "良い情報",
-			"red_flags": "注意情報",
+			"cool": "お役立ち情報",
+			"red_flags": "注意・警告",
 			"success": "コメントの送信に成功しました。"
 		},
 		"card": {
