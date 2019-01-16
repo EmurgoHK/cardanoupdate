@@ -1,6 +1,6 @@
 {
 	"faq": {
-		"new": "新FAQ",
+		"new": "新規FAQ",
 		"desc": "カルダノ・アップデートスペースのよくあるご質問ページです。",
 		"faqs": "FAQ（よくあるご質問）",
 		"no_faqs": "該当するキーワードは見つかりませんでした。",
@@ -14,7 +14,7 @@
 		"answer": "回答",
 		"answer_placeholder": "回答を入力（260文字以内）",
 		"submit": "提出",
-		"chars_left": "残文字数",
+		"chars_left": "残り文字数",
 		"success_add": "追加に成功しました",
 		"success_edit": "編集に成功しました."
 	}
