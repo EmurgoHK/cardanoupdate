@@ -19,12 +19,12 @@
 			"submit": "提出",
 			"youtube": "Youtube動画のリンクをご提供ください。",
 			"invalid_yt": "YouTube動画のリンクが無効です。",
-			"chars_left": "残文字数",
+			"chars_left": "残り文字数",
 			"success_add": "追加に成功しました。",
 			"success_edit": "編集に成功しました。"
 		}, 
 		"main": {
-			"new": "新しい教育リソース",
+			"new": "新規教育リソース",
 			"res": "教育リソース",
 			"desc": "初歩的な内容から開発者向けのドキュメントまでそろっています。",
 			"search": "教育リソースを検索"
