@@ -1,7 +1,7 @@
 {
 	"research": {
 		"main": {
-			"new": "新規リサーチ・ペーパー",
+			"new": "新規リサーチ",
 			"research": "リサーチ",
 			"desc": "カルダノに関する学術論文を査読。",
 			"search": "リサーチを検索"
@@ -14,7 +14,7 @@
 			"name": "名前",
 			"name_placeholder": "名前（160文字以内で入力してください）",
 			"abstract": "要旨",
-			"abstract_placeholder": "リサーチ・ペーパーの要旨",
+			"abstract_placeholder": "リサーチの要旨",
 			"pdf": "PDFファイル",
 			"links": "リンク",
 			"links_placeholder": "表示名（25文字以内で入力してください）",
@@ -34,7 +34,7 @@
 		},
 		"card": {
 			"research": "リサーチ",
-			"are_you_sure": "このリサーチ・ペーパーを削除しますか? ※削除後、元に戻すことはできません。"
+			"are_you_sure": "このリサーチを削除しますか? ※削除後、元に戻すことはできません。"
 		}
 	}
 }
