@@ -65,7 +65,7 @@
 		},
 		"footer": {
 			"language": "言語",
-			"copyright": "所有者 <a href='https://emurgohk.io/'>EmurgoHK</a> と <a href='https://github.com/EmurgoHK/cardanoupdate/blob/master/AUTHORS'>contributors</a>.  <a href='https://github.com/EmurgoHK/cardanoupdate/blob/master/LICENSE'>Mozilla Public License 2.0のライセンスの下で利用</a>"
+			"copyright": "所有者 <a href='https://emurgohk.io/'>EmurgoHK</a> と <a href='https://github.com/EmurgoHK/cardanoupdate/blob/master/AUTHORS'>Contributors</a>.  <a href='https://github.com/EmurgoHK/cardanoupdate/blob/master/LICENSE'>Mozilla Public License 2.0 のライセンスの下で利用</a>"
 		},
 		"loginModal": {
 			"login": "サイトへログイン",
