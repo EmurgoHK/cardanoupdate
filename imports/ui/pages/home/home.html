@@ -63,6 +63,24 @@
         </div>
       </div>
       <div class="col-sm-12">
+        <div class="languages">
+          <span>Content Languages : </span> 
+          {{#each languages}}
+            {{#if selected}}
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id={{code}} checked>
+                <label class="custom-control-label" for={{code}}>{{name}}</label>
+              </div>
+            {{else}}
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id={{code}}>
+                <label class="custom-control-label" for={{code}}>{{name}}</label>
+              </div>
+            {{/if}}
+          {{/each}}
+        </div>
+      </div>
+      <div class="col-sm-12">
         <div class="row">
           <div class="section-content col-sm-12">
             {{> searchResults resultArgs }}
