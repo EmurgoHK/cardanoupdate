@@ -63,6 +63,18 @@
   }
 }
 
+.languages{
+  position: relative;
+  padding-top: 1em;
+  span{
+    font-weight: 600;
+  }
+  .custom-control.custom-checkbox{
+    display: inline-block;
+    cursor: pointer;
+  }
+}
+
 // Exclusive style for small screens (mobile)
 @media (max-width: 576px) {
   .user-stats{
