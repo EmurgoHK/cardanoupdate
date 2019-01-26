@@ -33,42 +33,14 @@ export const newEvent = new ValidatedMethod({
       max: 100,
       optional: false
     },
-    placeId: {
-      type: String,
-      optional: false
-    },
     rsvp: {
       type: String,
       regEx: SimpleSchema.RegEx.Url,
       optional: false
     },
-    language: {
-      type: String,
-      optional: false,
-    },
     captcha: {
       type: String,
       optional: isTesting
-    },
-    original: {
-        type: String,
-        optional: true,
-    },
-    timezone: {
-      type: Object,
-      optional: true
-    },
-    'timezone.abbreviation': {
-      type: String
-    },
-    'timezone.zoneName': {
-      type: String
-    },
-    'timezone.gmtOffset': {
-      type: String
-    },
-    'timezone.dst': {
-      type: String
     }
   }).validator({
     clean: true
@@ -174,10 +146,6 @@ export const editEvent = new ValidatedMethod({
       max: 100,
       optional: false
     },
-    placeId: {
-      type: String,
-      optional: false
-    },
     rsvp: {
       type: String,
       regEx: SimpleSchema.RegEx.Url,
@@ -186,22 +154,6 @@ export const editEvent = new ValidatedMethod({
     captcha: {
       type: String,
       optional: isTesting
-    },
-    timezone: {
-      type: Object,
-      optional: true
-    },
-    'timezone.abbreviation': {
-      type: String
-    },
-    'timezone.zoneName': {
-      type: String
-    },
-    'timezone.gmtOffset': {
-      type: String
-    },
-    'timezone.dst': {
-      type: String
     }
   }).validator({
     clean: true
@@ -213,10 +165,8 @@ export const editEvent = new ValidatedMethod({
     start_date,
     end_date,
     location,
-    placeId,
     rsvp,
-    captcha,
-    timezone
+    captcha
   }) {
     if (Meteor.isServer) {
       let event = Events.findOne({
@@ -253,8 +203,6 @@ export const editEvent = new ValidatedMethod({
           end_date: end_date,
           location: location,
           rsvp:rsvp,
-          placeId: placeId,
-          timezone: timezone,
           updatedAt: new Date().getTime()
         }
       });
