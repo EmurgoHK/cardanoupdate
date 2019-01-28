@@ -38,7 +38,7 @@ Template.home.onRendered(function(){
       selectedLang.set(languages)
     } else {
       // Set default language
-      selectedLang.set(["en"])
+      selectedLang.set([TAPi18n.getLanguage()])
     }
   })
 })
@@ -65,7 +65,6 @@ Template.home.helpers({
   }),
 
   languages: () => {
-    let languages;
     if(Meteor.user) {
       languages = Meteor.user() && Meteor.user().profile && Meteor.user().profile.contentLanguages
     }
