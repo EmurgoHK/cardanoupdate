@@ -13,7 +13,6 @@ import { newEvent, editEvent } from '/imports/api/events/methods'
 import '../../../../node_modules/daterangepicker/daterangepicker.css';
 import { insertImage } from '/imports/ui/shared/uploader/uploader'
 import { insertVideo } from '/imports/ui/pages/learn/learnForm'
-import { Config } from '/imports/api/config/config'
 
 const maxCharValue = (inputId) => {
   if (inputId === 'description') {
@@ -25,96 +24,13 @@ const maxCharValue = (inputId) => {
   return 100
 }
 
-const geolocate = (autocomplete) => {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition((position) => {
-      const geolocation = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-      }
-
-      const circle = new google.maps.Circle({
-        center: geolocation,
-        radius: position.coords.accuracy
-      })
-
-      if (autocomplete) {
-        autocomplete.setBounds(circle.getBounds())
-      }
-    })
-  }
-}
-
-const initLocationSearch = function() {
-  this.autocomplete = new google.maps.places.Autocomplete($('#location').get(0), {
-    types: ['geocode']
-  })
-
-  this.autocomplete.addListener('place_changed', () => {
-    let place = this.autocomplete.getPlace()
-
-    let lng = place.geometry.location.lng()
-    let lat = place.geometry.location.lat()
-
-    let timestamp = $('#event_duration').val().split(' - ')
-
-    // convert from European dd/mm/yyyy to ISO yyyy/mm/dd that's required by the API
-    for (let i = 0; i < 2; i++) {
-      timestamp[i] = timestamp[i].split('/').reverse().join('/')
-    }
-
-    HTTP.get(`https://api.timezonedb.com/v2.1/get-time-zone?key=5S42VGHOV6HK&format=json&by=position&lat=${lat}&lng=${lng}&time=${new Date(timestamp[0] || timestamp[1] || Date.now()).getTime() / 1000}`, (err, data) => {
-      this.timezone.set(data.data)
-    })
-
-    this.location.set(place)
-  })
-
-  this.loaded.set(true)
-}
+let startDate = new ReactiveVar()
+let endDate = new ReactiveVar()
 
 Template.eventForm.onCreated(function () {
   this.loaded = new ReactiveVar(false)
-
-  this.autorun(() => {
-    this.subscribe('config')
-
-    let config = Config.findOne({
-      _id: 'google-maps-api'
-    })
-
-    if (config && !this.loaded.get()) {
-      $.getScript(`https://maps.googleapis.com/maps/api/js?key=${config.key}&libraries=places`).done(() => {
-        if ($('#location').get(0) && !this.loaded.get()) { // initialize the location search if the page has rendered already
-          initLocationSearch.call(this)
-        }
-      }).fail(() => {
-        console.log('Invalid Google Maps API key!')
-      })
-    }
-  })
-
-  this.location = new ReactiveVar({})
-  this.timezone = new ReactiveVar({})
-
-  if (FlowRouter.current().route.name.startsWith('edit') || FlowRouter.current().route.name.startsWith('translate')) {
-    this.autorun(() => {
-      this.subscribe('events.item', FlowRouter.getParam('id'))
-      this.subscribe('translationGroups.item', FlowRouter.getParam('id'));
-
-      let event = Events.findOne({
-        _id: FlowRouter.getParam('id')
-      })
-
-      if (event) {
-        this.location.set({
-          place_id: event.placeId
-        })
-
-        this.timezone.set(event.timezone)
-      }
-    })
-  }
+  this.startDate = new ReactiveVar()
+  this.endDate = new ReactiveVar()
 })
 
 Template.eventForm.onRendered(function() {
@@ -133,13 +49,12 @@ Template.eventForm.onRendered(function() {
       locale: {
         format: 'DD/MM/YYYY hh:mm A'
       }
+    }, function(start, end, label) {
+      startDate.set(start._d)
+      endDate.set(end._d)
     })
   })
-
-  if (window.google && google && google.maps && !this.loaded.get()) { // initialize the location search if the script has loaded already
-    initLocationSearch.call(this)
-  }
-
+  
   this.mde = new SimpleMDE({
     element: $("#description")[0],
     toolbar: ['bold', 'italic', 'heading', '|', 'quote', 'unordered-list', 'ordered-list', '|', 'clean-block', 'link', {
@@ -194,14 +109,6 @@ Template.eventForm.helpers({
 })
 
 Template.eventForm.events({
-  'focus #location': (event, templateInstance) => {
-    event.preventDefault()
-
-    geolocate(templateInstance.autocomplete)
-  },
-  'focus #end_date'(event, _tpl) {
-     if($('#start_date').val() && !$('#end_date').val()){$('#end_date').val($('#start_date').val())}
-  },
   'keyup .form-control'(event, _tpl) {
     event.preventDefault()
     let inputId = event.target.id
@@ -226,8 +133,6 @@ Template.eventForm.events({
 
   'submit #event_form'(event, _tpl) {
     event.preventDefault()
-    let event_duration = $('#event_duration').val()
-
     var captchaData = grecaptcha.getResponse();
 
     if (FlowRouter.current().route.name === 'editEvent') {
@@ -235,18 +140,11 @@ Template.eventForm.events({
         eventId : FlowRouter.getParam('id'),
         headline: $('#headline').val(),
         description: _tpl.mde.value(),
-        start_date: moment.tz(event_duration.split(' - ')[0], 'DD/MM/YYYY hh:mm A', _tpl.timezone.get().zoneName).utc().format('YYYY-MM-DD[T]HH:mm'), // convert to mongo format, save in UTC
-        end_date : moment.tz(event_duration.split(' - ')[1], 'DD/MM/YYYY hh:mm A', _tpl.timezone.get().zoneName).utc().format('YYYY-MM-DD[T]HH:mm'), // convert to mongo format, save in UTC
+        start_date: startDate.get(),
+        end_date : endDate.get(),
         location: $('#location').val(),
         rsvp: $('#rsvp').val(),
-        captcha: captchaData,
-        placeId: _tpl.location.get().place_id || '',
-        timezone: {
-          abbreviation: _tpl.timezone.get().abbreviation,
-          zoneName: _tpl.timezone.get().zoneName,
-          gmtOffset: _tpl.timezone.get().gmtOffset + '',
-          dst: _tpl.timezone.get().dst
-        }
+        captcha: captchaData
       }, (err, _data) => {
         if (!err) {
           notify(TAPi18n.__('events.form.success_edit'), 'success')
@@ -270,18 +168,11 @@ Template.eventForm.events({
     newEvent.call({
       headline: $('#headline').val(),
       description: _tpl.mde.value(),
-      start_date: moment.tz(event_duration.split(' - ')[0], 'DD/MM/YYYY hh:mm A', _tpl.timezone.get().zoneName).utc().format('YYYY-MM-DD[T]HH:mm'), // convert to mongo format, save in UTC
-      end_date : moment.tz(event_duration.split(' - ')[1], 'DD/MM/YYYY hh:mm A', _tpl.timezone.get().zoneName).utc().format('YYYY-MM-DD[T]HH:mm'), // convert to mongo format, save in UTC
+      start_date: startDate.get(),
+      end_date : endDate.get(),
       location: $('#location').val(),
       rsvp: $('#rsvp').val(),
       captcha: captchaData,
-      placeId: _tpl.location.get().place_id || '',
-      timezone: {
-        abbreviation: _tpl.timezone.get().abbreviation,
-        zoneName: _tpl.timezone.get().zoneName,
-        gmtOffset: _tpl.timezone.get().gmtOffset + '',
-        dst: _tpl.timezone.get().dst
-      },
       language: $('#language').val(),
       original,
     }, (err, data) => {

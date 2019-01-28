@@ -21,7 +21,6 @@
                 <input type="text" class="form-control" id="headline" value="{{event.headline}}" placeholder='{{_ "events.form.name_placeholder"}}'>
                 <div id="headlineError" class="invalid-feedback"></div>
               </div>
-
               <div class="group-title">{{_ "events.form.language"}}</div>
               <div class="input-group">
                 <select name="language" id="language" class="form-control" disabled={{isEdit}}>
@@ -55,8 +54,8 @@
                 <div id="rsvpError" class="invalid-feedback"></div>
               </div>
               <div class="input-group">
-                  {{> reCAPTCHA}}
-                  <div id="captchaError" class="invalid-feedback"></div>
+                {{> reCAPTCHA}}
+                <div id="captchaError" class="invalid-feedback"></div>
               </div>
             </form>
           </div>
