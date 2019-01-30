@@ -3,7 +3,7 @@
     <div class="col-sm-12">
         <div class="input-group">
             <input type="text" id="searchBox" class="form-control" placeholder="{{ placeholder }}" aria-label="{{ placeholder }}" value="{{searchTerm}}">
-            <i class="fas fa-times search-bar-cross"></i>
+            {{#if searchTerm}}<i class="fas fa-times search-bar-cross"></i>{{/if}}
         </div>
         {{#if type}}
         <a class="advancedSearchLink" href="{{ advancedSearchUrl }}">{{_ "search.advanced"}} &#x25c0;</a>
