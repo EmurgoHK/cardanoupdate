@@ -12,17 +12,21 @@
         <h2>{{_ "faq.faqs"}}</h2>
         <p class="section-intro">{{_ "faq.desc"}}</p>
       </div>
-      <hr>
+    </div>
+    <hr />
+    <div class="row">
       {{#if faqCount}}
-      <div class="col-sm-12">
-        <div class="accordion faq-home" id="faqList">
-          {{#each faqs}}
-            {{> faqItem}}
-          {{/each}}
+        <div class="col-sm-12">
+          <div class="accordion faq-home" id="faqList">
+            {{#each faqs}}
+              {{> faqItem}}
+            {{/each}}
+          </div>
         </div>
-      </div>
       {{else}}
-        <p>{{_ "faq.no_faqs"}}</p>
+        <div class="col-sm-12">
+          <p>{{_ "faq.no_faqs"}}</p>
+        </div>
       {{/if}}
     </div>
   </div>

@@ -1,89 +1,91 @@
 <template name="home">
-  <div class="container">
-    <div class="row mx-auto">
-      <!-- User Stats -->
-      <div class="col-sm-12 user-stats">
-        <div class="row d-none d-lg-flex">
-          <div class="col-sm-4">
-            <div class="card text-white bg-primary m-0 h-100">
-              <div class="card-body">
-                <h5 class="text-right">
-                  <div class="home-text-value float-left">
-                    {{totalProject}}
-                  </div>
-                  <i class="icon-notebook"></i>
-                </h5>
-                <span class="text-muted text-uppercase font-weight-bold h6">Projects</span>
+  <div class="mx-auto">
+    <div class="container">
+      <div class="row">
+        <!-- User Stats -->
+        <div class="col-sm-12 user-stats">
+          <div class="row d-none d-lg-flex">
+            <div class="col-sm-4">
+              <div class="card text-white bg-primary m-0 h-100">
+                <div class="card-body">
+                  <h5 class="text-right">
+                    <div class="home-text-value float-left">
+                      {{totalProject}}
+                    </div>
+                    <i class="icon-notebook"></i>
+                  </h5>
+                  <span class="text-muted text-uppercase font-weight-bold h6">Projects</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4 middle-item">
+              <div class="card text-white bg-success m-0 h-100">
+                <div class="card-body">
+                  <h5 class="text-right">
+                    <div class="home-text-value float-left">
+                      {{totalLearningContent}}
+                    </div>
+                    <i class="fas fa-graduation-cap"></i>
+                  </h5>
+                  <span class="text-muted text-uppercase font-weight-bold h6">Learning Resources</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="card text-white bg-info m-0 h-100">
+                <div class="card-body">
+                  <h5 class="text-right">
+                    <div class="home-text-value float-left">
+                      {{totalResearch}}
+                    </div>
+                    <i class="far fa-copy"></i>
+                  </h5>
+                  <span class="text-muted text-uppercase font-weight-bold h6">Research Papers</span>
+                </div>
               </div>
             </div>
           </div>
-          <div class="col-sm-4 middle-item">
-            <div class="card text-white bg-success m-0 h-100">
-              <div class="card-body">
-                <h5 class="text-right">
-                  <div class="home-text-value float-left">
-                    {{totalLearningContent}}
-                  </div>
-                  <i class="fas fa-graduation-cap"></i>
-                </h5>
-                <span class="text-muted text-uppercase font-weight-bold h6">Learning Resources</span>
+          <!-- User stats on mobile -->
+          <div class="brand-card d-lg-none">
+            <div class="brand-card-body">
+              <div>
+                <div class="text-value">{{totalProject}}</div>
+                <div class="text-uppercase text-muted small">Projects</div>
               </div>
-            </div>
-          </div>
-          <div class="col-sm-4">
-            <div class="card text-white bg-info m-0 h-100">
-              <div class="card-body">
-                <h5 class="text-right">
-                  <div class="home-text-value float-left">
-                    {{totalResearch}}
-                  </div>
-                  <i class="far fa-copy"></i>
-                </h5>
-                <span class="text-muted text-uppercase font-weight-bold h6">Research Papers</span>
+              <div>
+                <div class="text-value">{{totalLearningContent}}</div>
+                <div class="text-uppercase text-muted small">Learning Resources</div>
+              </div>
+              <div>
+                <div class="text-value">{{totalResearch}}</div>
+                <div class="text-uppercase text-muted small">Research Papers</div>
               </div>
             </div>
           </div>
         </div>
-        <!-- User stats on mobile -->
-        <div class="brand-card d-lg-none">
-          <div class="brand-card-body">
-            <div>
-              <div class="text-value">{{totalProject}}</div>
-              <div class="text-uppercase text-muted small">Projects</div>
-            </div>
-            <div>
-              <div class="text-value">{{totalLearningContent}}</div>
-              <div class="text-uppercase text-muted small">Learning Resources</div>
-            </div>
-            <div>
-              <div class="text-value">{{totalResearch}}</div>
-              <div class="text-uppercase text-muted small">Research Papers</div>
-            </div>
+        <div class="col-sm-12">
+          <div class="languages">
+            <span>Content Languages : </span>
+            {{#each languages}}
+              {{#if selected}}
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id={{code}} checked>
+                  <label class="custom-control-label" for={{code}}>{{name}}</label>
+                </div>
+              {{else}}
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id={{code}}>
+                  <label class="custom-control-label" for={{code}}>{{name}}</label>
+                </div>
+              {{/if}}
+            {{/each}}
           </div>
         </div>
-      </div>
-      <div class="col-sm-12">
-        <div class="languages">
-          <span>Content Languages : </span> 
-          {{#each languages}}
-            {{#if selected}}
-              <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id={{code}} checked>
-                <label class="custom-control-label" for={{code}}>{{name}}</label>
-              </div>
-            {{else}}
-              <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id={{code}}>
-                <label class="custom-control-label" for={{code}}>{{name}}</label>
-              </div>
-            {{/if}}
-          {{/each}}
-        </div>
-      </div>
-      <div class="col-sm-12">
-        <div class="row">
-          <div class="section-content col-sm-12">
-            {{> searchResults resultArgs }}
+        <div class="col-sm-12">
+          <div class="row">
+            <div class="section-content col-sm-12">
+              {{> searchResults resultArgs }}
+            </div>
           </div>
         </div>
       </div>

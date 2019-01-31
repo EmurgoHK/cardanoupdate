@@ -1,80 +1,82 @@
 <template name="viewProject">
+  <div class="mx-auto">
     <div class="container">
-    <div class="row mx-auto mb-5">
-      <div class="col-sm-12">
-        {{#if SubsCacheReady}}
-          {{#with project}}
-          {{#if isOwner}}<a href="/projects/{{_id}}/edit" class="btn btn-primary btn-sm mr-2 float-right"><i class="fas fa-edit"></i> {{_ "projects.view.edit"}}</a>{{/if}}
-          <h1 class="card-title text-dark mt-3"><strong>{{headline}}</strong></h1>
-          <h5 class="card-subtitle mb-3 mt-3">
-              <ul class="list-inline">
-                <li class="list-inline-item">{{_ "projects.view.by"}} <strong><span class="name">{{> userNameDisplay author }}</span></strong></li>
-                <li class="list-inline-item"><i class="icon-clock" style="vertical-align: middle"></i>&nbsp;{{showTimeAgoTimestamp createdAt}}</li>
-                <li class="list-inline-item"><i class="icon-speech" style="vertical-align: middle"></i>&nbsp;{{coolCount}}</li>
-                <li class="list-inline-item"><i class="icon-flag" style="vertical-align: middle"></i>&nbsp;{{flagCount}}</li>
-              </ul>
-            </h5>
-            <div class="card">
-              <div class="card-body">
-                <div class="row mb-5">
-                  <div class="col-sm-12 news-body pt-4 pl-3 pr-3 text-justify">
-                    {{description}}
-                  </div>
-                  <div class="col-sm-12 pl-3 pr-3 text-justify">
-                    <a href="/projects/{{_id}}/translate" class="btn btn-link translate-link">{{_ "projects.view.translate"}}</a>
-                  </div>
-                </div> 
-
-                {{#if tags.length}}
-                  <div class="row">
-                    <div class="col-sm-12">
-                        <div>{{_ "projects.view.tags"}}</div>
-                        {{#each tags}}
-                        <a class="badge badge-pill badge-primary" href="{{tagUrl this}}">{{tagName this}}</a>
-                        {{/each}}
+      <div class="row mb-5">
+        <div class="col-sm-12">
+          {{#if SubsCacheReady}}
+            {{#with project}}
+            {{#if isOwner}}<a href="/projects/{{_id}}/edit" class="btn btn-primary btn-sm mr-2 float-right"><i class="fas fa-edit"></i> {{_ "projects.view.edit"}}</a>{{/if}}
+            <h1 class="card-title text-dark mt-3"><strong>{{headline}}</strong></h1>
+            <h5 class="card-subtitle mb-3 mt-3">
+                <ul class="list-inline">
+                  <li class="list-inline-item">{{_ "projects.view.by"}} <strong><span class="name">{{> userNameDisplay author }}</span></strong></li>
+                  <li class="list-inline-item"><i class="icon-clock" style="vertical-align: middle"></i>&nbsp;{{showTimeAgoTimestamp createdAt}}</li>
+                  <li class="list-inline-item"><i class="icon-speech" style="vertical-align: middle"></i>&nbsp;{{coolCount}}</li>
+                  <li class="list-inline-item"><i class="icon-flag" style="vertical-align: middle"></i>&nbsp;{{flagCount}}</li>
+                </ul>
+              </h5>
+              <div class="card">
+                <div class="card-body">
+                  <div class="row mb-5">
+                    <div class="col-sm-12 news-body pt-4 pl-3 pr-3 text-justify">
+                      {{description}}
+                    </div>
+                    <div class="col-sm-12 pl-3 pr-3 text-justify">
+                      <a href="/projects/{{_id}}/translate" class="btn btn-link translate-link">{{_ "projects.view.translate"}}</a>
                     </div>
                   </div>
-                {{/if}}
-                <div class="row">
-                  <div class="col-sm-12">
-                      {{#unless github_url}}
-                      <a href="" class="btn btn-warning projectWarning" target="_blank"><i class="fas fa-exclamation-circle fa-lg"></i></a>
-                      {{/unless}}
-                      <a href="{{github_url}}" class="btn btn-dark text-white github" target="_blank"><i class="fab fa-github fa-lg"></i></a>
-                      <a href="{{website}}" 
-                        title='{{#if website }}{{_ "projects.view.go_to"}} {{website}} {{else}} {{_ "projects.view.suggest"}} {{/if}}'
-                        class="btn btn-secondary website" 
-                        target="_blank">
-                        <i class="fas fa-external-link-alt fa-lg"></i>
-                      </a>
-                      {{> flagItem item="project" translations=translations}}
+
+                  {{#if tags.length}}
+                    <div class="row">
+                      <div class="col-sm-12">
+                          <div>{{_ "projects.view.tags"}}</div>
+                          {{#each tags}}
+                          <a class="badge badge-pill badge-primary" href="{{tagUrl this}}">{{tagName this}}</a>
+                          {{/each}}
+                      </div>
+                    </div>
+                  {{/if}}
+                  <div class="row">
+                    <div class="col-sm-12">
+                        {{#unless github_url}}
+                        <a href="" class="btn btn-warning projectWarning" target="_blank"><i class="fas fa-exclamation-circle fa-lg"></i></a>
+                        {{/unless}}
+                        <a href="{{github_url}}" class="btn btn-dark text-white github" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+                        <a href="{{website}}"
+                          title='{{#if website }}{{_ "projects.view.go_to"}} {{website}} {{else}} {{_ "projects.view.suggest"}} {{/if}}'
+                          class="btn btn-secondary website"
+                          target="_blank">
+                          <i class="fas fa-external-link-alt fa-lg"></i>
+                        </a>
+                        {{> flagItem item="project" translations=translations}}
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            {{/with}}
+            <div class="row">
+              <div class="col-sm-6 project-form cool-stuff">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title text-dark mt-3">{{_ "projects.view.cool"}}</h4>
+                    {{> commentArea parentId=project._id type="coolstuff" postType="project" commentSuccess=commentSuccess}}
                   </div>
                 </div>
-
               </div>
-            </div>
-          {{/with}}
-          <div class="row">
-            <div class="col-sm-6 project-form cool-stuff">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title text-dark mt-3">{{_ "projects.view.cool"}}</h4>
-                  {{> commentArea parentId=project._id type="coolstuff" postType="project" commentSuccess=commentSuccess}}
+              <div class="col-sm-6 project-form redflags">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title text-dark mt-3">{{_ "projects.view.flags"}}</h4>
+                    {{> commentArea parentId=project._id type="redflag" postType="project" commentSuccess=commentSuccess}}
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="col-sm-6 project-form redflags">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title text-dark mt-3">{{_ "projects.view.flags"}}</h4>
-                  {{> commentArea parentId=project._id type="redflag" postType="project" commentSuccess=commentSuccess}}
-                </div>
-              </div>
-            </div>
-          </div>
-        {{else}}
-          {{> loader}}
-        {{/if}}
+          {{else}}
+            {{> loader}}
+          {{/if}}
+        </div>
       </div>
     </div>
   </div>
