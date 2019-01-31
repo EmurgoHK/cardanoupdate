@@ -1,55 +1,57 @@
 <template name="viewEvent">
-  <div class="container">
-    <div class="row mx-auto mb-5">
-      <div class="col-sm-12">
-        {{#if SubsCacheReady}}
-        {{#with event}}
-        {{#if isOwner}}<a href="/events/{{_id}}/edit" class="btn btn-primary btn-sm float-right"><i class="fas fa-edit"></i> {{_ "events.view.edit"}}</a>{{/if}}
-        <h1 class="card-title text-dark mt-3"><strong>{{headline}}</strong></h1>
-        <h5 class="card-subtitle mb-3 mt-3">
-          <ul class="list-inline">
-            <li class="list-inline-item">{{_ "events.view.by"}} <strong><span class="name">{{> userNameDisplay author}}</span></strong></li>
-            <li class="list-inline-item"><i class="icon-clock" style="vertical-align: middle"></i>&nbsp;{{showTimeAgoTimestamp createdAt}}</li>
-            <li class="list-inline-item"><i class="icon-speech" style="vertical-align: middle"></i>&nbsp;{{commentCount}}</li>
-          </ul>
-        </h5>
-        <div class="card">
-          <div class="card-body">
-            <div class="row mb-5">
-              <div class="col-sm-12">
-               <i class="icon-calendar"></i> {{showLocalTimestamp start_date timezone.zoneName}} {{_ "events.view.to"}} {{showLocalTimestamp end_date timezone.zoneName}}
+  <div class="mx-auto">
+    <div class="container">
+      <div class="row mb-5">
+        <div class="col-sm-12">
+          {{#if SubsCacheReady}}
+          {{#with event}}
+          {{#if isOwner}}<a href="/events/{{_id}}/edit" class="btn btn-primary btn-sm float-right"><i class="fas fa-edit"></i> {{_ "events.view.edit"}}</a>{{/if}}
+          <h1 class="card-title text-dark mt-3"><strong>{{headline}}</strong></h1>
+          <h5 class="card-subtitle mb-3 mt-3">
+            <ul class="list-inline">
+              <li class="list-inline-item">{{_ "events.view.by"}} <strong><span class="name">{{> userNameDisplay author}}</span></strong></li>
+              <li class="list-inline-item"><i class="icon-clock" style="vertical-align: middle"></i>&nbsp;{{showTimeAgoTimestamp createdAt}}</li>
+              <li class="list-inline-item"><i class="icon-speech" style="vertical-align: middle"></i>&nbsp;{{commentCount}}</li>
+            </ul>
+          </h5>
+          <div class="card">
+            <div class="card-body">
+              <div class="row mb-5">
+                <div class="col-sm-12">
+                 <i class="icon-calendar"></i> {{showLocalTimestamp start_date timezone.zoneName}} {{_ "events.view.to"}} {{showLocalTimestamp end_date timezone.zoneName}}
+                </div>
+                <div class="col-sm-12">
+                  <i class="icon-check"></i> <a target="_blank" href={{rsvp}}>{{_ "events.view.rsvp"}}</a>
+                </div>
+                <div class="col-sm-12">
+                  <i class="icon-location-pin"></i> <a target="_blank" href="https://www.google.com/maps/place/{{location}}/">{{location}}</a>
+                </div>
+                <div class="col-sm-12 news-body pt-4 pl-3 pr-3 text-justify">
+                  {{{md description}}}
+                </div>
+                <div class="col-sm-12 pl-3 pr-3 text-justify">
+                  <a href="/events/{{_id}}/translate" class="btn btn-link translate-link">{{_ "events.view.translate"}}</a>
+                </div>
               </div>
-              <div class="col-sm-12">
-                <i class="icon-check"></i> <a target="_blank" href={{rsvp}}>{{_ "events.view.rsvp"}}</a>
-              </div>
-              <div class="col-sm-12">
-                <i class="icon-location-pin"></i> <a target="_blank" href="https://www.google.com/maps/place/{{location}}/">{{location}}</a>
-              </div>
-              <div class="col-sm-12 news-body pt-4 pl-3 pr-3 text-justify">
-                {{{md description}}}
-              </div>
-              <div class="col-sm-12 pl-3 pr-3 text-justify">
-                <a href="/events/{{_id}}/translate" class="btn btn-link translate-link">{{_ "events.view.translate"}}</a>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-12 text-right">
-                {{#if watching}}
-                <a class="btn btn-success watch-event" href="#" title='{{_ "events.view.unfollow"}}'>{{_ "events.view.following"}}</a>
-                {{else}}
-                <a class="btn btn-secondary watch-event" href="#" title='{{_ "events.view.follow"}}'>{{_ "events.view.follow"}}</a>
-                {{/if}}
-                {{> flagItem item="event" translations=translations}}
+              <div class="row">
+                <div class="col-sm-12 text-right">
+                  {{#if watching}}
+                  <a class="btn btn-success watch-event" href="#" title='{{_ "events.view.unfollow"}}'>{{_ "events.view.following"}}</a>
+                  {{else}}
+                  <a class="btn btn-secondary watch-event" href="#" title='{{_ "events.view.follow"}}'>{{_ "events.view.follow"}}</a>
+                  {{/if}}
+                  {{> flagItem item="event" translations=translations}}
+                </div>
               </div>
             </div>
           </div>
+          {{/with}}
+          <hr class="mb-5 mt-5">
+          {{> commentArea parentId=event._id type="comment" postType="event" commentSuccess=commentSuccess}}
+          {{else}}
+          {{> loader}}
+          {{/if}}
         </div>
-        {{/with}}
-        <hr class="mb-5 mt-5">
-        {{> commentArea parentId=event._id type="comment" postType="event" commentSuccess=commentSuccess}}
-        {{else}}
-        {{> loader}}
-        {{/if}}
       </div>
     </div>
   </div>

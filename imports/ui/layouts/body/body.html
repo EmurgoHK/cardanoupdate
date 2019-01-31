@@ -4,11 +4,13 @@
         {{> Template.dynamic template=sidebar}}
         <main class="main">
             <section class="home-tagline d-none d-sm-block">
-                <div class="container">
-                    <div class="row mx-auto">
-                        <div class="col-sm-12 pr-0 pl-0 pb-5">
-                            <h2>{{_ "shared.main.title"}}</h2>
-                            <h2>{{_ "shared.main.title2"}}</h2>
+                <div class="mx-auto">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-12 pr-0 pl-0 pb-5">
+                                <h2>{{_ "shared.main.title"}}</h2>
+                                <h2>{{_ "shared.main.title2"}}</h2>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -22,7 +24,7 @@
             {{/if}}
             <nav class="container">
                 <!-- <li class="breadcrumb-item"> -->
-                    <a href="/">{{_ "shared.main.home"}}</a> / 
+                    <a href="/">{{_ "shared.main.home"}}</a> /
                     {{#each breadcrumbs}}
                     <a href="{{url}}">{{text}}</a>
                     {{#if notLast}} / {{/if}}
