@@ -13,12 +13,15 @@
     display: inline-block;
 
     &.px-3 {
-      @media (max-width: 1199px){
+      @media (max-width: 1199px) {
         padding-left: 0.5rem !important;
         padding-right: 0.5rem !important;
       }
     }
   }
+}
+.app-header .nav-item, .app-header .wizard .steps ol li, .wizard .steps ol .app-header li {
+  min-width: 45px;
 }
 
 // Logo style override on small screen
@@ -28,7 +31,7 @@
     margin-left: 0!important;
     justify-content: flex-start!important;
     padding-top: 5px!important;
-    
+
     // Mobile Logo
     img {
       width: 50px;
