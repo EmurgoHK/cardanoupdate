@@ -6,12 +6,12 @@
 
     <a class="navbar-brand" href="/">
       <!-- Original logo for normal screen -->
-      <img src="/img/logo.png" alt="cardano update" class="d-none d-sm-block">
+      <img src="/img/logo.png" alt="cardano update" class="d-none d-lg-block">
       <!-- Smaller logo for smaller screens (mobile) -->
-      <img src="/img/logo-mobile.png" alt="cardano update" class="d-block d-sm-none">
+      <img src="/img/logo-mobile.png" alt="cardano update" class="d-block d-lg-none">
     </a>
-    
-    <button class="navbar-toggler sidebar-toggler d-none d-lg-block" type="button" data-toggle="sidebar-show">
+
+    <button class="navbar-toggler sidebar-toggler d-none d-lg-block mr-auto" type="button" data-toggle="sidebar-show">
       <span class="fas fa-bars"></span>
     </button>
     <ul class="nav navbar-nav d-none d-lg-block left-nav-menu">
@@ -46,8 +46,8 @@
                                 <i class="nav-icon icon-magnifier" style="cursor: pointer;" id="searchButton"></i>
                             </div>
                         </div>
-                        <input autocomplete="false" class="form-control mr-sm-2 mr-3 searchHeader d-none d-md-block" type="search" id="searchHeader" placeholder='{{_ "shared.header.search"}}' aria-label="Search" required>
-                        
+                        <input autocomplete="false" class="form-control mr-sm-2 mr-3 searchHeader d-none d-xl-block" type="search" id="searchHeader" placeholder='{{_ "shared.header.search"}}' aria-label="Search" required>
+
                     </div>
                 </form>
       </li>
@@ -85,7 +85,7 @@
           <a class="dropdown-item" href="/profile/{{userId}}/edit"><i class="nav-icon icon-settings"></i> {{_ "shared.header.edit_profile"}}</a>
           <a class="dropdown-item" id="signOut" style="cursor: pointer;"><i class="nav-icon icon-logout"></i> {{_ "shared.header.signout"}}</a>
           <div class="change-language dropdown-item">
-              {{{_ "shared.footer.language"}}} 
+              {{{_ "shared.footer.language"}}}
               <select name="selectLanguage" id="selectLanguage">
                 {{#each languages}}
                   {{#if selected}}
