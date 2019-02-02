@@ -1,0 +1,31 @@
+.modal-backdrop{
+  z-index: 10 !important;
+}
+
+.login-modal{
+
+  .modal-body {
+    .tab-content .tab-pane {
+      padding: 1rem;
+      color: #000;
+    }
+  }
+}
+
+// Pills
+.nav-pills {
+  .nav-link {
+    display: block;
+    padding: .5rem 1rem;
+    border-radius: .25rem;
+  }
+  .nav-link {
+    text-decoration: none;
+    color: #3cc8c8 !important;
+  }
+  .nav-link.active,
+  .show > .nav-link {
+    border-bottom: solid 3px #20a8d8;
+    border-radius: 0;
+  }
+}

@@ -1,5 +1,6 @@
 import './header.html'
 import './header.scss'
+import './loginModal/login'
 import { Notifications } from '/imports/api/notifications/notifications'
 import { FlowRouter } from 'meteor/kadira:flow-router'
 import { Session } from 'meteor/session'
