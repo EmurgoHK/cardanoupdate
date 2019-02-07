@@ -1,0 +1,145 @@
+<template name="loginModal">
+  <div class="login-modal">
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">
+      Login
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <!-- Close Modal Button -->
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+
+            <!-- Navigation for Login, Register and Forgot Password -->
+            <ul class="nav nav-pills" id="loginModal" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" id="login-tab" data-toggle="pill" href="#pills-login" role="tab" aria-controls="pills-login" aria-selected="true">Login</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="signup-tab" data-toggle="pill" href="#pills-signup" role="tab" aria-controls="pills-signup" aria-selected="false">Register</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="password-tab" data-toggle="pill" href="#pills-password" role="tab" aria-controls="pills-password" aria-selected="false">Reset Password</a>
+              </li>
+            </ul>
+            <div class="tab-content" id="loginModalContent">
+              <!-- Login Form -->
+              <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="login-tab">
+                {{> loginForm}}
+              </div>
+              <div class="tab-pane fade" id="pills-signup" role="tabpanel" aria-labelledby="signup-tab">
+                <!-- Signup Form -->
+                {{> signupForm}}
+              </div>
+              <div class="tab-pane fade" id="pills-password" role="tabpanel" aria-labelledby="password-tab">
+                <!-- Forgot Password Form -->
+                {{> passwordForm}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="loginForm">
+  <h1>{{_ "login.login"}}</h1>
+  <p class="text-muted">{{_ "login.signin"}}</p>
+  <div class="row mb-2">
+    <div class="col-md-12">
+      <button class="btn btn-brand btn-facebook btn-block btn-lg" id="js-facebook" type="button">
+        <i class="fab fa-facebook-f float-left"></i><span>{{_ "login.facebook"}}</span>
+      </button>
+    </div>
+  </div>
+  <hr>
+  <form>
+    <div class="input-group mb-4">
+      <div class="input-group-prepend">
+        <span class="input-group-text"> @ </span>
+      </div>
+      <input type="text" class="form-control" placeholder='{{_ "login.email"}}' id="loginEmail">
+    </div>
+    <div class="input-group mb-4">
+      <div class="input-group-prepend">
+        <span class="input-group-text"> <i class="icon-lock"></i> </span>
+      </div>
+      <input type="password" class="form-control" placeholder='{{_ "login.password"}}' id="loginPassword">
+    </div>
+    <div class="row">
+      <div class="col-12 text-right">
+        <button type="button" class="btn btn-link px-0" id="goToResetPassword">{{_ "login.forgot"}}</button>
+      </div>
+      <div class="col-6">
+        <button type="submit" class="btn btn-primary px-4">{{_ "login.login"}}</button>
+      </div>
+      <div class="col-6 text-right">
+        <button type="button" class="btn btn-link px-0" id="goToSignup">{{_ "login.register"}}</button>
+      </div>
+    </div>
+  </form>
+</template>
+
+<template name="signupForm">
+  <h1>{{_ "signup.register"}}</h1>
+  <p class="text-muted">{{_ "signup.create"}}</p>
+  <form>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text"> <i class="icon-user"></i> </span>
+      </div>
+      <input type="text" class="form-control" placeholder='{{_ "signup.name"}}' id="name">
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text">@</span>
+      </div>
+      <input type="text" class="form-control" placeholder='{{_ "signup.email"}}' id="signupEmail">
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text"> <i class="icon-lock"></i> </span>
+      </div>
+      <input type="password" class="form-control" placeholder='{{_ "signup.password"}}' id="signupPassword">
+    </div>
+    <div class="input-group mb-4">
+      <div class="input-group-prepend">
+        <span class="input-group-text"> <i class="icon-lock"></i> </span>
+      </div>
+      <input type="password" class="form-control" placeholder='{{_ "signup.confirm"}}' id="confirmPassword">
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <button type="submit" class="btn btn-primary px-4">{{_ "signup.create_account"}}</button><br />
+        <button type="button" class="btn btn-link px-0 text-left" id="goToLogin">{{_ "signup.login"}}</button>
+      </div>
+    </div>
+  </form>
+</template>
+
+<template name="passwordForm">
+  <h1>{{_ "login.forgot"}}</h1>
+  <p class="text-muted">{{_ "login.reset"}}</p>
+  <form id="resetPasswordForm">
+    <div class="input-group mb-4">
+      <div class="input-group-prepend">
+        <span class="input-group-text"> @ </span>
+      </div>
+      <input type="text" class="form-control" placeholder='{{_ "login.reset_email"}}' id="passwordEmail">
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <button type="submit" class="btn btn-primary px-4">{{_ "login.reset_password"}}</button>
+      </div>
+      <div class="col-6 text-right">
+        <button type="button" class="btn btn-link px-0" id="goBackToLogin">{{_ "login.back"}}</button>
+      </div>
+    </div>
+  </form>
+</template>
