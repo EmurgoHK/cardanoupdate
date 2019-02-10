@@ -2,6 +2,14 @@ import { notify } from '/imports/modules/notifier'
 import './login.html';
 import './login.scss';
 
+Template.loginModal.events({
+  'hidden.bs.modal #loginModal' (event, template) {
+    $('#loginModalForm')[0].reset()
+    $('#sinupModalForm')[0].reset()
+    $('#resetPasswordForm')[0].reset()
+  }
+})
+
 Template.loginForm.events({
   'click #goToSignup': (event, templateInstance) => {
     event.preventDefault()
@@ -12,7 +20,7 @@ Template.loginForm.events({
     $('#loginModal a[href="#pills-password"]').tab('show');
   },
 
-  'submit': (event, templateInstance) => {
+  'submit #loginModalForm': (event, templateInstance) => {
     event.preventDefault()
 
     Meteor.loginWithPassword({
@@ -26,14 +34,22 @@ Template.loginForm.events({
         sessionStorage.setItem('uiLanguage', Meteor.user().profile.language)
         TAPi18n.setLanguage(Meteor.user().profile.language).always(() => {
           $('#loginModal').modal('hide');
+          //
+          $('body').removeClass('modal-open')
+          $('.modal-backdrop').remove()
+          //
           FlowRouter.go(FlowRouter.getQueryParam('from') || window.last || '/');
         });
       } else {
         $('#loginModal').modal('hide');
+        //
+        $('body').removeClass('modal-open')
+        $('.modal-backdrop').remove()
+        //
         FlowRouter.go(FlowRouter.getQueryParam('from') || window.last || '/');
       }
       // console.log('Hiding Modal ... ')
-      
+
     })
   },
   'click #js-facebook': (event, templateInstance) => {
@@ -63,7 +79,7 @@ Template.signupForm.events({
     $('#loginModal a[href="#pills-login"]').tab('show');
   },
 
-  'submit'(event) {
+  'submit #sinupModalForm'(event) {
     event.preventDefault()
     let target = event.target
     if (target.signupEmail.value !== '' && target.signupPassword.value !== '') {
@@ -79,17 +95,25 @@ Template.signupForm.events({
           if (err) {
             notify(TAPi18n.__(err.message), 'error')
             return
+          } else {
+            FlowRouter.go(window.last || '/')
+            $('#sinupModalForm')[0].reset()
+            $('#loginModal').modal('hide');
+            //
+            $('body').removeClass('modal-open')
+            $('.modal-backdrop').remove()
+            //
+            return
           }
-          FlowRouter.go(window.last || '/')
-          return
         })
-        $('#loginModal').modal('hide');
+        return
+      } else {
+        notify(TAPi18n.__('signup.confirm_error'), 'error')
         return
       }
-      notify(TAPi18n.__('signup.confirm_error'), 'error')
-      return
+    } else {
+      notify(TAPi18n.__('signup.required'), 'error')
     }
-    notify(TAPi18n.__('signup.required'), 'error')
   }
 })
 
@@ -99,7 +123,7 @@ Template.passwordForm.events({
     $('#loginModal a[href="#pills-login"]').tab('show');
   },
 
-  'submit' : (event, templateInstance) => {
+  'submit #resetPasswordForm' : (event, templateInstance) => {
     event.preventDefault()
     let forgotPasswordForm = templateInstance.$(event.currentTarget),
     email = forgotPasswordForm.find('#passwordEmail').val().toLowerCase()
@@ -110,6 +134,7 @@ Template.passwordForm.events({
           return
         } else {
           $('#loginModal').modal('hide');
+          $('#resetPasswordForm')[0].reset()
           notify(TAPi18n.__('login.check'), 'success')
         }
       });
