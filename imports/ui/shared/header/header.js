@@ -30,7 +30,7 @@ Template.header.events({
 
     FlowRouter.go('/add')
   },
-   'click #searchButton, submit': (event, templateInstance) => {
+   'click #searchButton, submit #searchHeaderForm': (event, templateInstance) => {
        event.preventDefault();
 
        let q = $('#searchHeader').val();
@@ -40,7 +40,7 @@ Template.header.events({
        }
        FlowRouter.go('/search')
 
-       
+
        let queryParam = { q: q }
        let path = FlowRouter.path('/search', {}, queryParam)
        Session.set('searchQuery', queryParam)
