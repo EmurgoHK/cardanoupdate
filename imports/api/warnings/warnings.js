@@ -3,7 +3,7 @@ import { Mongo } from 'meteor/mongo'
 export const Warnings = new Mongo.Collection('warnings')
 
 Warnings.friendlySlugs({
-  	slugFrom: 'headline',
+  	slugFrom: ['headline', 'language'],
   	slugField: 'slug',
   	distinct: true,
   	updateSlug: true,

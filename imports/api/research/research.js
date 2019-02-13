@@ -3,7 +3,7 @@ import { Mongo } from 'meteor/mongo'
 export const Research = new Mongo.Collection('research')
 
 Research.friendlySlugs({
-  	slugFrom: 'headline',
+  	slugFrom: ['headline', 'language'],
   	slugField: 'slug',
   	distinct: true,
   	updateSlug: true,
