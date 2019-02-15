@@ -48,11 +48,13 @@ Template.commentForm.events({
     return false;
   },
 
-  'click .save-comment': (event, templateInstance) => { 
+  'click .save-comment': (event, templateInstance) => {
     if (!Meteor.userId()) {
-      return loggedInSWAL({
-        action: 'shared.loginModal.action.comment',
-      });
+      $('#loginModal').modal('show')
+      // return loggedInSWAL({
+      //   action: 'shared.loginModal.action.comment',
+      // });
+      return false
     }
     const data = Template.currentData();
     const text = templateInstance.$('textarea.comment-text').val();
@@ -60,7 +62,7 @@ Template.commentForm.events({
       editComment.call({
         commentId: data.id,
         text,
-      }, (err, res) => {  
+      }, (err, res) => {
         if (!err) {
           templateInstance.text.set('');
           templateInstance.error.set('');
@@ -78,7 +80,7 @@ Template.commentForm.events({
         postType: data.postType,
         type: data.type,
         text,
-      }, (err, res) => {  
+      }, (err, res) => {
         if (!err) {
           templateInstance.text.set('');
           templateInstance.error.set('');
@@ -91,7 +93,7 @@ Template.commentForm.events({
       })
     }
   },
-  'click .cancel-comment': (event, templateInstance) => { 
+  'click .cancel-comment': (event, templateInstance) => {
     const data = Template.currentData();
     data.onCancel();
   },

@@ -7,6 +7,8 @@ Template.loginModal.events({
     $('#loginModalForm')[0].reset()
     $('#sinupModalForm')[0].reset()
     $('#resetPasswordForm')[0].reset()
+    
+    FlowRouter.setQueryParams({from: null})
   }
 })
 
@@ -38,7 +40,8 @@ Template.loginForm.events({
           $('body').removeClass('modal-open')
           $('.modal-backdrop').remove()
           //
-          FlowRouter.go(FlowRouter.getQueryParam('from') || window.last || '/');
+          // FlowRouter.go(FlowRouter.getQueryParam('from') || window.last || '/');
+          if (FlowRouter.getQueryParam('from')) FlowRouter.go(FlowRouter.getQueryParam('from'))
         });
       } else {
         $('#loginModal').modal('hide');
@@ -46,7 +49,8 @@ Template.loginForm.events({
         $('body').removeClass('modal-open')
         $('.modal-backdrop').remove()
         //
-        FlowRouter.go(FlowRouter.getQueryParam('from') || window.last || '/');
+        // FlowRouter.go(FlowRouter.getQueryParam('from') || window.last || '/');
+        if (FlowRouter.getQueryParam('from')) FlowRouter.go(FlowRouter.getQueryParam('from'))
       }
       // console.log('Hiding Modal ... ')
 
@@ -60,11 +64,13 @@ Template.loginForm.events({
         if (Meteor.user().profile && Meteor.user().profile.language) {
           sessionStorage.setItem('uiLanguage', Meteor.user().profile.language)
           TAPi18n.setLanguage(Meteor.user().profile.language).always(() => {
-            FlowRouter.go(FlowRouter.getQueryParam('from') || window.last || '/');
+            // FlowRouter.go(FlowRouter.getQueryParam('from') || window.last || '/');
+            if (FlowRouter.getQueryParam('from')) FlowRouter.go(FlowRouter.getQueryParam('from'))
           });
         } else {
           $('#loginModal').modal('hide');
-          FlowRouter.go(FlowRouter.getQueryParam('from') || window.last || '/');
+          // FlowRouter.go(FlowRouter.getQueryParam('from') || window.last || '/');
+          if (FlowRouter.getQueryParam('from')) FlowRouter.go(FlowRouter.getQueryParam('from'))
         }
       } else {
         notify(TAPi18n.__(err.message), 'error')
