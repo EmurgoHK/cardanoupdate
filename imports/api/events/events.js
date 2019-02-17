@@ -3,7 +3,7 @@ import { Mongo } from 'meteor/mongo'
 export const Events = new Mongo.Collection('events')
 
 Events.friendlySlugs({
-  slugFrom: 'headline',
+  slugFrom: ['headline', 'location'],
   slugField: 'slug',
   distinct: true,
   updateSlug: true,

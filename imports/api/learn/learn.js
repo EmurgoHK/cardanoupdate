@@ -3,7 +3,7 @@ import { Mongo } from 'meteor/mongo'
 export const Learn = new Mongo.Collection('learn')
 
 Learn.friendlySlugs({
-  	slugFrom: 'title',
+  	slugFrom: ['title', 'difficultyLevel'],
   	slugField: 'slug',
   	distinct: true,
   	updateSlug: true,
