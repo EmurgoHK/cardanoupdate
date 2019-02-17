@@ -10,3 +10,12 @@
     display: none !important;
   }
 }
+.dropup {
+  .dropdown-menu.show {
+    transform: none !important;
+    bottom: 100% !important;
+    will-change: auto !important;
+    top: auto !important;
+    left: 15px !important;
+  }
+}
