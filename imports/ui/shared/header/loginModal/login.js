@@ -7,7 +7,7 @@ Template.loginModal.events({
     $('#loginModalForm')[0].reset()
     $('#sinupModalForm')[0].reset()
     $('#resetPasswordForm')[0].reset()
-    
+
     FlowRouter.setQueryParams({from: null})
   }
 })
@@ -25,6 +25,12 @@ Template.loginForm.events({
   'submit #loginModalForm': (event, templateInstance) => {
     event.preventDefault()
 
+    let redirectTo = null
+    if (FlowRouter.getQueryParam('from')) redirectTo = FlowRouter.getQueryParam('from')
+    else {
+      if (FlowRouter.current() && FlowRouter.current().queryParams && FlowRouter.current().queryParams.from) redirectTo = FlowRouter.current().queryParams.from
+    }
+
     Meteor.loginWithPassword({
       email: event.target.loginEmail.value
     }, event.target.loginPassword.value, (err) => {
@@ -41,7 +47,7 @@ Template.loginForm.events({
           $('.modal-backdrop').remove()
           //
           // FlowRouter.go(FlowRouter.getQueryParam('from') || window.last || '/');
-          if (FlowRouter.getQueryParam('from')) FlowRouter.go(FlowRouter.getQueryParam('from'))
+          if (redirectTo) FlowRouter.go(redirectTo)
         });
       } else {
         $('#loginModal').modal('hide');
@@ -50,7 +56,7 @@ Template.loginForm.events({
         $('.modal-backdrop').remove()
         //
         // FlowRouter.go(FlowRouter.getQueryParam('from') || window.last || '/');
-        if (FlowRouter.getQueryParam('from')) FlowRouter.go(FlowRouter.getQueryParam('from'))
+        if (redirectTo) FlowRouter.go(redirectTo)
       }
       // console.log('Hiding Modal ... ')
 
@@ -59,18 +65,24 @@ Template.loginForm.events({
   'click #js-facebook': (event, templateInstance) => {
     event.preventDefault()
 
+    let redirectTo = null
+    if (FlowRouter.getQueryParam('from')) redirectTo = FlowRouter.getQueryParam('from')
+    else {
+      if (FlowRouter.current() && FlowRouter.current().queryParams && FlowRouter.current().queryParams.from) redirectTo = FlowRouter.current().queryParams.from
+    }
+
     Meteor.loginWithFacebook({}, (err) => {
       if (!err) {
         if (Meteor.user().profile && Meteor.user().profile.language) {
           sessionStorage.setItem('uiLanguage', Meteor.user().profile.language)
           TAPi18n.setLanguage(Meteor.user().profile.language).always(() => {
             // FlowRouter.go(FlowRouter.getQueryParam('from') || window.last || '/');
-            if (FlowRouter.getQueryParam('from')) FlowRouter.go(FlowRouter.getQueryParam('from'))
+            if (redirectTo) FlowRouter.go(redirectTo)
           });
         } else {
           $('#loginModal').modal('hide');
           // FlowRouter.go(FlowRouter.getQueryParam('from') || window.last || '/');
-          if (FlowRouter.getQueryParam('from')) FlowRouter.go(FlowRouter.getQueryParam('from'))
+          if (redirectTo) FlowRouter.go(redirectTo)
         }
       } else {
         notify(TAPi18n.__(err.message), 'error')
