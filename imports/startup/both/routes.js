@@ -29,6 +29,8 @@ if (Meteor.isClient) {
   import '/imports/ui/pages/faq/faq'
   import '/imports/ui/pages/faq/faqForm'
 
+  import '/imports/ui/pages/github/github'
+
   import '/imports/ui/pages/research/research'
   import '/imports/ui/pages/research/researchForm'
   import '/imports/ui/pages/research/viewResearch'
@@ -89,7 +91,7 @@ const modRoutes = FlowRouter.group({
 
 // Redirect to login
 Accounts.onLogout((user) => {
-  FlowRouter.go('/login')
+  FlowRouter.go('/')
 })
 
 // FlowRouter.triggers.enter([userLoginFilter], { except: ['home', 'projects'] })
@@ -144,6 +146,18 @@ FlowRouter.route('/', {
     })
   }
 })
+
+FlowRouter.route('/github', {
+  name: 'github',
+  action: () => {
+    BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
+      main: 'github'
+    })
+  }
+})
+
 
 FlowRouter.route('/faqs', {
   name: 'faqs',
