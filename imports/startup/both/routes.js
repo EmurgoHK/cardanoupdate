@@ -89,7 +89,7 @@ const modRoutes = FlowRouter.group({
 
 // Redirect to login
 Accounts.onLogout((user) => {
-  FlowRouter.go('/login')
+  FlowRouter.go('/')
 })
 
 // FlowRouter.triggers.enter([userLoginFilter], { except: ['home', 'projects'] })
