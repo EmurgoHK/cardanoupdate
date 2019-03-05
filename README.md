@@ -7,6 +7,9 @@ People keep asking for updates from IOHK, Emurgo, and the Cardano Foundation but
 ## The solution
 A website that anyone can contribute to and update with news.
 
+## Reminder
+Do read your code after you write it and ask, “Can I make this simpler?” We do use a nice minimalist and yet readable style. Learn it, adopt it, use it.
+
 <details>
   <summary>How to run Cardanoupdate locally</summary>
 <p>
