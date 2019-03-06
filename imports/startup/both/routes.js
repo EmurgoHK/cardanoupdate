@@ -94,6 +94,7 @@ Accounts.onLogout((user) => {
 
 // FlowRouter.triggers.enter([userLoginFilter], { except: ['home', 'projects'] })
 FlowRouter.triggers.enter([function(options) {
+  $(window).scrollTop(0)
     if (options.route.options && options.route.options.breadcrumb) {
       let breadcrumb = options.route.options.breadcrumb(options.params) || {};
       breadcrumb.urls = breadcrumb.urls || [];
