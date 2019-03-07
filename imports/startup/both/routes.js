@@ -76,6 +76,13 @@ const userLoginFilter = (context, redirect, _stop) => {
       import { notify } from '/imports/modules/notifier'
       if (notify) notify('Login to continue!', 'error')
     }
+    if (context.oldRoute._params) {
+      if (context.oldRoute._params.keys) oldRoute = '/'
+      // _.each(context.oldRoute._params.keys, (item, index) => {
+      //   oldRoute = oldRoute.replace(':'+index, (item).replace(/\"/g, ''))
+      // })
+    }
+
     $('#loginModal').modal('show')
     redirect(oldRoute + '?from=' + encodeURIComponent(context.path))
     // redirect('/login?from=' + context.path)
