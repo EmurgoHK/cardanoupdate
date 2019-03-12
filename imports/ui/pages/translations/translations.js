@@ -40,11 +40,28 @@ Template.translations.onCreated(function() {
 		this.subscribe('langs')
 	})
 
+  // const action = FlowRouter.getQueryParam('action')
 	this.addNew = new ReactiveVar(false)
 })
 
+// Template.translations.onRendered(function() {
+//   Meteor.defer(function () {
+//     FlowRouter.setQueryParams({ 'action': null })
+//   })
+// })
+
 Template.translations.helpers({
 	langs: () => {
+    //
+    FlowRouter.watchPathChange()
+    const action = FlowRouter.getQueryParam('action')
+    if (action && action == 'new') {
+      Meteor.defer(function () {
+        $('#pageSelectLanguage').val('new').trigger('change')
+        FlowRouter.setQueryParams({ 'action': null })
+      })
+    }
+    //
 		let langs = Object.keys(TAPi18n.languages_names).filter(i => i !== 'en') // english shouldn't be on the list
 		let langsFallback = Translations.findOne({
 			_id: 'languages'
@@ -140,6 +157,7 @@ Template.translations.events({
 		if ($(event.currentTarget).val() === 'new') {
 			templateInstance.addNew.set(true)
 		} else {
+      templateInstance.addNew.set(false)
 			templateInstance.currentLanguage.set({
 				key: $(event.currentTarget).val(),
 				name: $(event.currentTarget).find('option:selected').text()
