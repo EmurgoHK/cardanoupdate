@@ -39,7 +39,8 @@ Template.sidebar.events({
     "change #selectLanguage"(event) {
       event.preventDefault();
       if (event.target.value === 'new') {
-        FlowRouter.go('/translations')
+        FlowRouter.go('/translations', {}, { 'action': 'new' })
+        $(event.target).val('en')
       } else {
         TAPi18n.setLanguage(event.target.value);
       }
