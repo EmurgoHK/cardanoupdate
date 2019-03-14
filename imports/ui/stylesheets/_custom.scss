@@ -313,6 +313,9 @@ body .select2-dropdown {
 @media (max-width: 575.98px) {
   .sidebar-show .main::before, .aside-menu-show .main::before { position: fixed; }
 }
+@media (max-width: 767px) {
+  body #__blaze-root { padding-bottom: 6em; }
+}
 
 .translate-link.btn.btn-link {
     padding: 0;
