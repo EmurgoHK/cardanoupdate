@@ -43,7 +43,7 @@ Template.viewProfile.helpers({
         bio: user.profile && user.profile.bio ? user.profile.bio : '',
         picture: user.profile && user.profile.picture || '',
         profile: user.profile,
-        emails: user.emails
+        emails: user.emails && user.emails.length ? user.emails : []
         // email : user.emails[0].address,
         // verifiedEmail : user.emails[0].verified,
       }
@@ -110,17 +110,17 @@ Template.viewProfile.helpers({
     }
     return content
   },
-  comments: () => Comments.find({createdBy : FlowRouter.getParam('userId')}).map(comment => { 
+  comments: () => Comments.find({createdBy : FlowRouter.getParam('userId')}).map(comment => {
     // We are adding extra data to the comment depending on the content it was made on.
-    
+
     // Fetching the project if the comment was made on one
     const project = Projects.findOne({_id: comment.newsId});
     if (project) {
       comment.contentTitle = project.headline;
       comment.contentUrl = `/projects/${project.slug}`;
       return comment;
-    } 
-    
+    }
+
     // Fetching the research if the comment was made on one
     const research = Research.findOne({_id: comment.newsId});
     if (research) {
@@ -128,7 +128,7 @@ Template.viewProfile.helpers({
       comment.contentUrl = `/research/${research.slug}`;
       return comment;
     }
-    
+
     // Fetching the learning resource if the comment was made on one
     const learn = Learn.findOne({_id: comment.newsId});
     if (learn) {
@@ -136,7 +136,7 @@ Template.viewProfile.helpers({
       comment.contentUrl = `/learn/${learn.slug}`;
       return comment;
     }
-    
+
     // Fetching the scam if the comment was made on one
     const warning = Warnings.findOne({_id: comment.newsId});
     if (warning) {
@@ -144,7 +144,7 @@ Template.viewProfile.helpers({
       comment.contentUrl = `/scams/${warning.slug}`;
       return comment;
     }
-    
+
     // Fetching the social resource if the comment was made on one
     const socialResource = socialResources.findOne({_id: comment.newsId});
     if (socialResource) {
@@ -160,7 +160,7 @@ Template.viewProfile.helpers({
       comment.contentUrl = `/events/${event.slug}`;
       return comment;
     }
-    
+
     comment.contentTitle = 'Unknown';
     comment.contentUrl = '#';
 
@@ -202,7 +202,7 @@ Template.editProfile.helpers({
     let user = Meteor.users.findOne({_id : Meteor.userId()})
     return {
       name: user.profile && user.profile.name ? user.profile.name : TAPi18n.__('user.edit.no_name'),
-      email: user.emails[0].address,
+      email: user.emails && user.emails.length ? user.emails[0].address : '',
       bio: user.profile && user.profile.bio ? user.profile.bio : '',
       picture: user.profile && user.profile.picture || '',
       language: user.profile && user.profile.language ? user.profile.language : 'en',
