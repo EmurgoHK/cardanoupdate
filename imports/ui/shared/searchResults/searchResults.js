@@ -225,7 +225,6 @@ Template.searchResults.helpers({
   results: () => {
     const tpl = Template.instance();
     let results = tpl.results.get();
-
     if (tpl.titleSort.get()) {
       switch (
         tpl.titleSort.get() //sort by titles
@@ -253,6 +252,10 @@ Template.searchResults.helpers({
           return results.sort((a, b) => b.date - a.date);
       }
     }
+  },
+
+  subsReady() {
+    return FlowRouter.subsReady()
   },
 
   resultCount: () => Template.instance().results.get().length,

@@ -15,18 +15,22 @@
     </div>
     <hr />
     <div class="row">
-      {{#if faqCount}}
-        <div class="col-sm-12">
-          <div class="accordion faq-home" id="faqList">
-            {{#each faqs}}
-              {{> faqItem}}
-            {{/each}}
+      {{#if Template.subscriptionsReady}}
+        {{#if faqCount}}
+          <div class="col-sm-12">
+            <div class="accordion faq-home" id="faqList">
+              {{#each faqs}}
+                {{> faqItem}}
+              {{/each}}
+            </div>
           </div>
-        </div>
+        {{else}}
+          <div class="col-sm-12">
+            <p>{{_ "faq.no_faqs"}}</p>
+          </div>
+        {{/if}}
       {{else}}
-        <div class="col-sm-12">
-          <p>{{_ "faq.no_faqs"}}</p>
-        </div>
+        <div class="col-sm-12 text-center"><i class="fas fa-spinner fa-spin"></i></div>
       {{/if}}
     </div>
   </div>
