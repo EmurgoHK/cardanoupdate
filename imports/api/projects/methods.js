@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import SimpleSchema from 'simpl-schema'
 import { ValidatedMethod } from 'meteor/mdg:validated-method'
-
+import { transliterate as tr, slugify } from 'transliteration'
 import { Projects } from './projects'
 import { Comments } from '../comments/comments'
 
@@ -112,6 +112,8 @@ export const addProject = new ValidatedMethod({
             data.createdBy = Meteor.userId()
             data.createdAt = new Date().getTime()
 
+            // Readble slugs with translation to English from other languages
+            data.slug = slugify(data.headline)
             const original = data.original ? Projects.findOne({$or: [{_id: data.original}, {slug: data.original}]}) : undefined;
 
             if (data.original && !original)

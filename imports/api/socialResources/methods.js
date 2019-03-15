@@ -1,6 +1,6 @@
 import { ValidatedMethod } from 'meteor/mdg:validated-method'
 import SimpleSchema from 'simpl-schema'
-
+import { transliterate as tr, slugify } from 'transliteration'
 import { socialResources } from './socialResources'
 import { Comments } from '/imports/api/comments/comments'
 
@@ -106,6 +106,9 @@ export const addSocialResource = new ValidatedMethod({
                     }
                 })
             }
+            
+            // Readble slugs with translation to English from other languages
+            data.slug = slugify(data.headline)
 
             const original = data.original ? socialResources.findOne({$or: [{_id: data.original}, {slug: data.original}]}) : undefined;
             

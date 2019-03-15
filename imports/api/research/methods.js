@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import SimpleSchema from 'simpl-schema'
 import { ValidatedMethod } from 'meteor/mdg:validated-method'
-
+import { transliterate as tr, slugify } from 'transliteration'
 import { Research } from './research'
 import { Comments } from '/imports/api/comments/comments'
 
@@ -75,6 +75,9 @@ export const newResearch = new ValidatedMethod({
                 }
             }
 
+            // Readble slugs with translation to English from other languages
+            data.slug = slugify(data.headline)
+            
             const originalDoc = original ? Research.findOne({$or: [{_id: original}, {slug: original}]}) : undefined;
 
             if (original && !originalDoc)
