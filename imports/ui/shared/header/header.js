@@ -30,7 +30,7 @@ Template.header.events({
 
     FlowRouter.go('/add')
   },
-   'click #searchButton, submit #searchHeaderForm': (event, templateInstance) => {
+  'submit #searchHeaderForm': (event, templateInstance) => {
        event.preventDefault();
 
        let q = $('#searchHeader').val();

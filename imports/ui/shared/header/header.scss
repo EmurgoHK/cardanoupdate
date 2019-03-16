@@ -1,3 +1,8 @@
+// Header Wrapper
+.app-header{
+  flex: 0 0 55px;
+}
+
 // Logo CSS
 .app-header .navbar-brand {
   width: auto;
@@ -9,38 +14,198 @@
 }
 
 .left-nav-menu{
-  li{
-    display: inline-block;
-
+  margin-right: auto;
+  li.nav-item{
+    display: inline-flex;
+    align-items: center;
+    i{
+      font-size: 12px;
+      margin-right: 5px;
+    }
     &.px-3 {
       @media (max-width: 1199px) {
         padding-left: 0.5rem !important;
         padding-right: 0.5rem !important;
       }
     }
+
+    // Hide more button's down arrow
+    .nav-link.dropdown-toggle::after{
+      display: none;
+    }
   }
 }
+
+.right-nav-menu {
+  li.nav-item{
+    &.change-language{
+      border-bottom: solid 2px;
+      height: 50px;
+    }
+    i.icon-social-github {
+      font-size: 24px;
+    }
+    select#selectLanguage {
+      cursor: pointer;
+      background: #091a26;
+      border: none;
+      color: #fff;
+      font-size: 16px;
+      outline: none;
+    }
+  }
+}
+
 .app-header .nav-item, .app-header .wizard .steps ol li, .wizard .steps ol .app-header li {
   min-width: 45px;
 }
 
 // Logo style override on small screen
-@media (max-width: 991.98px){
+@media (max-width: 575.98px) {
   .app-header .navbar-brand {
     left: 60px!important;
     margin-left: 0!important;
     justify-content: flex-start!important;
     padding-top: 5px!important;
-
-    // Mobile Logo
     img {
       width: 50px;
       margin-left: -10px;
       margin-top: -5px;
     }
   }
+  input#searchHeader:focus{
+    left: -310px;
+    max-width: 310px;
+  }
+}
+
+@media (max-width: 991.98px){
+  .app-header .navbar-brand {
+    left: 0;
+    margin: 0;
+  }
   .navbar-nav .nav-link{
     color: #73818f !important;
     cursor: pointer;
   }
 }
+
+.header-search {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 55px;
+    height: 55px;
+    .search {
+      position: absolute;
+      margin: auto;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: 55px;
+      height: 55px;
+      background: #091a26;
+      transition: all 1s;
+      z-index: 4;
+      &:hover {
+        cursor: pointer;
+      }
+      &::before {
+        content: "";
+        position: absolute;
+        margin: auto;
+        top: 22px;
+        right: 0;
+        bottom: 0;
+        left: 22px;
+        width: 12px;
+        height: 2px;
+        background: white;
+        transform: rotate(45deg);
+        transition: all .5s;
+      }
+      &::after {
+        content: "";
+        position: absolute;
+        margin: auto;
+        top: -2px;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        border: 2px solid white;
+        transition: all .5s;
+      }
+    }
+    input {
+      font-family: 'Inconsolata', monospace;
+      position: absolute;
+      margin: auto;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: 55px;
+      height: 55px;
+      outline: none;
+      border: none;
+      background: #091a26;
+      color: white;
+      padding: 0 20px 0 20px;
+      transition: all 1s;
+      opacity: 0;
+      z-index: 5;
+      font-weight: bolder;
+      letter-spacing: 0.1em;
+      &:hover {
+        cursor: pointer;
+      }
+      &:focus {
+        width: 500px;
+        opacity: 1;
+        cursor: text;
+        left: -500px;
+      }
+      &:focus ~ .search {
+        background: #091a26;
+        z-index: 6;
+        &::before {
+          top: 0;
+          left: 0;
+          width: 20px;
+        }
+        &::after {
+          top: 0;
+          left: 0;
+          width: 20px;
+          height: 2px;
+          border: none;
+          background: white;
+          border-radius: 0%;
+          transform: rotate(-45deg);
+        }
+      }
+      &::placeholder {
+        color: white;
+        opacity: 0.5;
+        font-weight: bolder;
+      }
+    }
+  }
+
+.left-nav-bar
+  > li.nav-item {
+    a{
+      display: flex;
+      align-items: center;
+    }
+    i{
+      font-size: 26px;
+    }
+  }
