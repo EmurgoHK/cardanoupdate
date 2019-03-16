@@ -56,10 +56,14 @@ Template.translations.helpers({
     FlowRouter.watchPathChange()
     const action = FlowRouter.getQueryParam('action')
     if (action && action == 'new') {
+      const tem = Template.instance()
       Meteor.defer(function () {
-        $('#pageSelectLanguage').val('new').trigger('change')
+        // $('#pageSelectLanguage').val('new').trigger('change')
         FlowRouter.setQueryParams({ 'action': null })
       })
+      setTimeout(function () {
+        $('#pageSelectLanguage').val('new').trigger('change')
+      }, 500)
     }
     //
 		let langs = Object.keys(TAPi18n.languages_names).filter(i => i !== 'en') // english shouldn't be on the list
