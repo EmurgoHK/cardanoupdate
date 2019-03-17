@@ -75,9 +75,6 @@ export const newResearch = new ValidatedMethod({
                 }
             }
 
-            // Readble slugs with translation to English from other languages
-            data.slug = slugify(data.headline)
-            
             const originalDoc = original ? Research.findOne({$or: [{_id: original}, {slug: original}]}) : undefined;
 
             if (original && !originalDoc)
@@ -88,6 +85,8 @@ export const newResearch = new ValidatedMethod({
             
             const id = Research.insert({
                 headline: headline,
+                // Readble slugs with translation to English from other languages
+                slug: slugify(headline),
                 abstract: abstract,
                 pdf: pdf,
                 createdAt: new Date().getTime(),

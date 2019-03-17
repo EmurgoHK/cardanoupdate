@@ -32,8 +32,7 @@ describe('event methods', () => {
       start_date: 'test',
       end_date: 'test2',
       location: 'test loc',
-      placeId: 'tt',
-      rsvp: 'test rsvp',
+      rsvp: 'http://testrsvp.com',
       captcha:'_test_captcha_',
       language: 'en',
     }).then(data => {
@@ -43,14 +42,12 @@ describe('event methods', () => {
 
       assert.ok(event)
 
-      assert.ok(event.headline === 'Test headline')
-      assert.ok(event.description === 'Test description')
-      assert.ok(event.start_date === 'test')
-      assert.ok(event.end_date === 'test2')
-      assert.ok(event.rsvp === 'test rsvp')
-      assert.ok(event.location === 'test loc')
-      assert.ok(event.placeId === 'tt')
-      assert.ok(event.language === 'en');
+      assert.equal(event.headline, 'Test headline');
+      assert.equal(event.description, 'Test description');
+      assert.equal(event.start_date, 'test');
+      assert.equal(event.end_date, 'test2');
+      assert.equal(event.rsvp, 'http://testrsvp.com');
+      assert.equal(event.location, 'test loc');
 
       const translationGroup = TranslationGroups.findOne({translations: {$elemMatch: {id: data}}});
       assert.ok(translationGroup);
@@ -79,8 +76,7 @@ describe('event methods', () => {
       start_date: 'test',
       end_date: 'test2',
       location: 'test loc',
-      placeId: 'tt',
-      rsvp: 'test rsvp',
+      rsvp: 'http://testrsvp.com',
       captcha:'_test_captcha_', 
       language: 'sr',
       original: original._id,
@@ -95,10 +91,8 @@ describe('event methods', () => {
       assert.equal(event.description, 'Test description');
       assert.equal(event.start_date, 'test');
       assert.equal(event.end_date, 'test2');
-      assert.equal(event.rsvp, 'test rsvp');
+      assert.equal(event.rsvp, 'http://testrsvp.com');
       assert.equal(event.location, 'test loc');
-      assert.equal(event.placeId, 'tt');
-      assert.equal(event.language, 'sr');
 
       const translationGroup = TranslationGroups.findOne({translations: {$elemMatch: {id: data}}});
       assert.ok(translationGroup);
@@ -117,8 +111,8 @@ describe('event methods', () => {
       start_date: 'test',
       end_date: 'test2',
       location: 'test loc',
-      placeId: 'tt',
-      rsvp: 'test rsvp',
+      rsvp: 'http://testrsvp.com',
+      slug: 'test-headline-old',
     });
     const original = Events.findOne({_id: originalId});
 
@@ -128,8 +122,7 @@ describe('event methods', () => {
       start_date: 'test',
       end_date: 'test2',
       location: 'test loc',
-      placeId: 'tt',
-      rsvp: 'test rsvp',
+      rsvp: 'http://testrsvp.com',
       captcha:'_test_captcha_', 
       language: 'sr',
       original: original._id,
@@ -144,10 +137,8 @@ describe('event methods', () => {
       assert.equal(event.description, 'Test description');
       assert.equal(event.start_date, 'test');
       assert.equal(event.end_date, 'test2');
-      assert.equal(event.rsvp, 'test rsvp');
+      assert.equal(event.rsvp, 'http://testrsvp.com');
       assert.equal(event.location, 'test loc');
-      assert.equal(event.placeId, 'tt');
-      assert.equal(event.language, 'sr');
 
       const translationGroup = TranslationGroups.findOne({translations: {$elemMatch: {id: data}}});
       assert.ok(translationGroup);
@@ -166,8 +157,7 @@ describe('event methods', () => {
       start_date: 'test',
       end_date: 'test2',
       location: 'test loc',
-      placeId: 'tt',
-      rsvp: 'test rsvp',
+      rsvp: 'http://testrsvp.com',
       captcha:'_test_captcha_', 
       language: 'sr',
       original: 'nope',
@@ -190,8 +180,7 @@ describe('event methods', () => {
       start_date: 'test',
       end_date : 'test',
       location: 'test web',
-      rsvp:'test',
-      placeId: 'ttt',
+      rsvp:'http://test.com',
       captcha:'_test_captcha_'
     }).then(data => {
       let event2 = Events.findOne({
@@ -205,8 +194,7 @@ describe('event methods', () => {
       assert.ok(event2.start_date === 'test')
       assert.ok(event2.end_date === 'test')
       assert.ok(event2.location === 'test web')
-      assert.ok(event2.rsvp === 'test')
-      assert.ok(event2.placeId === 'ttt')
+      assert.ok(event2.rsvp === 'http://test.com')
 
       const translationGroup = TranslationGroups.findOne({translations: {$elemMatch: {id: event._id}}});
       assert.ok(translationGroup);
@@ -223,7 +211,7 @@ describe('event methods', () => {
       start_date : 'test',
       end_date : 'test',
       location : 'test',
-      rsvp : 'test',
+      rsvp : 'http://test.com',
       createdAt: new Date().getTime()
     })
 
@@ -236,7 +224,7 @@ describe('event methods', () => {
       start_date : 'test',
       end_date : 'test',
       location : 'test',
-      rsvp : 'test',
+      rsvp : 'http://test.com',
       captcha:'_test_captcha_'
     }).then(data => {}).catch(error => {
       assert.ok(error)
@@ -281,7 +269,7 @@ describe('event methods', () => {
       start_date : 'test',
       end_date : 'test',
       location : 'test',
-      rsvp : 'test',
+      rsvp : 'http://test.com',
       createdBy: 'not-me',
       createdAt: new Date().getTime()
     })

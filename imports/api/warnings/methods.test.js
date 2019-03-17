@@ -82,6 +82,7 @@ describe('warning methods', () => {
     it('user can add a translation of a warning by id if it was created before translations', () => {
       const originalId = Warnings.insert({
         headline: 'Test headline',
+        slug: 'test-headline',
         summary: 'Test summary',
         captcha:'_test_captcha_',
       });
