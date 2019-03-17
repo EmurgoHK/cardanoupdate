@@ -108,7 +108,7 @@ export const addSocialResource = new ValidatedMethod({
             }
             
             // Readble slugs with translation to English from other languages
-            data.slug = slugify(data.headline)
+            data.slug = slugify(data.Name);
 
             const original = data.original ? socialResources.findOne({$or: [{_id: data.original}, {slug: data.original}]}) : undefined;
             

@@ -90,6 +90,7 @@ describe('Learning items methods', () => {
     it('user can add a translation of a learning resource by id if it was created before translations', () => {
       const originalId = Learn.insert({
         title: 'Test title old',
+        slug: 'test-title-old',
         content: 'Test content',
         summary: 'Test summary',
         difficultyLevel: 'Test level',

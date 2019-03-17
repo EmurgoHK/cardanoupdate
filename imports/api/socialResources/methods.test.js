@@ -19,6 +19,7 @@ describe('social resources methods', () => {
     before(function () {
         resourceIdNotOwned = socialResources.insert({
             Name: 'Temp Resource',
+            slug: 'temp-resource',
             description: 'Temp Resource',
             createdBy: 'temp'
         })
@@ -59,7 +60,7 @@ describe('social resources methods', () => {
         return callWithPromise('addSocialResource', {
             Name: 'Test Resource',
             description: 'Test Resource',
-            Resource_url: 'test',
+            Resource_url: 'https://gitter.im/meteor/meteor',
             captcha:'_test_captcha_',
             language: 'en',
         }).then(data => {
@@ -71,7 +72,7 @@ describe('social resources methods', () => {
 
             assert.equal(resource.Name, 'Test Resource');
             assert.equal(resource.description, 'Test Resource');
-            assert.equal(resource.Resource_url, 'test');
+            assert.equal(resource.Resource_url, 'https://gitter.im/meteor/meteor');
       
             const translationGroup = TranslationGroups.findOne({translations: {$elemMatch: {id: data}}});
             assert.ok(translationGroup);
@@ -125,6 +126,7 @@ describe('social resources methods', () => {
     it('user can add a translation of a social resource by id if it was created before translations', () => {
       const originalId = socialResources.insert({
         Name: 'Test Resource',
+        slug: 'test-resource',
         description: 'Test Resource',
         Resource_url: 'https://gitter.im/meteor/meteor',
         captcha:'_test_captcha_',
@@ -193,7 +195,7 @@ describe('social resources methods', () => {
             projectId: resource._id,
             Name: 'Test Resource 2',
             description: 'Test Resource 2',
-            Resource_url: 'test 2',
+            Resource_url: 'https://gitter.im/meteor/meteor2',
             tags: newTags,
             captcha:'_test_captcha_'
         }).then(data =>{
@@ -205,7 +207,7 @@ describe('social resources methods', () => {
 
             assert.equal(resource2.Name, 'Test Resource 2');
             assert.equal(resource2.description, 'Test Resource 2');
-            assert.equal(resource2.Resource_url, 'test 2');
+            assert.equal(resource2.Resource_url, 'https://gitter.im/meteor/meteor2');
 
             assert.lengthOf(resource2.tags, 2);
 
@@ -230,12 +232,7 @@ describe('social resources methods', () => {
     })
 
     it('user cannot edit a social resource he/she did\'t create',() => {
-        let resource = socialResources.insert({
-            Name: 'Temp Resource',
-            description: 'Temp Resource',
-            createdBy: 'temp',
-            captcha:'_test_captcha_'
-        })
+        let resource = socialResources.find(resourceIdNotOwned);
 
         assert.ok(resource)
 

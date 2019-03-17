@@ -121,9 +121,6 @@ export const newLearningItem = new ValidatedMethod({
                 })
             }
             
-            // Readble slugs with translation to English from other languages
-            data.slug = slugify(data.headline)
-
             const originalDoc = original ? Learn.findOne({$or: [{_id: original}, {slug: original}]}) : undefined;
 
             if (original && !originalDoc)
@@ -139,6 +136,7 @@ export const newLearningItem = new ValidatedMethod({
                 difficultyLevel: difficultyLevel,
                 tags: tags,
                 language,
+                slug: slugify(title),
                 createdAt: new Date().getTime(),
                 createdBy: Meteor.userId()
             });

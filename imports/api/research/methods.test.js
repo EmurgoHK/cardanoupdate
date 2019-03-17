@@ -121,6 +121,7 @@ describe('research methods', () => {
     it('user can add a translation of a research by id if it was created before translations', () => {
       const originalId = Research.insert({
         headline: 'Test headline old',
+        slug: 'test-headline-old',
         abstract: 'Test abstract',
         pdf: '/test.pdf',
         captcha:'_test_captcha_',

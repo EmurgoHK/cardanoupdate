@@ -42,7 +42,16 @@ export const newEvent = new ValidatedMethod({
     captcha: {
       type: String,
       optional: isTesting
-    }
+    },
+    language: {
+      type: String,
+      max: 3,
+      optional: true,
+    },
+    original: {
+      type: String,
+      optional: true,
+    },
   }).validator({
     clean: true
   }),
@@ -64,7 +73,6 @@ export const newEvent = new ValidatedMethod({
             
       // Readble slugs with translation to English from other languages
       data.slug = slugify(data.headline)
-      
       const original = data.original ? Events.findOne({$or: [{_id: data.original}, {slug: data.original}]}) : undefined;
       
       if (data.original && !original)
@@ -75,7 +83,6 @@ export const newEvent = new ValidatedMethod({
         throw new Meteor.Error('Error.', 'messages.alreadyTranslated');
 
       const id = Events.insert(data);
-      
       addTranslation(Events.findOne({_id: id}), data.language, 'event', original);
       
       return id;

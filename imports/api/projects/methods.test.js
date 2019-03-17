@@ -17,7 +17,7 @@ describe('project methods', () => {
         return callWithPromise('addProject', {
             headline: 'Test headline',
             description: 'Test description',
-            github_url: 'test',
+            github_url: 'http://github.com/testuser/testrepo',
             type: 'built-on-cardano',
             captcha:'_test_captcha_',
             language: 'en',
@@ -30,7 +30,7 @@ describe('project methods', () => {
 
             assert.equal(project.headline, 'Test headline');
             assert.equal(project.description, 'Test description');
-            assert.equal(project.github_url, 'test');
+            assert.equal(project.github_url, 'http://github.com/testuser/testrepo');
             assert.equal(project.type, 'built-on-cardano');
             assert.equal(project.language, 'en');
       
@@ -102,7 +102,7 @@ describe('project methods', () => {
       return callWithPromise('addProject', {
         headline: 'Test headline',
         description: 'Test description',
-        github_url: 'test',
+        github_url: 'http://github.com/testuser/testrepo',
         type: 'built-on-cardano',
         captcha:'_test_captcha_',
         language: 'sr',
@@ -116,7 +116,7 @@ describe('project methods', () => {
 
         assert.equal(project.headline, 'Test headline');
         assert.equal(project.description, 'Test description');
-        assert.equal(project.github_url, 'test');
+        assert.equal(project.github_url, 'http://github.com/testuser/testrepo');
         assert.equal(project.type, 'built-on-cardano');
         assert.equal(project.language, 'sr');
   
@@ -133,8 +133,9 @@ describe('project methods', () => {
     it('user can add a translation of a project by id if it was created before translations', () => {
       const originalId = Projects.insert({
         headline: 'Test headline old',
+        slug: 'test-headline-old',
         description: 'Test description',
-        github_url: 'test',
+        github_url: 'http://github.com/testuser/testrepo',
         type: 'built-on-cardano',
         captcha:'_test_captcha_',
       });
@@ -143,7 +144,7 @@ describe('project methods', () => {
       return callWithPromise('addProject', {
         headline: 'Test headline',
         description: 'Test description',
-        github_url: 'test',
+        github_url: 'http://github.com/testuser/testrepo',
         type: 'built-on-cardano',
         captcha:'_test_captcha_',
         language: 'sr',
@@ -157,7 +158,7 @@ describe('project methods', () => {
 
         assert.equal(project.headline, 'Test headline');
         assert.equal(project.description, 'Test description');
-        assert.equal(project.github_url, 'test');
+        assert.equal(project.github_url, 'http://github.com/testuser/testrepo');
         assert.equal(project.type, 'built-on-cardano');
         assert.equal(project.language, 'sr');
 
@@ -175,7 +176,7 @@ describe('project methods', () => {
       return callWithPromise('addProject', {
         headline: 'Test headline',
         description: 'Test description',
-        github_url: 'test',
+        github_url: 'http://github.com/testuser/testrepo',
         type: 'built-on-cardano',
         captcha:'_test_captcha_',
         language: 'en',
@@ -196,8 +197,8 @@ describe('project methods', () => {
             projectId: project._id,
             headline: 'Test headline 2',
             description: 'Test description 2',
-            github_url: 'test',
-            website: 'test web',
+            github_url: 'http://github.com/testuser/testrepo',
+            website: 'http://test.test',
             type: 'built-for-cardano',
             captcha:'_test_captcha_'
         }).then(data => {
@@ -207,11 +208,11 @@ describe('project methods', () => {
 
             assert.ok(project2)
 
-            assert.ok(project2.headline === 'Test headline 2')
-            assert.ok(project2.description === 'Test description 2')
-            assert.ok(project2.github_url === 'test')
-            assert.ok(project2.website === 'test web')
-            assert.ok(project2.type === 'built-for-cardano')
+            assert.equal(project2.headline, 'Test headline 2')
+            assert.equal(project2.description, 'Test description 2')
+            assert.equal(project2.github_url, 'http://github.com/testuser/testrepo')
+            assert.equal(project2.website, 'http://test.test')
+            assert.equal(project2.type, 'built-for-cardano')
 
             const translationGroup = TranslationGroups.findOne({translations: {$elemMatch: {id: project._id}}});
             assert.ok(translationGroup);
@@ -234,7 +235,7 @@ describe('project methods', () => {
             projectId: project,
             headline: 'Test headline 2',
             description: 'Test description 2',
-            github_url: 'test',
+            github_url: 'http://github.com/testuser/testrepo',
             website: 'test web',
             captcha:'_test_captcha_'
         }).then(data => {}).catch(error => {
