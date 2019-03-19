@@ -76,7 +76,7 @@ const userLoginFilter = (context, redirect, _stop) => {
       import { notify } from '/imports/modules/notifier'
       if (notify) notify('Login to continue!', 'error')
     }
-    if (context.oldRoute._params) {
+    if (context.oldRoute && context.oldRoute._params) {
       if (context.oldRoute._params.keys) oldRoute = '/'
       // _.each(context.oldRoute._params.keys, (item, index) => {
       //   oldRoute = oldRoute.replace(':'+index, (item).replace(/\"/g, ''))
@@ -85,6 +85,11 @@ const userLoginFilter = (context, redirect, _stop) => {
 
     $('#loginModal').modal('show')
     redirect(oldRoute + '?from=' + encodeURIComponent(context.path))
+    if (!$('#loginModal').hasClass('show')) {
+      setTimeout(function () {
+        $('#loginModal').modal('show')
+      }, 750)
+    }
     // redirect('/login?from=' + context.path)
   }
 }
@@ -990,6 +995,7 @@ FlowRouter.route('/notifications', {
       urls: ['/notifications']
     })
   },
+  triggersEnter: [userLoginFilter],
 	subscriptions: function(params, queryParams) {
   	this.register('notifications', Meteor.subscribe('notifications'))
 	},
