@@ -36,7 +36,14 @@
           </div>
           <!-- <small><i id="abstract-chars" class="text-muted"></i></small> -->
           <div class="group-title">{{_ "research.form.pdf"}}</div>
-          {{> uploader files=pdf single=true type='pdf'}}
+          {{#if pdf}}
+            <div class="row">
+              <div class="col-sm-12">
+                <a href="{{pdf}}">{{pdf}}</a>
+              </div>
+            </div>
+          {{/if}}
+          {{> progressiveUploader uploaderOptions}}
           <div id="pdfError" class="invalid-feedback"></div>
           <div class="group-title"> {{_ "research.form.links"}} </div>
           <ul class="added-links">

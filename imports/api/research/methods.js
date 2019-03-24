@@ -25,10 +25,6 @@ export const newResearch = new ValidatedMethod({
                 // max: 1000,
                 optional: false
             },
-            pdf: {
-                type: String,
-                optional: false
-            },
             language: {
                 type: String,
                 optional: false,
@@ -58,10 +54,14 @@ export const newResearch = new ValidatedMethod({
                 type: String,
                 optional: false
             },
+            pdfId: {
+                type: String,
+                optional: false,
+            },
         }).validator({
             clean: true
         }),
-    run({ headline, abstract, pdf, captcha, links, language, original }) {
+    run({ headline, abstract, captcha, links, language, original, pdfId }) {
         if(Meteor.isServer) {
             if (!Meteor.userId()) {
                 throw new Meteor.Error('Error.', 'messages.login')
@@ -88,11 +88,11 @@ export const newResearch = new ValidatedMethod({
                 // Readble slugs with translation to English from other languages
                 slug: slugify(headline),
                 abstract: abstract,
-                pdf: pdf,
                 createdAt: new Date().getTime(),
                 createdBy: Meteor.userId(),
                 links,
                 language,
+                pdfId,
             });
 
             addTranslation(Research.findOne({_id: id}), language, 'research', originalDoc);
@@ -158,10 +158,6 @@ export const editResearch = new ValidatedMethod({
                 // max: 1000,
                 optional: false
             },
-            pdf: {
-                type: String,
-                optional: false
-            },
             captcha: {
                 type: String,
                 optional: isTesting
@@ -184,10 +180,21 @@ export const editResearch = new ValidatedMethod({
                 max: 25,
                 optional: false
             },
+            pdfId: {
+                type: String,
+                optional: true,
+            },
+            pdf: {
+                type: String,
+                optional: true
+            },
         }).validator({
             clean: true
         }),
-    run({ researchId, headline, abstract, pdf, captcha, links }) {
+    run({ researchId, headline, abstract, pdf, pdfId, captcha, links }) {
+        if (!pdf && !pdfId) 
+            throw new Error( 'messages.research.pdf_required')
+
         if(Meteor.isServer) {
             let research = Research.findOne({
                 _id: researchId
@@ -213,17 +220,20 @@ export const editResearch = new ValidatedMethod({
                 }
             }
     
-            Research.update({
-                _id: researchId
-            }, {
+            const mod = {
                 $set: {
                     headline: headline,
                     abstract: abstract,
-                    pdf: pdf,
+                    pdf: pdfId ? undefined : pdf,
+                    pdfId: pdfId,
                     editedAt: new Date().getTime(),
                     links,
-                }
-            })
+                },
+            };
+            if (pdfId) {
+                mod["$unset"] = { pdf: true};
+            }
+            Research.update({_id: researchId}, mod);
 
             updateTranslationSlug(researchId, Research.findOne({_id: researchId}).slug);
         }

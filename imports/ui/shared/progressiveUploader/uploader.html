@@ -1,0 +1,46 @@
+<template name="progressiveUploader">	
+	{{#if showFileList }}
+		<div class="row">
+			<ul class="fileList">
+				{{#each file in files}}
+					<li>
+						<a href="{{link file}}" download="{{file.name}}" target="_blank">
+							{{#if file.isImage}}
+								<img src="{{file.url uploading='/images/uploading.gif' storing='/images/storing.gif'}}" alt="{{file.name}}" />
+							{{else if file.isPDF}}
+								<i class="far fa-file-pdf"></i> {{file.name}}
+							{{/if}}
+						</a>
+						{{#if showDelete}}
+							<span class="deleteFile btn btn-lnk">
+								<i class="far fa-trash-alt" data-id="{{file._id}}"></i>
+							</span>
+						{{/if}}
+					</li>
+				{{/each}}
+			</ul>
+		</div>
+	{{/if}}
+	
+	{{#if currentUpload}}	
+		<div class="row pb-2">
+			<div class="col-sm-12">
+				<div class="progress">
+					<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" 
+							 style="width: {{currentUpload.progress.get}}%"
+							 aria-valuenow="{{currentUpload.progress.get}}" aria-valuemin="0" aria-valuemax="100">
+						{{ currentUpload.file.name }} - {{currentUpload.progress.get}}%
+					</div>
+				</div>
+			</div>
+		</div>
+	{{/if}}
+	<div class="row">
+		<div class="col-sm-12 ml-2">
+			<label class="btn btn-primary" for="fileInput-{{id}}" id="fileInputLabel-{{id}}">
+				<input id="fileInput-{{id}}" class="fileInput" data-id="{{id}}" type="file" style="display:none">
+				<span id="fileUploadValue-{{id}}"> {{_ "shared.uploader.upload" }} </span>
+			</label>
+		</div>
+	</div>
+</template>

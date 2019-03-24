@@ -11,11 +11,13 @@ import { flagResearch } from '/imports/api/research/methods'
 
 import { notify } from '/imports/modules/notifier'
 import { flagDialog } from '/imports/modules/flagDialog'
+import { ResearchFiles } from '../../../api/research/research';
 
 
 Template.viewResearch.onCreated(function() {
 	this.autorun(() => {
-		this.subscribe('research.item', FlowRouter.getParam('slug'))
+		console.log('research.item', FlowRouter.getParam('slug'))
+		this.subscribe('research.item', FlowRouter.getParam('slug'));
 		this.subscribe('users')
 
 		this.subscribe('translationGroups.itemSlug', {slug: FlowRouter.getParam('slug'), contentType: 'research'});
@@ -45,6 +47,12 @@ Template.viewResearch.helpers({
 				.filter(t => t.slug !== FlowRouter.getParam('slug'))
 				.map(t => ({language: t.language, href: `/research/${t.slug}`}))
 			: [];
+	},
+	pdf: () => {
+		const research = Research.findOne({
+			slug: FlowRouter.getParam('slug')
+		});
+		return research.pdf || ResearchFiles.findOne(research.pdfId);
 	},
 })
 

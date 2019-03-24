@@ -10,8 +10,8 @@ import { notify } from '/imports/modules/notifier'
 
 import { newResearch, editResearch } from '/imports/api/research/methods'
 
-import '/imports/ui/shared/uploader/uploader'
-import { getFiles } from '/imports/ui/shared/uploader/uploader'
+import '/imports/ui/shared/progressiveUploader/uploader'
+import { ResearchFiles } from '../../../api/research/research';
 
 const maxCharValue = (inputId) => {
   if (inputId === 'headline') {
@@ -21,16 +21,19 @@ const maxCharValue = (inputId) => {
 
 Template.researchForm.onCreated(function() {
 	this.links = new ReactiveVar([]);
-	if (FlowRouter.current().route.name.startsWith('edit') || FlowRouter.current().route.name.startsWith('translate')) {
-		this.autorun(() => {
-			this.subscribe('translationGroups.itemSlug', {slug: FlowRouter.getParam('slug'), contentType: 'research'});
-			this.subscribe('research.item', FlowRouter.getParam('slug'), () => {
-				const research = Research.findOne({slug: FlowRouter.getParam('slug')});
+	this.pdfId = new ReactiveVar(undefined);
 
-				if (research && research.links) {
-					this.links.set(research.links.concat(this.links.get()));
-				}
-			})
+	if (FlowRouter.current().route.name.startsWith('edit') || FlowRouter.current().route.name.startsWith('translate')) {
+		this.subscribe('translationGroups.itemSlug', {slug: FlowRouter.getParam('slug'), contentType: 'research'});
+		this.subscribe('research.item', FlowRouter.getParam('slug'), () => {
+			const research = Research.findOne({slug: FlowRouter.getParam('slug')});
+
+			if (research && research.links) {
+				this.links.set(research.links.concat(this.links.get()));
+			}
+
+			if (research && research.pdfId)
+				this.pdfId.set(research.pdfId);
 		});
 	}
 });
@@ -43,22 +46,42 @@ Template.researchForm.helpers({
 	links: () => Template.instance().links.get(),
 	research: () => Research.findOne({
 		slug: FlowRouter.getParam('slug')
-  	}),
-  	pdf: () => {
-  		if (FlowRouter.current().route.name.startsWith('edit') || FlowRouter.current().route.name.startsWith('translate')) {
-  			let research = Research.findOne({
+	}),
+	pdf: () => { // Pdf uploaded using the old method
+		if (FlowRouter.current().route.name.startsWith('edit') || FlowRouter.current().route.name.startsWith('translate')) {
+			let research = Research.findOne({
 				slug: FlowRouter.getParam('slug')
-  			}) || {}
-				
-  			if (research && research.pdf) {
-  				return [research.pdf]
-  			}
+			});
+			
+			if (research && research.pdf && !Template.instance().pdfId.get()) {
+				return research.pdf
+			}
 
-  			return []
-  		}
+			return undefined;
+		}
 
-  		return []
+		return undefined;
 	},
+
+	uploaderOptions: () => {
+		const research = Research.findOne({
+			slug: FlowRouter.getParam('slug')
+		});
+		const instance = Template.instance();
+		return {
+			collection: ResearchFiles,
+			files: research && research.pdfId ? ResearchFiles.find({_id: research.pdfId}).fetch() : [],
+			showFileList: true,
+			showDelete: true,
+			single: true,
+			fileDelete: () => instance.pdfId.set(undefined),
+			fileAdded: (id) => {
+				notify(TAPi18n.__('research.form.success_file_upload'));
+				instance.pdfId.set(id);
+			}
+		}
+	},
+
 
 	languages: () => {
 		const group = TranslationGroups.findOne({});
@@ -108,11 +131,11 @@ Template.researchForm.events({
 				newResearch.call({
 					headline: $('#headline').val(),
 					abstract: $('#abstract').val(),
-					pdf: getFiles()[0],
 					links: templateInstance.links.get(),
 					captcha: captchaData,
 					language: $('#language').val(),
 					original,
+					pdfId: templateInstance.pdfId.get(),
 				}, (err, data) => {
 					if (!err) {
 						notify(TAPi18n.__('research.form.success_add'), 'success')
@@ -134,31 +157,31 @@ Template.researchForm.events({
     		let research = Research.findOne({
     			slug: FlowRouter.getParam('slug')
     		})
-
+				console.log('!!!', templateInstance.pdfId.get() ? undefined : research.pdf);
     		editResearch.call({
     			researchId: research._id,
 	    		headline: $('#headline').val(),
-				abstract: $('#abstract').val(),
-				pdf: getFiles()[0],
-				links: templateInstance.links.get(),
-				captcha: captchaData,
+					abstract: $('#abstract').val(),
+					// We overwrite/remove the link to the old upload only if there is something replacing it.
+					pdf: templateInstance.pdfId.get() ? undefined : research.pdf,
+					links: templateInstance.links.get(),
+					captcha: captchaData,
+					pdfId: templateInstance.pdfId.get(),
 	    	}, (err, data) => {
 	    		if (!err) {
 	    			notify(TAPi18n.__('research.form.success_edit'), 'success')
-
-	        		FlowRouter.go('/research')
-
-	        		return
-	      		}
-
-		      	if (err.details && err.details.length >= 1) {
-		        	err.details.forEach(e => {
-									console.log(e);
-		          		$(`#${e.name.replace(/\./g, '_')}`).addClass('is-invalid')
-		          		$(`#${e.name.replace(/\./g, '_')}Error`).show()
-		          		$(`#${e.name.replace(/\./g, '_')}Error`).text(TAPi18n.__(e.message))
-		        	})
-		      	}
+						FlowRouter.go('/research')
+						return;
+					}
+					debugger
+					if (err.details && err.details.length >= 1) {
+						err.details.forEach(e => {
+								console.log(e);
+								$(`#${e.name.replace(/\./g, '_')}`).addClass('is-invalid')
+								$(`#${e.name.replace(/\./g, '_')}Error`).show()
+								$(`#${e.name.replace(/\./g, '_')}Error`).text(TAPi18n.__(e.message))
+						})
+					}
 	    	})
     	}
 		},
