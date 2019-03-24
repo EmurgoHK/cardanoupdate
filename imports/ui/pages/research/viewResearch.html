@@ -27,7 +27,13 @@
                 <div class="row pt-4">
                   <h6 class="col-sm-2">{{_ "research.view.external"}}</h6>
                   <div class="col-sm-2 pdf">
-                    <a href="{{pdf}}" target="_blank">{{_ "research.view.download_pdf"}}</a>
+                    {{#if pdf.name }}
+                      <a href="{{pdf.link}}" download="{{pdf.name}}" target="_blank">
+                        {{_ "research.view.download_pdf"}}
+                      </a>
+                    {{else}}
+                      <a href="{{pdf}}" target="_blank">{{_ "research.view.download_pdf"}}</a>
+                    {{/if}}
                   </div>
                   {{#each link in links}}
                     <div class="col-sm-2 link">

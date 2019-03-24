@@ -17,7 +17,7 @@ describe('research methods', () => {
         return callWithPromise('newResearch', {
             headline: 'Test headline',
             abstract: 'Test abstract',
-            pdf: '/test.pdf',
+            pdfId: 'testID',
             captcha:'_test_captcha_',
             links: [
                 {url: 'https://google.com', displayName: 'google'},
@@ -32,7 +32,7 @@ describe('research methods', () => {
 
             assert.equal(research.headline, 'Test headline');
             assert.equal(research.abstract, 'Test abstract');
-            assert.equal(research.pdf, '/test.pdf');
+            assert.equal(research.pdfId, 'testID');
             assert.equal(research.language, 'en');
 
             assert.ok(research.links);
@@ -53,7 +53,7 @@ describe('research methods', () => {
         return callWithPromise('newResearch', {
             headline: 'Test headline',
             abstract: 'Test abstract',
-            pdf: '/test.pdf',
+            pdfId: 'testID',
             captcha:'_test_captcha_',
             language: 'en',
         }).then(data => {
@@ -65,7 +65,7 @@ describe('research methods', () => {
 
             assert.equal(research.headline, 'Test headline');
             assert.equal(research.abstract, 'Test abstract');
-            assert.equal(research.pdf, '/test.pdf');
+            assert.equal(research.pdfId, 'testID');
             assert.equal(research.language, 'en');
       
             const translationGroup = TranslationGroups.findOne({translations: {$elemMatch: {id: data}}});
@@ -92,7 +92,7 @@ describe('research methods', () => {
       return callWithPromise('newResearch', {
         headline: 'Test headline',
         abstract: 'Test abstract',
-        pdf: '/test.pdf',
+        pdfId: 'testID',
         captcha:'_test_captcha_',
         language: 'sr',
         original: original._id,
@@ -105,7 +105,7 @@ describe('research methods', () => {
 
         assert.equal(research.headline, 'Test headline');
         assert.equal(research.abstract, 'Test abstract');
-        assert.equal(research.pdf, '/test.pdf');
+        assert.equal(research.pdfId, 'testID');
         assert.equal(research.language, 'sr');
   
         const translationGroup = TranslationGroups.findOne({translations: {$elemMatch: {id: data}}});
@@ -123,7 +123,7 @@ describe('research methods', () => {
         headline: 'Test headline old',
         slug: 'test-headline-old',
         abstract: 'Test abstract',
-        pdf: '/test.pdf',
+        pdfId: 'testID',
         captcha:'_test_captcha_',
       });
       const original = Research.findOne({_id: originalId});
@@ -131,7 +131,7 @@ describe('research methods', () => {
       return callWithPromise('newResearch', {
         headline: 'Test headline',
         abstract: 'Test abstract',
-        pdf: '/test.pdf',
+        pdfId: 'testID',
         captcha:'_test_captcha_',
         language: 'sr',
         original: original._id,
@@ -144,7 +144,7 @@ describe('research methods', () => {
 
         assert.equal(research.headline, 'Test headline');
         assert.equal(research.abstract, 'Test abstract');
-        assert.equal(research.pdf, '/test.pdf');
+        assert.equal(research.pdfId, 'testID');
         assert.equal(research.language, 'sr');
 
         const translationGroup = TranslationGroups.findOne({translations: {$elemMatch: {id: data}}});
@@ -161,7 +161,7 @@ describe('research methods', () => {
       return callWithPromise('newResearch', {
         headline: 'Test headline',
         abstract: 'Test abstract',
-        pdf: '/test.pdf',
+        pdfId: 'testID',
         captcha:'_test_captcha_',
         language: 'en',
         original: 'nope',
@@ -181,7 +181,7 @@ describe('research methods', () => {
             researchId: research._id,
             headline: 'Test headline 2',
             abstract: 'Test abstract 2',
-            pdf: '/test2.pdf',
+            pdfId: 'testId2',
             captcha:'_test_captcha_'
         }).then(data => {
             let research2 = Research.findOne({
@@ -192,7 +192,7 @@ describe('research methods', () => {
 
             assert.ok(research2.headline === 'Test headline 2')
             assert.ok(research2.abstract === 'Test abstract 2')
-            assert.ok(research2.pdf === '/test2.pdf')
+            assert.ok(research2.pdfId === 'testId2')
 
             const translationGroup = TranslationGroups.findOne({translations: {$elemMatch: {id: research._id}}});
             assert.ok(translationGroup);
@@ -205,7 +205,7 @@ describe('research methods', () => {
         let research = Research.insert({
             headline: 'a',
             abstract: 'b',
-            pdf: 'c',
+            pdfId: 'testId3',
             createdBy: 'not-me',
             createdAt: new Date().getTime()
         })
@@ -216,7 +216,7 @@ describe('research methods', () => {
             researchId: research,
             headline: 'Test headline 2',
             abstract: 'Test abstract 2',
-            pdf: '/test2.pdf',
+            pdfId: 'testId2',
             captcha:'_test_captcha_'
         }).then(data => {}).catch(error => {
             assert.ok(error)
@@ -258,7 +258,7 @@ describe('research methods', () => {
         let research = Research.insert({
             headline: 'a',
             abstract: 'b',
-            pdf: 'c',
+            pdfId: 'testId3',
             createdBy: 'not-me',
             createdAt: new Date().getTime()
         })

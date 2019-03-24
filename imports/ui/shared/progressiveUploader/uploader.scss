@@ -1,0 +1,13 @@
+.fileList {
+  list-style: none;
+  
+  .uploadState {
+    .spinner {
+      vertical-align: baseline;
+      width: 1em;
+      height: 1em;
+      margin: 0;
+      display: inline-block;
+    }
+  }
+}

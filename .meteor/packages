@@ -49,3 +49,5 @@ altapp:recaptcha
 ejson
 tap:i18n
 meteorhacks:kadira
+ostrio:files
+reywood:publish-composite
