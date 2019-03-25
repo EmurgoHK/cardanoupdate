@@ -415,11 +415,15 @@ export const flagSocialResource = new ValidatedMethod({
                 type: String,
                 max: 1000,
                 optional: false
+            },
+            remark: {
+                type: String,
+                optional: true
             }
         }).validator({
             clean: true
         }),
-    run({ socialResourceId, reason }) {
+    run({ socialResourceId, reason, remark }) {
         let socialResource = socialResources.findOne({
             _id: socialResourceId
         })
@@ -442,6 +446,7 @@ export const flagSocialResource = new ValidatedMethod({
             $push: {
                 flags: {
                     reason: reason,
+                    remark: remark,
                     flaggedBy: Meteor.userId(),
                     flaggedAt: new Date().getTime()
                 }

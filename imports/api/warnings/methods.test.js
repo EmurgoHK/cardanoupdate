@@ -219,7 +219,8 @@ describe('warning methods', () => {
 
         return callWithPromise('flagWarning', {
             projectId: warning,
-            reason: 'Test reason'
+            reason: 'Test reason',
+            remark: 'Test remark'
         }, (err, data) => {
             let p2 = Warnings.findOne({
                 _id: warning
@@ -229,6 +230,7 @@ describe('warning methods', () => {
 
             assert.ok(p2.flags.length > 0)
             assert.ok(p2.flags[0].reason === 'Test reason')
+            assert.ok(p2.flags[0].remark === 'Test remark')
         })
     })
 

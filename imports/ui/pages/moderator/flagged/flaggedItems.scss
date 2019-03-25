@@ -1,0 +1,19 @@
+.flag__item--flags {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.flag__item--reason{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 45%;
+  border: solid 1px #ccc;
+  padding: 1em;
+  margin-right: 1em;
+  p {
+    margin: 0;
+    padding: 0;
+  }
+}

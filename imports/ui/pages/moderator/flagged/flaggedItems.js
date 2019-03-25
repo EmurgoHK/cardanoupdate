@@ -22,6 +22,8 @@ import { resolveSocialResourceFlags } from '/imports/api/socialResources/methods
 import swal from 'sweetalert2'
 import { socialResources } from '../../../../api/socialResources/socialResources';
 
+import './flaggedItems.scss'
+
 Template.flaggedItems.onCreated(function() {
 	this.autorun(() => {
 		this.subscribe('comments.flagged')

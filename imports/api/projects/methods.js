@@ -317,11 +317,15 @@ export const flagProject = new ValidatedMethod({
                 type: String,
                 max: 1000,
                 optional: false
+            },
+            remark: {
+              type: String,
+              optional: true
             }
         }).validator({
             clean: true
         }),
-    run({ projectId, reason }) {
+    run({ projectId, reason, remark }) {
         let project = Projects.findOne({
             _id: projectId
         })
@@ -344,6 +348,7 @@ export const flagProject = new ValidatedMethod({
             $push: {
                 flags: {
                     reason: reason,
+                    remark: remark,
                     flaggedBy: Meteor.userId(),
                     flaggedAt: new Date().getTime()
                 }

@@ -234,13 +234,18 @@ export const flagEvent = new ValidatedMethod({
       type: String,
       max: 1000,
       optional: false
+    },
+    remark: {
+      type: String,
+      optional: true
     }
   }).validator({
     clean: true
   }),
   run({
     eventId,
-    reason
+    reason,
+    remark
   }) {
     let event = Events.findOne({
       _id: eventId
@@ -264,6 +269,7 @@ export const flagEvent = new ValidatedMethod({
       $push: {
         flags: {
           reason: reason,
+          remark: remark,
           flaggedBy: Meteor.userId(),
           flaggedAt: new Date().getTime()
         }

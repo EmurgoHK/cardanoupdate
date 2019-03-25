@@ -186,6 +186,10 @@ export const flagWarning = new ValidatedMethod({
                 type: String,
                 max: 1000,
                 optional: false
+            },
+            remark: {
+              type: String,
+              optional: true
             }
         }).validator({
             clean: true

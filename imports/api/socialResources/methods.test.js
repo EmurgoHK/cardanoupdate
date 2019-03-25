@@ -286,7 +286,8 @@ describe('social resources methods', () => {
     it('user can flag a social resource', () => {
         return callWithPromise('flagSocialResource', {
             socialResourceId: resourceIdNotOwned,
-            reason: 'Test reason'
+            reason: 'Test reason',
+            remark: 'Test remark'
         }, (err, data) => {
             let flaggedResource = socialResources.findOne({
                 _id: resourceIdNotOwned
@@ -296,6 +297,7 @@ describe('social resources methods', () => {
 
             assert.ok(flaggedResource.flags.length > 0)
             assert.ok(flaggedResource.flags[0].reason === 'Test reason')
+            assert.ok(flaggedResource.flags[0].remark === 'Test remark')
         })
     })
 
