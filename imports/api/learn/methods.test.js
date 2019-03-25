@@ -248,7 +248,8 @@ describe('Learning items methods', () => {
 
         return callWithPromise('flagLearningItem', {
             learnId: learn,
-            reason: 'Test reason'
+            reason: 'Test reason',
+            remark: 'Test remark'
         }, (err, data) => {
             let n2 = Learn.findOne({
                 _id: learn
@@ -258,6 +259,7 @@ describe('Learning items methods', () => {
 
             assert.ok(n2.flags.length > 0)
             assert.ok(n2.flags[0].reason === 'Test reason')
+            assert.ok(n2.flags[0].remark === 'Test remark')
         })
     })
 

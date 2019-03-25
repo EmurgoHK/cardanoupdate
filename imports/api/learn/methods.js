@@ -309,11 +309,15 @@ export const flagLearningItem = new ValidatedMethod({
                 type: String,
                 max: 1000,
                 optional: false
+            },
+            remark: {
+              type: String,
+              optional: true
             }
         }).validator({
             clean: true
         }),
-    run({ learnId, reason }) {
+    run({ learnId, reason, remark }) {
         let learn = Learn.findOne({
             _id: learnId
         })
@@ -336,6 +340,7 @@ export const flagLearningItem = new ValidatedMethod({
             $push: {
                 flags: {
                     reason: reason,
+                    remark: remark,
                     flaggedBy: Meteor.userId(),
                     flaggedAt: new Date().getTime()
                 }

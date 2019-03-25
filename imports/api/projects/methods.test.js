@@ -287,7 +287,8 @@ describe('project methods', () => {
 
         return callWithPromise('flagProject', {
             projectId: project,
-            reason: 'Test reason'
+            reason: 'Test reason',
+            remark: 'Test remark'
         }, (err, data) => {
             let p2 = Projects.findOne({
                 _id: project
@@ -297,6 +298,7 @@ describe('project methods', () => {
 
             assert.ok(p2.flags.length > 0)
             assert.ok(p2.flags[0].reason === 'Test reason')
+            assert.ok(p2.flags[0].remark === 'Test remark')
         })
     })
 

@@ -278,7 +278,8 @@ describe('event methods', () => {
 
     return callWithPromise('flagEvent', {
       eventId: event,
-      reason: 'Test reason'
+      reason: 'Test reason',
+      remark: 'Test remark'
     }, (err, data) => {
       let p2 = Events.findOne({
         _id: event
@@ -288,6 +289,7 @@ describe('event methods', () => {
 
       assert.ok(p2.flags.length > 0)
       assert.ok(p2.flags[0].reason === 'Test reason')
+      assert.ok(p2.flags[0].remark === 'Test remark')
     })
   })
 

@@ -1,52 +1,66 @@
 <template name="flaggedItems">
-    <div class="news-list container">
-        <div class="row">
-            <div class="col-sm-12">
-                <h2>{{_ "mod.flagged.flagged"}}</h2>
-            </div>
-        </div>
-        <hr>
-        {{#if isModerator}}
-        <div class="row">
-            <div class="col-sm-12">
-                
-                {{#if SubsCacheReady}}
-                {{#if flaggedItems.length}}
-                    {{#each flaggedItems}}
-                        <div class="card">
-                            <div class="card-body">
-                                <h4><a class="card-title" href="{{link}}">{{text}}</a></h4> 
-                                <h6 class="card-subtitle mt-2 mb-2 text-muted"><strong>{{_ "mod.flagged.flag"}} {{times}}, {{_ "mod.flagged.because"}}:</strong></h6>
-                                {{#each reasons}}
-                                    <p class="card-text">{{reason}} {{_ "mod.flagged.by"}} {{> userNameDisplay author}}</p>
-                                {{/each}}
-                            </div>
-
-                            <div class="card-footer">
-                                <button class="btn btn-sm btn-warning" id="js-ignore" href="#" role="button" title='{{_ "mod.flagged.ignore"}}'>
-                                    <i class="fas fa-eye-slash"></i> <strong>{{_ "mod.flagged.ignore"}}</strong> 
-                                </button>
-                                <button class="btn btn-sm btn-danger" id="js-remove" href="#" role="button" title='{{_ "mod.flagged.remove"}}'>
-                                    <i class="fas fa-trash"></i> <strong>{{_ "mod.flagged.remove"}}</strong> 
-                                </button>
-                            </div>
-                        </div>
-                    {{/each}}
-                    
-                {{else}}
-                    <div class="mt-3">
-                        <h3>{{_ "mod.flagged.no_items"}}</h3>
-                    </div>
-                {{/if}}
-                {{else}}
-                    {{> loader}}
-                {{/if}}
-                
-            </div>
-            
-        </div>
-        {{else}}
-                <h3>{{_ "mod.mod_only"}}</h3>
-            {{/if}}
+  <div class="news-list container">
+    <div class="row">
+      <div class="col-sm-12">
+        <h2>{{_ "mod.flagged.flagged"}}</h2>
+      </div>
     </div>
+    <hr>
+    {{#if isModerator}}
+    <div class="row">
+      <div class="col-sm-12">
+        {{#if SubsCacheReady}}
+        {{#if flaggedItems.length}}
+        {{#each flaggedItems}}
+        <div class="card">
+          <div class="card-body">
+            <h4><a class="card-title" href="{{link}}">{{text}}</a></h4>
+            <h6 class="card-subtitle mt-2 mb-2 text-muted">
+              <strong>
+                {{_ "mod.flagged.flag"}} {{times}},
+                {{_ "mod.flagged.because"}}:
+              </strong>
+            </h6>
+            <div class="flag__item--flags">
+              {{#each reasons}}
+                <div class="flag__item--reason">
+                  <p class="reason"> Reason: {{reason}}</p>
+                  <p class="remark"> Remark : {{remark}}</p>
+                  <p class="reporter">
+                    {{_ "mod.flagged.by"}} {{> userNameDisplay author}}
+                  </p>
+                </div>
+              {{/each}}
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <button class="btn btn-sm btn-warning" id="js-ignore" href="#" role="button"
+              title='{{_ "mod.flagged.ignore"}}'>
+              <i class="fas fa-eye-slash"></i> <strong>{{_ "mod.flagged.ignore"}}</strong>
+            </button>
+            <button class="btn btn-sm btn-danger" id="js-remove" href="#" role="button"
+              title='{{_ "mod.flagged.remove"}}'>
+              <i class="fas fa-trash"></i> <strong>{{_ "mod.flagged.remove"}}</strong>
+            </button>
+          </div>
+        </div>
+        {{/each}}
+
+        {{else}}
+        <div class="mt-3">
+          <h3>{{_ "mod.flagged.no_items"}}</h3>
+        </div>
+        {{/if}}
+        {{else}}
+        {{> loader}}
+        {{/if}}
+
+      </div>
+
+    </div>
+    {{else}}
+      <h3>{{_ "mod.mod_only"}}</h3>
+    {{/if}} 
+  </div>
 </template>
