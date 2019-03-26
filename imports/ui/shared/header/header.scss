@@ -43,7 +43,7 @@
       height: 50px;
     }
     i.icon-social-github {
-      font-size: 24px;
+      font-size: 22px;
     }
     select#selectLanguage {
       cursor: pointer;
@@ -53,6 +53,12 @@
       font-size: 16px;
       outline: none;
     }
+  }
+
+  .nav-link.notif-link { height: 50px; padding: 14px 5px; font-size: 22px; line-height: 1; }
+  .nav-link.account-link {
+    .icon-user { font-size: 22px; margin-left: 10px; }
+    &:after { margin: 10px 2px 0px 5px; }
   }
 }
 
@@ -118,10 +124,10 @@
         content: "";
         position: absolute;
         margin: auto;
-        top: 22px;
+        top: 14px;
         right: 0;
         bottom: 0;
-        left: 22px;
+        left: 18px;
         width: 12px;
         height: 2px;
         background: white;
@@ -132,12 +138,12 @@
         content: "";
         position: absolute;
         margin: auto;
-        top: -2px;
+        top: -6px;
         right: 0;
         bottom: 0;
         left: 0;
-        width: 20px;
-        height: 20px;
+        width: 18px;
+        height: 18px;
         border-radius: 50%;
         border: 2px solid white;
         transition: all .5s;
