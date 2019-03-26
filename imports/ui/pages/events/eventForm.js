@@ -11,8 +11,8 @@ import marked from 'marked';
 import moment from 'moment-timezone'
 import { newEvent, editEvent } from '/imports/api/events/methods'
 import '../../../../node_modules/daterangepicker/daterangepicker.css';
-import { insertImage } from '/imports/ui/shared/uploader/uploader'
-import { insertVideo } from '/imports/ui/pages/learn/learnForm'
+import { insertImageModal } from '../../shared/mdeModals/insertImageModal';
+import { insertVideoModal } from '../../shared/mdeModals/insertVideoModal';
 
 const maxCharValue = (inputId) => {
   if (inputId === 'description') {
@@ -31,6 +31,8 @@ Template.eventForm.onCreated(function () {
   this.loaded = new ReactiveVar(false)
   this.startDate = new ReactiveVar()
   this.endDate = new ReactiveVar()
+  
+  this.subscribe('embeddedImages');
 })
 
 Template.eventForm.onRendered(function() {
@@ -59,12 +61,12 @@ Template.eventForm.onRendered(function() {
     element: $("#description")[0],
     toolbar: ['bold', 'italic', 'heading', '|', 'quote', 'unordered-list', 'ordered-list', '|', 'clean-block', 'link', {
       name: 'insertImage',
-      action: insertImage,
+      action: insertImageModal,
       className: 'fa fa-picture-o',
       title: 'Insert image',
     }, {
       name: 'insertVideo',
-      action: insertVideo,
+      action: insertVideoModal,
       className: 'fa fa-file-video-o',
       title: 'Insert YouTube video'
     }, '|', 'preview', 'side-by-side', 'fullscreen', '|', 'guide'],
