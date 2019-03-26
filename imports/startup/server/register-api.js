@@ -37,8 +37,7 @@ import '/imports/api/notifications/server/publications'
 import '/imports/api/research/methods'
 import '/imports/api/research/server/publications'
 
-// uploader api
-import '/imports/api/uploader/methods'
+import '/imports/api/embeddedImages/server/publications'
 
 // research api
 import '/imports/api/socialResources/methods'

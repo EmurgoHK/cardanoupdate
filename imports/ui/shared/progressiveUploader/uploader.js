@@ -1,7 +1,6 @@
 import "./uploader.html";
 import "./uploader.scss";
 
-import { Meteor } from "meteor/meteor";
 import { Template } from "meteor/templating";
 
 import { notify } from "../../../modules/notifier";

@@ -10,7 +10,6 @@ import { notify } from '/imports/modules/notifier'
 
 import { newResearch, editResearch } from '/imports/api/research/methods'
 
-import '/imports/ui/shared/progressiveUploader/uploader'
 import { ResearchFiles } from '../../../api/research/research';
 
 const maxCharValue = (inputId) => {
