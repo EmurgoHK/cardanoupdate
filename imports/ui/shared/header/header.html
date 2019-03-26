@@ -60,22 +60,22 @@
         <li class="d-none d-lg-inline-flex nav-item d-md-down-none change-language">
           <select name="selectLanguage" id="selectLanguage">
             {{#each languages}}
-            {{#if selected}}
-            <option value={{code}} selected>{{name}}</option>
-            {{else}}
-            <option value={{code}}>{{name}}</option>
-            {{/if}}
+              {{#if selected}}
+                <option value={{code}} selected>{{name}}</option>
+              {{else}}
+                <option value={{code}}>{{name}}</option>
+              {{/if}}
             {{/each}}
           </select>
         </li>
         <li class="nav-item d-md-down-none">
-          <a class="nav-link" target="blank" style="padding-top : 2px;" href="https://github.com/EmurgoHK/cardanoupdate">
+          <a class="nav-link notif-link" target="blank" href="https://github.com/EmurgoHK/cardanoupdate">
             <i class="nav-icon icon-social-github"></i>
           </a>
         </li>
         {{#if currentUser}}
           <li class="nav-item d-md-down-none">
-            <a class="nav-link" href="/notifications">
+            <a class="nav-link notif-link" href="/notifications">
               <i class="icon-bell"></i>
               {{#if notificationsCount}}<span class="badge badge-pill badge-danger">{{notificationsCount}}</span>{{/if}}
             </a>
@@ -84,7 +84,7 @@
 
         <li class="nav-item dropdown">
           {{#if currentUser}}
-          <a class="nav-link dropdown-toggle d-none d-sm-flex" href="#" id="dropdownMenu2" data-toggle="dropdown"
+          <a class="nav-link dropdown-toggle d-none d-sm-flex account-link" href="#" id="dropdownMenu2" data-toggle="dropdown"
             aria-expanded="true">
             <!-- NB : This is for existing users who doesn't have a name -->
             {{#if currentUser.profile.name}}
@@ -94,7 +94,7 @@
             {{/if}}
           </a>
           <!-- For Smaller Screen -->
-          <a class="nav-link dropdown-toggle d-flex d-sm-none" data-toggle="dropdown" aria-expanded="false">
+          <a class="nav-link dropdown-toggle d-flex d-sm-none account-link" data-toggle="dropdown" aria-expanded="false">
             <i class="icon-user"></i>
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu2">
@@ -129,6 +129,7 @@
             <div class="header-search">
               <input type="text" name="searchHeader" id="searchHeader" placeholder="Search ...">
               <div class="search"></div>
+              <!-- <i class="icon-magnifier"></i> -->
             </div>
           </form>
         </li>
