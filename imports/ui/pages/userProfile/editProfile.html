@@ -42,10 +42,16 @@
               <div id="languageError" class="invalid-feedback"></div>
             </div>
             <div  class="group-title" for="bio">{{_ "user.edit.image"}}</div>
-            <div class="input-group">
-              {{> uploader files=images single=true}}
-              <div id="imageError" class="invalid-feedback"></div>
-            </div>
+            {{#if oldPicture}}
+              <div class="row">
+                <div class="col-sm-12">
+                  <a href="{{ oldPicture }}" target="_blank">
+                    <img src="{{ oldPicture }}" alt="{{user.name}}" max-width="100" max-height="100" />
+                  </a>
+                </div>
+              </div>
+            {{/if}}
+            {{> progressiveUploader uploaderOptions }}
       </div>
       <div class="card-footer">
         <div class="input-group">

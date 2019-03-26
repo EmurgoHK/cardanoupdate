@@ -30,8 +30,8 @@ Template.progressiveUploader.helpers({
   },
   id: () => Template.instance().id,
   isPDF: file => file.extension().toLowerCase() === "pdf",
-  link: (file) => {
-    return Template.currentData().collection.link(file);
+  link: (file, version) => {
+    return Template.currentData().collection.link(file, version || 'original');
   },
   currentUpload: () => Template.instance().currentUpload.get(),
 });

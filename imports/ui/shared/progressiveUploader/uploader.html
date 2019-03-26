@@ -4,9 +4,9 @@
 			<ul class="fileList">
 				{{#each file in files}}
 					<li>
-						<a href="{{link file}}" download="{{file.name}}" target="_blank">
+						<a href="{{link file 'original'}}" download="{{file.name}}" target="_blank">
 							{{#if file.isImage}}
-								<img src="{{file.url uploading='/images/uploading.gif' storing='/images/storing.gif'}}" alt="{{file.name}}" />
+								<img src="{{link file 'thumbnail'}}" alt="{{file.name}}" class="thumbnail"/>
 							{{else if file.isPDF}}
 								<i class="far fa-file-pdf"></i> {{file.name}}
 							{{/if}}
@@ -36,7 +36,7 @@
 		</div>
 	{{/if}}
 	<div class="row">
-		<div class="col-sm-12 ml-2">
+		<div class="col-sm-12">
 			<label class="btn btn-primary" for="fileInput-{{id}}" id="fileInputLabel-{{id}}">
 				<input id="fileInput-{{id}}" class="fileInput" data-id="{{id}}" type="file" style="display:none">
 				<span id="fileUploadValue-{{id}}"> {{_ "shared.uploader.upload" }} </span>
