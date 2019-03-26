@@ -449,6 +449,10 @@ export const updateProfile = new ValidatedMethod({
       type: String,
       optional: true
     },
+    imageId: {
+      type: String,
+      optional: true
+    },
   }).validator({
     clean: true
   }),
@@ -459,8 +463,13 @@ export const updateProfile = new ValidatedMethod({
     bio,
     language,
     image,
+    imageId,
     contentLanguages,
   }) {
+    const unset = {};
+    if (!image) unset['profile.picture'] = true;
+    if (!imageId) unset['profile.imageId'] = true;
+
     Meteor.users.update({
       _id: Meteor.userId()
     }, {
@@ -468,10 +477,12 @@ export const updateProfile = new ValidatedMethod({
         'profile.name': name,
         'profile.bio': bio,
         'profile.language': language,
-        'profile.picture': image,
+        'profile.picture': image ? image : undefined,
+        'profile.imageId': imageId,
         'profile.contentLanguages': contentLanguages,
         'emails.0.address': email
-      }
+      },
+      $unset: unset,
     }, {
       upsert: true
     })

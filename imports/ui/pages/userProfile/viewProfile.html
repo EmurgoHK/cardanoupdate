@@ -5,7 +5,15 @@
         <div class="col-sm-12">
           <div class="card user-info">
             <div class="media">
-                <img src="{{avatarFor user '100'}}" alt=""  height="100" width="100" class="mr-3 rounded">
+                <div class="profileImage mr-3 rounded">
+                  {{#if profile.picture }}
+                    <img src="{{profile.picture}}" alt="{{user.name}}">
+                  {{else if profile.imageId}}
+                    <img src="{{imageLink profile.imageId}}" alt="{{user.name}}">
+                  {{else}}
+                    <img src="{{gravatarFor user '100'}}" alt="gravatar for {{user.name}}">
+                  {{/if}}
+                </div>
                 <div class="media-body">
                   <h4 class="mt-0"><strong>{{name}}</strong> {{#if isModerator}}<span class="badge badge-primary">{{_ "user.view.moderator"}}</span>{{/if}}</h4>
                   {{#if rank}}<p class="h6 text-muted"><strong>{{_ "user.view.rank"}}: {{rank}}</strong></p>{{/if}}

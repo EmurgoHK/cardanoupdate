@@ -13,13 +13,12 @@ import { notify } from '/imports/modules/notifier'
 import './viewProfile.html'
 import './editProfile.html'
 import './userProfile.scss'
-
-import '/imports/ui/shared/uploader/uploader'
-import { getFiles } from '/imports/ui/shared/uploader/uploader'
+import { ProfileImages } from '../../../api/user/profileImages';
 
 Template.viewProfile.onCreated(function() {
   this.autorun(() => {
     this.subscribe('users')
+    this.subscribe('profileImages')
     this.subscribe('comments')
 
     this.subscribe('research');
@@ -172,11 +171,23 @@ Template.viewProfile.helpers({
   community: () => socialResources.find({createdBy : FlowRouter.getParam('userId')}),
   learn: () => Learn.find({createdBy : FlowRouter.getParam('userId')}),
   scams: () => Warnings.find({createdBy : FlowRouter.getParam('userId')}),
+  gravatarFor: (user, size) => {
+    const email = user.emails[0].address.toLowerCase()
+    const gravatarId = CryptoJS.MD5(email).toString(CryptoJS.enc.Hex)
+    return `https://secure.gravatar.com/avatar/${gravatarId}?s=${size}`
+  },
+  imageLink: (imageId) => {
+    const image = ProfileImages.findOne(imageId);
+    return image ? image.link('thumbnail') : '';
+  },
 })
 
 Template.editProfile.onCreated(function(){
+  this.imageId = new ReactiveVar(Meteor.user().profile.imageId);
+
   this.autorun(() => {
     this.subscribe('users')
+    this.subscribe('profileImages')
   })
 })
 
@@ -208,17 +219,28 @@ Template.editProfile.helpers({
       language: user.profile && user.profile.language ? user.profile.language : 'en',
     }
   },
-  images: () => {
-    let user = Meteor.users.findOne({
-      _id : Meteor.userId()
-    })
+  
+	uploaderOptions: () => {
+    const instance = Template.instance();
+    const profile = Meteor.user().profile;
 
-    if (user && user.profile && user.profile.picture) {
-      return [user.profile.picture]
-    }
-
-    return []
-  }
+		return {
+			collection: ProfileImages,
+			files: profile && instance.imageId.get() === profile.imageId ? ProfileImages.find({_id: profile.imageId}).fetch() : [],
+			showFileList: true,
+			showDelete: true,
+			single: true,
+			fileDelete: () => {
+        instance.imageId.set(undefined);
+      },
+			fileAdded: (id) => {
+				notify(TAPi18n.__('user.edit.success_file_upload'));
+				instance.imageId.set(id);
+			}
+		}
+  },
+  
+  oldPicture: () => !Template.instance().imageId.get() && Meteor.user().profile && Meteor.user().profile.picture,
 })
 
 Template.editProfile.events({
@@ -230,7 +252,8 @@ Template.editProfile.events({
       email: $('#userEmail').val(),
       bio: $('#bio').val(),
       language: $('#language').val(),
-      image: getFiles()[0] || '',
+      image: templateInstance.imageId.get() ? '' : Meteor.user().profile.picture,
+      imageId: templateInstance.imageId.get() || '',
       contentLanguages: Array.from($('.contentLang')).filter(a => a.checked).map(a=> a.value),
     }, (err, res) => {
       if (!err) {
