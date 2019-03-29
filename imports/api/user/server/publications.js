@@ -1,7 +1,9 @@
 import { Meteor } from 'meteor/meteor'
 import { UsersStats } from '../usersStats'
 import { ProfileImages } from '../profileImages';
+
 import './imageProcessing'; // This sets up thumbnail creation for uploaded images
+import './fileCleanup'; // Register cleanup task
 
 Meteor.publish(null, () => Meteor.users.find({
 	_id: Meteor.userId()
