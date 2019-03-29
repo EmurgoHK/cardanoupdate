@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 
 import { Research, ResearchFiles } from '../research'
+import './fileCleanup'; // Register cleanup task
 
 Meteor.publish('research', () => Research.find({}, {
 	sort: {
