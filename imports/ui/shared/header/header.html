@@ -56,8 +56,8 @@
           </div>
         </li>
       </ul>
-      <ul class="nav navbar-nav ml-auto  mr-3 right-nav-menu">
-        <li class="d-none d-lg-inline-flex nav-item d-md-down-none change-language">
+      <ul class="nav navbar-nav ml-auto mr-3 right-nav-menu">
+        <li class="d-none d-xl-inline-flex nav-item d-md-down-none change-language">
           <select name="selectLanguage" id="selectLanguage">
             {{#each languages}}
               {{#if selected}}
@@ -86,12 +86,14 @@
           {{#if currentUser}}
           <a class="nav-link dropdown-toggle d-none d-sm-flex account-link" href="#" id="dropdownMenu2" data-toggle="dropdown"
             aria-expanded="true">
-            <!-- NB : This is for existing users who doesn't have a name -->
-            {{#if currentUser.profile.name}}
-            {{currentUser.profile.name}}
-            {{else}}
-            {{_ "shared.header.username"}}
-            {{/if}}
+            <span class="user-title">
+              <!-- NB : This is for existing users who doesn't have a name -->
+              {{#if currentUser.profile.name}}
+              {{currentUser.profile.name}}
+              {{else}}
+              {{_ "shared.header.username"}}
+              {{/if}}
+            </span>
           </a>
           <!-- For Smaller Screen -->
           <a class="nav-link dropdown-toggle d-flex d-sm-none account-link" data-toggle="dropdown" aria-expanded="false">
