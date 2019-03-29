@@ -23,9 +23,11 @@
       margin-right: 5px;
     }
     &.px-3 {
+      padding-left: 0.9rem !important;
+      padding-right: 0.9rem !important;
       @media (max-width: 1199px) {
-        padding-left: 0.5rem !important;
-        padding-right: 0.5rem !important;
+        padding-left: 0.45rem !important;
+        padding-right: 0.45rem !important;
       }
     }
 
@@ -59,6 +61,12 @@
   .nav-link.account-link {
     .icon-user { font-size: 22px; margin-left: 10px; }
     &:after { margin: 10px 2px 0px 5px; }
+  }
+  .user-title {
+    display: block; max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    @media (min-width: 992px) and (max-width: 1260px) {
+      max-width: 46px;
+    }
   }
 }
 
