@@ -10,7 +10,7 @@ import { resendVerificationEmail } from '/imports/api/user/methods'
 Template.main.helpers({
     breadcrumbs: () => {
         let bc = Session.get('breadcrumbs') || {}
-        
+
         if (bc && bc.text) {
         	bc.text = TAPi18n.__(`breadcrumbs.${bc.text}`, {
       			postProcess: 'sprintf',
@@ -61,5 +61,12 @@ Template.main.events({
       }
       notify(err.reason, 'error')
     })
+  },
+  'click' (event) {
+    if (!$('#searchHeader').val()) {
+      if (!$(event.target).closest('#searchHeaderForm').length) {
+        if ($('.header-search').hasClass('active')) $('.header-search').removeClass('active')
+      }
+    }
   }
 })

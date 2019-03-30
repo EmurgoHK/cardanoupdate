@@ -105,113 +105,114 @@
 }
 
 .header-search {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 55px;
+  height: 55px;
+
+  .search {
     position: absolute;
     margin: auto;
     top: 0;
-    left: 0;
     right: 0;
     bottom: 0;
+    left: 0;
     width: 55px;
     height: 55px;
-    .search {
-      position: absolute;
-      margin: auto;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      width: 55px;
-      height: 55px;
-      background: #091a26;
-      transition: all 1s;
-      z-index: 4;
-      &:hover {
-        cursor: pointer;
-      }
-      &::before {
-        content: "";
-        position: absolute;
-        margin: auto;
-        top: 14px;
-        right: 0;
-        bottom: 0;
-        left: 18px;
-        width: 12px;
-        height: 2px;
-        background: white;
-        transform: rotate(45deg);
-        transition: all .5s;
-      }
-      &::after {
-        content: "";
-        position: absolute;
-        margin: auto;
-        top: -6px;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        width: 18px;
-        height: 18px;
-        border-radius: 50%;
-        border: 2px solid white;
-        transition: all .5s;
-      }
+    background: #091a26;
+    transition: all 1s;
+    z-index: 6;
+    &:hover {
+      cursor: pointer;
     }
-    input {
-      font-family: 'Inconsolata', monospace;
+    &::before {
+      content: "";
       position: absolute;
       margin: auto;
-      top: 0;
+      top: 14px;
+      right: 0;
+      bottom: 0;
+      left: 18px;
+      width: 12px;
+      height: 2px;
+      background: white;
+      transform: rotate(45deg);
+      transition: all .5s;
+    }
+    &::after {
+      content: "";
+      position: absolute;
+      margin: auto;
+      top: -6px;
       right: 0;
       bottom: 0;
       left: 0;
-      width: 55px;
-      height: 55px;
-      outline: none;
-      border: none;
-      background: #091a26;
-      color: white;
-      padding: 0 20px 0 20px;
-      transition: all 1s;
-      opacity: 0;
-      z-index: 5;
-      font-weight: bolder;
-      letter-spacing: 0.1em;
-      &:hover {
-        cursor: pointer;
-      }
-      &:focus {
-        width: 500px;
-        opacity: 1;
-        cursor: text;
-        left: -500px;
-      }
-      &:focus ~ .search {
-        background: #091a26;
-        z-index: 6;
-        &::before {
-          top: 0;
-          left: 0;
-          width: 20px;
-        }
-        &::after {
-          top: 0;
-          left: 0;
-          width: 20px;
-          height: 2px;
-          border: none;
-          background: white;
-          border-radius: 0%;
-          transform: rotate(-45deg);
-        }
-      }
-      &::placeholder {
-        color: white;
-        opacity: 0.5;
-        font-weight: bolder;
-      }
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid white;
+      transition: all .5s;
     }
   }
+  input {
+    font-family: 'Inconsolata', monospace;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 55px;
+    height: 55px;
+    outline: none;
+    border: none;
+    background: #091a26;
+    color: white;
+    padding: 0 20px 0 20px;
+    transition: all 1s;
+    opacity: 0;
+    z-index: 5;
+    font-weight: bolder;
+    letter-spacing: 0.1em;
+    &:hover {
+      cursor: pointer;
+    }
+    &::placeholder {
+      color: white;
+      opacity: 0.5;
+      font-weight: bolder;
+    }
+  }
+  input:focus, &.active input {
+    width: 500px;
+    opacity: 1;
+    cursor: text;
+    left: -500px;
+  }
+  input:focus ~ .search, &.active .search {
+    background: #091a26;
+    z-index: 6;
+    &::before {
+      top: 0;
+      left: 0;
+      width: 20px;
+    }
+    &::after {
+      top: 0;
+      left: 0;
+      width: 20px;
+      height: 2px;
+      border: none;
+      background: white;
+      border-radius: 0%;
+      transform: rotate(-45deg);
+    }
+  }
+}
 
 .left-nav-bar
   > li.nav-item {
