@@ -54,6 +54,17 @@ Template.header.events({
     $(".searchModal").fadeOut();
     $(".backdrop").fadeOut();
   },
+  'click #btnSearch' (event) {
+    if (!$('.header-search').hasClass('active')) {
+      $('.header-search').addClass('active')
+      $('#searchHeader').trigger('focus')
+    } else {
+      if ($('#searchHeader').val()) {
+        $('#searchHeader').val('')
+        $('#searchHeader').trigger('focus')
+      } else $('.header-search').removeClass('active')
+    }
+  },
   "change #selectLanguage"(event) {
     TAPi18n.setLanguage(event.target.value);
   },
