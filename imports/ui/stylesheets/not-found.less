@@ -1,5 +1,6 @@
 #not-found {
-  width: 700px;
+  width: 100%;
+  max-width: 700px;
   margin: 0 auto;
   .not-found-image {
     width: 25%;
@@ -30,6 +31,15 @@
       text-decoration: none;
       text-transform: uppercase;
       height: 40px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .not-found-image { margin: auto; float: none; }
+    .not-found-title {
+      float: none; margin: auto; min-height: auto; padding-bottom: 20px; text-align: center;
+      h1 { margin-top: 15px; }
+      a.gotohomepage { margin: auto; }
     }
   }
 }
