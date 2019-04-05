@@ -1188,6 +1188,8 @@ modRoutes.route('/pardon', {
 FlowRouter.notFound = {
   action() {
     BlazeLayout.render('main', {
+      header: 'header',
+      sidebar: 'sidebar',
       main: 'notFound'
     })
   }
