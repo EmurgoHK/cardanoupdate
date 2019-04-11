@@ -9,6 +9,7 @@ import { addTag, mentionTag, removeTag } from '../tags/methods';
 import { addTranslation, removeTranslation, checkTranslation, updateTranslationSlug } from '../translationGroups/methods';
 
 import { isTesting } from '../utilities';
+import { tweet } from '../twitter';
 
 function guessResourceType(url) {
     if (!url) return "UNKNOWN";
@@ -122,6 +123,9 @@ export const addSocialResource = new ValidatedMethod({
             const id = socialResources.insert(data);
       
             addTranslation(socialResources.findOne({_id: id}), data.language, 'socialResource', original);
+
+            tweet(`New Community: ${data.Name} https://cardanoupdate.space/community/${_id} #Cardano`);
+
             return id;
         }
     }

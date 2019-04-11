@@ -12,6 +12,7 @@ import { addTag, mentionTag, getTag } from '/imports/api/tags/methods'
 import { sendNotification } from '/imports/api/notifications/methods'
 import { isTesting } from '../utilities';
 import { addTranslation, removeTranslation, checkTranslation, updateTranslationSlug } from '../translationGroups/methods';
+import { tweet } from '../twitter';
 
 export const addToSubscribers = (newsId, userId) => {
   let learn = Learn.findOne({
@@ -129,6 +130,7 @@ export const newLearningItem = new ValidatedMethod({
             if (originalDoc && checkTranslation(originalDoc, language)) 
                 throw new Meteor.Error('Error.', 'messages.alreadyTranslated');
     
+            const slug = slugify(title);
             const id = Learn.insert({
                 title: title,
                 summary: summary,
@@ -136,12 +138,14 @@ export const newLearningItem = new ValidatedMethod({
                 difficultyLevel: difficultyLevel,
                 tags: tags,
                 language,
-                slug: slugify(title),
+                slug,
                 createdAt: new Date().getTime(),
                 createdBy: Meteor.userId()
             });
 
             addTranslation(Learn.findOne({_id: id}), language, 'learn', originalDoc);
+
+            tweet(`New Learning Resource: ${title} https://cardanoupdate.space/learn/${slug} #Cardano`);
 
             return id;
         }

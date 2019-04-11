@@ -10,6 +10,7 @@ import { sendNotification } from '/imports/api/notifications/methods'
 import { addTranslation, removeTranslation, checkTranslation, updateTranslationSlug } from '../translationGroups/methods';
 
 import { isTesting } from '../utilities';
+import { tweet } from '../twitter';
 
 export const newResearch = new ValidatedMethod({
     name: 'newResearch',
@@ -83,10 +84,12 @@ export const newResearch = new ValidatedMethod({
             if (originalDoc && checkTranslation(originalDoc, language)) 
                 throw new Meteor.Error('Error.', 'messages.alreadyTranslated');
             
+            const slug = slugify(headline);
+
             const id = Research.insert({
                 headline: headline,
                 // Readble slugs with translation to English from other languages
-                slug: slugify(headline),
+                slug: slug,
                 abstract: abstract,
                 createdAt: new Date().getTime(),
                 createdBy: Meteor.userId(),
@@ -96,6 +99,8 @@ export const newResearch = new ValidatedMethod({
             });
 
             addTranslation(Research.findOne({_id: id}), language, 'research', originalDoc);
+
+            tweet(`New Research: ${headline} https://cardanoupdate.space/research/${slug} #Cardano`);
 
             return id;
         }
