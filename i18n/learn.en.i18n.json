@@ -24,7 +24,7 @@
 			"success_edit": "Successfully edited."
 		}, 
 		"main": {
-			"new": "New learning resource",
+			"new": "Add Learning Resource",
 			"res": "Learning resources",
 			"desc": "From basic introductions to developer documentation.",
 			"search": "Search learning resources"

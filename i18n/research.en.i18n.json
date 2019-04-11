@@ -1,7 +1,7 @@
 {
 	"research": {
 		"main": {
-			"new": "New research paper",
+			"new": "Add Research Paper",
 			"research": "Research",
 			"desc": "Peer reviewed academic papers that are related to Cardano.",
 			"search": "Search research"
