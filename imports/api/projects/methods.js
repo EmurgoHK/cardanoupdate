@@ -12,6 +12,7 @@ import { addTranslation, removeTranslation, checkTranslation, updateTranslationS
 
 import { isModerator, userStrike } from '/imports/api/user/methods'
 import { isTesting } from '../utilities';
+import { tweet } from '../twitter';
 
 export const addProject = new ValidatedMethod({
     name: 'addProject',
@@ -126,6 +127,9 @@ export const addProject = new ValidatedMethod({
             const id = Projects.insert(data);
 
             addTranslation(Projects.findOne({_id: id}), data.language, 'project', original);
+
+            tweet(`New Project: ${data.headline} https://cardanoupdate.space/projects/${data.slug} #Cardano`);
+
             return id;
         }
     }

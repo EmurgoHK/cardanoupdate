@@ -10,6 +10,7 @@ import { isModerator, userStrike } from '/imports/api/user/methods'
 import { addTranslation, removeTranslation, checkTranslation, updateTranslationSlug } from '../translationGroups/methods';
 
 import { isTesting } from '../utilities';
+import { tweet } from '../twitter';
 
 export const addWarning = new ValidatedMethod({
     name: 'addWarning',
@@ -72,6 +73,9 @@ export const addWarning = new ValidatedMethod({
             const id = Warnings.insert(data);
       
             addTranslation(Warnings.findOne({_id: id}), data.language, 'warning', original);
+
+            tweet(`New Scam: ${data.headline} https://cardanoupdate.space/scams/${data.slug} #Cardano`);
+
             return id;
         }
     }

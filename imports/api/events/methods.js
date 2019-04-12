@@ -7,6 +7,7 @@ import { Comments } from '../comments/comments'
 import { isModerator, userStrike } from '/imports/api/user/methods'
 import { isTesting } from '../utilities';
 import { addTranslation, removeTranslation, checkTranslation, updateTranslationSlug } from '../translationGroups/methods';
+import { tweet } from '../twitter';
 
 export const newEvent = new ValidatedMethod({
   name: 'newEvent',
@@ -84,6 +85,8 @@ export const newEvent = new ValidatedMethod({
 
       const id = Events.insert(data);
       addTranslation(Events.findOne({_id: id}), data.language, 'event', original);
+
+      tweet(`New Event: ${data.headline} https://cardanoupdate.space/events/${data.slug} #Cardano`);
       
       return id;
     }
