@@ -13,8 +13,9 @@ import { TranslationGroups } from "../../../api/translationGroups/translationGro
 import { Meteor } from "meteor/meteor";
 
 Template.searchResults.onCreated(function() {
-  this.sort = new ReactiveVar("date-desc"); // state of the sort by date
-  this.titleSort = new ReactiveVar(""); // state of the sort by title
+  // this.sort = new ReactiveVar("date-desc"); // state of the sort by date
+  // this.titleSort = new ReactiveVar(""); // state of the sort by title
+  this.sortOptions = new ReactiveVar({date: 'desc'})
 
   this.results = new ReactiveVar({ count: () => 0 });
 
@@ -225,33 +226,19 @@ Template.searchResults.helpers({
   results: () => {
     const tpl = Template.instance();
     let results = tpl.results.get();
-    if (tpl.titleSort.get()) {
-      switch (
-        tpl.titleSort.get() //sort by titles
-      ) {
-        case "title-asc":
-          return results.sort((a, b) => {
-            // check if the titleText is not undefined for a & b, if anyone is undefined we return 0
-            return a.titleText && b.titleText ? a.titleText.localeCompare(b.titleText) : 0;
-          });
-        case "title-desc":
-          return results.sort((a, b) => {
-            // check if the titleText is not undefined for a & b, if anyone is undefined we return 0
-            return b.titleText && a.titleText ? b.titleText.localeCompare(a.titleText) : 0;
-          });
-      }
-    } else {
-      // we only need to sort by date if the user has not selected sort by title
-      switch (
-        tpl.sort.get() //sort by date
-      ) {
-        case "date-asc":
-          return results.sort((a, b) => a.date - b.date);
-        case "date-desc":
-        default:
-          return results.sort((a, b) => b.date - a.date);
-      }
+    const sortOptions = tpl.sortOptions.get()
+    if (sortOptions) {
+      results = results.sort(function (a, b) {
+        const dateValue = (sortOptions.date == 'asc') ? (a.date - b.date) : (b.date - a.date)
+        if(sortOptions.title) {
+          if (sortOptions.title == 'asc') return a.titleText && b.titleText ? (a.titleText.localeCompare(b.titleText) || dateValue) : 0
+          else return b.titleText && a.titleText ? (b.titleText.localeCompare(a.titleText) || dateValue) : 0
+        } else {
+          return (sortOptions.date == 'asc') ? (a.date - b.date) : (b.date - a.date);
+        }
+      })
     }
+    return results
   },
 
   subsReady() {
@@ -263,13 +250,17 @@ Template.searchResults.helpers({
   isTypeOf: (res, type) => res.type === type,
 
   isDateAsc(val) {
-    // we must check if the title sort is active. if the title sort is active we must not show asc or desc icons on date.
-    if (Template.instance().titleSort.get() == "")
-      return Template.instance().sort.get() === val;
+    const sortOptions = Template.instance().sortOptions.get()
+    if (sortOptions && sortOptions.date) return sortOptions.date == val
+    // // we must check if the title sort is active. if the title sort is active we must not show asc or desc icons on date.
+    // if (Template.instance().titleSort.get() == "")
+    //   return Template.instance().sort.get() === val;
   },
 
   isTitleAsc(val) {
-    return Template.instance().titleSort.get() === val;
+    const sortOptions = Template.instance().sortOptions.get()
+    if (sortOptions && sortOptions.title) return sortOptions.title == val
+    // return Template.instance().titleSort.get() === val;
   },
 
   highlighter() {
@@ -290,27 +281,26 @@ Template.searchResults.helpers({
 Template.searchResults.events({
   "click #sort-date": (event, templateInstance) => {
     event.preventDefault();
+    const sortOptions = templateInstance.sortOptions.get()
 
-    // if the user clicks the date sort button we need to reset the sort by title
-    templateInstance.titleSort.set("");
-
-    if (templateInstance.sort.get() === "date-desc") {
-      templateInstance.sort.set("date-asc");
-    } else {
-      templateInstance.sort.set("date-desc");
+    if (sortOptions) {
+      if (sortOptions['date'] == 'asc') sortOptions['date'] = 'desc'
+      else if (sortOptions['date'] == 'desc') sortOptions['date'] = 'asc'
+      else sortOptions['date'] = 'asc'
     }
+    templateInstance.sortOptions.set(sortOptions);
   },
 
   "click #sort-title": (event, templateInstance) => {
     event.preventDefault();
+    const sortOptions = templateInstance.sortOptions.get()
 
-    if (templateInstance.titleSort.get() === "") {
-      templateInstance.titleSort.set("title-asc");
-    } else if (templateInstance.titleSort.get() === "title-asc") {
-      templateInstance.titleSort.set("title-desc");
-    } else {
-      templateInstance.titleSort.set("");
+    if (sortOptions) {
+      if (sortOptions['title'] == 'asc') sortOptions['title'] = 'desc'
+      else if (sortOptions['title'] == 'desc') delete sortOptions['title']
+      else sortOptions['title'] = 'asc'
     }
+    templateInstance.sortOptions.set(sortOptions);
   },
 
   "click #add-new": (event, templateInstance) => {
