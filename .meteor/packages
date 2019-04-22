@@ -48,7 +48,8 @@ http@1.4.2
 altapp:recaptcha
 ejson@1.1.0
 tap:i18n
-meteorhacks:kadira
 ostrio:files
 reywood:publish-composite
 server-render@0.3.1
+lamhieu:meteorx
+lmachens:kadira
