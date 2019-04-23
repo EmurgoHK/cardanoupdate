@@ -124,7 +124,7 @@ export const addSocialResource = new ValidatedMethod({
       
             addTranslation(socialResources.findOne({_id: id}), data.language, 'socialResource', original);
 
-            tweet(`New Community: ${data.Name} https://cardanoupdate.space/community/${_id} #Cardano`);
+            tweet(`New Community: ${data.Name} https://cardanoupdate.space/community/${id} #Cardano`);
 
             return id;
         }
