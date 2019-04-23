@@ -24,7 +24,7 @@ Template.searchBar.helpers({
 Template.searchBar.events({
     'keyup/change #searchBox': (event, templateInstance) => {
         let searchText = templateInstance.$("#searchBox").val().trim();
-        
+
         // Save it internally to update links
         templateInstance.searchTerm.set(searchText);
 
@@ -37,33 +37,33 @@ Template.searchBar.events({
     	// Trigger change event so process further processes
         $("#searchBox").trigger('keyup');
 
-    	// Advance search remove if found
-    	// first check using pathname in window object
-    	let pathname = window.location.pathname;
-    	if(pathname && pathname == '/search'){
-    		let trimmedSearch = window.location.search.substring(1);
-
-			let searchFromLocation = trimmedSearch?JSON.parse(
-			   '{"' + trimmedSearch.replace(/&/g, '","').replace(/=/g,'":"') + '"}', 
-			    function(key, value) { 
-			       return key===""?value:decodeURIComponent(value) 
-			    }
-			)
-			:
-			{}
-            let routeType = searchFromLocation.type ? searchFromLocation.type.trim() : null ;
-    		if(routeType && routeType.split('-').length === 1){
-                if(routeType == "socialResources"){
-                    routeType = "community"
-                } else if (routeType === "warnings") {
-                    routeType = "scams";
-                }
-                
-    			FlowRouter.go('/'+routeType);
-    		} else {
-                FlowRouter.go('/');
-            }
-    	}
+    	// // Advance search remove if found
+    	// // first check using pathname in window object
+    	// let pathname = window.location.pathname;
+    	// if(pathname && pathname == '/search'){
+    	// 	let trimmedSearch = window.location.search.substring(1);
+      //
+			// let searchFromLocation = trimmedSearch?JSON.parse(
+			//    '{"' + trimmedSearch.replace(/&/g, '","').replace(/=/g,'":"') + '"}',
+			//     function(key, value) {
+			//        return key===""?value:decodeURIComponent(value)
+			//     }
+			// )
+			// :
+			// {}
+      //       let routeType = searchFromLocation.type ? searchFromLocation.type.trim() : null ;
+    	// 	if(routeType && routeType.split('-').length === 1){
+      //           if(routeType == "socialResources"){
+      //               routeType = "community"
+      //           } else if (routeType === "warnings") {
+      //               routeType = "scams";
+      //           }
+      //
+    	// 		FlowRouter.go('/'+routeType);
+    	// 	} else {
+      //           FlowRouter.go('/');
+      //       }
+    	// }
 
     }
 });
