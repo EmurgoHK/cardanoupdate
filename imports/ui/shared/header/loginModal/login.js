@@ -2,15 +2,6 @@ import { notify } from '/imports/modules/notifier'
 import './login.html';
 import './login.scss';
 
-Template.loginModal.onRendered(function() {
-      $(document).ready(function() {
-        var script = document.createElement("script");
-        script.type="text/javascript";
-        script.src = "https://connect.facebook.net/en_GB/sdk.js#xfbml=1&autoLogAppEvents=1&version=v3.2&appId=270976420195901";
-        $("#fb-root").append(script);
-      });
-});
-
 Template.loginModal.events({
   'hidden.bs.modal #loginModal' (event, template) {
     $('#loginModalForm')[0].reset()
