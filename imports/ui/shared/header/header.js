@@ -4,6 +4,7 @@ import './loginModal/login'
 import { Notifications } from '/imports/api/notifications/notifications'
 import { FlowRouter } from 'meteor/kadira:flow-router'
 import { Session } from 'meteor/session'
+import { updateLanguage } from '/imports/api/user/methods'
 
 Template.header.onCreated(function () {
   this.autorun(() => {
@@ -66,7 +67,22 @@ Template.header.events({
     }
   },
   "change #selectLanguage"(event) {
-    TAPi18n.setLanguage(event.target.value);
+    if(Meteor.userId() == null){
+      TAPi18n.setLanguage(event.target.value);
+      return;
+    }
+    event.preventDefault()
+    updateLanguage.call({
+      uId: Meteor.userId(),
+      language: event.target.value,
+    }, (err, res) => {
+      if (!err) {
+        sessionStorage.setItem('uiLanguage', event.target.value);
+        TAPi18n.setLanguage(event.target.value);
+        return
+      }
+
+    })
   },
   "click .change-language"(event) {
     event.stopPropagation();

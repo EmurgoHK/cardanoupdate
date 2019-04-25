@@ -412,7 +412,6 @@ if (Meteor.isDevelopment) {
     }
   })
 }
-
 // Edit Profile
 export const updateProfile = new ValidatedMethod({
   name: 'updateProfile',
@@ -483,6 +482,37 @@ export const updateProfile = new ValidatedMethod({
         'emails.0.address': email
       },
       $unset: unset,
+    }, {
+      upsert: true
+    })
+  }
+})
+
+// Edit Profile
+export const updateLanguage = new ValidatedMethod({
+  name: 'updateLanguage',
+  validate: new SimpleSchema({
+    uId: {
+      type: String,
+      optional: false
+    },
+    language: {
+      type: String,
+      optional: false
+    },
+  }).validator({
+    clean: true
+  }),
+  run({
+    uId,
+    language,
+  }) {
+    Meteor.users.update({
+      _id: Meteor.userId()
+    }, {
+      $set: {
+        'profile.language': language,
+      },
     }, {
       upsert: true
     })
